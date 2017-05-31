@@ -80,6 +80,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7F9AF1491EDE81DE00925CDC /* LoginMVC */ = {
+			isa = PBXGroup;
+			children = (
+				7FAB44BB1EDD66380074A245 /* LoginView.storyboard */,
+				7FAB44B91EDD65F60074A245 /* LoginController.swift */,
+			);
+			name = LoginMVC;
+			sourceTree = "<group>";
+		};
 		7FF594B41EDD63750008C4AA = {
 			isa = PBXGroup;
 			children = (
@@ -106,8 +115,7 @@
 				7FF594C01EDD63750008C4AA /* AppDelegate.swift */,
 				7FF594C21EDD63750008C4AA /* ViewController.swift */,
 				7FF594C41EDD63750008C4AA /* Main.storyboard */,
-				7FAB44BB1EDD66380074A245 /* LoginView.storyboard */,
-				7FAB44B91EDD65F60074A245 /* LoginController.swift */,
+				7F9AF1491EDE81DE00925CDC /* LoginMVC */,
 				7FF594CA1EDD63750008C4AA /* Assets.xcassets */,
 				7FF594CC1EDD63750008C4AA /* LaunchScreen.storyboard */,
 				7FF594CF1EDD63750008C4AA /* Info.plist */,
