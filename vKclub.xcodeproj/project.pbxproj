@@ -7,8 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		483CAB6EA482B608B64B7B71 /* Pods_vKclubTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD020989BCEBDBDE98344CBC /* Pods_vKclubTests.framework */; };
+		7F52C84F1EE098F6003FE41D /* ForgotPWController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F52C84E1EE098F6003FE41D /* ForgotPWController.swift */; };
+		7F91C7E01EE31315003077D3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7F91C7DF1EE31315003077D3 /* GoogleService-Info.plist */; };
+		7F9AF14E1EDE9FB300925CDC /* CreateAccController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F9AF14D1EDE9FB300925CDC /* CreateAccController.swift */; };
 		7FAB44BA1EDD65F60074A245 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB44B91EDD65F60074A245 /* LoginController.swift */; };
-		7FAB44BC1EDD66380074A245 /* LoginView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7FAB44BB1EDD66380074A245 /* LoginView.storyboard */; };
+		7FC839691EE478BE00C51A4F /* UIComponentHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FC839681EE478BE00C51A4F /* UIComponentHelper.swift */; };
 		7FF594C11EDD63750008C4AA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FF594C01EDD63750008C4AA /* AppDelegate.swift */; };
 		7FF594C31EDD63750008C4AA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FF594C21EDD63750008C4AA /* ViewController.swift */; };
 		7FF594C61EDD63750008C4AA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7FF594C41EDD63750008C4AA /* Main.storyboard */; };
@@ -17,6 +21,8 @@
 		7FF594CE1EDD63750008C4AA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7FF594CC1EDD63750008C4AA /* LaunchScreen.storyboard */; };
 		7FF594D91EDD63750008C4AA /* vKclubTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FF594D81EDD63750008C4AA /* vKclubTests.swift */; };
 		7FF594E41EDD63750008C4AA /* vKclubUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FF594E31EDD63750008C4AA /* vKclubUITests.swift */; };
+		D0D20C8FD2771382535C0B66 /* Pods_vKclubUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73B8BEF0C4684364CF28E834 /* Pods_vKclubUITests.framework */; };
+		ED90820CEFDABD099FC50EFB /* Pods_vKclub.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43F3C2095DB4884D6135B477 /* Pods_vKclub.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,8 +43,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		43F3C2095DB4884D6135B477 /* Pods_vKclub.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_vKclub.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5493A18B017B2B410F80249F /* Pods-vKclub.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-vKclub.debug.xcconfig"; path = "Pods/Target Support Files/Pods-vKclub/Pods-vKclub.debug.xcconfig"; sourceTree = "<group>"; };
+		5BD061C570E122049726445F /* Pods-vKclubUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-vKclubUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-vKclubUITests/Pods-vKclubUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		73B48260665ED3D9B32F8908 /* Pods-vKclubTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-vKclubTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-vKclubTests/Pods-vKclubTests.release.xcconfig"; sourceTree = "<group>"; };
+		73B8BEF0C4684364CF28E834 /* Pods_vKclubUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_vKclubUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		768EB3CABB2FDF2B8372301B /* Pods-vKclubUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-vKclubUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-vKclubUITests/Pods-vKclubUITests.release.xcconfig"; sourceTree = "<group>"; };
+		7F52C84E1EE098F6003FE41D /* ForgotPWController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgotPWController.swift; sourceTree = "<group>"; };
+		7F91C7DF1EE31315003077D3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		7F9AF14D1EDE9FB300925CDC /* CreateAccController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccController.swift; sourceTree = "<group>"; };
 		7FAB44B91EDD65F60074A245 /* LoginController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
-		7FAB44BB1EDD66380074A245 /* LoginView.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LoginView.storyboard; path = ../LoginView.storyboard; sourceTree = "<group>"; };
+		7FC839681EE478BE00C51A4F /* UIComponentHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIComponentHelper.swift; sourceTree = "<group>"; };
 		7FF594BD1EDD63750008C4AA /* vKclub.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = vKclub.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7FF594C01EDD63750008C4AA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7FF594C21EDD63750008C4AA /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -53,6 +68,9 @@
 		7FF594DF1EDD63750008C4AA /* vKclubUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = vKclubUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7FF594E31EDD63750008C4AA /* vKclubUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = vKclubUITests.swift; sourceTree = "<group>"; };
 		7FF594E51EDD63750008C4AA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9D5644EB341690DB3DAB1B71 /* Pods-vKclubTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-vKclubTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-vKclubTests/Pods-vKclubTests.debug.xcconfig"; sourceTree = "<group>"; };
+		BD020989BCEBDBDE98344CBC /* Pods_vKclubTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_vKclubTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D87EEE563B7D2F43AD1D8EBC /* Pods-vKclub.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-vKclub.release.xcconfig"; path = "Pods/Target Support Files/Pods-vKclub/Pods-vKclub.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +78,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ED90820CEFDABD099FC50EFB /* Pods_vKclub.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -67,6 +86,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				483CAB6EA482B608B64B7B71 /* Pods_vKclubTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -74,19 +94,54 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D0D20C8FD2771382535C0B66 /* Pods_vKclubUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		7F9AF1491EDE81DE00925CDC /* LoginMVC */ = {
+		3CB14F8AEE4EDDE52EFFC871 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				7FAB44BB1EDD66380074A245 /* LoginView.storyboard */,
-				7FAB44B91EDD65F60074A245 /* LoginController.swift */,
+				5493A18B017B2B410F80249F /* Pods-vKclub.debug.xcconfig */,
+				D87EEE563B7D2F43AD1D8EBC /* Pods-vKclub.release.xcconfig */,
+				9D5644EB341690DB3DAB1B71 /* Pods-vKclubTests.debug.xcconfig */,
+				73B48260665ED3D9B32F8908 /* Pods-vKclubTests.release.xcconfig */,
+				5BD061C570E122049726445F /* Pods-vKclubUITests.debug.xcconfig */,
+				768EB3CABB2FDF2B8372301B /* Pods-vKclubUITests.release.xcconfig */,
 			);
-			name = LoginMVC;
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		6C4AB9B327B3731963C0AEBC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				43F3C2095DB4884D6135B477 /* Pods_vKclub.framework */,
+				BD020989BCEBDBDE98344CBC /* Pods_vKclubTests.framework */,
+				73B8BEF0C4684364CF28E834 /* Pods_vKclubUITests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		7F9AF1491EDE81DE00925CDC /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				7FF594C41EDD63750008C4AA /* Main.storyboard */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		7F9AF14C1EDE9F0D00925CDC /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				7FF594C21EDD63750008C4AA /* ViewController.swift */,
+				7F9AF14D1EDE9FB300925CDC /* CreateAccController.swift */,
+				7FC839681EE478BE00C51A4F /* UIComponentHelper.swift */,
+				7FAB44B91EDD65F60074A245 /* LoginController.swift */,
+				7F52C84E1EE098F6003FE41D /* ForgotPWController.swift */,
+			);
+			name = Controllers;
 			sourceTree = "<group>";
 		};
 		7FF594B41EDD63750008C4AA = {
@@ -96,6 +151,8 @@
 				7FF594D71EDD63750008C4AA /* vKclubTests */,
 				7FF594E21EDD63750008C4AA /* vKclubUITests */,
 				7FF594BE1EDD63750008C4AA /* Products */,
+				3CB14F8AEE4EDDE52EFFC871 /* Pods */,
+				6C4AB9B327B3731963C0AEBC /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -113,12 +170,12 @@
 			isa = PBXGroup;
 			children = (
 				7FF594C01EDD63750008C4AA /* AppDelegate.swift */,
-				7FF594C21EDD63750008C4AA /* ViewController.swift */,
-				7FF594C41EDD63750008C4AA /* Main.storyboard */,
-				7F9AF1491EDE81DE00925CDC /* LoginMVC */,
+				7F9AF14C1EDE9F0D00925CDC /* Controllers */,
+				7F9AF1491EDE81DE00925CDC /* Views */,
 				7FF594CA1EDD63750008C4AA /* Assets.xcassets */,
 				7FF594CC1EDD63750008C4AA /* LaunchScreen.storyboard */,
 				7FF594CF1EDD63750008C4AA /* Info.plist */,
+				7F91C7DF1EE31315003077D3 /* GoogleService-Info.plist */,
 				7FF594C71EDD63750008C4AA /* vKclub.xcdatamodeld */,
 			);
 			path = vKclub;
@@ -149,9 +206,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7FF594E81EDD63750008C4AA /* Build configuration list for PBXNativeTarget "vKclub" */;
 			buildPhases = (
+				B7C8D8F7FFFF8B73691DFD69 /* [CP] Check Pods Manifest.lock */,
 				7FF594B91EDD63750008C4AA /* Sources */,
 				7FF594BA1EDD63750008C4AA /* Frameworks */,
 				7FF594BB1EDD63750008C4AA /* Resources */,
+				23D0B2EE6FAC8D8AB6EE79A7 /* [CP] Embed Pods Frameworks */,
+				EBB5E4FBC1F9203D381C697F /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -166,9 +226,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7FF594EB1EDD63750008C4AA /* Build configuration list for PBXNativeTarget "vKclubTests" */;
 			buildPhases = (
+				D8A74033DD8FE9F7D047957D /* [CP] Check Pods Manifest.lock */,
 				7FF594D01EDD63750008C4AA /* Sources */,
 				7FF594D11EDD63750008C4AA /* Frameworks */,
 				7FF594D21EDD63750008C4AA /* Resources */,
+				6F126842854944B88BBD11BA /* [CP] Embed Pods Frameworks */,
+				B5CA0A1E568D30F1600190EC /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -184,9 +247,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7FF594EE1EDD63750008C4AA /* Build configuration list for PBXNativeTarget "vKclubUITests" */;
 			buildPhases = (
+				385639F1304012AB4FCA3D06 /* [CP] Check Pods Manifest.lock */,
 				7FF594DB1EDD63750008C4AA /* Sources */,
 				7FF594DC1EDD63750008C4AA /* Frameworks */,
 				7FF594DD1EDD63750008C4AA /* Resources */,
+				975B39C2A9062B3E6FB034C8 /* [CP] Embed Pods Frameworks */,
+				8809528B4A993E9CE94784ED /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -210,6 +276,7 @@
 				TargetAttributes = {
 					7FF594BC1EDD63750008C4AA = {
 						CreatedOnToolsVersion = 8.3.2;
+						DevelopmentTeam = 87A3CVP9KW;
 						ProvisioningStyle = Automatic;
 					};
 					7FF594D31EDD63750008C4AA = {
@@ -250,9 +317,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				7FF594CE1EDD63750008C4AA /* LaunchScreen.storyboard in Resources */,
+				7F91C7E01EE31315003077D3 /* GoogleService-Info.plist in Resources */,
 				7FF594CB1EDD63750008C4AA /* Assets.xcassets in Resources */,
 				7FF594C61EDD63750008C4AA /* Main.storyboard in Resources */,
-				7FAB44BC1EDD66380074A245 /* LoginView.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -272,13 +339,154 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		23D0B2EE6FAC8D8AB6EE79A7 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-vKclub/Pods-vKclub-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		385639F1304012AB4FCA3D06 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		6F126842854944B88BBD11BA /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-vKclubTests/Pods-vKclubTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8809528B4A993E9CE94784ED /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-vKclubUITests/Pods-vKclubUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		975B39C2A9062B3E6FB034C8 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-vKclubUITests/Pods-vKclubUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B5CA0A1E568D30F1600190EC /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-vKclubTests/Pods-vKclubTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B7C8D8F7FFFF8B73691DFD69 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		D8A74033DD8FE9F7D047957D /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		EBB5E4FBC1F9203D381C697F /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-vKclub/Pods-vKclub-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		7FF594B91EDD63750008C4AA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				7FF594C31EDD63750008C4AA /* ViewController.swift in Sources */,
+				7F52C84F1EE098F6003FE41D /* ForgotPWController.swift in Sources */,
+				7FC839691EE478BE00C51A4F /* UIComponentHelper.swift in Sources */,
 				7FAB44BA1EDD65F60074A245 /* LoginController.swift in Sources */,
+				7F9AF14E1EDE9FB300925CDC /* CreateAccController.swift in Sources */,
 				7FF594C11EDD63750008C4AA /* AppDelegate.swift in Sources */,
 				7FF594C91EDD63750008C4AA /* vKclub.xcdatamodeld in Sources */,
 			);
@@ -432,8 +640,10 @@
 		};
 		7FF594E91EDD63750008C4AA /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5493A18B017B2B410F80249F /* Pods-vKclub.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 87A3CVP9KW;
 				INFOPLIST_FILE = vKclub/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.chain.vKclub;
@@ -444,8 +654,10 @@
 		};
 		7FF594EA1EDD63750008C4AA /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D87EEE563B7D2F43AD1D8EBC /* Pods-vKclub.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 87A3CVP9KW;
 				INFOPLIST_FILE = vKclub/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.chain.vKclub;
@@ -456,6 +668,7 @@
 		};
 		7FF594EC1EDD63750008C4AA /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9D5644EB341690DB3DAB1B71 /* Pods-vKclubTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -470,6 +683,7 @@
 		};
 		7FF594ED1EDD63750008C4AA /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 73B48260665ED3D9B32F8908 /* Pods-vKclubTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -484,6 +698,7 @@
 		};
 		7FF594EF1EDD63750008C4AA /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5BD061C570E122049726445F /* Pods-vKclubUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				INFOPLIST_FILE = vKclubUITests/Info.plist;
@@ -497,6 +712,7 @@
 		};
 		7FF594F01EDD63750008C4AA /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 768EB3CABB2FDF2B8372301B /* Pods-vKclubUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				INFOPLIST_FILE = vKclubUITests/Info.plist;

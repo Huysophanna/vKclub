@@ -8,8 +8,11 @@
 
 import Foundation
 import UIKit
+import Firebase
+import FirebaseAuth
 
 class LoginController: UIViewController {
+    let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
     @IBOutlet weak var pwTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var signInBtn: UIButton!
@@ -17,11 +20,8 @@ class LoginController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
 
         MakeLeftViewIconToTextField(textField: emailTextField, icon: "user_left_icon.png")
-        
         MakeLeftViewIconToTextField(textField: pwTextField, icon: "pw_icon.png")
         
         MakeBorderTransparentBtn(button: signInBtn)
@@ -31,6 +31,35 @@ class LoginController: UIViewController {
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    @IBAction func SignInClicked(_ sender: Any) {
+        if emailTextField.text == "" || pwTextField.text == "" {
+            PresentAlertController(title: "Something went wrong", message: "Please properly insert your data", actionTitle: "Got it")
+            
+        } else {
+            //handle firebase sign in
+            UIComponentHelper.PresentActivityIndicator(view: self.view, option: true)
+            
+            Auth.auth().signIn(withEmail: emailTextField.text!, password: pwTextField.text!) { (user, error) in
+                UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
+                
+                if error == nil {
+                    self.PresentAlertController(title: "Success", message: "😁 Logged In!", actionTitle: "Done")
+                } else {
+                    self.PresentAlertController(title: "Error", message: (error?.localizedDescription)!, actionTitle: "Okay")
+                }
+                
+            }
+        }
+    }
+    
+    @IBAction func CreateAccount(_ sender: Any) {
+        performSegue(withIdentifier: "SegueToCreateAcc", sender: self)
+    }
+    
+    @IBAction func ForgotPWClicked(_ sender: Any) {
+        performSegue(withIdentifier: "SegueToForgotPW", sender: self)
     }
     
     func MakeBorderTransparentBtn(button: UIButton) {
