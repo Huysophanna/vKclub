@@ -286,6 +286,9 @@
                                 <state key="normal" title="Recover">
                                     <color key="titleColor" red="1" green="0.99997591969999999" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 </state>
+                                <connections>
+                                    <action selector="RecoverBtnClicked:" destination="gKG-2Q-qiX" eventType="touchUpInside" id="QGe-28-aP6"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="my2-1B-ukx" userLabel="Back">
                                 <rect key="frame" x="35" y="387" width="344" height="30"/>
@@ -302,7 +305,7 @@
                                 <color key="textColor" red="1" green="0.99997591969999999" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="z7T-Uk-wft">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="z7T-Uk-wft">
                                 <rect key="frame" x="42" y="275" width="344" height="40"/>
                                 <color key="backgroundColor" red="0.4874676805" green="1" blue="0.82191064059999996" alpha="0.0" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
@@ -336,7 +339,7 @@
                     </view>
                     <connections>
                         <outlet property="backBtn" destination="my2-1B-ukx" id="2D0-cs-Lns"/>
-                        <outlet property="nameTextField" destination="z7T-Uk-wft" id="HlH-gt-HdS"/>
+                        <outlet property="emailTextField" destination="z7T-Uk-wft" id="faA-mJ-jBX"/>
                         <outlet property="signUpBtn" destination="6BR-oU-VWL" id="x8Q-gi-QfE"/>
                     </connections>
                 </viewController>

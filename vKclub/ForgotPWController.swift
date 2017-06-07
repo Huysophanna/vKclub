@@ -7,41 +7,39 @@
 //
 
 import UIKit
+import Firebase
+import FirebaseAuth
 
 class ForgotPWController: UIViewController {
     @IBOutlet weak var backBtn: UIButton!
     @IBOutlet weak var signUpBtn: UIButton!
-    @IBOutlet weak var nameTextField: UITextField!
+    @IBOutlet weak var emailTextField: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        MakeWhiteBorderBtn(button: signUpBtn)
-        MakeWhiteBorderBtn(button: backBtn)
-        MakeWhitePlaceholder(textfield: nameTextField, name: "Name")
-        
+        UIComponentHelper.MakeBtnWhiteBorder(button: signUpBtn)
+        UIComponentHelper.MakeBtnWhiteBorder(button: backBtn)
+        UIComponentHelper.MakeWhitePlaceholderTextField(textfield: emailTextField, name: "Name")
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+
+    @IBAction func RecoverBtnClicked(_ sender: Any) {
+        Auth.auth().sendPasswordReset(withEmail: emailTextField.text!) { (error) in
+            if error == nil {
+                self.PresentAlertController(title: "Success", message: "Please check your email to recover your password", actionTitle: "Got it")
+            } else {
+                self.PresentAlertController(title: "Error", message: (error?.localizedDescription)!, actionTitle: "Okay")
+            }
+            
+        }
     }
     
     @IBAction func BackBtnClicked(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
     
-    func MakeWhiteBorderBtn(button: UIButton) {
-        button.layer.borderWidth = 1
-        button.layer.cornerRadius = 8
-        button.layer.borderColor = UIColor.white.cgColor
-    }
-    
-    func MakeWhitePlaceholder(textfield: UITextField, name: String) {
-        textfield.attributedPlaceholder = NSAttributedString(string: name, attributes: [NSForegroundColorAttributeName: UIColor.white])
-        
-        let bottomLine = CALayer()
-        bottomLine.frame = CGRect(x: 0.0, y: textfield.frame.height - 1, width: textfield.frame.width, height: 1.0)
-        bottomLine.backgroundColor = UIColor.white.cgColor
-        textfield.borderStyle = .none
-        textfield.layer.addSublayer(bottomLine)
-    }
 }

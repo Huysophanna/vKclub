@@ -21,13 +21,13 @@ class CreateAccController: ViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        MakeBtnBorder(button: signUpBtn)
-        MakeBtnBorder(button: backBtn)
+        UIComponentHelper.MakeBtnWhiteBorder(button: signUpBtn)
+        UIComponentHelper.MakeBtnWhiteBorder(button: backBtn)
         
-        MakeWhitePlaceholder(textfield: nameTextField, name: "Name")
-        MakeWhitePlaceholder(textfield: emailTextField, name: "Email")
-        MakeWhitePlaceholder(textfield: passwordTextField, name: "Password")
-        MakeWhitePlaceholder(textfield: confirmTextField, name: "Confirm Password")
+        UIComponentHelper.MakeWhitePlaceholderTextField(textfield: nameTextField, name: "Name")
+        UIComponentHelper.MakeWhitePlaceholderTextField(textfield: emailTextField, name: "Email")
+        UIComponentHelper.MakeWhitePlaceholderTextField(textfield: passwordTextField, name: "Password")
+        UIComponentHelper.MakeWhitePlaceholderTextField(textfield: confirmTextField, name: "Confirm Password")
         
     }
     
@@ -55,22 +55,6 @@ class CreateAccController: ViewController {
         }
     }
     
-    func MakeBtnBorder(button: UIButton) {
-        button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor(white: 1, alpha: 1).cgColor
-        button.layer.cornerRadius = 8
-        
-    }
-    
-    func MakeWhitePlaceholder(textfield: UITextField, name: String) {
-        textfield.attributedPlaceholder = NSAttributedString(string: name, attributes: [NSForegroundColorAttributeName: UIColor.white])
-       
-        let bottomLine = CALayer()
-        bottomLine.frame = CGRect(x: 0.0, y: textfield.frame.height - 1, width: textfield.frame.width, height: 1.0)
-        bottomLine.backgroundColor = UIColor.white.cgColor
-        textfield.borderStyle = .none
-        textfield.layer.addSublayer(bottomLine)
-    }
     
     @IBAction func BackBtn(_ sender: Any) {
         dismiss(animated: true, completion: nil)

@@ -51,5 +51,22 @@ class UIComponentHelper {
             removeOpacityView?.removeFromSuperview()
         }
     }
+    
+    static func MakeWhitePlaceholderTextField(textfield: UITextField, name: String) {
+        textfield.attributedPlaceholder = NSAttributedString(string: name, attributes: [NSForegroundColorAttributeName: UIColor.white])
+        
+        let bottomLine = CALayer()
+        bottomLine.frame = CGRect(x: 0.0, y: textfield.frame.height - 1, width: textfield.frame.width, height: 1.0)
+        bottomLine.backgroundColor = UIColor.white.cgColor
+        textfield.borderStyle = .none
+        textfield.layer.addSublayer(bottomLine)
+    }
+    
+    static func MakeBtnWhiteBorder(button: UIButton) {
+        button.layer.borderWidth = 1
+        button.layer.borderColor = UIColor(white: 1, alpha: 1).cgColor
+        button.layer.cornerRadius = 8
+        
+    }
 
 }

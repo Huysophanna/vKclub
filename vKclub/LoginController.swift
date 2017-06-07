@@ -24,7 +24,7 @@ class LoginController: UIViewController {
         MakeLeftViewIconToTextField(textField: emailTextField, icon: "user_left_icon.png")
         MakeLeftViewIconToTextField(textField: pwTextField, icon: "pw_icon.png")
         
-        MakeBorderTransparentBtn(button: signInBtn)
+        UIComponentHelper.MakeBtnWhiteBorder(button: signInBtn)
         MakeFBBorderBtn(button: signInFBBtn)
         
     }
@@ -60,14 +60,6 @@ class LoginController: UIViewController {
     
     @IBAction func ForgotPWClicked(_ sender: Any) {
         performSegue(withIdentifier: "SegueToForgotPW", sender: self)
-    }
-    
-    func MakeBorderTransparentBtn(button: UIButton) {
-        
-        button.backgroundColor = UIColor.clear
-        button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor(white: 1, alpha: 1).cgColor
-        button.layer.cornerRadius = 5
     }
     
     func MakeFBBorderBtn(button: UIButton) {
