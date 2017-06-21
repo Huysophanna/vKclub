@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		483CAB6EA482B608B64B7B71 /* Pods_vKclubTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD020989BCEBDBDE98344CBC /* Pods_vKclubTests.framework */; };
 		7F52C84F1EE098F6003FE41D /* ForgotPWController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F52C84E1EE098F6003FE41D /* ForgotPWController.swift */; };
-		7F91C7E01EE31315003077D3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7F91C7DF1EE31315003077D3 /* GoogleService-Info.plist */; };
 		7F9AF14E1EDE9FB300925CDC /* CreateAccController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F9AF14D1EDE9FB300925CDC /* CreateAccController.swift */; };
 		7FAB44BA1EDD65F60074A245 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB44B91EDD65F60074A245 /* LoginController.swift */; };
 		7FC839691EE478BE00C51A4F /* UIComponentHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FC839681EE478BE00C51A4F /* UIComponentHelper.swift */; };
@@ -21,6 +20,7 @@
 		7FF594CE1EDD63750008C4AA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7FF594CC1EDD63750008C4AA /* LaunchScreen.storyboard */; };
 		7FF594D91EDD63750008C4AA /* vKclubTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FF594D81EDD63750008C4AA /* vKclubTests.swift */; };
 		7FF594E41EDD63750008C4AA /* vKclubUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FF594E31EDD63750008C4AA /* vKclubUITests.swift */; };
+		C5DDAE6B1EFA2EA800CBC5DF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C5DDAE6A1EFA2EA800CBC5DF /* GoogleService-Info.plist */; };
 		D0D20C8FD2771382535C0B66 /* Pods_vKclubUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73B8BEF0C4684364CF28E834 /* Pods_vKclubUITests.framework */; };
 		ED90820CEFDABD099FC50EFB /* Pods_vKclub.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43F3C2095DB4884D6135B477 /* Pods_vKclub.framework */; };
 /* End PBXBuildFile section */
@@ -50,7 +50,6 @@
 		73B8BEF0C4684364CF28E834 /* Pods_vKclubUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_vKclubUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		768EB3CABB2FDF2B8372301B /* Pods-vKclubUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-vKclubUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-vKclubUITests/Pods-vKclubUITests.release.xcconfig"; sourceTree = "<group>"; };
 		7F52C84E1EE098F6003FE41D /* ForgotPWController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgotPWController.swift; sourceTree = "<group>"; };
-		7F91C7DF1EE31315003077D3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7F9AF14D1EDE9FB300925CDC /* CreateAccController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccController.swift; sourceTree = "<group>"; };
 		7FAB44B91EDD65F60074A245 /* LoginController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		7FC839681EE478BE00C51A4F /* UIComponentHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIComponentHelper.swift; sourceTree = "<group>"; };
@@ -70,6 +69,7 @@
 		7FF594E51EDD63750008C4AA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9D5644EB341690DB3DAB1B71 /* Pods-vKclubTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-vKclubTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-vKclubTests/Pods-vKclubTests.debug.xcconfig"; sourceTree = "<group>"; };
 		BD020989BCEBDBDE98344CBC /* Pods_vKclubTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_vKclubTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C5DDAE6A1EFA2EA800CBC5DF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D87EEE563B7D2F43AD1D8EBC /* Pods-vKclub.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-vKclub.release.xcconfig"; path = "Pods/Target Support Files/Pods-vKclub/Pods-vKclub.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -169,13 +169,13 @@
 		7FF594BF1EDD63750008C4AA /* vKclub */ = {
 			isa = PBXGroup;
 			children = (
+				C5DDAE6A1EFA2EA800CBC5DF /* GoogleService-Info.plist */,
 				7FF594C01EDD63750008C4AA /* AppDelegate.swift */,
 				7F9AF14C1EDE9F0D00925CDC /* Controllers */,
 				7F9AF1491EDE81DE00925CDC /* Views */,
 				7FF594CA1EDD63750008C4AA /* Assets.xcassets */,
 				7FF594CC1EDD63750008C4AA /* LaunchScreen.storyboard */,
 				7FF594CF1EDD63750008C4AA /* Info.plist */,
-				7F91C7DF1EE31315003077D3 /* GoogleService-Info.plist */,
 				7FF594C71EDD63750008C4AA /* vKclub.xcdatamodeld */,
 			);
 			path = vKclub;
@@ -317,7 +317,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7FF594CE1EDD63750008C4AA /* LaunchScreen.storyboard in Resources */,
-				7F91C7E01EE31315003077D3 /* GoogleService-Info.plist in Resources */,
+				C5DDAE6B1EFA2EA800CBC5DF /* GoogleService-Info.plist in Resources */,
 				7FF594CB1EDD63750008C4AA /* Assets.xcassets in Resources */,
 				7FF594C61EDD63750008C4AA /* Main.storyboard in Resources */,
 			);
