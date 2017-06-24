@@ -14,13 +14,16 @@
 		7FC839691EE478BE00C51A4F /* UIComponentHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FC839681EE478BE00C51A4F /* UIComponentHelper.swift */; };
 		7FF594C11EDD63750008C4AA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FF594C01EDD63750008C4AA /* AppDelegate.swift */; };
 		7FF594C31EDD63750008C4AA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FF594C21EDD63750008C4AA /* ViewController.swift */; };
-		7FF594C61EDD63750008C4AA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7FF594C41EDD63750008C4AA /* Main.storyboard */; };
 		7FF594C91EDD63750008C4AA /* vKclub.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7FF594C71EDD63750008C4AA /* vKclub.xcdatamodeld */; };
 		7FF594CB1EDD63750008C4AA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7FF594CA1EDD63750008C4AA /* Assets.xcassets */; };
 		7FF594CE1EDD63750008C4AA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7FF594CC1EDD63750008C4AA /* LaunchScreen.storyboard */; };
 		7FF594D91EDD63750008C4AA /* vKclubTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FF594D81EDD63750008C4AA /* vKclubTests.swift */; };
 		7FF594E41EDD63750008C4AA /* vKclubUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FF594E31EDD63750008C4AA /* vKclubUITests.swift */; };
-		C5DDAE6B1EFA2EA800CBC5DF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C5DDAE6A1EFA2EA800CBC5DF /* GoogleService-Info.plist */; };
+		C512C20C1EFE2ABB00B6F211 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C512C20B1EFE2ABB00B6F211 /* Main.storyboard */; };
+		C5A79BA51EFD652C0055A811 /* MapController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A79BA41EFD652C0055A811 /* MapController.swift */; };
+		C5BC247D1EFC05850052D4A8 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BC247C1EFC05850052D4A8 /* SWRevealViewController.m */; };
+		C5BC247F1EFC06B20052D4A8 /* DashboardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5BC247E1EFC06B20052D4A8 /* DashboardController.swift */; };
+		C5F84FFA1EFBE1E100302A50 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C5F84FF91EFBE1E100302A50 /* GoogleService-Info.plist */; };
 		D0D20C8FD2771382535C0B66 /* Pods_vKclubUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73B8BEF0C4684364CF28E834 /* Pods_vKclubUITests.framework */; };
 		ED90820CEFDABD099FC50EFB /* Pods_vKclub.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43F3C2095DB4884D6135B477 /* Pods_vKclub.framework */; };
 /* End PBXBuildFile section */
@@ -56,7 +59,6 @@
 		7FF594BD1EDD63750008C4AA /* vKclub.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = vKclub.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7FF594C01EDD63750008C4AA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7FF594C21EDD63750008C4AA /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		7FF594C51EDD63750008C4AA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		7FF594C81EDD63750008C4AA /* vKclub.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = vKclub.xcdatamodel; sourceTree = "<group>"; };
 		7FF594CA1EDD63750008C4AA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7FF594CD1EDD63750008C4AA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -69,7 +71,13 @@
 		7FF594E51EDD63750008C4AA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9D5644EB341690DB3DAB1B71 /* Pods-vKclubTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-vKclubTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-vKclubTests/Pods-vKclubTests.debug.xcconfig"; sourceTree = "<group>"; };
 		BD020989BCEBDBDE98344CBC /* Pods_vKclubTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_vKclubTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		C5DDAE6A1EFA2EA800CBC5DF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../GoogleService-Info.plist"; sourceTree = "<group>"; };
+		C512C20B1EFE2ABB00B6F211 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		C5A79BA41EFD652C0055A811 /* MapController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapController.swift; sourceTree = "<group>"; };
+		C5BC247A1EFC05840052D4A8 /* vKclub-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "vKclub-Bridging-Header.h"; sourceTree = "<group>"; };
+		C5BC247B1EFC05850052D4A8 /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
+		C5BC247C1EFC05850052D4A8 /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
+		C5BC247E1EFC06B20052D4A8 /* DashboardController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashboardController.swift; sourceTree = "<group>"; };
+		C5F84FF91EFBE1E100302A50 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D87EEE563B7D2F43AD1D8EBC /* Pods-vKclub.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-vKclub.release.xcconfig"; path = "Pods/Target Support Files/Pods-vKclub/Pods-vKclub.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -127,7 +135,7 @@
 		7F9AF1491EDE81DE00925CDC /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				7FF594C41EDD63750008C4AA /* Main.storyboard */,
+				C512C20B1EFE2ABB00B6F211 /* Main.storyboard */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -140,6 +148,8 @@
 				7FC839681EE478BE00C51A4F /* UIComponentHelper.swift */,
 				7FAB44B91EDD65F60074A245 /* LoginController.swift */,
 				7F52C84E1EE098F6003FE41D /* ForgotPWController.swift */,
+				C5BC247E1EFC06B20052D4A8 /* DashboardController.swift */,
+				C5A79BA41EFD652C0055A811 /* MapController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -169,14 +179,17 @@
 		7FF594BF1EDD63750008C4AA /* vKclub */ = {
 			isa = PBXGroup;
 			children = (
-				C5DDAE6A1EFA2EA800CBC5DF /* GoogleService-Info.plist */,
+				C5F84FF91EFBE1E100302A50 /* GoogleService-Info.plist */,
 				7FF594C01EDD63750008C4AA /* AppDelegate.swift */,
 				7F9AF14C1EDE9F0D00925CDC /* Controllers */,
 				7F9AF1491EDE81DE00925CDC /* Views */,
 				7FF594CA1EDD63750008C4AA /* Assets.xcassets */,
+				C5BC247B1EFC05850052D4A8 /* SWRevealViewController.h */,
+				C5BC247C1EFC05850052D4A8 /* SWRevealViewController.m */,
 				7FF594CC1EDD63750008C4AA /* LaunchScreen.storyboard */,
 				7FF594CF1EDD63750008C4AA /* Info.plist */,
 				7FF594C71EDD63750008C4AA /* vKclub.xcdatamodeld */,
+				C5BC247A1EFC05840052D4A8 /* vKclub-Bridging-Header.h */,
 			);
 			path = vKclub;
 			sourceTree = "<group>";
@@ -277,6 +290,7 @@
 					7FF594BC1EDD63750008C4AA = {
 						CreatedOnToolsVersion = 8.3.2;
 						DevelopmentTeam = 87A3CVP9KW;
+						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 					};
 					7FF594D31EDD63750008C4AA = {
@@ -317,9 +331,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				7FF594CE1EDD63750008C4AA /* LaunchScreen.storyboard in Resources */,
-				C5DDAE6B1EFA2EA800CBC5DF /* GoogleService-Info.plist in Resources */,
+				C5F84FFA1EFBE1E100302A50 /* GoogleService-Info.plist in Resources */,
 				7FF594CB1EDD63750008C4AA /* Assets.xcassets in Resources */,
-				7FF594C61EDD63750008C4AA /* Main.storyboard in Resources */,
+				C512C20C1EFE2ABB00B6F211 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -485,9 +499,12 @@
 				7FF594C31EDD63750008C4AA /* ViewController.swift in Sources */,
 				7F52C84F1EE098F6003FE41D /* ForgotPWController.swift in Sources */,
 				7FC839691EE478BE00C51A4F /* UIComponentHelper.swift in Sources */,
+				C5BC247D1EFC05850052D4A8 /* SWRevealViewController.m in Sources */,
+				C5BC247F1EFC06B20052D4A8 /* DashboardController.swift in Sources */,
 				7FAB44BA1EDD65F60074A245 /* LoginController.swift in Sources */,
 				7F9AF14E1EDE9FB300925CDC /* CreateAccController.swift in Sources */,
 				7FF594C11EDD63750008C4AA /* AppDelegate.swift in Sources */,
+				C5A79BA51EFD652C0055A811 /* MapController.swift in Sources */,
 				7FF594C91EDD63750008C4AA /* vKclub.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -524,14 +541,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		7FF594C41EDD63750008C4AA /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				7FF594C51EDD63750008C4AA /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		7FF594CC1EDD63750008C4AA /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -643,11 +652,14 @@
 			baseConfigurationReference = 5493A18B017B2B410F80249F /* Pods-vKclub.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = 87A3CVP9KW;
 				INFOPLIST_FILE = vKclub/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.chain.vKclub;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "vKclub/vKclub-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -657,11 +669,13 @@
 			baseConfigurationReference = D87EEE563B7D2F43AD1D8EBC /* Pods-vKclub.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = 87A3CVP9KW;
 				INFOPLIST_FILE = vKclub/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.chain.vKclub;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "vKclub/vKclub-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;

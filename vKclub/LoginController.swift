@@ -45,8 +45,9 @@ class LoginController: UIViewController {
                 UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
                 
                 if error == nil {
-                    self.PresentAlertController(title: "Success", message: "😁 Logged In!", actionTitle: "Done")
-                } else {
+                    
+                   
+                    } else {
                     self.PresentAlertController(title: "Error", message: (error?.localizedDescription)!, actionTitle: "Okay")
                 }
                 
@@ -55,12 +56,13 @@ class LoginController: UIViewController {
     }
     
     @IBAction func CreateAccount(_ sender: Any) {
-        performSegue(withIdentifier: "SegueToCreateAcc", sender: self)
+        performSegue(withIdentifier: "SegueToDashboard", sender: self)
     }
     
     @IBAction func ForgotPWClicked(_ sender: Any) {
         performSegue(withIdentifier: "SegueToForgotPW", sender: self)
     }
+   
     
     func MakeFBBorderBtn(button: UIButton) {
         button.backgroundColor = UIColor(red:0.23, green:0.35, blue:0.60, alpha:1.0)

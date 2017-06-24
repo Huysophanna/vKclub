@@ -8,6 +8,9 @@ target 'vKclub' do
   # Pods for vKclub
   pod 'Firebase/Core'
   pod 'Firebase/Auth'
+  pod 'GoogleMaps'
+  pod 'GooglePlaces'
+  pod 'UIImage-ResizeMagick'
 
   target 'vKclubTests' do
     inherit! :search_paths
