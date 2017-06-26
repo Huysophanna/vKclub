@@ -35,6 +35,13 @@ class DashboardController: UIViewController {
         super.didReceiveMemoryWarning()
         
     }
+    
+    
+    @IBAction func MapBtn(_ sender: Any) {
+        performSegue(withIdentifier: "GotoMap", sender: self)
+        
+        
+    }
   
     
 //    func CheckLocationMode()  {
