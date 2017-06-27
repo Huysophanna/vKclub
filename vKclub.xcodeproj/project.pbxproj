@@ -14,12 +14,12 @@
 		7F1E246A1F0247250090C7E7 /* DashboardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1E24631F0247250090C7E7 /* DashboardController.swift */; };
 		7F1E246B1F0247250090C7E7 /* MapController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1E24641F0247250090C7E7 /* MapController.swift */; };
 		7F1E246C1F0247250090C7E7 /* ServiceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1E24651F0247250090C7E7 /* ServiceController.swift */; };
-		7F1E246E1F0247420090C7E7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7F1E246D1F0247420090C7E7 /* Main.storyboard */; };
 		7F1E24701F0247A20090C7E7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7F1E246F1F0247A20090C7E7 /* Assets.xcassets */; };
 		7F1E24721F02484A0090C7E7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7F1E24711F02484A0090C7E7 /* GoogleService-Info.plist */; };
-		7F1E24741F024ACC0090C7E7 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7F1E24731F024ACC0090C7E7 /* Info.plist */; };
 		7F1E24801F024D2F0090C7E7 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F1E247F1F024D2F0090C7E7 /* SWRevealViewController.m */; };
 		7F1E24821F024EF00090C7E7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1E24811F024EF00090C7E7 /* AppDelegate.swift */; };
+		7F8E0D091F02590B00EE99BF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7F8E0D071F02590B00EE99BF /* Main.storyboard */; };
+		7F8E0D0D1F025C4900EE99BF /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7F8E0D0C1F025C4900EE99BF /* Info.plist */; };
 		8F43A0EA78F773EEA1DEDAD0 /* Pods_vKclub.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CE35CA16D2A204E204DA562 /* Pods_vKclub.framework */; };
 		A924DEC21D07A5F80030A438 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = A99663E91D070507003B5EEE /* libz.tbd */; };
 		A924DEC81D07AC620030A438 /* linphonerc in Resources */ = {isa = PBXBuildFile; fileRef = A924DEC41D07AC620030A438 /* linphonerc */; };
@@ -98,20 +98,20 @@
 /* Begin PBXFileReference section */
 		4CE35CA16D2A204E204DA562 /* Pods_vKclub.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_vKclub.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5690BC05728159C16A8F60B0 /* Pods-vKclub.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-vKclub.release.xcconfig"; path = "Pods/Target Support Files/Pods-vKclub/Pods-vKclub.release.xcconfig"; sourceTree = "<group>"; };
-		7F1E245F1F0247250090C7E7 /* CreateAccController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateAccController.swift; path = ../vKclub1/vKclub/CreateAccController.swift; sourceTree = "<group>"; };
-		7F1E24601F0247250090C7E7 /* UIComponentHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIComponentHelper.swift; path = ../vKclub1/vKclub/UIComponentHelper.swift; sourceTree = "<group>"; };
-		7F1E24611F0247250090C7E7 /* LoginController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginController.swift; path = ../vKclub1/vKclub/LoginController.swift; sourceTree = "<group>"; };
-		7F1E24621F0247250090C7E7 /* ForgotPWController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ForgotPWController.swift; path = ../vKclub1/vKclub/ForgotPWController.swift; sourceTree = "<group>"; };
-		7F1E24631F0247250090C7E7 /* DashboardController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DashboardController.swift; path = ../vKclub1/vKclub/DashboardController.swift; sourceTree = "<group>"; };
-		7F1E24641F0247250090C7E7 /* MapController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MapController.swift; path = ../vKclub1/vKclub/MapController.swift; sourceTree = "<group>"; };
-		7F1E24651F0247250090C7E7 /* ServiceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServiceController.swift; path = ../vKclub1/vKclub/ServiceController.swift; sourceTree = "<group>"; };
-		7F1E246D1F0247420090C7E7 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = ../../vKclub1/vKclub/Main.storyboard; sourceTree = "<group>"; };
-		7F1E246F1F0247A20090C7E7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ../../vKclub1/vKclub/Assets.xcassets; sourceTree = "<group>"; };
-		7F1E24711F02484A0090C7E7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
-		7F1E24731F024ACC0090C7E7 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../../vKclub1/vKclub/Info.plist; sourceTree = "<group>"; };
+		7F1E245F1F0247250090C7E7 /* CreateAccController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateAccController.swift; path = vKclub/CreateAccController.swift; sourceTree = "<group>"; };
+		7F1E24601F0247250090C7E7 /* UIComponentHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIComponentHelper.swift; path = vKclub/UIComponentHelper.swift; sourceTree = "<group>"; };
+		7F1E24611F0247250090C7E7 /* LoginController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginController.swift; path = vKclub/LoginController.swift; sourceTree = "<group>"; };
+		7F1E24621F0247250090C7E7 /* ForgotPWController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ForgotPWController.swift; path = vKclub/ForgotPWController.swift; sourceTree = "<group>"; };
+		7F1E24631F0247250090C7E7 /* DashboardController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DashboardController.swift; path = vKclub/DashboardController.swift; sourceTree = "<group>"; };
+		7F1E24641F0247250090C7E7 /* MapController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MapController.swift; path = vKclub/MapController.swift; sourceTree = "<group>"; };
+		7F1E24651F0247250090C7E7 /* ServiceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServiceController.swift; path = vKclub/ServiceController.swift; sourceTree = "<group>"; };
+		7F1E246F1F0247A20090C7E7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		7F1E24711F02484A0090C7E7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7F1E247E1F024D2F0090C7E7 /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SWRevealViewController.h; path = vKclub/SWRevealViewController.h; sourceTree = "<group>"; };
 		7F1E247F1F024D2F0090C7E7 /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SWRevealViewController.m; path = vKclub/SWRevealViewController.m; sourceTree = "<group>"; };
 		7F1E24811F024EF00090C7E7 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		7F8E0D081F02590B00EE99BF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		7F8E0D0C1F025C4900EE99BF /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../Info.plist; sourceTree = "<group>"; };
 		A924DEC41D07AC620030A438 /* linphonerc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = linphonerc; sourceTree = "<group>"; };
 		A924DEC51D07AC620030A438 /* linphonerc-factory */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "linphonerc-factory"; sourceTree = "<group>"; };
 		A924DECC1D07D2620030A438 /* Secret.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Secret.plist; sourceTree = "<group>"; };
@@ -326,6 +326,7 @@
 		A99663631D06F877003B5EEE /* vKclub */ = {
 			isa = PBXGroup;
 			children = (
+				7F8E0D0C1F025C4900EE99BF /* Info.plist */,
 				7F1E24711F02484A0090C7E7 /* GoogleService-Info.plist */,
 				7F1E24811F024EF00090C7E7 /* AppDelegate.swift */,
 				A99663661D06F877003B5EEE /* ViewController.swift */,
@@ -432,7 +433,7 @@
 			isa = PBXGroup;
 			children = (
 				A996636D1D06F877003B5EEE /* LaunchScreen.storyboard */,
-				7F1E246D1F0247420090C7E7 /* Main.storyboard */,
+				7F8E0D071F02590B00EE99BF /* Main.storyboard */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -452,7 +453,6 @@
 			isa = PBXGroup;
 			children = (
 				7F1E246F1F0247A20090C7E7 /* Assets.xcassets */,
-				7F1E24731F024ACC0090C7E7 /* Info.plist */,
 			);
 			name = Resource;
 			sourceTree = "<group>";
@@ -579,7 +579,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7F1E246E1F0247420090C7E7 /* Main.storyboard in Resources */,
 				A9FACB091D0A7B3700E3C8A5 /* hello16000.wav in Resources */,
 				A9FACB0D1D0A7B3700E3C8A5 /* four_hands_together.mkv in Resources */,
 				A924DEC81D07AC620030A438 /* linphonerc in Resources */,
@@ -587,10 +586,11 @@
 				A9FACB0A1D0A7B3700E3C8A5 /* hello8000.wav in Resources */,
 				A9FACB141D0A7B3700E3C8A5 /* soft_as_snow.mkv in Resources */,
 				A996636F1D06F877003B5EEE /* LaunchScreen.storyboard in Resources */,
-				7F1E24741F024ACC0090C7E7 /* Info.plist in Resources */,
 				A9FACB0B1D0A7B3700E3C8A5 /* incoming_chat.wav in Resources */,
+				7F8E0D0D1F025C4900EE99BF /* Info.plist in Resources */,
 				A9FACB081D0A7B3700E3C8A5 /* dont_wait_too_long.mkv in Resources */,
 				A9FACB151D0A7B3700E3C8A5 /* toy-mono.wav in Resources */,
+				7F8E0D091F02590B00EE99BF /* Main.storyboard in Resources */,
 				A924DECD1D07D2620030A438 /* Secret.plist in Resources */,
 				A9FACB121D0A7B3700E3C8A5 /* oldphone-mono-30s.caf in Resources */,
 				A9FACB0C1D0A7B3700E3C8A5 /* ringback.wav in Resources */,
@@ -677,6 +677,14 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		7F8E0D071F02590B00EE99BF /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7F8E0D081F02590B00EE99BF /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
 		A996636D1D06F877003B5EEE /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -786,7 +794,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = 87A3CVP9KW;
-				INFOPLIST_FILE = "$(SRCROOT)/../vKclub1/vKclub/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
@@ -811,7 +819,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = 87A3CVP9KW;
-				INFOPLIST_FILE = "$(SRCROOT)/../vKclub1/vKclub/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
