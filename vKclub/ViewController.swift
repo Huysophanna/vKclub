@@ -1,9 +1,9 @@
 //
 //  ViewController.swift
-//  vKclub
+//  linphone-trial
 //
-//  Created by HuySophanna on 30/5/17.
-//  Copyright © 2017 HuySophanna. All rights reserved.
+//  Created by Cody Liu on 6/7/16.
+//  Copyright © 2016 WiAdvance. All rights reserved.
 //
 
 import UIKit
@@ -13,6 +13,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+                
     }
 
     override func didReceiveMemoryWarning() {

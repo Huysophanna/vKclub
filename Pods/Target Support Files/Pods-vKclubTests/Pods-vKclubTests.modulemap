@@ -1,6 +1,0 @@
-framework module Pods_vKclubTests {
-  umbrella header "Pods-vKclubTests-umbrella.h"
-
-  export *
-  module * { export * }
-}

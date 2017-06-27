@@ -7,305 +7,556 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		483CAB6EA482B608B64B7B71 /* Pods_vKclubTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD020989BCEBDBDE98344CBC /* Pods_vKclubTests.framework */; };
-		7F52C84F1EE098F6003FE41D /* ForgotPWController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F52C84E1EE098F6003FE41D /* ForgotPWController.swift */; };
-		7F9AF14E1EDE9FB300925CDC /* CreateAccController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F9AF14D1EDE9FB300925CDC /* CreateAccController.swift */; };
-		7FAB44BA1EDD65F60074A245 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB44B91EDD65F60074A245 /* LoginController.swift */; };
-		7FC839691EE478BE00C51A4F /* UIComponentHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FC839681EE478BE00C51A4F /* UIComponentHelper.swift */; };
-		7FF594C11EDD63750008C4AA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FF594C01EDD63750008C4AA /* AppDelegate.swift */; };
-		7FF594C31EDD63750008C4AA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FF594C21EDD63750008C4AA /* ViewController.swift */; };
-		7FF594C91EDD63750008C4AA /* vKclub.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7FF594C71EDD63750008C4AA /* vKclub.xcdatamodeld */; };
-		7FF594CB1EDD63750008C4AA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7FF594CA1EDD63750008C4AA /* Assets.xcassets */; };
-		7FF594CE1EDD63750008C4AA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7FF594CC1EDD63750008C4AA /* LaunchScreen.storyboard */; };
-		7FF594D91EDD63750008C4AA /* vKclubTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FF594D81EDD63750008C4AA /* vKclubTests.swift */; };
-		7FF594E41EDD63750008C4AA /* vKclubUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FF594E31EDD63750008C4AA /* vKclubUITests.swift */; };
-		C512C20C1EFE2ABB00B6F211 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C512C20B1EFE2ABB00B6F211 /* Main.storyboard */; };
-		C5A79BA51EFD652C0055A811 /* MapController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A79BA41EFD652C0055A811 /* MapController.swift */; };
-		C5BC247D1EFC05850052D4A8 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BC247C1EFC05850052D4A8 /* SWRevealViewController.m */; };
-		C5BC247F1EFC06B20052D4A8 /* DashboardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5BC247E1EFC06B20052D4A8 /* DashboardController.swift */; };
-		C5F84FFA1EFBE1E100302A50 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C5F84FF91EFBE1E100302A50 /* GoogleService-Info.plist */; };
-		D0D20C8FD2771382535C0B66 /* Pods_vKclubUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73B8BEF0C4684364CF28E834 /* Pods_vKclubUITests.framework */; };
-		ED90820CEFDABD099FC50EFB /* Pods_vKclub.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43F3C2095DB4884D6135B477 /* Pods_vKclub.framework */; };
+		7F1E24661F0247250090C7E7 /* CreateAccController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1E245F1F0247250090C7E7 /* CreateAccController.swift */; };
+		7F1E24671F0247250090C7E7 /* UIComponentHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1E24601F0247250090C7E7 /* UIComponentHelper.swift */; };
+		7F1E24681F0247250090C7E7 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1E24611F0247250090C7E7 /* LoginController.swift */; };
+		7F1E24691F0247250090C7E7 /* ForgotPWController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1E24621F0247250090C7E7 /* ForgotPWController.swift */; };
+		7F1E246A1F0247250090C7E7 /* DashboardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1E24631F0247250090C7E7 /* DashboardController.swift */; };
+		7F1E246B1F0247250090C7E7 /* MapController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1E24641F0247250090C7E7 /* MapController.swift */; };
+		7F1E246C1F0247250090C7E7 /* ServiceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1E24651F0247250090C7E7 /* ServiceController.swift */; };
+		7F1E246E1F0247420090C7E7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7F1E246D1F0247420090C7E7 /* Main.storyboard */; };
+		7F1E24701F0247A20090C7E7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7F1E246F1F0247A20090C7E7 /* Assets.xcassets */; };
+		7F1E24721F02484A0090C7E7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7F1E24711F02484A0090C7E7 /* GoogleService-Info.plist */; };
+		7F1E24741F024ACC0090C7E7 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7F1E24731F024ACC0090C7E7 /* Info.plist */; };
+		7F1E24801F024D2F0090C7E7 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F1E247F1F024D2F0090C7E7 /* SWRevealViewController.m */; };
+		8F43A0EA78F773EEA1DEDAD0 /* Pods_vKclub.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CE35CA16D2A204E204DA562 /* Pods_vKclub.framework */; };
+		A924DEC21D07A5F80030A438 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = A99663E91D070507003B5EEE /* libz.tbd */; };
+		A924DEC81D07AC620030A438 /* linphonerc in Resources */ = {isa = PBXBuildFile; fileRef = A924DEC41D07AC620030A438 /* linphonerc */; };
+		A924DEC91D07AC620030A438 /* linphonerc-factory in Resources */ = {isa = PBXBuildFile; fileRef = A924DEC51D07AC620030A438 /* linphonerc-factory */; };
+		A924DECD1D07D2620030A438 /* Secret.plist in Resources */ = {isa = PBXBuildFile; fileRef = A924DECC1D07D2620030A438 /* Secret.plist */; };
+		A924DECF1D07D4EA0030A438 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = A924DECE1D07D4EA0030A438 /* README.md */; };
+		A99663651D06F877003B5EEE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A99663641D06F877003B5EEE /* AppDelegate.swift */; };
+		A99663671D06F877003B5EEE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A99663661D06F877003B5EEE /* ViewController.swift */; };
+		A996636F1D06F877003B5EEE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A996636D1D06F877003B5EEE /* LaunchScreen.storyboard */; };
+		A996637A1D06FE65003B5EEE /* LinphoneManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A99663791D06FE65003B5EEE /* LinphoneManager.swift */; };
+		A99663A21D0700A5003B5EEE /* libantlr3c.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A996637B1D070097003B5EEE /* libantlr3c.a */; };
+		A99663A31D0700A5003B5EEE /* libavcodec.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A996637C1D070097003B5EEE /* libavcodec.a */; };
+		A99663A41D0700A5003B5EEE /* libavutil.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A996637D1D070097003B5EEE /* libavutil.a */; };
+		A99663A51D0700A5003B5EEE /* libbcg729.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A996637E1D070097003B5EEE /* libbcg729.a */; };
+		A99663A61D0700A5003B5EEE /* libbctoolbox.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A996637F1D070097003B5EEE /* libbctoolbox.a */; };
+		A99663A71D0700A5003B5EEE /* libbellesip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A99663801D070097003B5EEE /* libbellesip.a */; };
+		A99663A81D0700A5003B5EEE /* libbzrtp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A99663811D070097003B5EEE /* libbzrtp.a */; };
+		A99663A91D0700A5003B5EEE /* libcorec.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A99663821D070097003B5EEE /* libcorec.a */; };
+		A99663AA1D0700A5003B5EEE /* libcunit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A99663831D070097003B5EEE /* libcunit.a */; };
+		A99663AB1D0700A5003B5EEE /* libebml2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A99663841D070097003B5EEE /* libebml2.a */; };
+		A99663AC1D0700A5003B5EEE /* libgsm.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A99663851D070097003B5EEE /* libgsm.a */; };
+		A99663AD1D0700A5003B5EEE /* liblinphone.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A99663861D070097003B5EEE /* liblinphone.a */; };
+		A99663AE1D0700A5003B5EEE /* liblinphonetester.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A99663871D070097003B5EEE /* liblinphonetester.a */; };
+		A99663AF1D0700A5003B5EEE /* libmatroska2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A99663881D070097003B5EEE /* libmatroska2.a */; };
+		A99663B01D0700A5003B5EEE /* libmediastreamer_base.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A99663891D070097003B5EEE /* libmediastreamer_base.a */; };
+		A99663B11D0700A5003B5EEE /* libmediastreamer_voip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A996638A1D070097003B5EEE /* libmediastreamer_voip.a */; };
+		A99663B21D0700A5003B5EEE /* libopencore-amrnb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A996638B1D070097003B5EEE /* libopencore-amrnb.a */; };
+		A99663B31D0700A5003B5EEE /* libopencore-amrwb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A996638C1D070097003B5EEE /* libopencore-amrwb.a */; };
+		A99663B41D0700A5003B5EEE /* libopenh264.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A996638D1D070097003B5EEE /* libopenh264.a */; };
+		A99663B51D0700A5003B5EEE /* libopus.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A996638E1D070097003B5EEE /* libopus.a */; };
+		A99663B61D0700A5003B5EEE /* libortp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A996638F1D070097003B5EEE /* libortp.a */; };
+		A99663B71D0700A5003B5EEE /* libpolarssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A99663901D070097003B5EEE /* libpolarssl.a */; };
+		A99663B81D0700A5003B5EEE /* libspeex.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A99663911D070097003B5EEE /* libspeex.a */; };
+		A99663B91D0700A5003B5EEE /* libspeexdsp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A99663921D070097003B5EEE /* libspeexdsp.a */; };
+		A99663BA1D0700A5003B5EEE /* libsrtp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A99663931D070097003B5EEE /* libsrtp.a */; };
+		A99663BB1D0700A5003B5EEE /* libswresample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A99663941D070097003B5EEE /* libswresample.a */; };
+		A99663BC1D0700A5003B5EEE /* libswscale.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A99663951D070097003B5EEE /* libswscale.a */; };
+		A99663BD1D0700A5003B5EEE /* libtunnel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A99663961D070097003B5EEE /* libtunnel.a */; };
+		A99663BE1D0700A5003B5EEE /* libvo-amrwbenc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A99663971D070097003B5EEE /* libvo-amrwbenc.a */; };
+		A99663BF1D0700A5003B5EEE /* libvpx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A99663981D070097003B5EEE /* libvpx.a */; };
+		A99663C01D0700A5003B5EEE /* libx264.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A99663991D070097003B5EEE /* libx264.a */; };
+		A99663C11D0700BC003B5EEE /* libmsamr.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A996639C1D070097003B5EEE /* libmsamr.a */; };
+		A99663C21D0700BC003B5EEE /* libmsbcg729.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A996639D1D070097003B5EEE /* libmsbcg729.a */; };
+		A99663C31D0700BC003B5EEE /* libmsopenh264.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A996639E1D070097003B5EEE /* libmsopenh264.a */; };
+		A99663C41D0700BC003B5EEE /* libmssilk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A996639F1D070097003B5EEE /* libmssilk.a */; };
+		A99663C51D0700BC003B5EEE /* libmswebrtc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A99663A01D070097003B5EEE /* libmswebrtc.a */; };
+		A99663C61D0700BC003B5EEE /* libmsx264.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A99663A11D070097003B5EEE /* libmsx264.a */; };
+		A99663C81D07011C003B5EEE /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A99663C71D07011C003B5EEE /* CoreAudio.framework */; };
+		A99663CA1D070126003B5EEE /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A99663C91D070126003B5EEE /* CoreData.framework */; };
+		A99663CC1D070132003B5EEE /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A99663CB1D070132003B5EEE /* CoreFoundation.framework */; };
+		A99663CE1D070140003B5EEE /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A99663CD1D070140003B5EEE /* AudioToolbox.framework */; };
+		A99663DA1D07045D003B5EEE /* libc++abi.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = A99663D91D07045D003B5EEE /* libc++abi.tbd */; };
+		A99663DC1D07048C003B5EEE /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A99663DB1D07048C003B5EEE /* AVFoundation.framework */; };
+		A99663DE1D0704BC003B5EEE /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = A99663DD1D0704BC003B5EEE /* libstdc++.tbd */; };
+		A99663E11D0704C7003B5EEE /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = A99663DF1D0704C7003B5EEE /* libstdc++.6.0.9.tbd */; };
+		A99663E21D0704C7003B5EEE /* libstdc++.6.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = A99663E01D0704C7003B5EEE /* libstdc++.6.tbd */; };
+		A99663E41D0704E2003B5EEE /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = A99663E31D0704E2003B5EEE /* libxml2.tbd */; };
+		A99663E61D0704F8003B5EEE /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = A99663E51D0704F8003B5EEE /* libresolv.tbd */; };
+		A99663E81D070500003B5EEE /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = A99663E71D070500003B5EEE /* libsqlite3.tbd */; };
+		A9FAC4821D09905100E3C8A5 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9FAC4811D09905100E3C8A5 /* CoreMedia.framework */; };
+		A9FACB081D0A7B3700E3C8A5 /* dont_wait_too_long.mkv in Resources */ = {isa = PBXBuildFile; fileRef = A9FACAF91D0A7B3700E3C8A5 /* dont_wait_too_long.mkv */; };
+		A9FACB091D0A7B3700E3C8A5 /* hello16000.wav in Resources */ = {isa = PBXBuildFile; fileRef = A9FACAFA1D0A7B3700E3C8A5 /* hello16000.wav */; };
+		A9FACB0A1D0A7B3700E3C8A5 /* hello8000.wav in Resources */ = {isa = PBXBuildFile; fileRef = A9FACAFB1D0A7B3700E3C8A5 /* hello8000.wav */; };
+		A9FACB0B1D0A7B3700E3C8A5 /* incoming_chat.wav in Resources */ = {isa = PBXBuildFile; fileRef = A9FACAFC1D0A7B3700E3C8A5 /* incoming_chat.wav */; };
+		A9FACB0C1D0A7B3700E3C8A5 /* ringback.wav in Resources */ = {isa = PBXBuildFile; fileRef = A9FACAFD1D0A7B3700E3C8A5 /* ringback.wav */; };
+		A9FACB0D1D0A7B3700E3C8A5 /* four_hands_together.mkv in Resources */ = {isa = PBXBuildFile; fileRef = A9FACAFF1D0A7B3700E3C8A5 /* four_hands_together.mkv */; };
+		A9FACB0E1D0A7B3700E3C8A5 /* house_keeping.mkv in Resources */ = {isa = PBXBuildFile; fileRef = A9FACB001D0A7B3700E3C8A5 /* house_keeping.mkv */; };
+		A9FACB0F1D0A7B3700E3C8A5 /* its_a_game.mkv in Resources */ = {isa = PBXBuildFile; fileRef = A9FACB011D0A7B3700E3C8A5 /* its_a_game.mkv */; };
+		A9FACB101D0A7B3700E3C8A5 /* leaving_dreams.mkv in Resources */ = {isa = PBXBuildFile; fileRef = A9FACB021D0A7B3700E3C8A5 /* leaving_dreams.mkv */; };
+		A9FACB111D0A7B3700E3C8A5 /* notes_of_the_optimistic.mkv in Resources */ = {isa = PBXBuildFile; fileRef = A9FACB031D0A7B3700E3C8A5 /* notes_of_the_optimistic.mkv */; };
+		A9FACB121D0A7B3700E3C8A5 /* oldphone-mono-30s.caf in Resources */ = {isa = PBXBuildFile; fileRef = A9FACB041D0A7B3700E3C8A5 /* oldphone-mono-30s.caf */; };
+		A9FACB131D0A7B3700E3C8A5 /* oldphone-mono.wav in Resources */ = {isa = PBXBuildFile; fileRef = A9FACB051D0A7B3700E3C8A5 /* oldphone-mono.wav */; };
+		A9FACB141D0A7B3700E3C8A5 /* soft_as_snow.mkv in Resources */ = {isa = PBXBuildFile; fileRef = A9FACB061D0A7B3700E3C8A5 /* soft_as_snow.mkv */; };
+		A9FACB151D0A7B3700E3C8A5 /* toy-mono.wav in Resources */ = {isa = PBXBuildFile; fileRef = A9FACB071D0A7B3700E3C8A5 /* toy-mono.wav */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		7FF594D51EDD63750008C4AA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 7FF594B51EDD63750008C4AA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 7FF594BC1EDD63750008C4AA;
-			remoteInfo = vKclub;
-		};
-		7FF594E01EDD63750008C4AA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 7FF594B51EDD63750008C4AA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 7FF594BC1EDD63750008C4AA;
-			remoteInfo = vKclub;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
-		43F3C2095DB4884D6135B477 /* Pods_vKclub.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_vKclub.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		5493A18B017B2B410F80249F /* Pods-vKclub.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-vKclub.debug.xcconfig"; path = "Pods/Target Support Files/Pods-vKclub/Pods-vKclub.debug.xcconfig"; sourceTree = "<group>"; };
-		5BD061C570E122049726445F /* Pods-vKclubUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-vKclubUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-vKclubUITests/Pods-vKclubUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		73B48260665ED3D9B32F8908 /* Pods-vKclubTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-vKclubTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-vKclubTests/Pods-vKclubTests.release.xcconfig"; sourceTree = "<group>"; };
-		73B8BEF0C4684364CF28E834 /* Pods_vKclubUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_vKclubUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		768EB3CABB2FDF2B8372301B /* Pods-vKclubUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-vKclubUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-vKclubUITests/Pods-vKclubUITests.release.xcconfig"; sourceTree = "<group>"; };
-		7F52C84E1EE098F6003FE41D /* ForgotPWController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgotPWController.swift; sourceTree = "<group>"; };
-		7F9AF14D1EDE9FB300925CDC /* CreateAccController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccController.swift; sourceTree = "<group>"; };
-		7FAB44B91EDD65F60074A245 /* LoginController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
-		7FC839681EE478BE00C51A4F /* UIComponentHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIComponentHelper.swift; sourceTree = "<group>"; };
-		7FF594BD1EDD63750008C4AA /* vKclub.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = vKclub.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		7FF594C01EDD63750008C4AA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		7FF594C21EDD63750008C4AA /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		7FF594C81EDD63750008C4AA /* vKclub.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = vKclub.xcdatamodel; sourceTree = "<group>"; };
-		7FF594CA1EDD63750008C4AA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		7FF594CD1EDD63750008C4AA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		7FF594CF1EDD63750008C4AA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		7FF594D41EDD63750008C4AA /* vKclubTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = vKclubTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		7FF594D81EDD63750008C4AA /* vKclubTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = vKclubTests.swift; sourceTree = "<group>"; };
-		7FF594DA1EDD63750008C4AA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		7FF594DF1EDD63750008C4AA /* vKclubUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = vKclubUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		7FF594E31EDD63750008C4AA /* vKclubUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = vKclubUITests.swift; sourceTree = "<group>"; };
-		7FF594E51EDD63750008C4AA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9D5644EB341690DB3DAB1B71 /* Pods-vKclubTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-vKclubTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-vKclubTests/Pods-vKclubTests.debug.xcconfig"; sourceTree = "<group>"; };
-		BD020989BCEBDBDE98344CBC /* Pods_vKclubTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_vKclubTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		C512C20B1EFE2ABB00B6F211 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
-		C5A79BA41EFD652C0055A811 /* MapController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapController.swift; sourceTree = "<group>"; };
-		C5BC247A1EFC05840052D4A8 /* vKclub-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "vKclub-Bridging-Header.h"; sourceTree = "<group>"; };
-		C5BC247B1EFC05850052D4A8 /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
-		C5BC247C1EFC05850052D4A8 /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
-		C5BC247E1EFC06B20052D4A8 /* DashboardController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashboardController.swift; sourceTree = "<group>"; };
-		C5F84FF91EFBE1E100302A50 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../GoogleService-Info.plist"; sourceTree = "<group>"; };
-		D87EEE563B7D2F43AD1D8EBC /* Pods-vKclub.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-vKclub.release.xcconfig"; path = "Pods/Target Support Files/Pods-vKclub/Pods-vKclub.release.xcconfig"; sourceTree = "<group>"; };
+		4CE35CA16D2A204E204DA562 /* Pods_vKclub.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_vKclub.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5690BC05728159C16A8F60B0 /* Pods-vKclub.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-vKclub.release.xcconfig"; path = "Pods/Target Support Files/Pods-vKclub/Pods-vKclub.release.xcconfig"; sourceTree = "<group>"; };
+		7F1E245F1F0247250090C7E7 /* CreateAccController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateAccController.swift; path = ../vKclub1/vKclub/CreateAccController.swift; sourceTree = "<group>"; };
+		7F1E24601F0247250090C7E7 /* UIComponentHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIComponentHelper.swift; path = ../vKclub1/vKclub/UIComponentHelper.swift; sourceTree = "<group>"; };
+		7F1E24611F0247250090C7E7 /* LoginController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginController.swift; path = ../vKclub1/vKclub/LoginController.swift; sourceTree = "<group>"; };
+		7F1E24621F0247250090C7E7 /* ForgotPWController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ForgotPWController.swift; path = ../vKclub1/vKclub/ForgotPWController.swift; sourceTree = "<group>"; };
+		7F1E24631F0247250090C7E7 /* DashboardController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DashboardController.swift; path = ../vKclub1/vKclub/DashboardController.swift; sourceTree = "<group>"; };
+		7F1E24641F0247250090C7E7 /* MapController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MapController.swift; path = ../vKclub1/vKclub/MapController.swift; sourceTree = "<group>"; };
+		7F1E24651F0247250090C7E7 /* ServiceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServiceController.swift; path = ../vKclub1/vKclub/ServiceController.swift; sourceTree = "<group>"; };
+		7F1E246D1F0247420090C7E7 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = ../../vKclub1/vKclub/Main.storyboard; sourceTree = "<group>"; };
+		7F1E246F1F0247A20090C7E7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ../../vKclub1/vKclub/Assets.xcassets; sourceTree = "<group>"; };
+		7F1E24711F02484A0090C7E7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		7F1E24731F024ACC0090C7E7 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../../vKclub1/vKclub/Info.plist; sourceTree = "<group>"; };
+		7F1E247E1F024D2F0090C7E7 /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SWRevealViewController.h; path = vKclub/SWRevealViewController.h; sourceTree = "<group>"; };
+		7F1E247F1F024D2F0090C7E7 /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SWRevealViewController.m; path = vKclub/SWRevealViewController.m; sourceTree = "<group>"; };
+		A924DEC41D07AC620030A438 /* linphonerc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = linphonerc; sourceTree = "<group>"; };
+		A924DEC51D07AC620030A438 /* linphonerc-factory */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "linphonerc-factory"; sourceTree = "<group>"; };
+		A924DECC1D07D2620030A438 /* Secret.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Secret.plist; sourceTree = "<group>"; };
+		A924DECE1D07D4EA0030A438 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		A99663611D06F877003B5EEE /* vKclub.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = vKclub.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A99663641D06F877003B5EEE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		A99663661D06F877003B5EEE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		A996636E1D06F877003B5EEE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		A99663761D06F942003B5EEE /* vKclub-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "vKclub-Bridging-Header.h"; sourceTree = "<group>"; };
+		A99663791D06FE65003B5EEE /* LinphoneManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LinphoneManager.swift; path = vKclub/LinphoneManager.swift; sourceTree = "<group>"; };
+		A996637B1D070097003B5EEE /* libantlr3c.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libantlr3c.a; path = "liblinphone-sdk/apple-darwin/lib/libantlr3c.a"; sourceTree = "<group>"; };
+		A996637C1D070097003B5EEE /* libavcodec.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libavcodec.a; path = "liblinphone-sdk/apple-darwin/lib/libavcodec.a"; sourceTree = "<group>"; };
+		A996637D1D070097003B5EEE /* libavutil.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libavutil.a; path = "liblinphone-sdk/apple-darwin/lib/libavutil.a"; sourceTree = "<group>"; };
+		A996637E1D070097003B5EEE /* libbcg729.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libbcg729.a; path = "liblinphone-sdk/apple-darwin/lib/libbcg729.a"; sourceTree = "<group>"; };
+		A996637F1D070097003B5EEE /* libbctoolbox.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libbctoolbox.a; path = "liblinphone-sdk/apple-darwin/lib/libbctoolbox.a"; sourceTree = "<group>"; };
+		A99663801D070097003B5EEE /* libbellesip.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libbellesip.a; path = "liblinphone-sdk/apple-darwin/lib/libbellesip.a"; sourceTree = "<group>"; };
+		A99663811D070097003B5EEE /* libbzrtp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libbzrtp.a; path = "liblinphone-sdk/apple-darwin/lib/libbzrtp.a"; sourceTree = "<group>"; };
+		A99663821D070097003B5EEE /* libcorec.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcorec.a; path = "liblinphone-sdk/apple-darwin/lib/libcorec.a"; sourceTree = "<group>"; };
+		A99663831D070097003B5EEE /* libcunit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcunit.a; path = "liblinphone-sdk/apple-darwin/lib/libcunit.a"; sourceTree = "<group>"; };
+		A99663841D070097003B5EEE /* libebml2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libebml2.a; path = "liblinphone-sdk/apple-darwin/lib/libebml2.a"; sourceTree = "<group>"; };
+		A99663851D070097003B5EEE /* libgsm.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgsm.a; path = "liblinphone-sdk/apple-darwin/lib/libgsm.a"; sourceTree = "<group>"; };
+		A99663861D070097003B5EEE /* liblinphone.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblinphone.a; path = "liblinphone-sdk/apple-darwin/lib/liblinphone.a"; sourceTree = "<group>"; };
+		A99663871D070097003B5EEE /* liblinphonetester.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblinphonetester.a; path = "liblinphone-sdk/apple-darwin/lib/liblinphonetester.a"; sourceTree = "<group>"; };
+		A99663881D070097003B5EEE /* libmatroska2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmatroska2.a; path = "liblinphone-sdk/apple-darwin/lib/libmatroska2.a"; sourceTree = "<group>"; };
+		A99663891D070097003B5EEE /* libmediastreamer_base.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmediastreamer_base.a; path = "liblinphone-sdk/apple-darwin/lib/libmediastreamer_base.a"; sourceTree = "<group>"; };
+		A996638A1D070097003B5EEE /* libmediastreamer_voip.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmediastreamer_voip.a; path = "liblinphone-sdk/apple-darwin/lib/libmediastreamer_voip.a"; sourceTree = "<group>"; };
+		A996638B1D070097003B5EEE /* libopencore-amrnb.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libopencore-amrnb.a"; path = "liblinphone-sdk/apple-darwin/lib/libopencore-amrnb.a"; sourceTree = "<group>"; };
+		A996638C1D070097003B5EEE /* libopencore-amrwb.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libopencore-amrwb.a"; path = "liblinphone-sdk/apple-darwin/lib/libopencore-amrwb.a"; sourceTree = "<group>"; };
+		A996638D1D070097003B5EEE /* libopenh264.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libopenh264.a; path = "liblinphone-sdk/apple-darwin/lib/libopenh264.a"; sourceTree = "<group>"; };
+		A996638E1D070097003B5EEE /* libopus.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libopus.a; path = "liblinphone-sdk/apple-darwin/lib/libopus.a"; sourceTree = "<group>"; };
+		A996638F1D070097003B5EEE /* libortp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libortp.a; path = "liblinphone-sdk/apple-darwin/lib/libortp.a"; sourceTree = "<group>"; };
+		A99663901D070097003B5EEE /* libpolarssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpolarssl.a; path = "liblinphone-sdk/apple-darwin/lib/libpolarssl.a"; sourceTree = "<group>"; };
+		A99663911D070097003B5EEE /* libspeex.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libspeex.a; path = "liblinphone-sdk/apple-darwin/lib/libspeex.a"; sourceTree = "<group>"; };
+		A99663921D070097003B5EEE /* libspeexdsp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libspeexdsp.a; path = "liblinphone-sdk/apple-darwin/lib/libspeexdsp.a"; sourceTree = "<group>"; };
+		A99663931D070097003B5EEE /* libsrtp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsrtp.a; path = "liblinphone-sdk/apple-darwin/lib/libsrtp.a"; sourceTree = "<group>"; };
+		A99663941D070097003B5EEE /* libswresample.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libswresample.a; path = "liblinphone-sdk/apple-darwin/lib/libswresample.a"; sourceTree = "<group>"; };
+		A99663951D070097003B5EEE /* libswscale.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libswscale.a; path = "liblinphone-sdk/apple-darwin/lib/libswscale.a"; sourceTree = "<group>"; };
+		A99663961D070097003B5EEE /* libtunnel.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtunnel.a; path = "liblinphone-sdk/apple-darwin/lib/libtunnel.a"; sourceTree = "<group>"; };
+		A99663971D070097003B5EEE /* libvo-amrwbenc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libvo-amrwbenc.a"; path = "liblinphone-sdk/apple-darwin/lib/libvo-amrwbenc.a"; sourceTree = "<group>"; };
+		A99663981D070097003B5EEE /* libvpx.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvpx.a; path = "liblinphone-sdk/apple-darwin/lib/libvpx.a"; sourceTree = "<group>"; };
+		A99663991D070097003B5EEE /* libx264.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libx264.a; path = "liblinphone-sdk/apple-darwin/lib/libx264.a"; sourceTree = "<group>"; };
+		A996639C1D070097003B5EEE /* libmsamr.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libmsamr.a; sourceTree = "<group>"; };
+		A996639D1D070097003B5EEE /* libmsbcg729.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libmsbcg729.a; sourceTree = "<group>"; };
+		A996639E1D070097003B5EEE /* libmsopenh264.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libmsopenh264.a; sourceTree = "<group>"; };
+		A996639F1D070097003B5EEE /* libmssilk.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libmssilk.a; sourceTree = "<group>"; };
+		A99663A01D070097003B5EEE /* libmswebrtc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libmswebrtc.a; sourceTree = "<group>"; };
+		A99663A11D070097003B5EEE /* libmsx264.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libmsx264.a; sourceTree = "<group>"; };
+		A99663C71D07011C003B5EEE /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
+		A99663C91D070126003B5EEE /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		A99663CB1D070132003B5EEE /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		A99663CD1D070140003B5EEE /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		A99663D91D07045D003B5EEE /* libc++abi.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++abi.tbd"; path = "usr/lib/libc++abi.tbd"; sourceTree = SDKROOT; };
+		A99663DB1D07048C003B5EEE /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		A99663DD1D0704BC003B5EEE /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
+		A99663DF1D0704C7003B5EEE /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.0.9.tbd"; path = "usr/lib/libstdc++.6.0.9.tbd"; sourceTree = SDKROOT; };
+		A99663E01D0704C7003B5EEE /* libstdc++.6.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.tbd"; path = "usr/lib/libstdc++.6.tbd"; sourceTree = SDKROOT; };
+		A99663E31D0704E2003B5EEE /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
+		A99663E51D0704F8003B5EEE /* libresolv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = usr/lib/libresolv.tbd; sourceTree = SDKROOT; };
+		A99663E71D070500003B5EEE /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		A99663E91D070507003B5EEE /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		A9FAC46B1D087E9E00E3C8A5 /* account_creator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = account_creator.h; path = "liblinphone-sdk/apple-darwin/include/linphone/account_creator.h"; sourceTree = "<group>"; };
+		A9FAC46C1D087E9E00E3C8A5 /* bc_tester_utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = bc_tester_utils.h; path = "liblinphone-sdk/apple-darwin/include/linphone/bc_tester_utils.h"; sourceTree = "<group>"; };
+		A9FAC46D1D087E9E00E3C8A5 /* buffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = buffer.h; path = "liblinphone-sdk/apple-darwin/include/linphone/buffer.h"; sourceTree = "<group>"; };
+		A9FAC46E1D087E9E00E3C8A5 /* call_log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = call_log.h; path = "liblinphone-sdk/apple-darwin/include/linphone/call_log.h"; sourceTree = "<group>"; };
+		A9FAC46F1D087E9E00E3C8A5 /* call_params.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = call_params.h; path = "liblinphone-sdk/apple-darwin/include/linphone/call_params.h"; sourceTree = "<group>"; };
+		A9FAC4701D087E9E00E3C8A5 /* conference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = conference.h; path = "liblinphone-sdk/apple-darwin/include/linphone/conference.h"; sourceTree = "<group>"; };
+		A9FAC4711D087E9E00E3C8A5 /* content.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = content.h; path = "liblinphone-sdk/apple-darwin/include/linphone/content.h"; sourceTree = "<group>"; };
+		A9FAC4721D087E9E00E3C8A5 /* event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = event.h; path = "liblinphone-sdk/apple-darwin/include/linphone/event.h"; sourceTree = "<group>"; };
+		A9FAC4731D087E9E00E3C8A5 /* friendlist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = friendlist.h; path = "liblinphone-sdk/apple-darwin/include/linphone/friendlist.h"; sourceTree = "<group>"; };
+		A9FAC4741D087E9E00E3C8A5 /* liblinphone_tester.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = liblinphone_tester.h; path = "liblinphone-sdk/apple-darwin/include/linphone/liblinphone_tester.h"; sourceTree = "<group>"; };
+		A9FAC4751D087E9E00E3C8A5 /* linphone_proxy_config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = linphone_proxy_config.h; path = "liblinphone-sdk/apple-darwin/include/linphone/linphone_proxy_config.h"; sourceTree = "<group>"; };
+		A9FAC4761D087E9E00E3C8A5 /* linphone_tunnel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = linphone_tunnel.h; path = "liblinphone-sdk/apple-darwin/include/linphone/linphone_tunnel.h"; sourceTree = "<group>"; };
+		A9FAC4771D087E9E00E3C8A5 /* linphonecore_utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = linphonecore_utils.h; path = "liblinphone-sdk/apple-darwin/include/linphone/linphonecore_utils.h"; sourceTree = "<group>"; };
+		A9FAC4781D087E9E00E3C8A5 /* linphonecore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = linphonecore.h; path = "liblinphone-sdk/apple-darwin/include/linphone/linphonecore.h"; sourceTree = "<group>"; };
+		A9FAC4791D087E9E00E3C8A5 /* linphonefriend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = linphonefriend.h; path = "liblinphone-sdk/apple-darwin/include/linphone/linphonefriend.h"; sourceTree = "<group>"; };
+		A9FAC47A1D087E9E00E3C8A5 /* linphonepresence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = linphonepresence.h; path = "liblinphone-sdk/apple-darwin/include/linphone/linphonepresence.h"; sourceTree = "<group>"; };
+		A9FAC47B1D087E9E00E3C8A5 /* lpc2xml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = lpc2xml.h; path = "liblinphone-sdk/apple-darwin/include/linphone/lpc2xml.h"; sourceTree = "<group>"; };
+		A9FAC47C1D087E9E00E3C8A5 /* lpconfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = lpconfig.h; path = "liblinphone-sdk/apple-darwin/include/linphone/lpconfig.h"; sourceTree = "<group>"; };
+		A9FAC47D1D087E9E00E3C8A5 /* ringtoneplayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ringtoneplayer.h; path = "liblinphone-sdk/apple-darwin/include/linphone/ringtoneplayer.h"; sourceTree = "<group>"; };
+		A9FAC47E1D087E9E00E3C8A5 /* sipsetup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sipsetup.h; path = "liblinphone-sdk/apple-darwin/include/linphone/sipsetup.h"; sourceTree = "<group>"; };
+		A9FAC47F1D087E9E00E3C8A5 /* xml2lpc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = xml2lpc.h; path = "liblinphone-sdk/apple-darwin/include/linphone/xml2lpc.h"; sourceTree = "<group>"; };
+		A9FAC4801D087E9E00E3C8A5 /* xmlrpc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = xmlrpc.h; path = "liblinphone-sdk/apple-darwin/include/linphone/xmlrpc.h"; sourceTree = "<group>"; };
+		A9FAC4811D09905100E3C8A5 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		A9FACAF91D0A7B3700E3C8A5 /* dont_wait_too_long.mkv */ = {isa = PBXFileReference; lastKnownFileType = file; path = dont_wait_too_long.mkv; sourceTree = "<group>"; };
+		A9FACAFA1D0A7B3700E3C8A5 /* hello16000.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = hello16000.wav; sourceTree = "<group>"; };
+		A9FACAFB1D0A7B3700E3C8A5 /* hello8000.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = hello8000.wav; sourceTree = "<group>"; };
+		A9FACAFC1D0A7B3700E3C8A5 /* incoming_chat.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = incoming_chat.wav; sourceTree = "<group>"; };
+		A9FACAFD1D0A7B3700E3C8A5 /* ringback.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = ringback.wav; sourceTree = "<group>"; };
+		A9FACAFF1D0A7B3700E3C8A5 /* four_hands_together.mkv */ = {isa = PBXFileReference; lastKnownFileType = file; path = four_hands_together.mkv; sourceTree = "<group>"; };
+		A9FACB001D0A7B3700E3C8A5 /* house_keeping.mkv */ = {isa = PBXFileReference; lastKnownFileType = file; path = house_keeping.mkv; sourceTree = "<group>"; };
+		A9FACB011D0A7B3700E3C8A5 /* its_a_game.mkv */ = {isa = PBXFileReference; lastKnownFileType = file; path = its_a_game.mkv; sourceTree = "<group>"; };
+		A9FACB021D0A7B3700E3C8A5 /* leaving_dreams.mkv */ = {isa = PBXFileReference; lastKnownFileType = file; path = leaving_dreams.mkv; sourceTree = "<group>"; };
+		A9FACB031D0A7B3700E3C8A5 /* notes_of_the_optimistic.mkv */ = {isa = PBXFileReference; lastKnownFileType = file; path = notes_of_the_optimistic.mkv; sourceTree = "<group>"; };
+		A9FACB041D0A7B3700E3C8A5 /* oldphone-mono-30s.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "oldphone-mono-30s.caf"; sourceTree = "<group>"; };
+		A9FACB051D0A7B3700E3C8A5 /* oldphone-mono.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "oldphone-mono.wav"; sourceTree = "<group>"; };
+		A9FACB061D0A7B3700E3C8A5 /* soft_as_snow.mkv */ = {isa = PBXFileReference; lastKnownFileType = file; path = soft_as_snow.mkv; sourceTree = "<group>"; };
+		A9FACB071D0A7B3700E3C8A5 /* toy-mono.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "toy-mono.wav"; sourceTree = "<group>"; };
+		BBDBA929F28239775CF624FD /* Pods-vKclub.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-vKclub.debug.xcconfig"; path = "Pods/Target Support Files/Pods-vKclub/Pods-vKclub.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		7FF594BA1EDD63750008C4AA /* Frameworks */ = {
+		A996635E1D06F877003B5EEE /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ED90820CEFDABD099FC50EFB /* Pods_vKclub.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		7FF594D11EDD63750008C4AA /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				483CAB6EA482B608B64B7B71 /* Pods_vKclubTests.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		7FF594DC1EDD63750008C4AA /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				D0D20C8FD2771382535C0B66 /* Pods_vKclubUITests.framework in Frameworks */,
+				A924DEC21D07A5F80030A438 /* libz.tbd in Frameworks */,
+				A99663E81D070500003B5EEE /* libsqlite3.tbd in Frameworks */,
+				A99663E61D0704F8003B5EEE /* libresolv.tbd in Frameworks */,
+				A99663E41D0704E2003B5EEE /* libxml2.tbd in Frameworks */,
+				A99663E11D0704C7003B5EEE /* libstdc++.6.0.9.tbd in Frameworks */,
+				A99663E21D0704C7003B5EEE /* libstdc++.6.tbd in Frameworks */,
+				A99663DE1D0704BC003B5EEE /* libstdc++.tbd in Frameworks */,
+				A99663DA1D07045D003B5EEE /* libc++abi.tbd in Frameworks */,
+				A99663DC1D07048C003B5EEE /* AVFoundation.framework in Frameworks */,
+				A99663CE1D070140003B5EEE /* AudioToolbox.framework in Frameworks */,
+				A99663CC1D070132003B5EEE /* CoreFoundation.framework in Frameworks */,
+				A9FAC4821D09905100E3C8A5 /* CoreMedia.framework in Frameworks */,
+				A99663CA1D070126003B5EEE /* CoreData.framework in Frameworks */,
+				A99663C81D07011C003B5EEE /* CoreAudio.framework in Frameworks */,
+				A99663C11D0700BC003B5EEE /* libmsamr.a in Frameworks */,
+				A99663C21D0700BC003B5EEE /* libmsbcg729.a in Frameworks */,
+				A99663C31D0700BC003B5EEE /* libmsopenh264.a in Frameworks */,
+				A99663C41D0700BC003B5EEE /* libmssilk.a in Frameworks */,
+				A99663C51D0700BC003B5EEE /* libmswebrtc.a in Frameworks */,
+				A99663C61D0700BC003B5EEE /* libmsx264.a in Frameworks */,
+				A99663A21D0700A5003B5EEE /* libantlr3c.a in Frameworks */,
+				A99663A31D0700A5003B5EEE /* libavcodec.a in Frameworks */,
+				A99663A41D0700A5003B5EEE /* libavutil.a in Frameworks */,
+				A99663A51D0700A5003B5EEE /* libbcg729.a in Frameworks */,
+				A99663A61D0700A5003B5EEE /* libbctoolbox.a in Frameworks */,
+				A99663A71D0700A5003B5EEE /* libbellesip.a in Frameworks */,
+				A99663A81D0700A5003B5EEE /* libbzrtp.a in Frameworks */,
+				A99663A91D0700A5003B5EEE /* libcorec.a in Frameworks */,
+				A99663AA1D0700A5003B5EEE /* libcunit.a in Frameworks */,
+				A99663AB1D0700A5003B5EEE /* libebml2.a in Frameworks */,
+				A99663AC1D0700A5003B5EEE /* libgsm.a in Frameworks */,
+				A99663AD1D0700A5003B5EEE /* liblinphone.a in Frameworks */,
+				A99663AE1D0700A5003B5EEE /* liblinphonetester.a in Frameworks */,
+				A99663AF1D0700A5003B5EEE /* libmatroska2.a in Frameworks */,
+				A99663B01D0700A5003B5EEE /* libmediastreamer_base.a in Frameworks */,
+				A99663B11D0700A5003B5EEE /* libmediastreamer_voip.a in Frameworks */,
+				A99663B21D0700A5003B5EEE /* libopencore-amrnb.a in Frameworks */,
+				A99663B31D0700A5003B5EEE /* libopencore-amrwb.a in Frameworks */,
+				A99663B41D0700A5003B5EEE /* libopenh264.a in Frameworks */,
+				A99663B51D0700A5003B5EEE /* libopus.a in Frameworks */,
+				A99663B61D0700A5003B5EEE /* libortp.a in Frameworks */,
+				A99663B71D0700A5003B5EEE /* libpolarssl.a in Frameworks */,
+				A99663B81D0700A5003B5EEE /* libspeex.a in Frameworks */,
+				A99663B91D0700A5003B5EEE /* libspeexdsp.a in Frameworks */,
+				A99663BA1D0700A5003B5EEE /* libsrtp.a in Frameworks */,
+				A99663BB1D0700A5003B5EEE /* libswresample.a in Frameworks */,
+				A99663BC1D0700A5003B5EEE /* libswscale.a in Frameworks */,
+				A99663BD1D0700A5003B5EEE /* libtunnel.a in Frameworks */,
+				A99663BE1D0700A5003B5EEE /* libvo-amrwbenc.a in Frameworks */,
+				A99663BF1D0700A5003B5EEE /* libvpx.a in Frameworks */,
+				A99663C01D0700A5003B5EEE /* libx264.a in Frameworks */,
+				8F43A0EA78F773EEA1DEDAD0 /* Pods_vKclub.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		3CB14F8AEE4EDDE52EFFC871 /* Pods */ = {
+		0161C96B9E3861BAB9A6DA78 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				5493A18B017B2B410F80249F /* Pods-vKclub.debug.xcconfig */,
-				D87EEE563B7D2F43AD1D8EBC /* Pods-vKclub.release.xcconfig */,
-				9D5644EB341690DB3DAB1B71 /* Pods-vKclubTests.debug.xcconfig */,
-				73B48260665ED3D9B32F8908 /* Pods-vKclubTests.release.xcconfig */,
-				5BD061C570E122049726445F /* Pods-vKclubUITests.debug.xcconfig */,
-				768EB3CABB2FDF2B8372301B /* Pods-vKclubUITests.release.xcconfig */,
+				BBDBA929F28239775CF624FD /* Pods-vKclub.debug.xcconfig */,
+				5690BC05728159C16A8F60B0 /* Pods-vKclub.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
 		};
-		6C4AB9B327B3731963C0AEBC /* Frameworks */ = {
+		4435982B6B91B963B30FCC80 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				43F3C2095DB4884D6135B477 /* Pods_vKclub.framework */,
-				BD020989BCEBDBDE98344CBC /* Pods_vKclubTests.framework */,
-				73B8BEF0C4684364CF28E834 /* Pods_vKclubUITests.framework */,
+				4CE35CA16D2A204E204DA562 /* Pods_vKclub.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		7F9AF1491EDE81DE00925CDC /* Views */ = {
+		A924DEC31D07AC520030A438 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				C512C20B1EFE2ABB00B6F211 /* Main.storyboard */,
+				A9FACAF81D0A7B3700E3C8A5 /* linphone */,
+				A99663EB1D07054E003B5EEE /* Library */,
+				A924DEC41D07AC620030A438 /* linphonerc */,
+				A924DEC51D07AC620030A438 /* linphonerc-factory */,
 			);
-			name = Views;
+			name = Resources;
 			sourceTree = "<group>";
 		};
-		7F9AF14C1EDE9F0D00925CDC /* Controllers */ = {
+		A99663581D06F877003B5EEE = {
 			isa = PBXGroup;
 			children = (
-				7FF594C21EDD63750008C4AA /* ViewController.swift */,
-				7F9AF14D1EDE9FB300925CDC /* CreateAccController.swift */,
-				7FC839681EE478BE00C51A4F /* UIComponentHelper.swift */,
-				7FAB44B91EDD65F60074A245 /* LoginController.swift */,
-				7F52C84E1EE098F6003FE41D /* ForgotPWController.swift */,
-				C5BC247E1EFC06B20052D4A8 /* DashboardController.swift */,
-				C5A79BA41EFD652C0055A811 /* MapController.swift */,
-			);
-			name = Controllers;
-			sourceTree = "<group>";
-		};
-		7FF594B41EDD63750008C4AA = {
-			isa = PBXGroup;
-			children = (
-				7FF594BF1EDD63750008C4AA /* vKclub */,
-				7FF594D71EDD63750008C4AA /* vKclubTests */,
-				7FF594E21EDD63750008C4AA /* vKclubUITests */,
-				7FF594BE1EDD63750008C4AA /* Products */,
-				3CB14F8AEE4EDDE52EFFC871 /* Pods */,
-				6C4AB9B327B3731963C0AEBC /* Frameworks */,
+				A924DECE1D07D4EA0030A438 /* README.md */,
+				A9FAC4681D07D6FF00E3C8A5 /* Linphone-SDK */,
+				A99663631D06F877003B5EEE /* vKclub */,
+				A99663621D06F877003B5EEE /* Products */,
+				A99663761D06F942003B5EEE /* vKclub-Bridging-Header.h */,
+				0161C96B9E3861BAB9A6DA78 /* Pods */,
+				4435982B6B91B963B30FCC80 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
-		7FF594BE1EDD63750008C4AA /* Products */ = {
+		A99663621D06F877003B5EEE /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				7FF594BD1EDD63750008C4AA /* vKclub.app */,
-				7FF594D41EDD63750008C4AA /* vKclubTests.xctest */,
-				7FF594DF1EDD63750008C4AA /* vKclubUITests.xctest */,
+				A99663611D06F877003B5EEE /* vKclub.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		7FF594BF1EDD63750008C4AA /* vKclub */ = {
+		A99663631D06F877003B5EEE /* vKclub */ = {
 			isa = PBXGroup;
 			children = (
-				C5F84FF91EFBE1E100302A50 /* GoogleService-Info.plist */,
-				7FF594C01EDD63750008C4AA /* AppDelegate.swift */,
-				7F9AF14C1EDE9F0D00925CDC /* Controllers */,
-				7F9AF1491EDE81DE00925CDC /* Views */,
-				7FF594CA1EDD63750008C4AA /* Assets.xcassets */,
-				C5BC247B1EFC05850052D4A8 /* SWRevealViewController.h */,
-				C5BC247C1EFC05850052D4A8 /* SWRevealViewController.m */,
-				7FF594CC1EDD63750008C4AA /* LaunchScreen.storyboard */,
-				7FF594CF1EDD63750008C4AA /* Info.plist */,
-				7FF594C71EDD63750008C4AA /* vKclub.xcdatamodeld */,
-				C5BC247A1EFC05840052D4A8 /* vKclub-Bridging-Header.h */,
+				7F1E24711F02484A0090C7E7 /* GoogleService-Info.plist */,
+				A99663641D06F877003B5EEE /* AppDelegate.swift */,
+				A99663661D06F877003B5EEE /* ViewController.swift */,
+				A9FAC4671D07D6F200E3C8A5 /* View */,
+				A9FAC4661D07D6E200E3C8A5 /* Controller */,
+				A9FAC4691D07D71600E3C8A5 /* Resource */,
 			);
 			path = vKclub;
 			sourceTree = "<group>";
 		};
-		7FF594D71EDD63750008C4AA /* vKclubTests */ = {
+		A996639A1D070097003B5EEE /* mediastreamer */ = {
 			isa = PBXGroup;
 			children = (
-				7FF594D81EDD63750008C4AA /* vKclubTests.swift */,
-				7FF594DA1EDD63750008C4AA /* Info.plist */,
+				A996639B1D070097003B5EEE /* plugins */,
 			);
-			path = vKclubTests;
+			name = mediastreamer;
+			path = "liblinphone-sdk/apple-darwin/lib/mediastreamer";
 			sourceTree = "<group>";
 		};
-		7FF594E21EDD63750008C4AA /* vKclubUITests */ = {
+		A996639B1D070097003B5EEE /* plugins */ = {
 			isa = PBXGroup;
 			children = (
-				7FF594E31EDD63750008C4AA /* vKclubUITests.swift */,
-				7FF594E51EDD63750008C4AA /* Info.plist */,
+				A996639C1D070097003B5EEE /* libmsamr.a */,
+				A996639D1D070097003B5EEE /* libmsbcg729.a */,
+				A996639E1D070097003B5EEE /* libmsopenh264.a */,
+				A996639F1D070097003B5EEE /* libmssilk.a */,
+				A99663A01D070097003B5EEE /* libmswebrtc.a */,
+				A99663A11D070097003B5EEE /* libmsx264.a */,
 			);
-			path = vKclubUITests;
+			path = plugins;
+			sourceTree = "<group>";
+		};
+		A99663EB1D07054E003B5EEE /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				A99663E91D070507003B5EEE /* libz.tbd */,
+				A99663E71D070500003B5EEE /* libsqlite3.tbd */,
+				A99663E51D0704F8003B5EEE /* libresolv.tbd */,
+				A99663E31D0704E2003B5EEE /* libxml2.tbd */,
+				A99663DF1D0704C7003B5EEE /* libstdc++.6.0.9.tbd */,
+				A99663E01D0704C7003B5EEE /* libstdc++.6.tbd */,
+				A99663DD1D0704BC003B5EEE /* libstdc++.tbd */,
+				A99663D91D07045D003B5EEE /* libc++abi.tbd */,
+				A99663DB1D07048C003B5EEE /* AVFoundation.framework */,
+				A9FAC4811D09905100E3C8A5 /* CoreMedia.framework */,
+				A99663CD1D070140003B5EEE /* AudioToolbox.framework */,
+				A99663CB1D070132003B5EEE /* CoreFoundation.framework */,
+				A99663C91D070126003B5EEE /* CoreData.framework */,
+				A99663C71D07011C003B5EEE /* CoreAudio.framework */,
+				A996637B1D070097003B5EEE /* libantlr3c.a */,
+				A996637C1D070097003B5EEE /* libavcodec.a */,
+				A996637D1D070097003B5EEE /* libavutil.a */,
+				A996637E1D070097003B5EEE /* libbcg729.a */,
+				A996637F1D070097003B5EEE /* libbctoolbox.a */,
+				A99663801D070097003B5EEE /* libbellesip.a */,
+				A99663811D070097003B5EEE /* libbzrtp.a */,
+				A99663821D070097003B5EEE /* libcorec.a */,
+				A99663831D070097003B5EEE /* libcunit.a */,
+				A99663841D070097003B5EEE /* libebml2.a */,
+				A99663851D070097003B5EEE /* libgsm.a */,
+				A99663861D070097003B5EEE /* liblinphone.a */,
+				A99663871D070097003B5EEE /* liblinphonetester.a */,
+				A99663881D070097003B5EEE /* libmatroska2.a */,
+				A99663891D070097003B5EEE /* libmediastreamer_base.a */,
+				A996638A1D070097003B5EEE /* libmediastreamer_voip.a */,
+				A996638B1D070097003B5EEE /* libopencore-amrnb.a */,
+				A996638C1D070097003B5EEE /* libopencore-amrwb.a */,
+				A996638D1D070097003B5EEE /* libopenh264.a */,
+				A996638E1D070097003B5EEE /* libopus.a */,
+				A996638F1D070097003B5EEE /* libortp.a */,
+				A99663901D070097003B5EEE /* libpolarssl.a */,
+				A99663911D070097003B5EEE /* libspeex.a */,
+				A99663921D070097003B5EEE /* libspeexdsp.a */,
+				A99663931D070097003B5EEE /* libsrtp.a */,
+				A99663941D070097003B5EEE /* libswresample.a */,
+				A99663951D070097003B5EEE /* libswscale.a */,
+				A99663961D070097003B5EEE /* libtunnel.a */,
+				A99663971D070097003B5EEE /* libvo-amrwbenc.a */,
+				A99663981D070097003B5EEE /* libvpx.a */,
+				A99663991D070097003B5EEE /* libx264.a */,
+				A996639A1D070097003B5EEE /* mediastreamer */,
+			);
+			name = Library;
+			sourceTree = "<group>";
+		};
+		A9FAC4661D07D6E200E3C8A5 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				7F1E247E1F024D2F0090C7E7 /* SWRevealViewController.h */,
+				7F1E247F1F024D2F0090C7E7 /* SWRevealViewController.m */,
+				7F1E245F1F0247250090C7E7 /* CreateAccController.swift */,
+				7F1E24601F0247250090C7E7 /* UIComponentHelper.swift */,
+				7F1E24611F0247250090C7E7 /* LoginController.swift */,
+				7F1E24621F0247250090C7E7 /* ForgotPWController.swift */,
+				7F1E24631F0247250090C7E7 /* DashboardController.swift */,
+				7F1E24641F0247250090C7E7 /* MapController.swift */,
+				7F1E24651F0247250090C7E7 /* ServiceController.swift */,
+			);
+			name = Controller;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		A9FAC4671D07D6F200E3C8A5 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				A996636D1D06F877003B5EEE /* LaunchScreen.storyboard */,
+				7F1E246D1F0247420090C7E7 /* Main.storyboard */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		A9FAC4681D07D6FF00E3C8A5 /* Linphone-SDK */ = {
+			isa = PBXGroup;
+			children = (
+				A9FAC46A1D087E6C00E3C8A5 /* Header */,
+				A99663791D06FE65003B5EEE /* LinphoneManager.swift */,
+				A924DEC31D07AC520030A438 /* Resources */,
+				A924DECC1D07D2620030A438 /* Secret.plist */,
+			);
+			name = "Linphone-SDK";
+			sourceTree = "<group>";
+		};
+		A9FAC4691D07D71600E3C8A5 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				7F1E246F1F0247A20090C7E7 /* Assets.xcassets */,
+				7F1E24731F024ACC0090C7E7 /* Info.plist */,
+			);
+			name = Resource;
+			sourceTree = "<group>";
+		};
+		A9FAC46A1D087E6C00E3C8A5 /* Header */ = {
+			isa = PBXGroup;
+			children = (
+				A9FAC46B1D087E9E00E3C8A5 /* account_creator.h */,
+				A9FAC46C1D087E9E00E3C8A5 /* bc_tester_utils.h */,
+				A9FAC46D1D087E9E00E3C8A5 /* buffer.h */,
+				A9FAC46E1D087E9E00E3C8A5 /* call_log.h */,
+				A9FAC46F1D087E9E00E3C8A5 /* call_params.h */,
+				A9FAC4701D087E9E00E3C8A5 /* conference.h */,
+				A9FAC4711D087E9E00E3C8A5 /* content.h */,
+				A9FAC4721D087E9E00E3C8A5 /* event.h */,
+				A9FAC4731D087E9E00E3C8A5 /* friendlist.h */,
+				A9FAC4741D087E9E00E3C8A5 /* liblinphone_tester.h */,
+				A9FAC4751D087E9E00E3C8A5 /* linphone_proxy_config.h */,
+				A9FAC4761D087E9E00E3C8A5 /* linphone_tunnel.h */,
+				A9FAC4771D087E9E00E3C8A5 /* linphonecore_utils.h */,
+				A9FAC4781D087E9E00E3C8A5 /* linphonecore.h */,
+				A9FAC4791D087E9E00E3C8A5 /* linphonefriend.h */,
+				A9FAC47A1D087E9E00E3C8A5 /* linphonepresence.h */,
+				A9FAC47B1D087E9E00E3C8A5 /* lpc2xml.h */,
+				A9FAC47C1D087E9E00E3C8A5 /* lpconfig.h */,
+				A9FAC47D1D087E9E00E3C8A5 /* ringtoneplayer.h */,
+				A9FAC47E1D087E9E00E3C8A5 /* sipsetup.h */,
+				A9FAC47F1D087E9E00E3C8A5 /* xml2lpc.h */,
+				A9FAC4801D087E9E00E3C8A5 /* xmlrpc.h */,
+			);
+			name = Header;
+			sourceTree = "<group>";
+		};
+		A9FACAF81D0A7B3700E3C8A5 /* linphone */ = {
+			isa = PBXGroup;
+			children = (
+				A9FACAF91D0A7B3700E3C8A5 /* dont_wait_too_long.mkv */,
+				A9FACAFA1D0A7B3700E3C8A5 /* hello16000.wav */,
+				A9FACAFB1D0A7B3700E3C8A5 /* hello8000.wav */,
+				A9FACAFC1D0A7B3700E3C8A5 /* incoming_chat.wav */,
+				A9FACAFD1D0A7B3700E3C8A5 /* ringback.wav */,
+				A9FACAFE1D0A7B3700E3C8A5 /* rings */,
+				A9FACB071D0A7B3700E3C8A5 /* toy-mono.wav */,
+			);
+			name = linphone;
+			path = "liblinphone-sdk/apple-darwin/share/sounds/linphone";
+			sourceTree = "<group>";
+		};
+		A9FACAFE1D0A7B3700E3C8A5 /* rings */ = {
+			isa = PBXGroup;
+			children = (
+				A9FACAFF1D0A7B3700E3C8A5 /* four_hands_together.mkv */,
+				A9FACB001D0A7B3700E3C8A5 /* house_keeping.mkv */,
+				A9FACB011D0A7B3700E3C8A5 /* its_a_game.mkv */,
+				A9FACB021D0A7B3700E3C8A5 /* leaving_dreams.mkv */,
+				A9FACB031D0A7B3700E3C8A5 /* notes_of_the_optimistic.mkv */,
+				A9FACB041D0A7B3700E3C8A5 /* oldphone-mono-30s.caf */,
+				A9FACB051D0A7B3700E3C8A5 /* oldphone-mono.wav */,
+				A9FACB061D0A7B3700E3C8A5 /* soft_as_snow.mkv */,
+			);
+			path = rings;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		7FF594BC1EDD63750008C4AA /* vKclub */ = {
+		A99663601D06F877003B5EEE /* vKclub */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 7FF594E81EDD63750008C4AA /* Build configuration list for PBXNativeTarget "vKclub" */;
+			buildConfigurationList = A99663731D06F877003B5EEE /* Build configuration list for PBXNativeTarget "vKclub" */;
 			buildPhases = (
-				B7C8D8F7FFFF8B73691DFD69 /* [CP] Check Pods Manifest.lock */,
-				7FF594B91EDD63750008C4AA /* Sources */,
-				7FF594BA1EDD63750008C4AA /* Frameworks */,
-				7FF594BB1EDD63750008C4AA /* Resources */,
-				23D0B2EE6FAC8D8AB6EE79A7 /* [CP] Embed Pods Frameworks */,
-				EBB5E4FBC1F9203D381C697F /* [CP] Copy Pods Resources */,
+				C1306F291B3A5A8422A63354 /* [CP] Check Pods Manifest.lock */,
+				A996635D1D06F877003B5EEE /* Sources */,
+				A996635E1D06F877003B5EEE /* Frameworks */,
+				A996635F1D06F877003B5EEE /* Resources */,
+				061D394C87B38642F507CC7D /* [CP] Embed Pods Frameworks */,
+				08C20FA3509EA54C51F494B6 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = vKclub;
-			productName = vKclub;
-			productReference = 7FF594BD1EDD63750008C4AA /* vKclub.app */;
+			productName = "linphone-trial";
+			productReference = A99663611D06F877003B5EEE /* vKclub.app */;
 			productType = "com.apple.product-type.application";
-		};
-		7FF594D31EDD63750008C4AA /* vKclubTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 7FF594EB1EDD63750008C4AA /* Build configuration list for PBXNativeTarget "vKclubTests" */;
-			buildPhases = (
-				D8A74033DD8FE9F7D047957D /* [CP] Check Pods Manifest.lock */,
-				7FF594D01EDD63750008C4AA /* Sources */,
-				7FF594D11EDD63750008C4AA /* Frameworks */,
-				7FF594D21EDD63750008C4AA /* Resources */,
-				6F126842854944B88BBD11BA /* [CP] Embed Pods Frameworks */,
-				B5CA0A1E568D30F1600190EC /* [CP] Copy Pods Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				7FF594D61EDD63750008C4AA /* PBXTargetDependency */,
-			);
-			name = vKclubTests;
-			productName = vKclubTests;
-			productReference = 7FF594D41EDD63750008C4AA /* vKclubTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		7FF594DE1EDD63750008C4AA /* vKclubUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 7FF594EE1EDD63750008C4AA /* Build configuration list for PBXNativeTarget "vKclubUITests" */;
-			buildPhases = (
-				385639F1304012AB4FCA3D06 /* [CP] Check Pods Manifest.lock */,
-				7FF594DB1EDD63750008C4AA /* Sources */,
-				7FF594DC1EDD63750008C4AA /* Frameworks */,
-				7FF594DD1EDD63750008C4AA /* Resources */,
-				975B39C2A9062B3E6FB034C8 /* [CP] Embed Pods Frameworks */,
-				8809528B4A993E9CE94784ED /* [CP] Copy Pods Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				7FF594E11EDD63750008C4AA /* PBXTargetDependency */,
-			);
-			name = vKclubUITests;
-			productName = vKclubUITests;
-			productReference = 7FF594DF1EDD63750008C4AA /* vKclubUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		7FF594B51EDD63750008C4AA /* Project object */ = {
+		A99663591D06F877003B5EEE /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0830;
-				LastUpgradeCheck = 0830;
-				ORGANIZATIONNAME = HuySophanna;
+				LastSwiftUpdateCheck = 0730;
+				LastUpgradeCheck = 0820;
+				ORGANIZATIONNAME = WiAdvance;
 				TargetAttributes = {
-					7FF594BC1EDD63750008C4AA = {
-						CreatedOnToolsVersion = 8.3.2;
+					A99663601D06F877003B5EEE = {
+						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = 87A3CVP9KW;
-						LastSwiftMigration = 0830;
-						ProvisioningStyle = Automatic;
-					};
-					7FF594D31EDD63750008C4AA = {
-						CreatedOnToolsVersion = 8.3.2;
-						ProvisioningStyle = Automatic;
-						TestTargetID = 7FF594BC1EDD63750008C4AA;
-					};
-					7FF594DE1EDD63750008C4AA = {
-						CreatedOnToolsVersion = 8.3.2;
-						ProvisioningStyle = Automatic;
-						TestTargetID = 7FF594BC1EDD63750008C4AA;
+						LastSwiftMigration = 0820;
 					};
 				};
 			};
-			buildConfigurationList = 7FF594B81EDD63750008C4AA /* Build configuration list for PBXProject "vKclub" */;
+			buildConfigurationList = A996635C1D06F877003B5EEE /* Build configuration list for PBXProject "vKclub" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -313,48 +564,50 @@
 				en,
 				Base,
 			);
-			mainGroup = 7FF594B41EDD63750008C4AA;
-			productRefGroup = 7FF594BE1EDD63750008C4AA /* Products */;
+			mainGroup = A99663581D06F877003B5EEE;
+			productRefGroup = A99663621D06F877003B5EEE /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				7FF594BC1EDD63750008C4AA /* vKclub */,
-				7FF594D31EDD63750008C4AA /* vKclubTests */,
-				7FF594DE1EDD63750008C4AA /* vKclubUITests */,
+				A99663601D06F877003B5EEE /* vKclub */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		7FF594BB1EDD63750008C4AA /* Resources */ = {
+		A996635F1D06F877003B5EEE /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7FF594CE1EDD63750008C4AA /* LaunchScreen.storyboard in Resources */,
-				C5F84FFA1EFBE1E100302A50 /* GoogleService-Info.plist in Resources */,
-				7FF594CB1EDD63750008C4AA /* Assets.xcassets in Resources */,
-				C512C20C1EFE2ABB00B6F211 /* Main.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		7FF594D21EDD63750008C4AA /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		7FF594DD1EDD63750008C4AA /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+				7F1E246E1F0247420090C7E7 /* Main.storyboard in Resources */,
+				A9FACB091D0A7B3700E3C8A5 /* hello16000.wav in Resources */,
+				A9FACB0D1D0A7B3700E3C8A5 /* four_hands_together.mkv in Resources */,
+				A924DEC81D07AC620030A438 /* linphonerc in Resources */,
+				7F1E24701F0247A20090C7E7 /* Assets.xcassets in Resources */,
+				A9FACB0A1D0A7B3700E3C8A5 /* hello8000.wav in Resources */,
+				A9FACB141D0A7B3700E3C8A5 /* soft_as_snow.mkv in Resources */,
+				A996636F1D06F877003B5EEE /* LaunchScreen.storyboard in Resources */,
+				7F1E24741F024ACC0090C7E7 /* Info.plist in Resources */,
+				A9FACB0B1D0A7B3700E3C8A5 /* incoming_chat.wav in Resources */,
+				A9FACB081D0A7B3700E3C8A5 /* dont_wait_too_long.mkv in Resources */,
+				A9FACB151D0A7B3700E3C8A5 /* toy-mono.wav in Resources */,
+				A924DECD1D07D2620030A438 /* Secret.plist in Resources */,
+				A9FACB121D0A7B3700E3C8A5 /* oldphone-mono-30s.caf in Resources */,
+				A9FACB0C1D0A7B3700E3C8A5 /* ringback.wav in Resources */,
+				A9FACB0E1D0A7B3700E3C8A5 /* house_keeping.mkv in Resources */,
+				A924DEC91D07AC620030A438 /* linphonerc-factory in Resources */,
+				A9FACB111D0A7B3700E3C8A5 /* notes_of_the_optimistic.mkv in Resources */,
+				A9FACB131D0A7B3700E3C8A5 /* oldphone-mono.wav in Resources */,
+				A9FACB0F1D0A7B3700E3C8A5 /* its_a_game.mkv in Resources */,
+				A9FACB101D0A7B3700E3C8A5 /* leaving_dreams.mkv in Resources */,
+				7F1E24721F02484A0090C7E7 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		23D0B2EE6FAC8D8AB6EE79A7 /* [CP] Embed Pods Frameworks */ = {
+		061D394C87B38642F507CC7D /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -369,112 +622,7 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-vKclub/Pods-vKclub-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		385639F1304012AB4FCA3D06 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		6F126842854944B88BBD11BA /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-vKclubTests/Pods-vKclubTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		8809528B4A993E9CE94784ED /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-vKclubUITests/Pods-vKclubUITests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		975B39C2A9062B3E6FB034C8 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-vKclubUITests/Pods-vKclubUITests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		B5CA0A1E568D30F1600190EC /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-vKclubTests/Pods-vKclubTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		B7C8D8F7FFFF8B73691DFD69 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		D8A74033DD8FE9F7D047957D /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		EBB5E4FBC1F9203D381C697F /* [CP] Copy Pods Resources */ = {
+		08C20FA3509EA54C51F494B6 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -489,62 +637,50 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-vKclub/Pods-vKclub-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		C1306F291B3A5A8422A63354 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		7FF594B91EDD63750008C4AA /* Sources */ = {
+		A996635D1D06F877003B5EEE /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7FF594C31EDD63750008C4AA /* ViewController.swift in Sources */,
-				7F52C84F1EE098F6003FE41D /* ForgotPWController.swift in Sources */,
-				7FC839691EE478BE00C51A4F /* UIComponentHelper.swift in Sources */,
-				C5BC247D1EFC05850052D4A8 /* SWRevealViewController.m in Sources */,
-				C5BC247F1EFC06B20052D4A8 /* DashboardController.swift in Sources */,
-				7FAB44BA1EDD65F60074A245 /* LoginController.swift in Sources */,
-				7F9AF14E1EDE9FB300925CDC /* CreateAccController.swift in Sources */,
-				7FF594C11EDD63750008C4AA /* AppDelegate.swift in Sources */,
-				C5A79BA51EFD652C0055A811 /* MapController.swift in Sources */,
-				7FF594C91EDD63750008C4AA /* vKclub.xcdatamodeld in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		7FF594D01EDD63750008C4AA /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				7FF594D91EDD63750008C4AA /* vKclubTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		7FF594DB1EDD63750008C4AA /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				7FF594E41EDD63750008C4AA /* vKclubUITests.swift in Sources */,
+				A99663671D06F877003B5EEE /* ViewController.swift in Sources */,
+				A99663651D06F877003B5EEE /* AppDelegate.swift in Sources */,
+				7F1E246C1F0247250090C7E7 /* ServiceController.swift in Sources */,
+				7F1E24661F0247250090C7E7 /* CreateAccController.swift in Sources */,
+				7F1E24671F0247250090C7E7 /* UIComponentHelper.swift in Sources */,
+				7F1E246A1F0247250090C7E7 /* DashboardController.swift in Sources */,
+				A924DECF1D07D4EA0030A438 /* README.md in Sources */,
+				A996637A1D06FE65003B5EEE /* LinphoneManager.swift in Sources */,
+				7F1E24681F0247250090C7E7 /* LoginController.swift in Sources */,
+				7F1E246B1F0247250090C7E7 /* MapController.swift in Sources */,
+				7F1E24691F0247250090C7E7 /* ForgotPWController.swift in Sources */,
+				7F1E24801F024D2F0090C7E7 /* SWRevealViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXTargetDependency section */
-		7FF594D61EDD63750008C4AA /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 7FF594BC1EDD63750008C4AA /* vKclub */;
-			targetProxy = 7FF594D51EDD63750008C4AA /* PBXContainerItemProxy */;
-		};
-		7FF594E11EDD63750008C4AA /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 7FF594BC1EDD63750008C4AA /* vKclub */;
-			targetProxy = 7FF594E01EDD63750008C4AA /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
 /* Begin PBXVariantGroup section */
-		7FF594CC1EDD63750008C4AA /* LaunchScreen.storyboard */ = {
+		A996636D1D06F877003B5EEE /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				7FF594CD1EDD63750008C4AA /* Base */,
+				A996636E1D06F877003B5EEE /* Base */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -552,12 +688,11 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		7FF594E61EDD63750008C4AA /* Debug */ = {
+		A99663711D06F877003B5EEE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -565,7 +700,6 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
@@ -593,22 +727,20 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
-		7FF594E71EDD63750008C4AA /* Release */ = {
+		A99663721D06F877003B5EEE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -616,7 +748,6 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
@@ -638,7 +769,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -647,150 +778,75 @@
 			};
 			name = Release;
 		};
-		7FF594E91EDD63750008C4AA /* Debug */ = {
+		A99663741D06F877003B5EEE /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5493A18B017B2B410F80249F /* Pods-vKclub.debug.xcconfig */;
+			baseConfigurationReference = BBDBA929F28239775CF624FD /* Pods-vKclub.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = 87A3CVP9KW;
-				INFOPLIST_FILE = vKclub/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/../vKclub1/vKclub/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.chain.vKclub;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "vKclub/vKclub-Bridging-Header.h";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/liblinphone-sdk/apple-darwin/lib",
+					"$(PROJECT_DIR)/liblinphone-sdk/apple-darwin/lib/mediastreamer/plugins",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = chain.vkirirom;
+				PRODUCT_NAME = vKclub;
+				SWIFT_OBJC_BRIDGING_HEADER = "vKclub-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
+				USER_HEADER_SEARCH_PATHS = "$(inherited) $(SRCROOT)/liblinphone-sdk/apple-darwin/include/**";
 			};
 			name = Debug;
 		};
-		7FF594EA1EDD63750008C4AA /* Release */ = {
+		A99663751D06F877003B5EEE /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D87EEE563B7D2F43AD1D8EBC /* Pods-vKclub.release.xcconfig */;
+			baseConfigurationReference = 5690BC05728159C16A8F60B0 /* Pods-vKclub.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = 87A3CVP9KW;
-				INFOPLIST_FILE = vKclub/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/../vKclub1/vKclub/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.chain.vKclub;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "vKclub/vKclub-Bridging-Header.h";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/liblinphone-sdk/apple-darwin/lib",
+					"$(PROJECT_DIR)/liblinphone-sdk/apple-darwin/lib/mediastreamer/plugins",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = chain.vkirirom;
+				PRODUCT_NAME = vKclub;
+				SWIFT_OBJC_BRIDGING_HEADER = "vKclub-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
-			};
-			name = Release;
-		};
-		7FF594EC1EDD63750008C4AA /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9D5644EB341690DB3DAB1B71 /* Pods-vKclubTests.debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				INFOPLIST_FILE = vKclubTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.chain.vKclubTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/vKclub.app/vKclub";
-			};
-			name = Debug;
-		};
-		7FF594ED1EDD63750008C4AA /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 73B48260665ED3D9B32F8908 /* Pods-vKclubTests.release.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				INFOPLIST_FILE = vKclubTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.chain.vKclubTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/vKclub.app/vKclub";
-			};
-			name = Release;
-		};
-		7FF594EF1EDD63750008C4AA /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5BD061C570E122049726445F /* Pods-vKclubUITests.debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				INFOPLIST_FILE = vKclubUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.chain.vKclubUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
-				TEST_TARGET_NAME = vKclub;
-			};
-			name = Debug;
-		};
-		7FF594F01EDD63750008C4AA /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 768EB3CABB2FDF2B8372301B /* Pods-vKclubUITests.release.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				INFOPLIST_FILE = vKclubUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.chain.vKclubUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
-				TEST_TARGET_NAME = vKclub;
+				USER_HEADER_SEARCH_PATHS = "$(inherited) $(SRCROOT)/liblinphone-sdk/apple-darwin/include/**";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		7FF594B81EDD63750008C4AA /* Build configuration list for PBXProject "vKclub" */ = {
+		A996635C1D06F877003B5EEE /* Build configuration list for PBXProject "vKclub" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				7FF594E61EDD63750008C4AA /* Debug */,
-				7FF594E71EDD63750008C4AA /* Release */,
+				A99663711D06F877003B5EEE /* Debug */,
+				A99663721D06F877003B5EEE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7FF594E81EDD63750008C4AA /* Build configuration list for PBXNativeTarget "vKclub" */ = {
+		A99663731D06F877003B5EEE /* Build configuration list for PBXNativeTarget "vKclub" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				7FF594E91EDD63750008C4AA /* Debug */,
-				7FF594EA1EDD63750008C4AA /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		7FF594EB1EDD63750008C4AA /* Build configuration list for PBXNativeTarget "vKclubTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				7FF594EC1EDD63750008C4AA /* Debug */,
-				7FF594ED1EDD63750008C4AA /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		7FF594EE1EDD63750008C4AA /* Build configuration list for PBXNativeTarget "vKclubUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				7FF594EF1EDD63750008C4AA /* Debug */,
-				7FF594F01EDD63750008C4AA /* Release */,
+				A99663741D06F877003B5EEE /* Debug */,
+				A99663751D06F877003B5EEE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		7FF594C71EDD63750008C4AA /* vKclub.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				7FF594C81EDD63750008C4AA /* vKclub.xcdatamodel */,
-			);
-			currentVersion = 7FF594C81EDD63750008C4AA /* vKclub.xcdatamodel */;
-			path = vKclub.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
-	rootObject = 7FF594B51EDD63750008C4AA /* Project object */;
+	rootObject = A99663591D06F877003B5EEE /* Project object */;
 }

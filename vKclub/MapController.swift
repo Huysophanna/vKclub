@@ -109,13 +109,7 @@ class MapController: UIViewController,GMSMapViewDelegate,CLLocationManagerDelega
         
     }
     
-    func Map(){
-        
-       
-        
-        
-        
-      
+    func Map() {
         
         //map view
         GMSServices.provideAPIKey("AIzaSyA0QlNOrMY6JU7wqgBXBamQq1v9wbR11Z0")

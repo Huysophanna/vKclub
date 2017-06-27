@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16A2323a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="HRX-3u-gR7">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="HRX-3u-gR7">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -41,14 +41,14 @@
                                         <rect key="frame" x="0.0" y="200" width="384" height="120"/>
                                         <subviews>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleAspectFit" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" placeholder="Email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tf9-p4-Eyk" userLabel="EmailTextField">
-                                                <rect key="frame" x="0.0" y="0.0" width="384" height="52.666666666666686"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="384" height="53"/>
                                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                 <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" keyboardType="emailAddress" returnKeyType="next"/>
                                             </textField>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleAspectFit" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4kH-R2-2eJ" userLabel="PasswordTextField">
-                                                <rect key="frame" x="0.0" y="67.666666666666686" width="384" height="52.333333333333314"/>
+                                                <rect key="frame" x="0.0" y="68" width="384" height="52"/>
                                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                 <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -182,7 +182,7 @@
                                 <rect key="frame" x="0.0" y="28" width="414" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="yTe-FC-cLg" id="MuM-r4-vpD">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                             </tableViewCell>
@@ -226,7 +226,10 @@
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NLc-UW-qAD">
                                 <rect key="frame" x="20" y="160" width="187" height="201"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.1857245233" green="0.92016654539999998" blue="0.57958011860000003" alpha="0.38332084760000001" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="backgroundColor" red="0.31372549019607843" green="0.55686274509803924" blue="0.43529411764705883" alpha="0.38332084760000001" colorSpace="custom" customColorSpace="displayP3"/>
+                                <connections>
+                                    <action selector="ServiceBtn:" destination="KXb-Gj-HWw" eventType="touchUpInside" id="NBQ-dE-Q0g"/>
+                                </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="services" translatesAutoresizingMaskIntoConstraints="NO" id="Q0W-nc-dGb">
                                 <rect key="frame" x="68" y="199" width="90" height="90"/>
@@ -235,7 +238,7 @@
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7zA-Jq-yLe">
                                 <rect key="frame" x="20" y="361" width="187" height="201"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.31342259859731059" green="0.55829313169543149" blue="0.43690411421308178" alpha="0.24587970895205477" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="backgroundColor" red="0.31372549019607843" green="0.55686274509803924" blue="0.43529411764705883" alpha="0.24587970895205477" colorSpace="custom" customColorSpace="displayP3"/>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="about-us" translatesAutoresizingMaskIntoConstraints="NO" id="FKc-sM-cDN">
                                 <rect key="frame" x="68" y="413" width="90" height="90"/>
@@ -244,7 +247,7 @@
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="siH-yo-raX">
                                 <rect key="frame" x="207" y="160" width="187" height="201"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.35510782740000002" green="0.8630004604" blue="0.50058590439999995" alpha="0.52062821059999997" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="backgroundColor" red="0.31372549019607843" green="0.55686274509803924" blue="0.43529411764705883" alpha="0.52062821059999997" colorSpace="custom" customColorSpace="displayP3"/>
                                 <connections>
                                     <action selector="MapBtn:" destination="KXb-Gj-HWw" eventType="touchUpInside" id="0Yl-qU-awq"/>
                                 </connections>
@@ -256,7 +259,7 @@
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fJm-Y5-g5j">
                                 <rect key="frame" x="207" y="361" width="187" height="201"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.17577440020000001" green="0.69552742729999995" blue="0.4351066301" alpha="0.3727525686" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="backgroundColor" red="0.31372549019607843" green="0.55686274509803924" blue="0.43529411764705883" alpha="0.3727525686" colorSpace="custom" customColorSpace="displayP3"/>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="user-card" translatesAutoresizingMaskIntoConstraints="NO" id="TW2-dR-afb">
                                 <rect key="frame" x="255" y="416" width="90" height="90"/>
@@ -314,7 +317,8 @@
                     </navigationItem>
                     <connections>
                         <outlet property="menuBtn" destination="KY3-ax-zyI" id="uSd-xn-VhY"/>
-                        <segue destination="voC-AM-ckx" kind="show" identifier="GotoMap" id="DbX-k8-vgU"/>
+                        <segue destination="voC-AM-ckx" kind="show" identifier="PushMap" id="DbX-k8-vgU"/>
+                        <segue destination="F2d-tm-glx" kind="show" identifier="PushService" id="eKb-2U-xNS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7L7-RI-YHP" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -338,7 +342,25 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ihH-Ew-bRR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5236" y="82"/>
+            <point key="canvasLocation" x="5293" y="7"/>
+        </scene>
+        <!--Service-->
+        <scene sceneID="OHZ-Am-7r3">
+            <objects>
+                <viewController title="Service" id="F2d-tm-glx" customClass="ServiceController" customModule="vKclub" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="DuL-1D-IOJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="zuK-DC-nZS"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="upb-Uc-dr4">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tIL-Eu-8mp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5294" y="791"/>
         </scene>
         <!--Create Acc Controller-->
         <scene sceneID="NCw-fV-xQU">
@@ -546,7 +568,7 @@
             <objects>
                 <navigationController title="Nav Dashboard" automaticallyAdjustsScrollViewInsets="NO" id="BCS-x1-0Ov" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="7mV-p2-rx5">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="7mV-p2-rx5">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.0" green="0.50196081400000003" blue="0.25098040700000002" alpha="1" colorSpace="calibratedRGB"/>

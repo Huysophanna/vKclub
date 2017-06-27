@@ -9,26 +9,11 @@
 import UIKit
 
 class DashboardController: UIViewController {
-    
-   
- 
- 
-  
-    
-   
-    
-    
-   
     @IBOutlet weak var menuBtn: UIBarButtonItem!
-    
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         Slidemenu()
-        
-        
-       
     }
     
     override func didReceiveMemoryWarning() {
@@ -36,14 +21,14 @@ class DashboardController: UIViewController {
         
     }
     
+    @IBAction func ServiceBtn(_ sender: Any) {
+        performSegue(withIdentifier: "PushService", sender: self)
+    }
     
     @IBAction func MapBtn(_ sender: Any) {
-        performSegue(withIdentifier: "GotoMap", sender: self)
-        
-        
+        performSegue(withIdentifier: "PushMap", sender: self)
     }
   
-    
 //    func CheckLocationMode()  {
 //
 //        CheckLocation.layer.cornerRadius = 10.0
@@ -57,13 +42,10 @@ class DashboardController: UIViewController {
         if revealViewController() != nil {
             menuBtn.target = self.revealViewController()
             menuBtn.action = #selector(SWRevealViewController.revealToggle(_:))
-                        
             
             revealViewController().rearViewRevealWidth = 275
             view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
             
         }
     }
-    
-    
 }

@@ -12,14 +12,4 @@ target 'vKclub' do
   pod 'GooglePlaces'
   pod 'UIImage-ResizeMagick'
 
-  target 'vKclubTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-
-  target 'vKclubUITests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-
 end
