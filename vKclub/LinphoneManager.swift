@@ -114,7 +114,7 @@ class LinphoneManager {
     }
     
     func makeCall(){
-        let calleeAccount = "10050"
+        let calleeAccount = "0"
         
         guard let _ = setIdentify() else {
             print("no identity")
