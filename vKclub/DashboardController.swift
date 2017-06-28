@@ -21,7 +21,7 @@ class DashboardController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        var timer = Timer.scheduledTimer(timeInterval: 0.4, target: self, selector: #selector(self.CheckuserLocstion), userInfo: nil, repeats: true)
+        var time = Timer.scheduledTimer(timeInterval: 0.4, target: self, selector: #selector(self.CheckuserLocstion), userInfo: nil, repeats: true)
         Slidemenu()
     }
     
@@ -34,7 +34,9 @@ class DashboardController: UIViewController {
         performSegue(withIdentifier: "PushService", sender: self)
     }
     
-    @IBAction func MapBtn(_ sender: Any) {
+   
+    
+   @IBAction func BtnMap(_ sender: Any) {
         performSegue(withIdentifier: "PushMap", sender: self)
     }
   
@@ -52,7 +54,7 @@ class DashboardController: UIViewController {
             menuBtn.target = self.revealViewController()
             menuBtn.action = #selector(SWRevealViewController.revealToggle(_:))
             
-            revealViewController().rearViewRevealWidth = 275
+            revealViewController().rearViewRevealWidth = 350
             view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
             
         }
