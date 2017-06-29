@@ -10,10 +10,12 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    var linphoneObj: LinphoneManager?
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-                
+//         self.linphoneObj = LinphoneManager()
+//                self.linphoneObj?.makeCall(phoneNumber: "10050")
     }
 
     override func didReceiveMemoryWarning() {

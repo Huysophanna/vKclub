@@ -32,12 +32,23 @@ let registrationStateChanged: LinphoneCoreRegistrationStateChangedCb  = {
     }
 } as LinphoneCoreRegistrationStateChangedCb
 
+var data: String = ""
+var obj: LinphoneManager?
+
+
 let callStateChanged: LinphoneCoreCallStateChangedCb = {
     (lc: Optional<OpaquePointer>, call: Optional<OpaquePointer>, callSate: LinphoneCallState,  message: Optional<UnsafePointer<Int8>>) in
+    
+//    obj = LinphoneManager()
+    
+    
     
     switch callSate{
     case LinphoneCallIncomingReceived: /**<This is a new incoming call */
         NSLog("callStateChanged: LinphoneCallIncomingReceived")
+        
+//        obj?.test = "++++++++++++++++ LinphoneCallIncomingReceived"
+//        NSLog((obj?.test)!)
         
         if answerCall{
             ms_usleep(3 * 1000 * 1000); // Wait 3 seconds to pickup
@@ -57,6 +68,9 @@ let callStateChanged: LinphoneCoreCallStateChangedCb = {
 
 
 class LinphoneManager {
+    static let LinphoneManagerInstance = LinphoneManager()
+    
+    var test = ""
     
     static var iterateTimer: Timer?
     
@@ -110,18 +124,20 @@ class LinphoneManager {
 //        makeCall()
 //        autoPickImcomingCall()
         idle()
-        makeCall()
+//        makeCall(phoneNumber: "10050")
+//        LinphoneManager.LinphoneManagerInstance.makeCall(phoneNumber: "10050")
+        
     }
     
-    func makeCall(){
-        let calleeAccount = "10050"
+    static func makeCall(phoneNumber: String){
+        let calleeAccount = phoneNumber
         
-        guard let _ = setIdentify() else {
-            print("no identity")
-            return;
-        }
+//        guard let _ = setIdentify() else {
+//            print("no identity")
+//            return;
+//        }
         linphone_core_invite(theLinphone.lc, calleeAccount)
-        setTimer()
+//        setTimer()
 //        shutdown()
     }
     
@@ -131,11 +147,12 @@ class LinphoneManager {
             return;
         }
         register(proxyConfig)
+        
         setTimer()
 //        shutdown()
     }
     
-    func idle(){
+    func idle() {
         guard let proxyConfig = setIdentify() else {
             print("no identity")
             return;
