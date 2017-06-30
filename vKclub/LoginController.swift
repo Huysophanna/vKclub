@@ -107,7 +107,7 @@ class LoginController: UIViewController {
     }
     
     @IBAction func CreateAccount(_ sender: Any) {
-        performSegue(withIdentifier: "SegueToDashboard", sender: self)
+        performSegue(withIdentifier: "SegueToCreateAcc", sender: self)
     }
     
     @IBAction func ForgotPWClicked(_ sender: Any) {

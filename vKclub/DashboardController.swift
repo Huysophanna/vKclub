@@ -31,7 +31,7 @@ class DashboardController: UIViewController {
     }
     
     @IBAction func ServiceBtn(_ sender: Any) {
-        performSegue(withIdentifier: "PushService", sender: self)
+        performSegue(withIdentifier: "PushInternalCall", sender: self)
     }
     
    

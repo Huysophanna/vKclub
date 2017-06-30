@@ -18,6 +18,8 @@
 		7F1E24721F02484A0090C7E7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7F1E24711F02484A0090C7E7 /* GoogleService-Info.plist */; };
 		7F1E24801F024D2F0090C7E7 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F1E247F1F024D2F0090C7E7 /* SWRevealViewController.m */; };
 		7F1E24821F024EF00090C7E7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1E24811F024EF00090C7E7 /* AppDelegate.swift */; };
+		7F3639241F04C54E00716B41 /* InternalCallController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3639231F04C54E00716B41 /* InternalCallController.swift */; };
+		7F3C1DAC1F03AAD100888BEA /* ButtonBorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3C1DAB1F03AAD100888BEA /* ButtonBorder.swift */; };
 		8F43A0EA78F773EEA1DEDAD0 /* Pods_vKclub.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CE35CA16D2A204E204DA562 /* Pods_vKclub.framework */; };
 		A924DEC21D07A5F80030A438 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = A99663E91D070507003B5EEE /* libz.tbd */; };
 		A924DEC81D07AC620030A438 /* linphonerc in Resources */ = {isa = PBXBuildFile; fileRef = A924DEC41D07AC620030A438 /* linphonerc */; };
@@ -110,6 +112,8 @@
 		7F1E247E1F024D2F0090C7E7 /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SWRevealViewController.h; path = vKclub/SWRevealViewController.h; sourceTree = "<group>"; };
 		7F1E247F1F024D2F0090C7E7 /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SWRevealViewController.m; path = vKclub/SWRevealViewController.m; sourceTree = "<group>"; };
 		7F1E24811F024EF00090C7E7 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		7F3639231F04C54E00716B41 /* InternalCallController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InternalCallController.swift; sourceTree = "<group>"; };
+		7F3C1DAB1F03AAD100888BEA /* ButtonBorder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonBorder.swift; sourceTree = "<group>"; };
 		7F8E0D0C1F025C4900EE99BF /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../Info.plist; sourceTree = "<group>"; };
 		A924DEC41D07AC620030A438 /* linphonerc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = linphonerc; sourceTree = "<group>"; };
 		A924DEC51D07AC620030A438 /* linphonerc-factory */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "linphonerc-factory"; sourceTree = "<group>"; };
@@ -209,7 +213,7 @@
 		A9FACB071D0A7B3700E3C8A5 /* toy-mono.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "toy-mono.wav"; sourceTree = "<group>"; };
 		BBDBA929F28239775CF624FD /* Pods-vKclub.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-vKclub.debug.xcconfig"; path = "Pods/Target Support Files/Pods-vKclub/Pods-vKclub.debug.xcconfig"; sourceTree = "<group>"; };
 		C52C21C11F03DBE100B546E1 /* MenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
-		C58A7A451F03AA620046E0B3 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		C58A7A451F03AA620046E0B3 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -290,6 +294,24 @@
 				4CE35CA16D2A204E204DA562 /* Pods_vKclub.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		7F3C1DAA1F03AA7C00888BEA /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				7F1E247E1F024D2F0090C7E7 /* SWRevealViewController.h */,
+				7F1E247F1F024D2F0090C7E7 /* SWRevealViewController.m */,
+			);
+			name = Library;
+			sourceTree = "<group>";
+		};
+		7F3C1DAD1F03AC9A00888BEA /* HelperClass */ = {
+			isa = PBXGroup;
+			children = (
+				7F1E24601F0247250090C7E7 /* UIComponentHelper.swift */,
+				7F3C1DAB1F03AAD100888BEA /* ButtonBorder.swift */,
+			);
+			name = HelperClass;
 			sourceTree = "<group>";
 		};
 		A924DEC31D07AC520030A438 /* Resources */ = {
@@ -416,13 +438,14 @@
 		A9FAC4661D07D6E200E3C8A5 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				7F1E247E1F024D2F0090C7E7 /* SWRevealViewController.h */,
-				7F1E247F1F024D2F0090C7E7 /* SWRevealViewController.m */,
+				7F3C1DAA1F03AA7C00888BEA /* Library */,
+				7F3C1DAD1F03AC9A00888BEA /* HelperClass */,
+				A99663791D06FE65003B5EEE /* LinphoneManager.swift */,
 				7F1E245F1F0247250090C7E7 /* CreateAccController.swift */,
-				7F1E24601F0247250090C7E7 /* UIComponentHelper.swift */,
 				7F1E24611F0247250090C7E7 /* LoginController.swift */,
 				7F1E24621F0247250090C7E7 /* ForgotPWController.swift */,
 				7F1E24631F0247250090C7E7 /* DashboardController.swift */,
+				7F3639231F04C54E00716B41 /* InternalCallController.swift */,
 				7F1E24641F0247250090C7E7 /* MapController.swift */,
 				7F1E24651F0247250090C7E7 /* ServiceController.swift */,
 				C52C21C11F03DBE100B546E1 /* MenuController.swift */,
@@ -444,7 +467,6 @@
 			isa = PBXGroup;
 			children = (
 				A9FAC46A1D087E6C00E3C8A5 /* Header */,
-				A99663791D06FE65003B5EEE /* LinphoneManager.swift */,
 				A924DEC31D07AC520030A438 /* Resources */,
 				A924DECC1D07D2620030A438 /* Secret.plist */,
 			);
@@ -674,9 +696,11 @@
 				7F1E24661F0247250090C7E7 /* CreateAccController.swift in Sources */,
 				7F1E24671F0247250090C7E7 /* UIComponentHelper.swift in Sources */,
 				7F1E246A1F0247250090C7E7 /* DashboardController.swift in Sources */,
+				7F3639241F04C54E00716B41 /* InternalCallController.swift in Sources */,
 				A924DECF1D07D4EA0030A438 /* README.md in Sources */,
 				A996637A1D06FE65003B5EEE /* LinphoneManager.swift in Sources */,
 				7F1E24681F0247250090C7E7 /* LoginController.swift in Sources */,
+				7F3C1DAC1F03AAD100888BEA /* ButtonBorder.swift in Sources */,
 				7F1E246B1F0247250090C7E7 /* MapController.swift in Sources */,
 				7F1E24691F0247250090C7E7 /* ForgotPWController.swift in Sources */,
 				C52C21C21F03DBE100B546E1 /* MenuController.swift in Sources */,

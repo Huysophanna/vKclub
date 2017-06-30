@@ -135,7 +135,7 @@
                     </view>
                     <connections>
                         <outlet property="emailTextField" destination="tf9-p4-Eyk" id="sid-Fs-ncd"/>
-                        <outlet property="pwTextField" destination="4kH-R2-2eJ" id="xfU-QH-KUp"/>
+                        <outlet property="pwTextField" destination="4kH-R2-2eJ" id="8jz-qG-yDm"/>
                         <outlet property="signInBtn" destination="4OO-hY-f9Z" id="2RP-ct-vHa"/>
                         <outlet property="signInFBBtn" destination="5BH-cK-PIe" id="gjq-9U-Rny"/>
                         <segue destination="H0m-6O-dQH" kind="show" identifier="SegueToCreateAcc" id="pfy-tu-dLl"/>
@@ -248,7 +248,35 @@
                         <outlet property="imageProfile" destination="dbQ-3N-Mgq" id="hql-yi-VCM"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="F5B-eh-h4h" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dIG-iK-hE2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1964" y="-342"/>
+        </scene>
+        <!--Table View Controller-->
+        <scene sceneID="9l8-W3-heD">
+            <objects>
+                <tableViewController id="YlG-I2-N7L" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="Xao-ak-udS">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="yTe-FC-cLg">
+                                <rect key="frame" x="0.0" y="28" width="414" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="yTe-FC-cLg" id="MuM-r4-vpD">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="YlG-I2-N7L" id="MoR-dV-vyd"/>
+                            <outlet property="delegate" destination="YlG-I2-N7L" id="nuY-BI-8Y6"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9PK-mr-yHy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3221.739130434783" y="-408.42391304347831"/>
         </scene>
@@ -378,6 +406,7 @@
                         <outlet property="menuBtn" destination="KY3-ax-zyI" id="uSd-xn-VhY"/>
                         <segue destination="voC-AM-ckx" kind="show" identifier="PushMap" id="DbX-k8-vgU"/>
                         <segue destination="F2d-tm-glx" kind="show" identifier="PushService" id="eKb-2U-xNS"/>
+                        <segue destination="sf4-Fb-Dzb" kind="show" identifier="PushInternalCall" id="ccw-Zk-HxO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7L7-RI-YHP" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -402,6 +431,231 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ihH-Ew-bRR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="5293" y="7"/>
+        </scene>
+        <!--History-->
+        <scene sceneID="eWx-Oa-uv6">
+            <objects>
+                <viewController title="History" id="Iva-qI-x10" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="wYZ-SL-70I"/>
+                        <viewControllerLayoutGuide type="bottom" id="UPc-39-p0e"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="vyM-7C-Y7m">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="History" image="history-icon" id="ftp-Ov-EP5"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bVV-aK-Mbn" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="6217" y="-399"/>
+        </scene>
+        <!--Dialer-->
+        <scene sceneID="OVp-RS-iXk">
+            <objects>
+                <viewController id="uf9-WO-2d5" customClass="InternalCallController" customModule="vKclub" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="SLA-6F-EDr"/>
+                        <viewControllerLayoutGuide type="bottom" id="1yV-MO-cxq"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="b6h-3R-dMF">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="kEb-or-bWg">
+                                <rect key="frame" x="0.0" y="64" width="414" height="623"/>
+                                <subviews>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="0" borderStyle="bezel" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FJo-b9-1Ts">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="124.66666666666666"/>
+                                        <color key="backgroundColor" red="0.91653517455339717" green="0.91210746839613432" blue="0.9209628807106599" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="2YI-5k-bfR">
+                                        <rect key="frame" x="0.0" y="124.66666666666667" width="414" height="124.66666666666664"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d9X-BY-4nk" customClass="ButtonBorder" customModule="vKclub" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="0.0" width="138" height="124.66666666666666"/>
+                                                <color key="backgroundColor" red="0.10980392160000001" green="0.53725490200000003" blue="0.3294117647" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                                <state key="normal" title="1"/>
+                                                <connections>
+                                                    <action selector="NumberBtnClicked:" destination="uf9-WO-2d5" eventType="touchUpInside" id="otL-aP-VaQ"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rPx-7b-Bw7" customClass="ButtonBorder" customModule="vKclub" customModuleProvider="target">
+                                                <rect key="frame" x="138" y="0.0" width="138" height="124.66666666666666"/>
+                                                <color key="backgroundColor" red="0.10980392160000001" green="0.53725490200000003" blue="0.3294117647" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                                <state key="normal" title="2"/>
+                                                <connections>
+                                                    <action selector="NumberBtnClicked:" destination="uf9-WO-2d5" eventType="touchUpInside" id="bQb-3T-YcH"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HLH-RE-7PF" customClass="ButtonBorder" customModule="vKclub" customModuleProvider="target">
+                                                <rect key="frame" x="276" y="0.0" width="138" height="124.66666666666666"/>
+                                                <color key="backgroundColor" red="0.10980392160000001" green="0.53725490200000003" blue="0.3294117647" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                                <state key="normal" title="3"/>
+                                                <connections>
+                                                    <action selector="NumberBtnClicked:" destination="uf9-WO-2d5" eventType="touchUpInside" id="zBO-ad-9DL"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="xCW-tG-W6j">
+                                        <rect key="frame" x="0.0" y="249.33333333333331" width="414" height="124.33333333333337"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q8S-g2-ccX" customClass="ButtonBorder" customModule="vKclub" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="0.0" width="138" height="124.33333333333337"/>
+                                                <color key="backgroundColor" red="0.10980392160000001" green="0.53725490200000003" blue="0.3294117647" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                                <state key="normal" title="4"/>
+                                                <connections>
+                                                    <action selector="NumberBtnClicked:" destination="uf9-WO-2d5" eventType="touchUpInside" id="IG8-th-ev5"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1zO-f2-UVm" customClass="ButtonBorder" customModule="vKclub" customModuleProvider="target">
+                                                <rect key="frame" x="138" y="0.0" width="138" height="124.33333333333337"/>
+                                                <color key="backgroundColor" red="0.10980392160000001" green="0.53725490200000003" blue="0.3294117647" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                                <state key="normal" title="5"/>
+                                                <connections>
+                                                    <action selector="NumberBtnClicked:" destination="uf9-WO-2d5" eventType="touchUpInside" id="jRQ-a7-iPC"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V3z-Zl-k65" customClass="ButtonBorder" customModule="vKclub" customModuleProvider="target">
+                                                <rect key="frame" x="276" y="0.0" width="138" height="124.33333333333337"/>
+                                                <color key="backgroundColor" red="0.10980392160000001" green="0.53725490200000003" blue="0.3294117647" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                                <state key="normal" title="6"/>
+                                                <connections>
+                                                    <action selector="NumberBtnClicked:" destination="uf9-WO-2d5" eventType="touchUpInside" id="Vk4-LK-Yfb"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="ste-fO-nXK">
+                                        <rect key="frame" x="0.0" y="373.66666666666663" width="414" height="124.66666666666669"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GQV-E8-4HI" customClass="ButtonBorder" customModule="vKclub" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="0.0" width="138" height="124.66666666666669"/>
+                                                <color key="backgroundColor" red="0.10980392160000001" green="0.53725490200000003" blue="0.3294117647" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                                <state key="normal" title="7"/>
+                                                <connections>
+                                                    <action selector="NumberBtnClicked:" destination="uf9-WO-2d5" eventType="touchUpInside" id="MmJ-dz-Qu4"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0B2-cG-834" customClass="ButtonBorder" customModule="vKclub" customModuleProvider="target">
+                                                <rect key="frame" x="138" y="0.0" width="138" height="124.66666666666669"/>
+                                                <color key="backgroundColor" red="0.10980392160000001" green="0.53725490200000003" blue="0.3294117647" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                                <state key="normal" title="8"/>
+                                                <connections>
+                                                    <action selector="NumberBtnClicked:" destination="uf9-WO-2d5" eventType="touchUpInside" id="Wz8-gs-BWV"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YjB-oi-zz7" customClass="ButtonBorder" customModule="vKclub" customModuleProvider="target">
+                                                <rect key="frame" x="276" y="0.0" width="138" height="124.66666666666669"/>
+                                                <color key="backgroundColor" red="0.10980392160000001" green="0.53725490200000003" blue="0.3294117647" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                                <state key="normal" title="9"/>
+                                                <connections>
+                                                    <action selector="NumberBtnClicked:" destination="uf9-WO-2d5" eventType="touchUpInside" id="jJ8-hn-dlX"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="YaM-Rm-6wv">
+                                        <rect key="frame" x="0.0" y="498.33333333333343" width="414" height="124.66666666666657"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vkg-QF-T6T" customClass="ButtonBorder" customModule="vKclub" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="0.0" width="138" height="124.66666666666663"/>
+                                                <color key="backgroundColor" red="0.10980392160000001" green="0.53725490200000003" blue="0.3294117647" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <state key="normal" image="phone-icon"/>
+                                                <connections>
+                                                    <action selector="CallBtnClicked:" destination="uf9-WO-2d5" eventType="touchUpInside" id="Rng-Ah-VwT"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nF6-Hn-Pc6" customClass="ButtonBorder" customModule="vKclub" customModuleProvider="target">
+                                                <rect key="frame" x="138" y="0.0" width="138" height="124.66666666666663"/>
+                                                <color key="backgroundColor" red="0.10980392160000001" green="0.53725490200000003" blue="0.3294117647" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                                <state key="normal" title="0"/>
+                                                <connections>
+                                                    <action selector="NumberBtnClicked:" destination="uf9-WO-2d5" eventType="touchUpInside" id="cIk-iA-HZD"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TiM-5e-6MR" customClass="ButtonBorder" customModule="vKclub" customModuleProvider="target">
+                                                <rect key="frame" x="276" y="0.0" width="138" height="124.66666666666663"/>
+                                                <color key="backgroundColor" red="0.10980392160000001" green="0.53725490200000003" blue="0.3294117647" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <state key="normal" image="backspace-icon"/>
+                                                <connections>
+                                                    <action selector="DelBtnClicked:" destination="uf9-WO-2d5" eventType="touchUpInside" id="apa-Iy-Pe1"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="1yV-MO-cxq" firstAttribute="top" secondItem="kEb-or-bWg" secondAttribute="bottom" id="9iQ-LH-LOo"/>
+                            <constraint firstItem="kEb-or-bWg" firstAttribute="leading" secondItem="b6h-3R-dMF" secondAttribute="leadingMargin" constant="-20" id="Fyb-9D-5pJ"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="kEb-or-bWg" secondAttribute="trailing" constant="-20" id="Qhg-SA-BIZ"/>
+                            <constraint firstItem="kEb-or-bWg" firstAttribute="top" secondItem="SLA-6F-EDr" secondAttribute="bottom" id="qDz-nt-bzk"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Dialer" image="dail-icon" id="cfW-2s-NZ7"/>
+                    <connections>
+                        <outlet property="numberTextField" destination="FJo-b9-1Ts" id="Xsa-fy-U2K"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Nyh-En-dL4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="6215.9420289855079" y="-1053.2608695652175"/>
+        </scene>
+        <!--Contact-->
+        <scene sceneID="YyN-el-LQu">
+            <objects>
+                <viewController id="vzO-va-DJH" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="CaD-0V-PSk"/>
+                        <viewControllerLayoutGuide type="bottom" id="Wvs-MQ-Usn"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="VW1-e4-nro">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Contact" image="contact-icon" id="zMF-5r-6uf"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="42J-Un-Ae9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="6216" y="-1710"/>
+        </scene>
+        <!--Internal Phone-->
+        <scene sceneID="4NH-vu-zpT">
+            <objects>
+                <tabBarController title="Internal Phone" id="sf4-Fb-Dzb" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="xuS-rW-QGX">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="uf9-WO-2d5" kind="relationship" relationship="viewControllers" id="ofn-Ym-IQ7"/>
+                        <segue destination="Iva-qI-x10" kind="relationship" relationship="viewControllers" id="G5W-xW-PSF"/>
+                        <segue destination="vzO-va-DJH" kind="relationship" relationship="viewControllers" id="D4Q-jn-5Up"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9uC-E8-ZeB" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5259" y="-823"/>
         </scene>
         <!--Service-->
         <scene sceneID="OHZ-Am-7r3">
@@ -642,14 +896,14 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="H96-RX-fAH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2071" y="113"/>
+            <point key="canvasLocation" x="1964" y="510"/>
         </scene>
         <!--Nav Dashboard-->
         <scene sceneID="2Xi-KZ-r5Y">
             <objects>
                 <navigationController title="Nav Dashboard" automaticallyAdjustsScrollViewInsets="NO" id="BCS-x1-0Ov" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="7mV-p2-rx5">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="7mV-p2-rx5">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.0" green="0.50196081400000003" blue="0.25098040700000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -668,8 +922,13 @@
         <image name="Menu" width="48" height="48"/>
         <image name="Notification" width="50" height="50"/>
         <image name="about-us" width="512" height="512"/>
+        <image name="backspace-icon" width="32" height="32"/>
+        <image name="contact-icon" width="24" height="24"/>
+        <image name="dail-icon" width="24" height="24"/>
+        <image name="history-icon" width="24" height="24"/>
         <image name="logout" width="512" height="512"/>
         <image name="phone-call" width="512" height="512"/>
+        <image name="phone-icon" width="32" height="32"/>
         <image name="placeholder" width="512" height="512"/>
         <image name="profile-icon" width="300" height="254"/>
         <image name="services" width="512" height="512"/>
