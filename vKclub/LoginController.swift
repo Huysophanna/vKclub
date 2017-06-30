@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import Firebase
 import FirebaseAuth
+import FBSDKLoginKit
 
 class LoginController: UIViewController {
     let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
@@ -26,11 +27,56 @@ class LoginController: UIViewController {
         
         UIComponentHelper.MakeBtnWhiteBorder(button: signInBtn)
         MakeFBBorderBtn(button: signInFBBtn)
-        
+        // Btn Call Function FBSignIn
+        signInFBBtn.addTarget(self, action: #selector(FBSignIn), for: .touchUpInside)
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    func FBSignIn(){
+        let fbLoginManager = FBSDKLoginManager()
+        fbLoginManager.logIn(withReadPermissions: ["public_profile", "email"], from: self) { (result, error) in
+            if let error = error {
+                print("Failed to login: \(error.localizedDescription)")
+                return
+            }
+            
+            guard let accessToken = FBSDKAccessToken.current() else {
+                print("Failed to get access token")
+                return
+            }
+            
+            let credential = FacebookAuthProvider.credential(withAccessToken: accessToken.tokenString)
+            
+            // Perform login by calling Firebase APIs
+            Auth.auth().signIn(with: credential, completion: { (user, error) in
+                UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
+                
+                if error == nil {
+                    
+                    
+                    let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                    let newViewController = storyBoard.instantiateViewController(withIdentifier: "MainDashboard") as! SWRevealViewController
+                    self.present(newViewController, animated: true, completion: nil)
+                }
+                else{
+                    print("Login error: \(error?.localizedDescription)")
+                    let alertController = UIAlertController(title: "Login Error", message: error?.localizedDescription, preferredStyle: .alert)
+                    let okayAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                    alertController.addAction(okayAction)
+                    self.present(alertController, animated: true, completion: nil)
+                    
+                    return
+                    }
+                
+                
+            });
+            
+        }
+       
+        
     }
     
     @IBAction func SignInClicked(_ sender: Any) {
@@ -42,9 +88,14 @@ class LoginController: UIViewController {
             UIComponentHelper.PresentActivityIndicator(view: self.view, option: true)
             
             Auth.auth().signIn(withEmail: emailTextField.text!, password: pwTextField.text!) { (user, error) in
-                UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
+               
                 
                 if error == nil {
+                    let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                    let newViewController = storyBoard.instantiateViewController(withIdentifier: "MainDashboard") as! SWRevealViewController
+                    self.present(newViewController, animated: true, completion: nil)
+                    
+                    
                     
                    
                     } else {
@@ -56,7 +107,7 @@ class LoginController: UIViewController {
     }
     
     @IBAction func CreateAccount(_ sender: Any) {
-        performSegue(withIdentifier: "SegueToDashboard", sender: self)
+        performSegue(withIdentifier: "SegueToCreateAcc", sender: self)
     }
     
     @IBAction func ForgotPWClicked(_ sender: Any) {
