@@ -11,5 +11,8 @@ target 'vKclub' do
   pod 'GoogleMaps'
   pod 'GooglePlaces'
   pod 'UIImage-ResizeMagick'
+  pod 'Bolts'
+  pod 'FBSDKCoreKit'
+  pod 'FBSDKLoginKit'
 
 end

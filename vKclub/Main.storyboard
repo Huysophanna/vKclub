@@ -13,7 +13,7 @@
         <!--Login Controller-->
         <scene sceneID="J4l-25-wgq">
             <objects>
-                <viewController id="HRX-3u-gR7" customClass="LoginController" customModule="vKclub" sceneMemberID="viewController">
+                <viewController id="HRX-3u-gR7" customClass="LoginController" customModule="vKclub" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="cWV-88-6H6"/>
                         <viewControllerLayoutGuide type="bottom" id="Lte-Zg-LwZ"/>
@@ -625,7 +625,7 @@
         <!--Reveal View Controller-->
         <scene sceneID="hpX-DK-4Yl">
             <objects>
-                <viewController id="djb-ep-S2B" customClass="SWRevealViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MainDashboard" useStoryboardIdentifierAsRestorationIdentifier="YES" id="djb-ep-S2B" customClass="SWRevealViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="nBe-e2-6Pc"/>
                         <viewControllerLayoutGuide type="bottom" id="Q8J-ip-Sk1"/>
@@ -649,7 +649,7 @@
             <objects>
                 <navigationController title="Nav Dashboard" automaticallyAdjustsScrollViewInsets="NO" id="BCS-x1-0Ov" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="7mV-p2-rx5">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="7mV-p2-rx5">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.0" green="0.50196081400000003" blue="0.25098040700000002" alpha="1" colorSpace="calibratedRGB"/>
