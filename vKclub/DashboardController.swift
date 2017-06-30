@@ -103,11 +103,11 @@ class DashboardController: UIViewController {
     
     //user scope
     func distanceCal(lat:Double,long:Double) -> Double   {
-        var dLat : Double = (KIRIROMLAT-lat)*(Double.pi/180)
-        var dLon : Double = (KIRIROMLNG-long)*(Double.pi/180)
-        var a : Double = sin(dLat/2) * sin(dLat/2) + cos(lat*(Double.pi/180))*cos(KIRIROMLAT*(Double.pi/180)) * sin(dLon/2) * sin(dLon/2);
-        var c :Double = 2 * atan2(sqrt(a), sqrt(1-a));
-        var d:Double = R * c; // Distance in km
+        let dLat : Double = (KIRIROMLAT-lat)*(Double.pi/180)
+        let dLon : Double = (KIRIROMLNG-long)*(Double.pi/180)
+        let a : Double = sin(dLat/2) * sin(dLat/2) + cos(lat*(Double.pi/180))*cos(KIRIROMLAT*(Double.pi/180)) * sin(dLon/2) * sin(dLon/2);
+        let c :Double = 2 * atan2(sqrt(a), sqrt(1-a));
+        let d:Double = R * c; // Distance in km
         print (d)
         
         return d
