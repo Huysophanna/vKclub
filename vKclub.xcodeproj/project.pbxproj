@@ -122,7 +122,7 @@
 		A99663611D06F877003B5EEE /* vKclub.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = vKclub.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A99663661D06F877003B5EEE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		A996636E1D06F877003B5EEE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		A99663761D06F942003B5EEE /* vKclub-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "vKclub-Bridging-Header.h"; sourceTree = "<group>"; };
+		A99663761D06F942003B5EEE /* vKclub-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "vKclub-Bridging-Header.h"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.simpleColoring; };
 		A99663791D06FE65003B5EEE /* LinphoneManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LinphoneManager.swift; path = vKclub/LinphoneManager.swift; sourceTree = "<group>"; };
 		A996637B1D070097003B5EEE /* libantlr3c.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libantlr3c.a; path = "liblinphone-sdk/apple-darwin/lib/libantlr3c.a"; sourceTree = "<group>"; };
 		A996637C1D070097003B5EEE /* libavcodec.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libavcodec.a; path = "liblinphone-sdk/apple-darwin/lib/libavcodec.a"; sourceTree = "<group>"; };
@@ -349,6 +349,7 @@
 		A99663631D06F877003B5EEE /* vKclub */ = {
 			isa = PBXGroup;
 			children = (
+				C500A2961F065C20003943BD /* Model */,
 				7F8E0D0C1F025C4900EE99BF /* Info.plist */,
 				7F1E24711F02484A0090C7E7 /* GoogleService-Info.plist */,
 				7F1E24811F024EF00090C7E7 /* AppDelegate.swift */,
@@ -538,6 +539,13 @@
 				A9FACB061D0A7B3700E3C8A5 /* soft_as_snow.mkv */,
 			);
 			path = rings;
+			sourceTree = "<group>";
+		};
+		C500A2961F065C20003943BD /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

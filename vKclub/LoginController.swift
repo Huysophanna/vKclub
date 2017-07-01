@@ -12,14 +12,14 @@ import Firebase
 import FirebaseAuth
 import FBSDKLoginKit
 
+
 class LoginController: UIViewController {
     let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
     @IBOutlet weak var pwTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var signInBtn: UIButton!
     @IBOutlet weak var signInFBBtn: UIButton!
-    
-    override func viewDidLoad() {
+        override func viewDidLoad() {
         super.viewDidLoad()
 
         MakeLeftViewIconToTextField(textField: emailTextField, icon: "user_left_icon.png")
@@ -52,11 +52,8 @@ class LoginController: UIViewController {
             
             // Perform login by calling Firebase APIs
             Auth.auth().signIn(with: credential, completion: { (user, error) in
-                UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
-                
+               
                 if error == nil {
-                    
-                    
                     let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
                     let newViewController = storyBoard.instantiateViewController(withIdentifier: "MainDashboard") as! SWRevealViewController
                     self.present(newViewController, animated: true, completion: nil)
@@ -71,13 +68,15 @@ class LoginController: UIViewController {
                     return
                     }
                 
-                
-            });
+                });
             
         }
+        
        
         
     }
+    
+    
     
     @IBAction func SignInClicked(_ sender: Any) {
         if emailTextField.text == "" || pwTextField.text == "" {
@@ -85,7 +84,7 @@ class LoginController: UIViewController {
             
         } else {
             //handle firebase sign in
-            UIComponentHelper.PresentActivityIndicator(view: self.view, option: true)
+           //UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
             
             Auth.auth().signIn(withEmail: emailTextField.text!, password: pwTextField.text!) { (user, error) in
                

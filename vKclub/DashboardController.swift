@@ -8,6 +8,7 @@
 
 import UIKit
 import GoogleMaps
+import CoreData
 
 class DashboardController: UIViewController {
     @IBOutlet weak var menuBtn: UIBarButtonItem!
@@ -21,7 +22,7 @@ class DashboardController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        var time = Timer.scheduledTimer(timeInterval: 0.4, target: self, selector: #selector(self.CheckuserLocstion), userInfo: nil, repeats: true)
+        let time = Timer.scheduledTimer(timeInterval: 0.4, target: self, selector: #selector(self.CheckuserLocstion), userInfo: nil, repeats: true)
         Slidemenu()
     }
     
