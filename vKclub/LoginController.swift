@@ -11,6 +11,7 @@ import UIKit
 import Firebase
 import FirebaseAuth
 import FBSDKLoginKit
+import CoreData
 
 
 class LoginController: UIViewController {
@@ -19,8 +20,11 @@ class LoginController: UIViewController {
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var signInBtn: UIButton!
     @IBOutlet weak var signInFBBtn: UIButton!
+    let User = UserProfile(context: context)
         override func viewDidLoad() {
         super.viewDidLoad()
+        automaticLogin()
+        
 
         MakeLeftViewIconToTextField(textField: emailTextField, icon: "user_left_icon.png")
         MakeLeftViewIconToTextField(textField: pwTextField, icon: "pw_icon.png")
@@ -49,14 +53,34 @@ class LoginController: UIViewController {
             }
             
             let credential = FacebookAuthProvider.credential(withAccessToken: accessToken.tokenString)
+        
             
             // Perform login by calling Firebase APIs
             Auth.auth().signIn(with: credential, completion: { (user, error) in
                
                 if error == nil {
+                    
                     let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
                     let newViewController = storyBoard.instantiateViewController(withIdentifier: "MainDashboard") as! SWRevealViewController
                     self.present(newViewController, animated: true, completion: nil)
+                   
+                    
+                    if let currentUser = Auth.auth().currentUser {
+                        self.User.username = currentUser.displayName
+                        self.User.email    = currentUser.email
+                        
+                        
+                        
+                        
+                        self.downloadImage(url:currentUser.photoURL!)
+                       
+                        appDelegate.saveContext()
+                        
+                        
+                        
+                    }
+                   
+                    
                 }
                 else{
                     print("Login error: \(error?.localizedDescription)")
@@ -90,9 +114,19 @@ class LoginController: UIViewController {
                
                 
                 if error == nil {
+                    self.User.username = user?.displayName
+                    self.User.email    = user?.email
+                    self.downloadImage(url:(user?.photoURL!)!)
+                    
+                    appDelegate.saveContext()
+                    
+
                     let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
                     let newViewController = storyBoard.instantiateViewController(withIdentifier: "MainDashboard") as! SWRevealViewController
                     self.present(newViewController, animated: true, completion: nil)
+                    
+                    
+                    
                     
                     
                     
@@ -132,5 +166,49 @@ class LoginController: UIViewController {
         textField.leftViewMode = UITextFieldViewMode.always
 
     }
+    
+    func downloadImage(url: URL) {
+        print("Download Started")
+        getDataFromUrl(url: url) { (data, response, error)  in
+            guard let data = data, error == nil else { return }
+            let image = data as NSData?
+            
+            
+            self.User.imageData  = image
+            
+            
+            
+            print(response?.suggestedFilename ?? url.lastPathComponent)
+            print("Download Finished")
+           
+        }
+    }
+    func getDataFromUrl(url: URL, completion: @escaping (_ data: Data?, _  response: URLResponse?, _ error: Error?) -> Void) {
+        URLSession.shared.dataTask(with: url) {
+            
+            (data, response, error) in
+            completion(data, response, error)
+            }.resume()
+    }
+    
+    //auto Login with FireBase
+    
+    func automaticLogin() {
+        Auth.auth().addStateDidChangeListener { auth, user in
+            if user == user {
+                let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                let newViewController = storyBoard.instantiateViewController(withIdentifier: "MainDashboard") as! SWRevealViewController
+                self.present(newViewController, animated: true, completion: nil)
+            } else {
+                print("not signed in")
+            }
+        }
+    }
+    
+        
+    
+    
+    
+    
   
 }

@@ -95,6 +95,7 @@
 		A9FACB151D0A7B3700E3C8A5 /* toy-mono.wav in Resources */ = {isa = PBXBuildFile; fileRef = A9FACB071D0A7B3700E3C8A5 /* toy-mono.wav */; };
 		C52C21C21F03DBE100B546E1 /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C52C21C11F03DBE100B546E1 /* MenuController.swift */; };
 		C58A7A461F03AA620046E0B3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C58A7A451F03AA620046E0B3 /* Main.storyboard */; };
+		C59D94C81F0756B3009103FA /* CoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C59D94C61F0756B3009103FA /* CoreData.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -214,6 +215,7 @@
 		BBDBA929F28239775CF624FD /* Pods-vKclub.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-vKclub.debug.xcconfig"; path = "Pods/Target Support Files/Pods-vKclub/Pods-vKclub.debug.xcconfig"; sourceTree = "<group>"; };
 		C52C21C11F03DBE100B546E1 /* MenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
 		C58A7A451F03AA620046E0B3 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		C59D94C71F0756B3009103FA /* Coredata.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Coredata.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -544,6 +546,7 @@
 		C500A2961F065C20003943BD /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				C59D94C61F0756B3009103FA /* CoreData.xcdatamodeld */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -698,6 +701,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C59D94C81F0756B3009103FA /* CoreData.xcdatamodeld in Sources */,
 				7F1E24821F024EF00090C7E7 /* AppDelegate.swift in Sources */,
 				A99663671D06F877003B5EEE /* ViewController.swift in Sources */,
 				7F1E246C1F0247250090C7E7 /* ServiceController.swift in Sources */,
@@ -891,6 +895,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		C59D94C61F0756B3009103FA /* CoreData.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				C59D94C71F0756B3009103FA /* Coredata.xcdatamodel */,
+			);
+			currentVersion = C59D94C71F0756B3009103FA /* Coredata.xcdatamodel */;
+			path = CoreData.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = A99663591D06F877003B5EEE /* Project object */;
 }
