@@ -23,8 +23,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
   
-//        self.linphoneManager = LinphoneManager()
-//        linphoneManager?.demo()
+        self.linphoneManager = LinphoneManager()
+        linphoneManager?.demo()
         
         // Remove border in navigationBar
         UINavigationBar.appearance().shadowImage = UIImage()

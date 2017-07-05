@@ -17,11 +17,10 @@ class DashboardController: UIViewController {
     let locationManager = CLLocationManager()
 
     @IBOutlet weak var KiriromScope: UIButton!
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        var time = Timer.scheduledTimer(timeInterval: 0.4, target: self, selector: #selector(self.CheckuserLocstion), userInfo: nil, repeats: true)
+        let time = Timer.scheduledTimer(timeInterval: 0.4, target: self, selector: #selector(self.CheckuserLocstion), userInfo: nil, repeats: true)
         Slidemenu()
     }
     
@@ -49,7 +48,7 @@ class DashboardController: UIViewController {
 
     
 // func for show the Slidemenu
-    func Slidemenu(){
+    func Slidemenu() {
         if revealViewController() != nil {
             menuBtn.target = self.revealViewController()
             menuBtn.action = #selector(SWRevealViewController.revealToggle(_:))
@@ -60,7 +59,7 @@ class DashboardController: UIViewController {
         }
     }
     
-    func CheckuserLocstion(){
+    func CheckuserLocstion() {
         
         
         self.locationManager.requestAlwaysAuthorization()// request user location
@@ -80,22 +79,22 @@ class DashboardController: UIViewController {
                 let currentlocation_long = Double((locationManager.location?.coordinate.longitude)!)
                 let kiriromscope :Double = Double(distanceCal(lat:currentlocation_lat ,long:currentlocation_long))
                 if(kiriromscope < 17){
-                    KiriromScope.setTitle("In-Kirirom", for: .normal)
+                    KiriromScope.setTitle("In-Kirirom Mode", for: .normal)
                 }
-                else{
-                    KiriromScope.setTitle("Off-Kirirom", for: .normal)
+                else {
+                    KiriromScope.setTitle("Off-Kirirom Mode", for: .normal)
                     
                 }
             }
-            else{
+            else {
                 
                 //undefine location
-                KiriromScope.setTitle("undefined", for: .normal)
+                KiriromScope.setTitle("Unidentified", for: .normal)
             }
             
         }
-        else{
-            KiriromScope.setTitle("undefined", for: .normal)
+        else {
+            KiriromScope.setTitle("Unidentified", for: .normal)
         }
     }
     
@@ -108,7 +107,6 @@ class DashboardController: UIViewController {
         let a : Double = sin(dLat/2) * sin(dLat/2) + cos(lat*(Double.pi/180))*cos(KIRIROMLAT*(Double.pi/180)) * sin(dLon/2) * sin(dLon/2);
         let c :Double = 2 * atan2(sqrt(a), sqrt(1-a));
         let d:Double = R * c; // Distance in km
-        print (d)
         
         return d
         

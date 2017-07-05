@@ -12,29 +12,38 @@ import UIKit
 class InternalCallController: UIViewController {
     @IBOutlet weak var numberTextField: UITextField!
     
-//    var linphoneInstance = LinphoneManager.LinphoneManagerInstance
     var dialPhoneNumber: String = ""
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        self.linphoneObj = LinphoneManager()
         
     }
     
     @IBAction func NumberBtnClicked(_ sender: Any) {
+        if (numberTextField.text == "0") {
+            
+        }
         dialPhoneNumber = dialPhoneNumber + ((sender as AnyObject).titleLabel??.text)!
         numberTextField.text = dialPhoneNumber
     }
     
     @IBAction func DelBtnClicked(_ sender: Any) {
-        let lastIndex = dialPhoneNumber.index(before: dialPhoneNumber.endIndex)
-        dialPhoneNumber = dialPhoneNumber.substring(to: lastIndex)
-        numberTextField.text = dialPhoneNumber
+        if (dialPhoneNumber.characters.count > 0) {
+            let lastIndex = dialPhoneNumber.index(before: dialPhoneNumber.endIndex)
+            dialPhoneNumber = dialPhoneNumber.substring(to: lastIndex)
+            numberTextField.text = dialPhoneNumber
+        }
+        if (dialPhoneNumber.characters.count == 0) {
+            numberTextField.text = "0"
+        }
     }
     
     @IBAction func CallBtnClicked(_ sender: Any) {
         
         LinphoneManager.makeCall(phoneNumber: dialPhoneNumber)
     }
+    
+    
     
 }

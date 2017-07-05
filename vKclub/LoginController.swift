@@ -55,28 +55,20 @@ class LoginController: UIViewController {
                 UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
                 
                 if error == nil {
-                    
-                    
                     let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
                     let newViewController = storyBoard.instantiateViewController(withIdentifier: "MainDashboard") as! SWRevealViewController
                     self.present(newViewController, animated: true, completion: nil)
-                }
-                else{
-                    print("Login error: \(error?.localizedDescription)")
+                } else {
+                    print("Login error: \(String(describing: error?.localizedDescription))")
                     let alertController = UIAlertController(title: "Login Error", message: error?.localizedDescription, preferredStyle: .alert)
                     let okayAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
                     alertController.addAction(okayAction)
                     self.present(alertController, animated: true, completion: nil)
                     
                     return
-                    }
-                
-                
+                }
             });
-            
         }
-       
-        
     }
     
     @IBAction func SignInClicked(_ sender: Any) {
@@ -85,18 +77,14 @@ class LoginController: UIViewController {
             
         } else {
             //handle firebase sign in
-            UIComponentHelper.PresentActivityIndicator(view: self.view, option: true)
+//            UIComponentHelper.PresentActivityIndicator(view: self.view, option: true)
             
             Auth.auth().signIn(withEmail: emailTextField.text!, password: pwTextField.text!) { (user, error) in
-               
                 
                 if error == nil {
                     let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
                     let newViewController = storyBoard.instantiateViewController(withIdentifier: "MainDashboard") as! SWRevealViewController
-                    self.present(newViewController, animated: true, completion: nil)
-                    
-                    
-                    
+                    self.present(newViewController, animated: false, completion: nil)
                    
                     } else {
                     self.PresentAlertController(title: "Error", message: (error?.localizedDescription)!, actionTitle: "Okay")
