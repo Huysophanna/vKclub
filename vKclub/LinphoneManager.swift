@@ -37,36 +37,42 @@ let callStateChanged: LinphoneCoreCallStateChangedCb = {
     
     //store call data as optional value for using in some other classes
     LinphoneManager.callOpaquePointerData = call
-    
-    
+    LinphoneManager.lcOpaquePointerData = lc
     
 //    var ok = linphone_core_get_current_call(lc)
 //    print(ok.toInt(), "=====")
     
     switch callSate {
-    case LinphoneCallIncomingReceived: /**<This is a new incoming call */
-        NSLog("callStateChanged: LinphoneCallIncomingReceived")
+        case LinphoneCallIncomingReceived: /**<This is a new incoming call */
+            print("callStateChanged: LinphoneCallIncomingReceived", "====")
         
-        //indicate that there is an incoming call to show incomingcall screen
-        LinphoneManager.incomingCallFlag = true
+            //indicate that there is an incoming call to show incomingcall screen
+            LinphoneManager.incomingCallFlag = true
        
-        if answerCall{
-            ms_usleep(3 * 1000 * 1000); // Wait 3 seconds to pickup
-            linphone_core_accept_call(lc, call)
-        }
+            if answerCall{
+                ms_usleep(3 * 1000 * 1000); // Wait 3 seconds to pickup
+                linphone_core_accept_call(lc, call)
+            }
+        break
         
-    case LinphoneCallStreamsRunning: /**<The media streams are established and running*/
-        NSLog("callStateChanged: LinphoneCallStreamsRunning")
+        case LinphoneCallStreamsRunning: /**<The media streams are established and running*/
+            print("callStateChanged: LinphoneCallStreamsRunning", "====")
+        break
         
+        case LinphoneCallError: /**<The call encountered an error*/
+            print("callStateChanged: LinphoneCallError", "====")
+        break
         
-    case LinphoneCallError: /**<The call encountered an error*/
-        NSLog("callStateChanged: LinphoneCallError")
+        case LinphoneCallReleased:
+            LinphoneManager.releaseCallFlag = true
+            print("callStateChanged: LinphoneCallReleased", "====")
+            
+        break
         
-    default:
-        NSLog("Default call state")
+        default:
+            print("callStateChanged: Default", "====")
+        break
     }
-    
-    
 }
 
 class LinphoneManager {
@@ -74,9 +80,21 @@ class LinphoneManager {
     static let incomingCallInstance = IncomingCallController()
     
     static var callOpaquePointerData: Optional<OpaquePointer>
+    static var lcOpaquePointerData: Optional<OpaquePointer>
     static var incomingCallFlag: Bool = false {
         didSet {
             incomingCallInstance.incomingCallFlag = incomingCallFlag
+        }
+    }
+    static var releaseCallFlag: Bool = true {
+        //send true when release call to dismiss incoming view, then set it back false
+        willSet {
+            incomingCallInstance.releaseCallFlag = releaseCallFlag
+            print("===willSet===", releaseCallFlag)
+        }
+        didSet {
+            incomingCallInstance.releaseCallFlag = false
+            print("===didSet===", releaseCallFlag)
         }
     }
     
@@ -162,31 +180,42 @@ class LinphoneManager {
     }
     
     static func getCallerNb() -> String {
-        var remoteAddr = linphone_address_as_string(linphone_call_get_remote_address(LinphoneManager.callOpaquePointerData))
+        let remoteAddr = linphone_address_as_string(linphone_call_get_remote_address(LinphoneManager.callOpaquePointerData))
         let remoteAddrStr:String? = String(cString: remoteAddr!)
         let delimiter = "\""
         var dividedRemodeAddrStr = remoteAddrStr?.components(separatedBy: delimiter)
         
-        var callerID = dividedRemodeAddrStr?[2].substring(to: (dividedRemodeAddrStr?[2].index((dividedRemodeAddrStr?[2].endIndex)!, offsetBy: -15))!).substring(from: (dividedRemodeAddrStr?[2].index((dividedRemodeAddrStr?[2])!.startIndex, offsetBy: 6))!)
+        let callerID = dividedRemodeAddrStr?[2].substring(to: (dividedRemodeAddrStr?[2].index((dividedRemodeAddrStr?[2].endIndex)!, offsetBy: -15))!).substring(from: (dividedRemodeAddrStr?[2].index((dividedRemodeAddrStr?[2])!.startIndex, offsetBy: 6))!)
         
         return callerID!
     }
     
     static func getContactName() -> String {
-        var remoteAddr = linphone_address_as_string(linphone_call_get_remote_address(LinphoneManager.callOpaquePointerData))
+        let remoteAddr = linphone_address_as_string(linphone_call_get_remote_address(LinphoneManager.callOpaquePointerData))
         let remoteAddrStr:String? = String(cString: remoteAddr!)
         let delimiter = "\""
         var dividedRemodeAddrStr = remoteAddrStr?.components(separatedBy: delimiter)
         
-        var contactName = dividedRemodeAddrStr?[1]
+        let contactName = dividedRemodeAddrStr?[1]
         
         return contactName!
     }
     
-    
+    static func getCurrentCallDuration() -> (Int, Int, Int) {
+        let duration = Int(linphone_core_get_current_call_duration(LinphoneManager.lcOpaquePointerData))
+        let hour = duration / 3600
+        let minute = (duration % 3600) / 60
+        let second = (duration % 3600) % 60
+        
+        return (hour, minute, second)
+    }
     
     static func declineCall(_declinedReason: _LinphoneReason) {
         linphone_core_decline_call(theLinphone.lc, LinphoneManager.callOpaquePointerData, _declinedReason)
+    }
+    
+    static func endCall() {
+        linphone_core_terminate_call(LinphoneManager.lcOpaquePointerData, LinphoneManager.callOpaquePointerData)
     }
     
     func idle() {
@@ -264,7 +293,7 @@ class LinphoneManager {
     }
     
     @objc func iterate(){
-        if let lc = theLinphone.lc{
+        if let lc = theLinphone.lc {
             linphone_core_iterate(lc); /* first iterate initiates registration */
         }
     }

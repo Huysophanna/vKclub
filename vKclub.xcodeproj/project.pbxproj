@@ -113,10 +113,10 @@
 		7F1E247E1F024D2F0090C7E7 /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SWRevealViewController.h; path = vKclub/SWRevealViewController.h; sourceTree = "<group>"; };
 		7F1E247F1F024D2F0090C7E7 /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SWRevealViewController.m; path = vKclub/SWRevealViewController.m; sourceTree = "<group>"; };
 		7F1E24811F024EF00090C7E7 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		7F3639231F04C54E00716B41 /* InternalCallController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InternalCallController.swift; sourceTree = "<group>"; };
-		7F3C1DAB1F03AAD100888BEA /* ButtonBorder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonBorder.swift; sourceTree = "<group>"; };
+		7F3639231F04C54E00716B41 /* InternalCallController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InternalCallController.swift; path = vKclub/InternalCallController.swift; sourceTree = "<group>"; };
+		7F3C1DAB1F03AAD100888BEA /* ButtonBorder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ButtonBorder.swift; path = vKclub/ButtonBorder.swift; sourceTree = "<group>"; };
 		7F8E0D0C1F025C4900EE99BF /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../Info.plist; sourceTree = "<group>"; };
-		7FBF65EC1F0C0A8F00307BF3 /* IncomingCallController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncomingCallController.swift; sourceTree = "<group>"; };
+		7FBF65EC1F0C0A8F00307BF3 /* IncomingCallController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IncomingCallController.swift; path = vKclub/IncomingCallController.swift; sourceTree = "<group>"; };
 		A924DEC41D07AC620030A438 /* linphonerc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = linphonerc; sourceTree = "<group>"; };
 		A924DEC51D07AC620030A438 /* linphonerc-factory */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "linphonerc-factory"; sourceTree = "<group>"; };
 		A924DECC1D07D2620030A438 /* Secret.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Secret.plist; sourceTree = "<group>"; };
@@ -214,7 +214,7 @@
 		A9FACB061D0A7B3700E3C8A5 /* soft_as_snow.mkv */ = {isa = PBXFileReference; lastKnownFileType = file; path = soft_as_snow.mkv; sourceTree = "<group>"; };
 		A9FACB071D0A7B3700E3C8A5 /* toy-mono.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "toy-mono.wav"; sourceTree = "<group>"; };
 		BBDBA929F28239775CF624FD /* Pods-vKclub.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-vKclub.debug.xcconfig"; path = "Pods/Target Support Files/Pods-vKclub/Pods-vKclub.debug.xcconfig"; sourceTree = "<group>"; };
-		C52C21C11F03DBE100B546E1 /* MenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
+		C52C21C11F03DBE100B546E1 /* MenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MenuController.swift; path = vKclub/MenuController.swift; sourceTree = "<group>"; };
 		C58A7A451F03AA620046E0B3 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
