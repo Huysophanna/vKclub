@@ -16,13 +16,18 @@ class DashboardController: UIViewController {
     let KIRIROMLNG : Double = 104.065818;
     let R : Double = 6371; // Radius of the earth in km
     let locationManager = CLLocationManager()
+    var lat: Double = 0
+    var long:Double = 0
+    
+   
+   
 
     @IBOutlet weak var KiriromScope: UIButton!
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let time = Timer.scheduledTimer(timeInterval: 0.4, target: self, selector: #selector(self.CheckuserLocstion), userInfo: nil, repeats: true)
+        let time = Timer.scheduledTimer(timeInterval: 0.4, target: self, selector: #selector(self.isKirirom), userInfo: nil, repeats: true)
         Slidemenu()
     }
     
@@ -41,12 +46,6 @@ class DashboardController: UIViewController {
         performSegue(withIdentifier: "PushMap", sender: self)
     }
   
-//    func CheckLocationMode()  {
-//
-//        CheckLocation.layer.cornerRadius = 10.0
-//        CheckLocation.clipsToBounds = true
-//        
-//    }
 
     
 // func for show the Slidemenu
@@ -61,11 +60,30 @@ class DashboardController: UIViewController {
         }
     }
     
-    func CheckuserLocstion(){
+     func isKirirom(){
+        let Check : String =  CheckuserLocstion()
+        if ( Check == "inKirirom"){
+            KiriromScope.setTitle("In-Kirirom", for: .normal)
+            
+        }else if (Check == "offKirirom"){
+            KiriromScope.setTitle("off-Kirirom", for: .normal)
+            
+        }else if( Check == "identifying"){
+            KiriromScope.setTitle("identifying", for: .normal)
+
+            
+        }else{
+            
+            KiriromScope.setTitle("undefined", for: .normal)
+        }
+        
+    }
+    func CheckuserLocstion() -> String{
         
         
         self.locationManager.requestAlwaysAuthorization()// request user location
         self.locationManager.requestWhenInUseAuthorization()
+       
         
         //when user allow location
         if CLLocationManager.locationServicesEnabled() {
@@ -81,27 +99,31 @@ class DashboardController: UIViewController {
                 let currentlocation_long = Double((locationManager.location?.coordinate.longitude)!)
                 let kiriromscope :Double = Double(distanceCal(lat:currentlocation_lat ,long:currentlocation_long))
                 if(kiriromscope < 17){
-                    KiriromScope.setTitle("In-Kirirom", for: .normal)
-                }
-                else{
-                    KiriromScope.setTitle("Off-Kirirom", for: .normal)
+                    lat = currentlocation_lat
+                    long = currentlocation_long
+                   
+                   
                     
+                    return "inKirirom"
+                    
+                }else{
+                    
+                    return "offKirirom"
+                        
                 }
-            }
-            else{
+            }else{
                 
-                //undefine location
-                KiriromScope.setTitle("undefined", for: .normal)
+                //undefine location when you close the vKclub location service
+                return "identifying"
             }
             
-        }
-        else{
-            KiriromScope.setTitle("undefined", for: .normal)
-        }
+            
+        }else{
+            //undefine location when you close all the app location service
+              return "undefined"
+           }
+        
     }
-    
-    
-    
     //user scope
     func distanceCal(lat:Double,long:Double) -> Double   {
         let dLat : Double = (KIRIROMLAT-lat)*(Double.pi/180)
@@ -109,11 +131,13 @@ class DashboardController: UIViewController {
         let a : Double = sin(dLat/2) * sin(dLat/2) + cos(lat*(Double.pi/180))*cos(KIRIROMLAT*(Double.pi/180)) * sin(dLon/2) * sin(dLon/2);
         let c :Double = 2 * atan2(sqrt(a), sqrt(1-a));
         let d:Double = R * c; // Distance in km
-        print (d)
-        
+               
         return d
-        
     }
+    @IBAction func NoticationBtn(_ sender: Any) {
+        performSegue(withIdentifier: "GotoNotification", sender: self)
+    }
+    
     
 
 }

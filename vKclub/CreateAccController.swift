@@ -11,6 +11,7 @@ import Firebase
 import FirebaseAuth
 
 class CreateAccController: ViewController {
+    
     @IBOutlet weak var signUpBtn: UIButton!
     @IBOutlet weak var backBtn: UIButton!
     @IBOutlet weak var nameTextField: UITextField!
@@ -47,7 +48,24 @@ class CreateAccController: ViewController {
                 UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
                 
                 if (error == nil) {
+                    let changeRequest = user?.createProfileChangeRequest()
+                    print(self.nameTextField.text)
+                    changeRequest?.displayName = self.nameTextField.text
+                    
+                    changeRequest?.commitChanges { (error) in
+                        print(error)
+                        
+                    }
+                    print("change",changeRequest?.displayName)
+                    print(user?.displayName)
+                                        
+                    
+                    
+                    
+                    
+                    
                     self.PresentAlertController(title: "Success", message: "Your new account has been created. Try logging in 🤠", actionTitle: "Okay")
+                    
                 } else {
                     self.PresentAlertController(title: "Something went wrong", message: (error?.localizedDescription)!, actionTitle: "Okay")
                 }

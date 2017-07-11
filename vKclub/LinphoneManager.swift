@@ -237,3 +237,4 @@ class LinphoneManager {
             timeInterval: 0.02, target: self, selector: #selector(iterate), userInfo: nil, repeats: true)
     }
 }
+

@@ -155,18 +155,7 @@ class MapController: UIViewController,GMSMapViewDelegate,CLLocationManagerDelega
             
         }
         
-      
-
-        
-        
-        
-        
-        
-        
     }
  
-    
-   
-   
     
 }

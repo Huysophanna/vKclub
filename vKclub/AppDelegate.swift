@@ -10,10 +10,12 @@ import UIKit
 import CoreData
 import Firebase
 import FBSDKCoreKit
+import UserNotifications
+import FirebaseDatabase
 
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterDelegate{
     
  
     
@@ -22,6 +24,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var linphoneManager: LinphoneManager?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        //notification
+      
+        
   
 //        self.linphoneManager = LinphoneManager()
 //        linphoneManager?.demo()
@@ -36,13 +41,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
        
         // Override point for customization after application launch.
         FirebaseApp.configure()
+        
+        
         // FB init
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+        // autoLogin
+        Auth.auth().addStateDidChangeListener { auth, user in
+            
+            if user == nil {
+                
+            }
+                
+            else{
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                appDelegate.window = UIWindow(frame: UIScreen.main.bounds)
+                let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                let yourVC = mainStoryboard.instantiateViewController(withIdentifier: "MainDashboard") as!  SWRevealViewController
+                appDelegate.window?.rootViewController = yourVC
+                appDelegate.window?.makeKeyAndVisible()
+            }
+        }
+
                
         
         
         return true
     }
+//    func automaticLogin() {
+//           }
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
         let handled = FBSDKApplicationDelegate.sharedInstance().application(app, open: url, options: options)
         
@@ -65,7 +91,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        
+        FBSDKAppEvents.activateApp()
+        
+        // RestaFrt any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
@@ -125,5 +154,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 let appDelegate = UIApplication.shared.delegate as! AppDelegate
 let context  = appDelegate.persistentContainer.viewContext
+var databaseRef = Database.database().reference()
 
 
