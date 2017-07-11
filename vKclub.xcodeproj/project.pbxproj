@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7F1984661F0E478B0063660B /* RoundButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1984651F0E478B0063660B /* RoundButton.swift */; };
 		7F1E24661F0247250090C7E7 /* CreateAccController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1E245F1F0247250090C7E7 /* CreateAccController.swift */; };
 		7F1E24671F0247250090C7E7 /* UIComponentHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1E24601F0247250090C7E7 /* UIComponentHelper.swift */; };
 		7F1E24681F0247250090C7E7 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1E24611F0247250090C7E7 /* LoginController.swift */; };
@@ -101,6 +102,7 @@
 /* Begin PBXFileReference section */
 		4CE35CA16D2A204E204DA562 /* Pods_vKclub.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_vKclub.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5690BC05728159C16A8F60B0 /* Pods-vKclub.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-vKclub.release.xcconfig"; path = "Pods/Target Support Files/Pods-vKclub/Pods-vKclub.release.xcconfig"; sourceTree = "<group>"; };
+		7F1984651F0E478B0063660B /* RoundButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RoundButton.swift; path = vKclub/RoundButton.swift; sourceTree = "<group>"; };
 		7F1E245F1F0247250090C7E7 /* CreateAccController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateAccController.swift; path = vKclub/CreateAccController.swift; sourceTree = "<group>"; };
 		7F1E24601F0247250090C7E7 /* UIComponentHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIComponentHelper.swift; path = vKclub/UIComponentHelper.swift; sourceTree = "<group>"; };
 		7F1E24611F0247250090C7E7 /* LoginController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginController.swift; path = vKclub/LoginController.swift; sourceTree = "<group>"; };
@@ -312,6 +314,7 @@
 			children = (
 				7F1E24601F0247250090C7E7 /* UIComponentHelper.swift */,
 				7F3C1DAB1F03AAD100888BEA /* ButtonBorder.swift */,
+				7F1984651F0E478B0063660B /* RoundButton.swift */,
 			);
 			name = HelperClass;
 			sourceTree = "<group>";
@@ -707,6 +710,7 @@
 				7FBF65ED1F0C0A8F00307BF3 /* IncomingCallController.swift in Sources */,
 				7F1E246B1F0247250090C7E7 /* MapController.swift in Sources */,
 				7F1E24691F0247250090C7E7 /* ForgotPWController.swift in Sources */,
+				7F1984661F0E478B0063660B /* RoundButton.swift in Sources */,
 				C52C21C21F03DBE100B546E1 /* MenuController.swift in Sources */,
 				7F1E24801F024D2F0090C7E7 /* SWRevealViewController.m in Sources */,
 			);

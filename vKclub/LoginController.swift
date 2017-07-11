@@ -114,7 +114,8 @@ class LoginController: UIViewController {
         let imageView = UIImageView();
         let image = UIImage(named: icon);
         imageView.image = image;
-        imageView.frame = CGRect(x: 18, y: 15, width: 20, height: 20)
+        imageView.frame = CGRect(x: textField.bounds.origin.x, y: textField.bounds.origin.y, width: 20, height: 20)
+        print(textField.bounds.height,"===")
         textField.addSubview(imageView)
         let leftView = UIView.init(frame: CGRect(x: 10, y: 10, width: 45, height: 25))
         textField.leftView = leftView;

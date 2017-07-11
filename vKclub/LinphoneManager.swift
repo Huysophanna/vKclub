@@ -90,11 +90,9 @@ class LinphoneManager {
         //send true when release call to dismiss incoming view, then set it back false
         willSet {
             incomingCallInstance.releaseCallFlag = releaseCallFlag
-            print("===willSet===", releaseCallFlag)
         }
         didSet {
             incomingCallInstance.releaseCallFlag = false
-            print("===didSet===", releaseCallFlag)
         }
     }
     
@@ -177,6 +175,15 @@ class LinphoneManager {
         
 //        setTimer()
 //        shutdown()
+    }
+    
+    static func enableLoudSpeaker() {
+//        linphone_call_get_play_volume(LinphoneManager.callOpaquePointerData)
+        linphone_call_get_speaker_volume_gain(LinphoneManager.callOpaquePointerData)
+        linphone_call_get_microphone_volume_gain(LinphoneManager.callOpaquePointerData)
+        linphone_call_get_play_volume(LinphoneManager.callOpaquePointerData)
+        
+        print("ok ========")
     }
     
     static func getCallerNb() -> String {
