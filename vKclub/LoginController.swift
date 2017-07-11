@@ -47,6 +47,7 @@ class LoginController: UIViewController {
             }else if (result?.isCancelled)! {
                 print("Facebook Cancelled")
                 
+
             }else{
                 guard let accessToken = FBSDKAccessToken.current() else {
                     print("Failed to get access token")
@@ -105,10 +106,11 @@ class LoginController: UIViewController {
             
         } else {
             //handle firebase sign in
-            //UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
+
+//            UIComponentHelper.PresentActivityIndicator(view: self.view, option: true)
             
             Auth.auth().signIn(withEmail: emailTextField.text!, password: pwTextField.text!) { (user, error) in
-                
+
                 
                 if error == nil {
                     
@@ -141,9 +143,11 @@ class LoginController: UIViewController {
                     
                     let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
                     let newViewController = storyBoard.instantiateViewController(withIdentifier: "MainDashboard") as! SWRevealViewController
+
                     self.present(newViewController, animated: true, completion: nil)
                     
-                } else {
+                }else {
+
                     self.PresentAlertController(title: "Error", message: (error?.localizedDescription)!, actionTitle: "Okay")
                 }
                 

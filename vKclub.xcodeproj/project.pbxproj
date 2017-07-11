@@ -19,6 +19,7 @@
 		7F1E24821F024EF00090C7E7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1E24811F024EF00090C7E7 /* AppDelegate.swift */; };
 		7F3639241F04C54E00716B41 /* InternalCallController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3639231F04C54E00716B41 /* InternalCallController.swift */; };
 		7F3C1DAC1F03AAD100888BEA /* ButtonBorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3C1DAB1F03AAD100888BEA /* ButtonBorder.swift */; };
+		7FBF65ED1F0C0A8F00307BF3 /* IncomingCallController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FBF65EC1F0C0A8F00307BF3 /* IncomingCallController.swift */; };
 		8F43A0EA78F773EEA1DEDAD0 /* Pods_vKclub.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CE35CA16D2A204E204DA562 /* Pods_vKclub.framework */; };
 		A924DEC21D07A5F80030A438 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = A99663E91D070507003B5EEE /* libz.tbd */; };
 		A924DEC81D07AC620030A438 /* linphonerc in Resources */ = {isa = PBXBuildFile; fileRef = A924DEC41D07AC620030A438 /* linphonerc */; };
@@ -116,9 +117,10 @@
 		7F1E247E1F024D2F0090C7E7 /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SWRevealViewController.h; path = vKclub/SWRevealViewController.h; sourceTree = "<group>"; };
 		7F1E247F1F024D2F0090C7E7 /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SWRevealViewController.m; path = vKclub/SWRevealViewController.m; sourceTree = "<group>"; };
 		7F1E24811F024EF00090C7E7 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		7F3639231F04C54E00716B41 /* InternalCallController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InternalCallController.swift; sourceTree = "<group>"; };
-		7F3C1DAB1F03AAD100888BEA /* ButtonBorder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonBorder.swift; sourceTree = "<group>"; };
+		7F3639231F04C54E00716B41 /* InternalCallController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InternalCallController.swift; path = vKclub/InternalCallController.swift; sourceTree = "<group>"; };
+		7F3C1DAB1F03AAD100888BEA /* ButtonBorder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ButtonBorder.swift; path = vKclub/ButtonBorder.swift; sourceTree = "<group>"; };
 		7F8E0D0C1F025C4900EE99BF /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../Info.plist; sourceTree = "<group>"; };
+		7FBF65EC1F0C0A8F00307BF3 /* IncomingCallController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IncomingCallController.swift; path = vKclub/IncomingCallController.swift; sourceTree = "<group>"; };
 		A924DEC41D07AC620030A438 /* linphonerc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = linphonerc; sourceTree = "<group>"; };
 		A924DEC51D07AC620030A438 /* linphonerc-factory */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "linphonerc-factory"; sourceTree = "<group>"; };
 		A924DECC1D07D2620030A438 /* Secret.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Secret.plist; sourceTree = "<group>"; };
@@ -217,7 +219,7 @@
 		A9FACB071D0A7B3700E3C8A5 /* toy-mono.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "toy-mono.wav"; sourceTree = "<group>"; };
 		BBDBA929F28239775CF624FD /* Pods-vKclub.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-vKclub.debug.xcconfig"; path = "Pods/Target Support Files/Pods-vKclub/Pods-vKclub.debug.xcconfig"; sourceTree = "<group>"; };
 		C51157D11F0B7A56008BCEC5 /* PersonService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonService.swift; sourceTree = "<group>"; };
-		C52C21C11F03DBE100B546E1 /* MenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
+		C52C21C11F03DBE100B546E1 /* MenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MenuController.swift; path = vKclub/MenuController.swift; sourceTree = "<group>"; };
 		C530EC941F1070B3000F0CD9 /* SettingController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingController.swift; sourceTree = "<group>"; };
 		C55F3D681F1251F4004E6CC0 /* NotificationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
 		C58A7A451F03AA620046E0B3 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -458,6 +460,7 @@
 				7F1E24621F0247250090C7E7 /* ForgotPWController.swift */,
 				7F1E24631F0247250090C7E7 /* DashboardController.swift */,
 				7F3639231F04C54E00716B41 /* InternalCallController.swift */,
+				7FBF65EC1F0C0A8F00307BF3 /* IncomingCallController.swift */,
 				7F1E24641F0247250090C7E7 /* MapController.swift */,
 				7F1E24651F0247250090C7E7 /* ServiceController.swift */,
 				C52C21C11F03DBE100B546E1 /* MenuController.swift */,
@@ -728,6 +731,7 @@
 				A996637A1D06FE65003B5EEE /* LinphoneManager.swift in Sources */,
 				7F1E24681F0247250090C7E7 /* LoginController.swift in Sources */,
 				7F3C1DAC1F03AAD100888BEA /* ButtonBorder.swift in Sources */,
+				7FBF65ED1F0C0A8F00307BF3 /* IncomingCallController.swift in Sources */,
 				7F1E246B1F0247250090C7E7 /* MapController.swift in Sources */,
 				7F1E24691F0247250090C7E7 /* ForgotPWController.swift in Sources */,
 				C52C21C21F03DBE100B546E1 /* MenuController.swift in Sources */,
@@ -792,6 +796,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = vKclub;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -833,6 +838,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = vKclub;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = "1,2";

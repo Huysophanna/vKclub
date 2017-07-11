@@ -28,8 +28,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
       
         
   
-//        self.linphoneManager = LinphoneManager()
-//        linphoneManager?.demo()
+        self.linphoneManager = LinphoneManager()
+        linphoneManager?.demo()
         
         // Remove border in navigationBar
         UINavigationBar.appearance().shadowImage = UIImage()

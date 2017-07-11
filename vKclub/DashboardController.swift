@@ -23,11 +23,12 @@ class DashboardController: UIViewController {
    
 
     @IBOutlet weak var KiriromScope: UIButton!
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
         let time = Timer.scheduledTimer(timeInterval: 0.4, target: self, selector: #selector(self.isKirirom), userInfo: nil, repeats: true)
+
         Slidemenu()
     }
     
@@ -49,7 +50,7 @@ class DashboardController: UIViewController {
 
     
 // func for show the Slidemenu
-    func Slidemenu(){
+    func Slidemenu() {
         if revealViewController() != nil {
             menuBtn.target = self.revealViewController()
             menuBtn.action = #selector(SWRevealViewController.revealToggle(_:))
@@ -60,6 +61,7 @@ class DashboardController: UIViewController {
         }
     }
     
+
      func isKirirom(){
         let Check : String =  CheckuserLocstion()
         if ( Check == "inKirirom"){
@@ -79,8 +81,6 @@ class DashboardController: UIViewController {
         
     }
     func CheckuserLocstion() -> String{
-        
-        
         self.locationManager.requestAlwaysAuthorization()// request user location
         self.locationManager.requestWhenInUseAuthorization()
        
@@ -131,13 +131,10 @@ class DashboardController: UIViewController {
         let a : Double = sin(dLat/2) * sin(dLat/2) + cos(lat*(Double.pi/180))*cos(KIRIROMLAT*(Double.pi/180)) * sin(dLon/2) * sin(dLon/2);
         let c :Double = 2 * atan2(sqrt(a), sqrt(1-a));
         let d:Double = R * c; // Distance in km
-               
+
         return d
     }
     @IBAction func NoticationBtn(_ sender: Any) {
         performSegue(withIdentifier: "GotoNotification", sender: self)
     }
-    
-    
-
 }
