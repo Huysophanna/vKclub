@@ -39,9 +39,6 @@ let callStateChanged: LinphoneCoreCallStateChangedCb = {
     LinphoneManager.callOpaquePointerData = call
     LinphoneManager.lcOpaquePointerData = lc
     
-//    var ok = linphone_core_get_current_call(lc)
-//    print(ok.toInt(), "=====")
-    
     switch callSate {
         case LinphoneCallIncomingReceived: /**<This is a new incoming call */
             print("callStateChanged: LinphoneCallIncomingReceived", "====")
@@ -57,6 +54,8 @@ let callStateChanged: LinphoneCoreCallStateChangedCb = {
         
         case LinphoneCallStreamsRunning: /**<The media streams are established and running*/
             print("callStateChanged: LinphoneCallStreamsRunning", "====")
+            LinphoneManager.callStreamRunning = true
+            
         break
         
         case LinphoneCallError: /**<The call encountered an error*/
@@ -84,6 +83,11 @@ class LinphoneManager {
     static var incomingCallFlag: Bool = false {
         didSet {
             incomingCallInstance.incomingCallFlag = incomingCallFlag
+        }
+    }
+    static var callStreamRunning: Bool = false {
+        didSet {
+            incomingCallInstance.callStreamRunning = callStreamRunning
         }
     }
     static var releaseCallFlag: Bool = true {
@@ -172,20 +176,20 @@ class LinphoneManager {
 //        }
 //        register(proxyConfig)
         linphone_core_accept_call(theLinphone.lc, LinphoneManager.callOpaquePointerData)
-        
 //        setTimer()
 //        shutdown()
     }
     
-    static func enableLoudSpeaker() {
-//        linphone_call_get_play_volume(LinphoneManager.callOpaquePointerData)
-        linphone_call_get_speaker_volume_gain(LinphoneManager.callOpaquePointerData)
-        linphone_call_get_microphone_volume_gain(LinphoneManager.callOpaquePointerData)
-        linphone_call_get_play_volume(LinphoneManager.callOpaquePointerData)
+    static func muteMic() {
+        linphone_core_enable_mic(LinphoneManager.lcOpaquePointerData, 0)
         
-        print("ok ========")
+        print(linphone_core_find_call_log_from_call_id(LinphoneManager.lcOpaquePointerData, linphone_call_log_get_call_id(LinphoneManager.callOpaquePointerData)), "==LOG==")
     }
     
+    static func unmuteMic() {
+        linphone_core_enable_mic(LinphoneManager.lcOpaquePointerData, 255)
+    }
+
     static func getCallerNb() -> String {
         let remoteAddr = linphone_address_as_string(linphone_call_get_remote_address(LinphoneManager.callOpaquePointerData))
         let remoteAddrStr:String? = String(cString: remoteAddr!)

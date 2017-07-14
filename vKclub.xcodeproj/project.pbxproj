@@ -15,11 +15,12 @@
 		7F1E246A1F0247250090C7E7 /* DashboardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1E24631F0247250090C7E7 /* DashboardController.swift */; };
 		7F1E246B1F0247250090C7E7 /* MapController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1E24641F0247250090C7E7 /* MapController.swift */; };
 		7F1E246C1F0247250090C7E7 /* ServiceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1E24651F0247250090C7E7 /* ServiceController.swift */; };
-		7F1E24721F02484A0090C7E7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7F1E24711F02484A0090C7E7 /* GoogleService-Info.plist */; };
 		7F1E24801F024D2F0090C7E7 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F1E247F1F024D2F0090C7E7 /* SWRevealViewController.m */; };
 		7F1E24821F024EF00090C7E7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1E24811F024EF00090C7E7 /* AppDelegate.swift */; };
 		7F3639241F04C54E00716B41 /* InternalCallController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3639231F04C54E00716B41 /* InternalCallController.swift */; };
 		7F3C1DAC1F03AAD100888BEA /* ButtonBorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3C1DAB1F03AAD100888BEA /* ButtonBorder.swift */; };
+		7F6067BE1F17714900F7CE26 /* RecentCallController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6067BD1F17714900F7CE26 /* RecentCallController.swift */; };
+		7F8C3C1D1F17B77D0060D31B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7F8C3C1C1F17B77D0060D31B /* GoogleService-Info.plist */; };
 		7FBF65ED1F0C0A8F00307BF3 /* IncomingCallController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FBF65EC1F0C0A8F00307BF3 /* IncomingCallController.swift */; };
 		8F43A0EA78F773EEA1DEDAD0 /* Pods_vKclub.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CE35CA16D2A204E204DA562 /* Pods_vKclub.framework */; };
 		A924DEC21D07A5F80030A438 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = A99663E91D070507003B5EEE /* libz.tbd */; };
@@ -115,12 +116,14 @@
 		7F1E24631F0247250090C7E7 /* DashboardController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DashboardController.swift; path = vKclub/DashboardController.swift; sourceTree = "<group>"; };
 		7F1E24641F0247250090C7E7 /* MapController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MapController.swift; path = vKclub/MapController.swift; sourceTree = "<group>"; };
 		7F1E24651F0247250090C7E7 /* ServiceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServiceController.swift; path = vKclub/ServiceController.swift; sourceTree = "<group>"; };
-		7F1E24711F02484A0090C7E7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7F1E247E1F024D2F0090C7E7 /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SWRevealViewController.h; path = vKclub/SWRevealViewController.h; sourceTree = "<group>"; };
 		7F1E247F1F024D2F0090C7E7 /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SWRevealViewController.m; path = vKclub/SWRevealViewController.m; sourceTree = "<group>"; };
 		7F1E24811F024EF00090C7E7 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7F3639231F04C54E00716B41 /* InternalCallController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InternalCallController.swift; path = vKclub/InternalCallController.swift; sourceTree = "<group>"; };
 		7F3C1DAB1F03AAD100888BEA /* ButtonBorder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ButtonBorder.swift; path = vKclub/ButtonBorder.swift; sourceTree = "<group>"; };
+		7F6067BD1F17714900F7CE26 /* RecentCallController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RecentCallController.swift; path = vKclub/RecentCallController.swift; sourceTree = "<group>"; };
+		7F8C3C1C1F17B77D0060D31B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		7F8C3C1E1F17CF030060D31B /* vKclub.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = vKclub.entitlements; sourceTree = "<group>"; };
 		7F8E0D0C1F025C4900EE99BF /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../Info.plist; sourceTree = "<group>"; };
 		7FBF65EC1F0C0A8F00307BF3 /* IncomingCallController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IncomingCallController.swift; path = vKclub/IncomingCallController.swift; sourceTree = "<group>"; };
 		A924DEC41D07AC620030A438 /* linphonerc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = linphonerc; sourceTree = "<group>"; };
@@ -365,9 +368,10 @@
 		A99663631D06F877003B5EEE /* vKclub */ = {
 			isa = PBXGroup;
 			children = (
+				7F8C3C1E1F17CF030060D31B /* vKclub.entitlements */,
 				C500A2961F065C20003943BD /* Model */,
 				7F8E0D0C1F025C4900EE99BF /* Info.plist */,
-				7F1E24711F02484A0090C7E7 /* GoogleService-Info.plist */,
+				7F8C3C1C1F17B77D0060D31B /* GoogleService-Info.plist */,
 				7F1E24811F024EF00090C7E7 /* AppDelegate.swift */,
 				A99663661D06F877003B5EEE /* ViewController.swift */,
 				A9FAC4671D07D6F200E3C8A5 /* View */,
@@ -464,6 +468,7 @@
 				7F1E24631F0247250090C7E7 /* DashboardController.swift */,
 				7F3639231F04C54E00716B41 /* InternalCallController.swift */,
 				7FBF65EC1F0C0A8F00307BF3 /* IncomingCallController.swift */,
+				7F6067BD1F17714900F7CE26 /* RecentCallController.swift */,
 				7F1E24641F0247250090C7E7 /* MapController.swift */,
 				7F1E24651F0247250090C7E7 /* ServiceController.swift */,
 				C52C21C11F03DBE100B546E1 /* MenuController.swift */,
@@ -613,6 +618,9 @@
 							com.apple.Maps.iOS = {
 								enabled = 0;
 							};
+							com.apple.Push = {
+								enabled = 1;
+							};
 						};
 					};
 				};
@@ -660,7 +668,7 @@
 				A9FACB131D0A7B3700E3C8A5 /* oldphone-mono.wav in Resources */,
 				A9FACB0F1D0A7B3700E3C8A5 /* its_a_game.mkv in Resources */,
 				A9FACB101D0A7B3700E3C8A5 /* leaving_dreams.mkv in Resources */,
-				7F1E24721F02484A0090C7E7 /* GoogleService-Info.plist in Resources */,
+				7F8C3C1D1F17B77D0060D31B /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -723,6 +731,7 @@
 				7F1E24821F024EF00090C7E7 /* AppDelegate.swift in Sources */,
 				A99663671D06F877003B5EEE /* ViewController.swift in Sources */,
 				7F1E246C1F0247250090C7E7 /* ServiceController.swift in Sources */,
+				7F6067BE1F17714900F7CE26 /* RecentCallController.swift in Sources */,
 				7F1E24661F0247250090C7E7 /* CreateAccController.swift in Sources */,
 				C51157D21F0B7A56008BCEC5 /* PersonService.swift in Sources */,
 				7F1E24671F0247250090C7E7 /* UIComponentHelper.swift in Sources */,
@@ -857,6 +866,7 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = vKclub/vKclub.entitlements;
 				DEVELOPMENT_TEAM = 87A3CVP9KW;
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
@@ -882,6 +892,7 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = vKclub/vKclub.entitlements;
 				DEVELOPMENT_TEAM = 87A3CVP9KW;
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;

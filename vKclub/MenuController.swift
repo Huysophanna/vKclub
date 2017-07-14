@@ -27,15 +27,11 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         EmailProvider()
         imageProfile.layer.cornerRadius = 50
         EditBtn.layer.borderColor = UIColor.green.cgColor
-       
-        EditBtn.layer.cornerRadius = 2;
-        EditBtn.layer.borderWidth = 1;
-        EmergencyBtn.layer.borderColor = UIColor.red.cgColor
-        EmergencyBtn.layer.cornerRadius = 5;
-        EmergencyBtn.layer.borderWidth = 2;
-//        FBlinked.layer.borderColor = UIColor.green.cgColor
-//        FBlinked.layer.cornerRadius = 2;
-//        FBlinked.layer.borderWidth = 1;
+        
+        //make responsive rounded user profile picture
+        imageProfile.frame = CGRect(x: EditBtn.frame.origin.x, y: imageProfile.bounds.width / 5, width: (view.bounds.width * 35) / 100, height: (view.bounds.width * 35) / 100)
+        imageProfile.layer.cornerRadius = imageProfile.bounds.width / 2
+        
         
     }
 
@@ -99,14 +95,11 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         }
     }
     func EditProfile(){
-        
         performSegue(withIdentifier:"GotoEditProfile", sender: self)
 
-        
     }
     
-    func deleteAllData(entity: String)
-    {
+    func deleteAllData(entity: String) {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entity)
         fetchRequest.returnsObjectsAsFaults = false
         
@@ -125,10 +118,9 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     }
     
     @IBAction func EmergencySOS(_ sender: Any){
-        let Check : String =  Checklocation.CheckuserLocstion()
+        let Check : String =  Checklocation.CheckUserLocation()
         if Check == "inKirirom" {
             self.inKirirom()
-            
             
         } else if (Check == "offKirirom") {
             PresentAlertController(title: "Something went wrong", message: "You off kirirom,so You can not use EmergencySOS function", actionTitle: "Got it")
@@ -140,7 +132,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         
     }
     
-    func inKirirom(){
+    func inKirirom() {
         let smsAlert = UIAlertController(title: "EmergencySOS", message: "We will generate a SMS along with your current location to our supports. We suggest you not to move far away from your current position, as we're trying our best to get there as soon as possible. \n (Standard SMS rates may apply)", preferredStyle: UIAlertControllerStyle.alert)
         
         smsAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
@@ -153,7 +145,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         
     }
     //send SMS
-    func SMS(){
+    func SMS() {
                 let currentLocaltion_lat = String(Checklocation.lat)
         let currentLocation_long = String(Checklocation.long)
         print(currentLocaltion_lat)

@@ -12,6 +12,8 @@ import UIKit
 class InternalCallController: UIViewController {
     @IBOutlet weak var numberTextField: UITextField!
     
+    var incomingCallInstance: IncomingCallController? = IncomingCallController()
+    
     var dialPhoneNumber: String = ""
     
     
@@ -35,13 +37,17 @@ class InternalCallController: UIViewController {
             numberTextField.text = dialPhoneNumber
         }
         if (dialPhoneNumber.characters.count == 0) {
-            numberTextField.text = "0"
+            numberTextField.placeholder = "Enter phone number"
         }
     }
     
     @IBAction func CallBtnClicked(_ sender: Any) {
-        
-        LinphoneManager.makeCall(phoneNumber: dialPhoneNumber)
+        if dialPhoneNumber.characters.count != 0 {
+            LinphoneManager.makeCall(phoneNumber: dialPhoneNumber)
+            
+            IncomingCallController.dialPhoneNumber = dialPhoneNumber
+            incomingCallInstance?.callToFlag = true
+        }
     }
     
     

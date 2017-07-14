@@ -1,14 +1,10 @@
 import CoreData
 
 class PersonService{
-    
-   
-    
     // Creates a new Person
-    func create(facebook: Bool, imageData: NSData ) -> UserProfile{
-        
+    func create(facebook: Bool, imageData: NSData ) -> UserProfile {
         let newItem = NSEntityDescription.insertNewObject(forEntityName: "UserProfile", into: context)
-         newItem.setValue(facebook, forKey: "facebook")
+         newItem.setValue(facebook, forKey: "facebookProvider")
          newItem.setValue(facebook, forKey: "imageData")
          return newItem as! UserProfile
     }
@@ -25,14 +21,11 @@ class PersonService{
             person.email     = updatedPerson.email
             person.username  = updatedPerson.username
         }
-        
     }
     
-        
-    
-   func get(withPredicate queryPredicate: NSPredicate) -> [UserProfile]{
+    func get(withPredicate queryPredicate: NSPredicate) -> [UserProfile]{
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "UserProfile")
-        
+
         fetchRequest.predicate = queryPredicate
         
         do {
@@ -45,6 +38,4 @@ class PersonService{
             return [UserProfile]()
         }
     }
-    
-      
 }

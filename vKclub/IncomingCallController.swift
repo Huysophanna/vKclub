@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import AVFoundation
 
 class IncomingCallController: UIViewController {
     @IBOutlet weak var callerNameLabel: UILabel!
@@ -21,23 +22,49 @@ class IncomingCallController: UIViewController {
     @IBOutlet weak var answerCallBtn: UIButton!
     @IBOutlet weak var endCallBtn: UIButton!
     
+    let LINPHONE_CALLSTREAM_RUNNING = "LinphoneCallStreamsRunning"
+    
     var callStateRawValue: UnsafePointer<Int8>?
     var callState: String = ""
     
+    static var dialPhoneNumber: String = ""
     var updateCallDurationInterval: Timer?
+    var waitForStreamRunningInterval: Timer?
     var incomingCallFlag = false {
         didSet {
             //listen for incoming call event
-            if (incomingCallFlag == true) {
+            if incomingCallFlag == true {
+                IncomingCallController.CallToAction = false
                 PresentIncomingVC()
+                
             }
+        }
+    }
+    
+    static var CallToAction = false
+    var callToFlag = false {
+        didSet {
+            if callToFlag == true {
+                IncomingCallController.CallToAction = true
+                PresentIncomingVC()
+                
+            }
+        }
+    }
+    
+    static var CallStreamRunning = false
+    var callStreamRunning = false {
+        didSet {
+            IncomingCallController.CallStreamRunning = callStreamRunning
+            print("callStreamRunning ====YAYY====")
         }
     }
     
     var releaseCallFlag = false {
         didSet {
             //listen for release call event and dismiss the incoming call view
-            if (releaseCallFlag == true) {
+            if releaseCallFlag == true {
+                IncomingCallController.CallStreamRunning = false
                 UIApplication.topViewController()?.dismiss(animated: true, completion: nil)
             }
         }
@@ -53,8 +80,36 @@ class IncomingCallController: UIViewController {
         SetImageBtn(button: answerCallBtn, imageName: "call-answer", imgEdgeInsets: 13)
         SetImageBtn(button: endCallBtn, imageName: "reject-phone-icon", imgEdgeInsets: 5)
         
-        callerNameLabel.text = LinphoneManager.getContactName()
-        callerIDLabel.text = LinphoneManager.getCallerNb()
+        if IncomingCallController.CallToAction {
+            //user makes call to other person
+            PrepareCallToActionUI()
+            
+            waitForStreamRunningInterval = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(IncomingCallController.WaitForStreamRunning), userInfo: nil, repeats: true)
+            
+        } else {
+            //user receives call, set contact name & caller number label for incoming call VC
+            callerNameLabel.text = LinphoneManager.getContactName()
+            callerIDLabel.text = LinphoneManager.getCallerNb()
+        }
+        
+    }
+    
+    func WaitForStreamRunning() {
+        if CheckLinphoneCallState() == LINPHONE_CALLSTREAM_RUNNING {
+            waitForStreamRunningInterval?.invalidate()
+            
+            PrepareInCallProgressUI()
+        }
+    }
+    
+    func PrepareCallToActionUI() {
+        print(IncomingCallController.dialPhoneNumber, "====NB==")
+        callerNameLabel.text = IncomingCallController.dialPhoneNumber
+        callerIDLabel.text = IncomingCallController.dialPhoneNumber
+        callingDurationLabel.text = "Dialling"
+        answerCallBtn.isHidden = true
+        rejectCallBtn.isHidden = true
+        endCallBtn.isHidden = false
     }
     
     override func didReceiveMemoryWarning() {
@@ -62,19 +117,36 @@ class IncomingCallController: UIViewController {
     }
     
     @IBAction func EndCallBtnClicked(_ sender: Any) {
+        print(CheckLinphoneCallState(), "====")
         LinphoneManager.endCall()
+        
         incomingCallFlag = false
+        releaseCallFlag = true
         
     }
     
     @IBAction func DeclineCallBtnClicked(_ sender: Any) {
         LinphoneManager.declineCall(_declinedReason: LinphoneReasonBusy)
+        
         incomingCallFlag = false
+        releaseCallFlag = true
     }
     
     @IBAction func AcceptCallBtnClicked(_ sender: Any) {
         LinphoneManager.receiveCall()
         incomingCallFlag = false
+        
+        PrepareInCallProgressUI()
+    }
+    
+    func CheckLinphoneCallState() -> String {
+        callStateRawValue = linphone_call_state_to_string(linphone_call_get_state(LinphoneManager.callOpaquePointerData))
+        callState = String(cString: callStateRawValue!)
+        return callState
+    }
+    
+    func PrepareInCallProgressUI() {
+        callStreamRunning = false
         
         answerCallBtn.isHidden = true
         rejectCallBtn.isHidden = true
@@ -89,16 +161,61 @@ class IncomingCallController: UIViewController {
         updateCallDurationInterval = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(IncomingCallController.UpdateCallDuration), userInfo: nil, repeats: true)
     }
     
+    @IBAction func MuteBtnClicked(_ sender: Any) {
+        if muteLabel.text == "Mute" {
+            MuteCallAction()
+        } else {
+            UnmuteCallAction()
+        }
+    }
+    
+    func MuteCallAction() {
+        LinphoneManager.muteMic()
+        muteLabel.text = "Unmute"
+        muteBtn.tintColor = UIColor.black
+        muteBtn.backgroundColor = UIColor.white
+    }
+    
+    func UnmuteCallAction() {
+        LinphoneManager.unmuteMic()
+        muteLabel.text = "Mute"
+        muteBtn.tintColor = UIColor.white
+        muteBtn.backgroundColor = UIColor.clear
+    }
+    
     @IBAction func SpeakerBtnClicked(_ sender: Any) {
-        LinphoneManager.enableLoudSpeaker()
-        print("====LOUD===")
+        if speakerBtn.tag == 0 {
+            EnableLoudSpeakerAction()
+        } else {
+            DisableLoudSpeakerAction()
+        }
+    }
+    
+    func EnableLoudSpeakerAction() {
+        do {
+            try AVAudioSession.sharedInstance().overrideOutputAudioPort(AVAudioSessionPortOverride.speaker)
+        } catch let error as NSError {
+            print("audioSession error: \(error.localizedDescription)")
+        }
+        
+        speakerBtn.tag = 1
+        speakerBtn.tintColor = UIColor.black
+        speakerBtn.backgroundColor = UIColor.white
+    }
+    
+    func DisableLoudSpeakerAction() {
+        do {
+            try AVAudioSession.sharedInstance().overrideOutputAudioPort(AVAudioSessionPortOverride.none)
+        } catch let error as NSError {
+            print("audioSession error: \(error.localizedDescription)")
+        }
+        
+        speakerBtn.tag = 0
+        speakerBtn.tintColor = UIColor.white
+        speakerBtn.backgroundColor = UIColor.clear
     }
     
     func UpdateCallDuration() {
-        //check linphone call state
-        callStateRawValue = linphone_call_state_to_string(linphone_call_get_state(LinphoneManager.callOpaquePointerData))
-        callState = String(cString: callStateRawValue!)
-        
         let (hour, minute, second) = LinphoneManager.getCurrentCallDuration()
         //convert it to have 2 digits number
         let secondStr = second < 10 ? "0" + String(second) : String(second)
@@ -109,7 +226,7 @@ class IncomingCallController: UIViewController {
         callingDurationLabel.text = hour == 0 ? minuteStr + ":" + secondStr : hourStr + ":" + minuteStr + ":" + secondStr
         
         //remove interval when A accept the call and B end the call
-        if callState != "LinphoneCallStreamsRunning" {
+        if CheckLinphoneCallState() != LINPHONE_CALLSTREAM_RUNNING {
             updateCallDurationInterval?.invalidate()
         }
         

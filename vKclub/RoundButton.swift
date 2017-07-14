@@ -29,14 +29,11 @@ class RoundButton: UIButton {
         }
     }
     
-//    @IBInspectable var imageButton: UIImage = UIImage(named: "reject-phone-icon")! {
-//        didSet{
-//            self.setImage(self.imageButton, for: .normal)
-//            self.contentMode = .center
-//            self.imageView?.contentMode = .scaleAspectFit
-//            self.imageEdgeInsets = UIEdgeInsetsMake(5, 5, 5, 5)
-//        }
-//        
-//    }
+    @IBInspectable var btnBackgroundColor: UIColor = UIColor.clear {
+        didSet {
+            self.backgroundColor = btnBackgroundColor
+        }
+    }
 
+    
 }
