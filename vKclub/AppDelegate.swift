@@ -10,21 +10,32 @@ import UIKit
 import CoreData
 import Firebase
 import FBSDKCoreKit
+import UserNotifications
+import FirebaseMessaging
 
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
-    
- 
-    
-    
+class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterDelegate,MessagingDelegate{
+    /// This method will be called whenever FCM receives a new, default FCM token for your
+    /// Firebase project's Sender ID.
+    /// You can send this token to your application server to send notifications to this device.
+    func messaging(_ messaging: Messaging, didRefreshRegistrationToken fcmToken: String) {
+        print(fcmToken)
+    }
+    var notification_num = 0
     var window: UIWindow?
+    let personService = PersonService()
+    
+    
+   
+    let gcmMessageIDKey = "gcm.message_id"
     var linphoneManager: LinphoneManager?
-
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-  
-//        self.linphoneManager = LinphoneManager()
-//        linphoneManager?.demo()
+        
+        
+        //        self.linphoneManager = LinphoneManager()
+        //        linphoneManager?.demo()
         
         // Remove border in navigationBar
         UINavigationBar.appearance().shadowImage = UIImage()
@@ -33,62 +44,199 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Change navigation title color as default
         UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName:UIColor.white]
+        if #available(iOS 10.0, *) {
+            // For iOS 10 display notification (sent via APNS)
+            UNUserNotificationCenter.current().delegate = self
+            
+            let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+            UNUserNotificationCenter.current().requestAuthorization(
+                options: authOptions,
+                completionHandler: {_, _ in })
+            
+            // For iOS 10 data message (sent via FCM)
+             Messaging.messaging().remoteMessageDelegate = self
+        } else {
+            let settings: UIUserNotificationSettings =
+                UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+            application.registerUserNotificationSettings(settings)
+        }
+        
+        application.registerForRemoteNotifications()
        
+        
         // Override point for customization after application launch.
         FirebaseApp.configure()
-        // FB init
+       
+              // FB init
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
-               
+        // autoLogin
+        
+        Auth.auth().addStateDidChangeListener { auth, user in
+            
+            if user == nil {
+                
+            }else{
+                
+                let provider = user?.providerData
+                
+                for i in provider!{
+                    let providerfb = i.providerID
+                    switch providerfb {
+                    case "facebook.com":
+                        if user?.displayName == nil && user?.photoURL == nil{
+                            print("Wait")
+                            
+                        }else{
+                            
+                            self.Dashboard()
+                            
+                        }
+                    case "password"    :
+                        if (user?.email == nil && user?.displayName == nil) {
+                            print("Wait")
+                            
+                        }else{
+                            
+                            if (user?.isEmailVerified )!{
+                                self.Dashboard()
+                                
+                            }else{
+                                print("No verified")
+                            }
+                            
+                        }
+                    default:
+                        print("Unknown provider ID: \(provider!)")
+                        return
+                    }
+                    
+                }
+                
+                
+            }
+        }
+        
+        
         
         
         return true
     }
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+//        InstanceID.instanceID().setAPNSToken(deviceToken, type: .prod)
+
+        InstanceID.instanceID().setAPNSToken(deviceToken, type: .sandbox)
+
+    }
+
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        print("Registration failed!")
+    }
+    
+    private func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
+        Messaging.messaging().appDidReceiveMessage(userInfo)
+        
+    }
+    @available(iOS 10.0, *)
+    func userNotificationCenter(_ center: UNUserNotificationCenter,  willPresent notification: UNNotification, withCompletionHandler   completionHandler: @escaping (_ options:   UNNotificationPresentationOptions) -> Void) {
+        notification_num += 1
+       
+        let dict = notification.request.content.userInfo["aps"] as! NSDictionary
+        print (dict)
+        let d : [String : Any] = dict["alert"] as! [String : Any]
+        let body : String = d["body"] as! String
+        let title : String = d["title"] as! String
+        print("Title:\(title) + body:\(body)")
+        personService.CreatnotificationCoredata(_notification_num: notification_num, _notification_body: body, _notification_title: title)
+        // custom code to handle push while app is in the foreground
+        print("Handle push from foreground\(notification.request.content.userInfo)")
+        self.showAlertAppDelegate(title: title,message:body,buttonTitle:"ok",window:self.window!)
+    }
+    
+    @available(iOS 10.0, *)
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        // if you set a member variable in didReceiveRemoteNotification, you  will know if this is from closed or background
+        notification_num += 1
+        let dict = response.notification.request.content.userInfo["aps"] as! NSDictionary
+        print (dict)
+        let d : [String : Any] = dict["alert"] as! [String : Any]
+        let body : String = d["body"] as! String
+        let title : String = d["title"] as! String
+        print("Title:\(title) + body:\(body)")
+        personService.CreatnotificationCoredata(_notification_num: notification_num, _notification_body: body, _notification_title: title)
+                print("Handle push from background or closed\(response.notification.request.content.userInfo)")
+        self.showAlertAppDelegate(title: title,message:body,buttonTitle:"ok",window:self.window!)
+       
+
+        
+    }
+    // Alert Controller in AppDelegate
+    func showAlertAppDelegate(title: String,message : String,buttonTitle: String,window: UIWindow){
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: buttonTitle, style: UIAlertActionStyle.default, handler: nil))
+        window.rootViewController?.present(alert, animated: false, completion: nil)
+    }
+    
+    func Dashboard(){
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDelegate.window = UIWindow(frame: UIScreen.main.bounds)
+        let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let yourVC = mainStoryboard.instantiateViewController(withIdentifier: "MainDashboard") as!  SWRevealViewController
+        appDelegate.window?.rootViewController = yourVC
+        appDelegate.window?.makeKeyAndVisible()
+    }
+   
+    //    func automaticLogin() {
+    //           }
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
         let handled = FBSDKApplicationDelegate.sharedInstance().application(app, open: url, options: options)
         
         return handled
     }
-   
-
+    
+    
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
     }
-
+    
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     }
-
+    
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
     }
-
+    
     func applicationDidBecomeActive(_ application: UIApplication) {
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        
+        FBSDKAppEvents.activateApp()
+        
+        // RestaFrt any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     }
-
+    
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
         self.saveContext()
     }
-
+    
     // MARK: - Core Data stack
-
+    
     lazy var persistentContainer: NSPersistentContainer = {
         /*
          The persistent container for the application. This implementation
          creates and returns a container, having loaded the store for the
          application to it. This property is optional since there are legitimate
          error conditions that could cause the creation of the store to fail.
-        */
+         */
         let container = NSPersistentContainer(name: "CoreData")
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
                 // Replace this implementation with code to handle the error appropriately.
                 // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                 
+                
                 /*
                  Typical reasons for an error here include:
                  * The parent directory does not exist, cannot be created, or disallows writing.
@@ -102,9 +250,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         })
         return container
     }()
-
+    
     // MARK: - Core Data Saving support
-
+    
     func saveContext () {
         let context = persistentContainer.viewContext
         if context.hasChanges {
@@ -118,12 +266,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
     }
-
+    
 }
-
-
 
 let appDelegate = UIApplication.shared.delegate as! AppDelegate
 let context  = appDelegate.persistentContainer.viewContext
-
-

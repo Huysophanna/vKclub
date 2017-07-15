@@ -11,6 +11,7 @@ import Firebase
 import FirebaseAuth
 
 class CreateAccController: ViewController {
+    
     @IBOutlet weak var signUpBtn: UIButton!
     @IBOutlet weak var backBtn: UIButton!
     @IBOutlet weak var nameTextField: UITextField!
@@ -47,7 +48,22 @@ class CreateAccController: ViewController {
                 UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
                 
                 if (error == nil) {
+                    let changeRequest = user?.createProfileChangeRequest()
+                    changeRequest?.displayName = self.nameTextField.text
+                    changeRequest?.commitChanges { (error) in
+                    
+                    }
+                    user?.sendEmailVerification(completion: { (error) in
+                        if error != nil{
+                            self.PresentAlertController(title: "Something went wrong", message: (error?.localizedDescription)!, actionTitle: "Okay")
+                        }
+                     })
+                     
                     self.PresentAlertController(title: "Success", message: "Your new account has been created. Try logging in 🤠", actionTitle: "Okay")
+                  
+                    UIApplication.shared.keyWindow?.rootViewController = self.storyboard!.instantiateViewController(withIdentifier: "loginController")
+
+                    
                 } else {
                     self.PresentAlertController(title: "Something went wrong", message: (error?.localizedDescription)!, actionTitle: "Okay")
                 }
@@ -59,5 +75,7 @@ class CreateAccController: ViewController {
     @IBAction func BackBtn(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
+    
+   
     
 }

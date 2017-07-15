@@ -1,9 +1,60 @@
-//
-//  PersonService.swift
-//  vKclub
-//
-//  Created by Machintos-HD on 7/4/17.
-//  Copyright © 2017 WiAdvance. All rights reserved.
-//
+import CoreData
 
-import Foundation
+class PersonService{
+    
+   
+    
+    // Creates a new Person
+    func CreatnotificationCoredata(_notification_num: intmax_t , _notification_body: String,_notification_title : String ) -> Notifications{
+        let newNotification = NSEntityDescription.insertNewObject(forEntityName: "Notifications", into: context)
+        newNotification.setValue(_notification_num, forKey: "notification_num")
+        newNotification.setValue(_notification_body, forKey: "notification_body")
+        newNotification.setValue(_notification_title, forKey: "notification_title")
+        do{
+           try  context.save()
+            
+        }catch{
+            print("error")
+        }
+        return newNotification as! Notifications
+    }
+    
+    // Gets a person by id
+    func getById(_id: NSManagedObjectID) -> UserProfile? {
+        return context.object(with: _id) as? UserProfile
+    }
+    
+    func updateUserProfile(_updatedPerson: UserProfile){
+        if let person = getById(_id: _updatedPerson.objectID){
+            person.facebookProvider = _updatedPerson.facebookProvider
+            person.imageData = _updatedPerson.imageData
+            person.email     = _updatedPerson.email
+            person.username  = _updatedPerson.username
+            
+            do{
+                try  context.save()
+                
+            }catch{
+                print("error")
+            }
+        }
+        
+    }
+    func get(withPredicate queryPredicate: NSPredicate) -> [UserProfile]{
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "UserProfile")
+        
+        fetchRequest.predicate = queryPredicate
+        
+        do {
+            let response = try context.fetch(fetchRequest)
+            return response as! [UserProfile]
+            
+        } catch let error as NSError {
+            // failure
+            print(error)
+            return [UserProfile]()
+        }
+    }
+    
+      
+}

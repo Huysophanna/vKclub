@@ -15,7 +15,6 @@
 		7F1E246B1F0247250090C7E7 /* MapController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1E24641F0247250090C7E7 /* MapController.swift */; };
 		7F1E246C1F0247250090C7E7 /* ServiceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1E24651F0247250090C7E7 /* ServiceController.swift */; };
 		7F1E24701F0247A20090C7E7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7F1E246F1F0247A20090C7E7 /* Assets.xcassets */; };
-		7F1E24721F02484A0090C7E7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7F1E24711F02484A0090C7E7 /* GoogleService-Info.plist */; };
 		7F1E24801F024D2F0090C7E7 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F1E247F1F024D2F0090C7E7 /* SWRevealViewController.m */; };
 		7F1E24821F024EF00090C7E7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1E24811F024EF00090C7E7 /* AppDelegate.swift */; };
 		7F3639241F04C54E00716B41 /* InternalCallController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3639231F04C54E00716B41 /* InternalCallController.swift */; };
@@ -93,9 +92,16 @@
 		A9FACB131D0A7B3700E3C8A5 /* oldphone-mono.wav in Resources */ = {isa = PBXBuildFile; fileRef = A9FACB051D0A7B3700E3C8A5 /* oldphone-mono.wav */; };
 		A9FACB141D0A7B3700E3C8A5 /* soft_as_snow.mkv in Resources */ = {isa = PBXBuildFile; fileRef = A9FACB061D0A7B3700E3C8A5 /* soft_as_snow.mkv */; };
 		A9FACB151D0A7B3700E3C8A5 /* toy-mono.wav in Resources */ = {isa = PBXBuildFile; fileRef = A9FACB071D0A7B3700E3C8A5 /* toy-mono.wav */; };
+		C51157D21F0B7A56008BCEC5 /* PersonService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51157D11F0B7A56008BCEC5 /* PersonService.swift */; };
 		C52C21C21F03DBE100B546E1 /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C52C21C11F03DBE100B546E1 /* MenuController.swift */; };
+		C53D8E7C1F16659400E047A8 /* RoundButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53D8E7B1F16659400E047A8 /* RoundButton.swift */; };
 		C58A7A461F03AA620046E0B3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C58A7A451F03AA620046E0B3 /* Main.storyboard */; };
 		C59D94C81F0756B3009103FA /* CoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C59D94C61F0756B3009103FA /* CoreData.xcdatamodeld */; };
+		C5A7BAB31F166F2E00744979 /* SettingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A7BAB21F166F2E00744979 /* SettingController.swift */; };
+		C5A7BAB51F16712C00744979 /* EditProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A7BAB41F16712C00744979 /* EditProfileController.swift */; };
+		C5AAE0ED1F192973002AEA8C /* NotificationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5AAE0EC1F192973002AEA8C /* NotificationTableViewCell.swift */; };
+		C5AAE0F11F19324D002AEA8C /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5AAE0F01F19324D002AEA8C /* NotificationViewController.swift */; };
+		C5AB9B541F1862E600ED4282 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C5AB9B531F1862E600ED4282 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -109,7 +115,6 @@
 		7F1E24641F0247250090C7E7 /* MapController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MapController.swift; path = vKclub/MapController.swift; sourceTree = "<group>"; };
 		7F1E24651F0247250090C7E7 /* ServiceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServiceController.swift; path = vKclub/ServiceController.swift; sourceTree = "<group>"; };
 		7F1E246F1F0247A20090C7E7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		7F1E24711F02484A0090C7E7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7F1E247E1F024D2F0090C7E7 /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SWRevealViewController.h; path = vKclub/SWRevealViewController.h; sourceTree = "<group>"; };
 		7F1E247F1F024D2F0090C7E7 /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SWRevealViewController.m; path = vKclub/SWRevealViewController.m; sourceTree = "<group>"; };
 		7F1E24811F024EF00090C7E7 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -213,9 +218,17 @@
 		A9FACB061D0A7B3700E3C8A5 /* soft_as_snow.mkv */ = {isa = PBXFileReference; lastKnownFileType = file; path = soft_as_snow.mkv; sourceTree = "<group>"; };
 		A9FACB071D0A7B3700E3C8A5 /* toy-mono.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "toy-mono.wav"; sourceTree = "<group>"; };
 		BBDBA929F28239775CF624FD /* Pods-vKclub.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-vKclub.debug.xcconfig"; path = "Pods/Target Support Files/Pods-vKclub/Pods-vKclub.debug.xcconfig"; sourceTree = "<group>"; };
+		C51157D11F0B7A56008BCEC5 /* PersonService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonService.swift; sourceTree = "<group>"; };
 		C52C21C11F03DBE100B546E1 /* MenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
+		C53D8E7B1F16659400E047A8 /* RoundButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundButton.swift; sourceTree = "<group>"; };
 		C58A7A451F03AA620046E0B3 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		C59C9A911F17CA4800996C4B /* vKclub.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = vKclub.entitlements; sourceTree = "<group>"; };
 		C59D94C71F0756B3009103FA /* Coredata.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Coredata.xcdatamodel; sourceTree = "<group>"; };
+		C5A7BAB21F166F2E00744979 /* SettingController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingController.swift; sourceTree = "<group>"; };
+		C5A7BAB41F16712C00744979 /* EditProfileController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileController.swift; sourceTree = "<group>"; };
+		C5AAE0EC1F192973002AEA8C /* NotificationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationTableViewCell.swift; sourceTree = "<group>"; };
+		C5AAE0F01F19324D002AEA8C /* NotificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
+		C5AB9B531F1862E600ED4282 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -310,8 +323,10 @@
 		7F3C1DAD1F03AC9A00888BEA /* HelperClass */ = {
 			isa = PBXGroup;
 			children = (
+				C53D8E7B1F16659400E047A8 /* RoundButton.swift */,
 				7F1E24601F0247250090C7E7 /* UIComponentHelper.swift */,
 				7F3C1DAB1F03AAD100888BEA /* ButtonBorder.swift */,
+				C51157D11F0B7A56008BCEC5 /* PersonService.swift */,
 			);
 			name = HelperClass;
 			sourceTree = "<group>";
@@ -351,9 +366,10 @@
 		A99663631D06F877003B5EEE /* vKclub */ = {
 			isa = PBXGroup;
 			children = (
+				C59C9A911F17CA4800996C4B /* vKclub.entitlements */,
 				C500A2961F065C20003943BD /* Model */,
 				7F8E0D0C1F025C4900EE99BF /* Info.plist */,
-				7F1E24711F02484A0090C7E7 /* GoogleService-Info.plist */,
+				C5AB9B531F1862E600ED4282 /* GoogleService-Info.plist */,
 				7F1E24811F024EF00090C7E7 /* AppDelegate.swift */,
 				A99663661D06F877003B5EEE /* ViewController.swift */,
 				A9FAC4671D07D6F200E3C8A5 /* View */,
@@ -452,6 +468,10 @@
 				7F1E24641F0247250090C7E7 /* MapController.swift */,
 				7F1E24651F0247250090C7E7 /* ServiceController.swift */,
 				C52C21C11F03DBE100B546E1 /* MenuController.swift */,
+				C5A7BAB21F166F2E00744979 /* SettingController.swift */,
+				C5A7BAB41F16712C00744979 /* EditProfileController.swift */,
+				C5AAE0EC1F192973002AEA8C /* NotificationTableViewCell.swift */,
+				C5AAE0F01F19324D002AEA8C /* NotificationViewController.swift */,
 			);
 			name = Controller;
 			path = ..;
@@ -595,6 +615,9 @@
 							com.apple.Maps.iOS = {
 								enabled = 0;
 							};
+							com.apple.Push = {
+								enabled = 1;
+							};
 						};
 					};
 				};
@@ -642,7 +665,7 @@
 				A9FACB131D0A7B3700E3C8A5 /* oldphone-mono.wav in Resources */,
 				A9FACB0F1D0A7B3700E3C8A5 /* its_a_game.mkv in Resources */,
 				A9FACB101D0A7B3700E3C8A5 /* leaving_dreams.mkv in Resources */,
-				7F1E24721F02484A0090C7E7 /* GoogleService-Info.plist in Resources */,
+				C5AB9B541F1862E600ED4282 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -701,13 +724,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C53D8E7C1F16659400E047A8 /* RoundButton.swift in Sources */,
+				C5A7BAB51F16712C00744979 /* EditProfileController.swift in Sources */,
 				C59D94C81F0756B3009103FA /* CoreData.xcdatamodeld in Sources */,
 				7F1E24821F024EF00090C7E7 /* AppDelegate.swift in Sources */,
 				A99663671D06F877003B5EEE /* ViewController.swift in Sources */,
 				7F1E246C1F0247250090C7E7 /* ServiceController.swift in Sources */,
 				7F1E24661F0247250090C7E7 /* CreateAccController.swift in Sources */,
+				C51157D21F0B7A56008BCEC5 /* PersonService.swift in Sources */,
+				C5A7BAB31F166F2E00744979 /* SettingController.swift in Sources */,
 				7F1E24671F0247250090C7E7 /* UIComponentHelper.swift in Sources */,
+				C5AAE0ED1F192973002AEA8C /* NotificationTableViewCell.swift in Sources */,
 				7F1E246A1F0247250090C7E7 /* DashboardController.swift in Sources */,
+				C5AAE0F11F19324D002AEA8C /* NotificationViewController.swift in Sources */,
 				7F3639241F04C54E00716B41 /* InternalCallController.swift in Sources */,
 				A924DECF1D07D4EA0030A438 /* README.md in Sources */,
 				A996637A1D06FE65003B5EEE /* LinphoneManager.swift in Sources */,
@@ -831,6 +860,7 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = vKclub/vKclub.entitlements;
 				DEVELOPMENT_TEAM = 87A3CVP9KW;
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
@@ -856,6 +886,7 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = vKclub/vKclub.entitlements;
 				DEVELOPMENT_TEAM = 87A3CVP9KW;
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
@@ -905,6 +936,7 @@
 			currentVersion = C59D94C71F0756B3009103FA /* Coredata.xcdatamodel */;
 			path = CoreData.xcdatamodeld;
 			sourceTree = "<group>";
+			usesTabs = 0;
 			versionGroupType = wrapper.xcdatamodel;
 		};
 /* End XCVersionGroup section */
