@@ -21,7 +21,7 @@ class LoginController: UIViewController {
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var signInBtn: UIButton!
     @IBOutlet weak var signInFBBtn: UIButton!
-    let User = UserProfile(context: context)
+    let User = UserProfile(context: manageObjectContext)
     
     override func viewDidLoad() {
         

@@ -14,7 +14,7 @@ class EditProfileController: UIViewController {
     @IBOutlet weak var Email: UITextField!
     @IBOutlet weak var currentpass: UITextField!
     @IBOutlet weak var UpdateBtn: UIButton!
-    let User = UserProfile(context: context)
+    let User = UserProfile(context: manageObjectContext)
     
     let personService = PersonService()
     

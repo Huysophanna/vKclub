@@ -147,5 +147,22 @@ class UIComponentHelper {
     
         return newImage!
     }
+    
+    
+    // Find out current date YYYY/MM/DD/HH/MM/SS
+    static func GetTodayString() -> (String, String, String, String, String, String) {
+        let date = Date()
+        let calender = Calendar.current
+        let components = calender.dateComponents([.year,.month,.day,.hour,.minute,.second], from: date)
+        
+        let year = components.year
+        let month = components.month
+        let day = components.day
+        let hour = components.hour
+        let minute = components.minute
+        let second = components.second
+        
+        return (String(year!), String(month!), String(day!), String(hour!), String(minute!), String(second!))
+    }
 
 }

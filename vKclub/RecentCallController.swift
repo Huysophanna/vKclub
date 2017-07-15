@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class RecentCallController: UIViewController {
     
@@ -22,11 +23,12 @@ class RecentCallController: UIViewController {
             }
         }
     }
+    var callLogData = [SipCallData]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        
+    
         InstantiateCallLogListBtn(_btnIcon: "outgoing-call-icon", _timeStampLabel: "10:00AM", _callerIDLabel: "10050", _callLogTimeLabel: "50 mins ago")
         InstantiateCallLogListBtn(_btnIcon: "incoming-call-icon", _timeStampLabel: "10:00AM", _callerIDLabel: "10050", _callLogTimeLabel: "50 mins ago")
         InstantiateCallLogListBtn(_btnIcon: "outgoing-call-icon", _timeStampLabel: "10:00AM", _callerIDLabel: "10050", _callLogTimeLabel: "50 mins ago")
@@ -40,6 +42,7 @@ class RecentCallController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+        
     }
     
     
@@ -91,8 +94,22 @@ class RecentCallController: UIViewController {
         callListBtn.addSubview(callLogTimeLabel)
     }
     
+    func LoadCallLogFromCoreData() {
+        let callDataRequest: NSFetchRequest<SipCallData> = SipCallData.fetchRequest()
+        do {
+            callLogData = try manageObjectContext.fetch(callDataRequest)
+            
+            for ok in callLogData {
+                print(ok.callerID, "===D", ok.callLogTime, ok.callIndicatorIcon )
+            }
+            
+            
+        } catch {
+            print("Could not get call data from CoreData \(error.localizedDescription) ===")
+        }
+    }
+    
     func CallLogListBtnHandler(senderBtn: UIButton) {
-        
         //animate button on click
         UIView.animate(withDuration: 0.1, animations: {
             senderBtn.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
@@ -100,12 +117,16 @@ class RecentCallController: UIViewController {
             UIView.animate(withDuration: 0.1, animations: {
                 senderBtn.transform = CGAffineTransform.identity
             })
-            
         })
+        
+        LoadCallLogFromCoreData()
         
         PresentActionSheet(_phoneNumber: "10050")
         
         print("\(senderBtn) You TOUCHED me! ===")
+        
+        senderBtn.removeFromSuperview()
+        
     }
     
     func PresentActionSheet(_phoneNumber: String) {

@@ -183,7 +183,6 @@ class LinphoneManager {
     static func muteMic() {
         linphone_core_enable_mic(LinphoneManager.lcOpaquePointerData, 0)
         
-        print(linphone_core_find_call_log_from_call_id(LinphoneManager.lcOpaquePointerData, linphone_call_log_get_call_id(LinphoneManager.callOpaquePointerData)), "==LOG==")
     }
     
     static func unmuteMic() {
@@ -192,6 +191,9 @@ class LinphoneManager {
 
     static func getCallerNb() -> String {
         let remoteAddr = linphone_address_as_string(linphone_call_get_remote_address(LinphoneManager.callOpaquePointerData))
+        
+        
+        
         let remoteAddrStr:String? = String(cString: remoteAddr!)
         let delimiter = "\""
         var dividedRemodeAddrStr = remoteAddrStr?.components(separatedBy: delimiter)

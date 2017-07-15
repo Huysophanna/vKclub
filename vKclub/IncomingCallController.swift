@@ -73,7 +73,7 @@ class IncomingCallController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //set all image buttons
+        //Set all image buttons
         SetImageBtn(button: speakerBtn, imageName: "speaker-icon", imgEdgeInsets: 25)
         SetImageBtn(button: muteBtn, imageName: "mute-icon", imgEdgeInsets: 25)
         SetImageBtn(button: rejectCallBtn, imageName: "reject-phone-icon", imgEdgeInsets: 5)
@@ -81,15 +81,37 @@ class IncomingCallController: UIViewController {
         SetImageBtn(button: endCallBtn, imageName: "reject-phone-icon", imgEdgeInsets: 5)
         
         if IncomingCallController.CallToAction {
-            //user makes call to other person
+            //User makes call to other person
             PrepareCallToActionUI()
             
             waitForStreamRunningInterval = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(IncomingCallController.WaitForStreamRunning), userInfo: nil, repeats: true)
+
             
         } else {
-            //user receives call, set contact name & caller number label for incoming call VC
+            //User receives call, set contact name & caller number label for incoming call VC
             callerNameLabel.text = LinphoneManager.getContactName()
             callerIDLabel.text = LinphoneManager.getCallerNb()
+        }
+        
+    }
+    
+    func SaveCallLogDataToCoreData(_callIndicatorIcon: String, _callerName: String) {
+        //Save call log data for recents section to coredata
+        let callLogCoreData = SipCallData(context: manageObjectContext)
+        callLogCoreData.callerID = IncomingCallController.dialPhoneNumber
+        callLogCoreData.callerName = _callerName
+        callLogCoreData.callIndicatorIcon = _callIndicatorIcon
+        
+        let (callDurationHour, callDurationMin, callDurationSec) = LinphoneManager.getCurrentCallDuration()
+        callLogCoreData.callDuration = "\(callDurationHour):\(callDurationMin):\(callDurationSec)"
+        let (year, month, date, hour, min, _) = UIComponentHelper.GetTodayString()
+        callLogCoreData.timeStamp = "\(hour):\(min)"
+        callLogCoreData.callLogTime = "\(year)-\(month)-\(date)-\(hour)-\(min)"
+        
+        do {
+            try manageObjectContext.save()
+        } catch {
+            print ("Saving to CoreData error \(error.localizedDescription) ===")
         }
         
     }
@@ -120,8 +142,16 @@ class IncomingCallController: UIViewController {
         print(CheckLinphoneCallState(), "====")
         LinphoneManager.endCall()
         
+        print(IncomingCallController.CallToAction, "===CALLTOACTION")
+        
+        SaveCallLogDataToCoreData(_callIndicatorIcon: IncomingCallController.CallToAction == true ? "outgoing-call-icon" : "incoming-call-icon" , _callerName: IncomingCallController.CallToAction == true ? "" : LinphoneManager.getContactName())
+        
         incomingCallFlag = false
         releaseCallFlag = true
+        
+        
+        let callLogCoreData = SipCallData(context: manageObjectContext)
+        print(callLogCoreData, "===PRINTCD=== \(String(describing: callLogCoreData.callIndicatorIcon)) \(String(describing: callLogCoreData.callerID))")
         
     }
     
@@ -134,8 +164,8 @@ class IncomingCallController: UIViewController {
     
     @IBAction func AcceptCallBtnClicked(_ sender: Any) {
         LinphoneManager.receiveCall()
-        incomingCallFlag = false
         
+        incomingCallFlag = false
         PrepareInCallProgressUI()
     }
     

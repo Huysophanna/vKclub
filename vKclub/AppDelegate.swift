@@ -138,7 +138,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
         let context = persistentContainer.viewContext
         if context.hasChanges {
             do {
-                try context.save()
+                try manageObjectContext.save()
             } catch {
                 // Replace this implementation with code to handle the error appropriately.
                 // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
@@ -153,7 +153,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
 
 
 let appDelegate = UIApplication.shared.delegate as! AppDelegate
-let context  = appDelegate.persistentContainer.viewContext
+let manageObjectContext  = appDelegate.persistentContainer.viewContext
 var databaseRef = Database.database().reference()
 
 

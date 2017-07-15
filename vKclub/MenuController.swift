@@ -104,12 +104,12 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         fetchRequest.returnsObjectsAsFaults = false
         
         do {
-            let results = try context.fetch(fetchRequest)
+            let results = try manageObjectContext.fetch(fetchRequest)
             for managedObject in results
             {
                 let managedObjectData:NSManagedObject = managedObject as! NSManagedObject
-                context.delete(managedObjectData)
-                try context.save()
+                manageObjectContext.delete(managedObjectData)
+                try manageObjectContext.save()
                 
             }
         } catch let error as NSError {

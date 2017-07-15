@@ -3,7 +3,7 @@ import CoreData
 class PersonService{
     // Creates a new Person
     func create(facebook: Bool, imageData: NSData ) -> UserProfile {
-        let newItem = NSEntityDescription.insertNewObject(forEntityName: "UserProfile", into: context)
+        let newItem = NSEntityDescription.insertNewObject(forEntityName: "UserProfile", into: manageObjectContext)
          newItem.setValue(facebook, forKey: "facebookProvider")
          newItem.setValue(facebook, forKey: "imageData")
          return newItem as! UserProfile
@@ -11,7 +11,7 @@ class PersonService{
     
     // Gets a person by id
     func getById(id: NSManagedObjectID) -> UserProfile? {
-        return context.object(with: id) as? UserProfile
+        return manageObjectContext.object(with: id) as? UserProfile
     }
     
     func update(updatedPerson: UserProfile){
@@ -29,7 +29,7 @@ class PersonService{
         fetchRequest.predicate = queryPredicate
         
         do {
-            let response = try context.fetch(fetchRequest)
+            let response = try manageObjectContext.fetch(fetchRequest)
             return response as! [UserProfile]
             
         } catch let error as NSError {
