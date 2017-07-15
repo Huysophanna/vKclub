@@ -1,14 +1,8 @@
 import UIKit
 
 class SettingController: UIViewController {
-    
-    
-    
-    override func viewDidLoad() {
-        
-        
-        super.viewDidLoad()
-        
+    override func viewDidLoad() {   
+        super.viewDidLoad()      
     }
     
     override func didReceiveMemoryWarning() {
@@ -17,13 +11,6 @@ class SettingController: UIViewController {
     }
     
     @IBAction func cancelBtn(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
-        
-        
-        
-    }
-    
-    
-    
-    
+        dismiss(animated: true, completion: nil)   
+    }  
 }

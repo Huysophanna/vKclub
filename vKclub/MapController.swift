@@ -153,12 +153,6 @@ class MapController: UIViewController,GMSMapViewDelegate,CLLocationManagerDelega
             marker.map = mapView
            
             
-        }
-                
-    }
- 
-    
-   
-   
-    
+        }          
+    } 
 }

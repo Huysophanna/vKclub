@@ -130,10 +130,10 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     }
     
     func EmailProvider(){
+        EditBtn.tag = 1
         if currentUser?.photoURL == nil {
             
-        }else{
-            
+        } else {
             let data = try? Data(contentsOf: (currentUser?.photoURL)!)
             
             if let imageData = data {
@@ -150,7 +150,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         
         let emailProvider = NSPredicate(format: "facebookProvider = 0")
         let email_lgoin = personService.get(withPredicate: emailProvider)
-        if email_lgoin != nil{
+        if email_lgoin != nil {
             for i in email_lgoin {
                 if i.imageData != nil{
                     print ("No image data save in core data")
@@ -201,12 +201,12 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         fetchRequest.returnsObjectsAsFaults = false
         
         do {
-            let results = try context.fetch(fetchRequest)
+            let results = try manageObjectContext.fetch(fetchRequest)
             for managedObject in results
             {
                 let managedObjectData:NSManagedObject = managedObject as! NSManagedObject
-                context.delete(managedObjectData)
-                try context.save()
+                manageObjectContext.delete(managedObjectData)
+                try manageObjectContext.save()
                 
             }
         } catch let error as NSError {

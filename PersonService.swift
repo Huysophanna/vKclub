@@ -1,17 +1,13 @@
 import CoreData
-
-class PersonService{
-    
-   
-    
+class PersonService {
     // Creates a new Person
     func CreatnotificationCoredata(_notification_num: intmax_t , _notification_body: String,_notification_title : String ) -> Notifications{
-        let newNotification = NSEntityDescription.insertNewObject(forEntityName: "Notifications", into: context)
+        let newNotification = NSEntityDescription.insertNewObject(forEntityName: "Notifications", into: manageObjectContext)
         newNotification.setValue(_notification_num, forKey: "notification_num")
         newNotification.setValue(_notification_body, forKey: "notification_body")
         newNotification.setValue(_notification_title, forKey: "notification_title")
         do{
-           try  context.save()
+           try  manageObjectContext.save()
             
         }catch{
             print("error")
@@ -21,7 +17,7 @@ class PersonService{
     
     // Gets a person by id
     func getById(_id: NSManagedObjectID) -> UserProfile? {
-        return context.object(with: _id) as? UserProfile
+        return manageObjectContext.object(with: _id) as? UserProfile
     }
     
     func updateUserProfile(_updatedPerson: UserProfile){
@@ -32,7 +28,7 @@ class PersonService{
             person.username  = _updatedPerson.username
             
             do{
-                try  context.save()
+                try  manageObjectContext.save()
                 
             }catch{
                 print("error")
@@ -46,7 +42,7 @@ class PersonService{
         fetchRequest.predicate = queryPredicate
         
         do {
-            let response = try context.fetch(fetchRequest)
+            let response = try manageObjectContext.fetch(fetchRequest)
             return response as! [UserProfile]
             
         } catch let error as NSError {

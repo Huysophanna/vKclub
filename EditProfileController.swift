@@ -16,8 +16,10 @@ class EditProfileController: UIViewController {
     @IBOutlet weak var Email: UITextField!
     @IBOutlet weak var currentpass: UITextField!
     @IBOutlet weak var UpdateBtn: UIButton!
-    let User = UserProfile(context:  context)
+    let User = UserProfile(context: manageObjectContext)
+    
     let personService = PersonService()
+    
     var menuControllerInstance: MenuController = MenuController()
     
     override func viewDidLoad() {
@@ -44,7 +46,7 @@ class EditProfileController: UIViewController {
         if (Username.text?.isEmpty)! && (Email.text?.isEmpty)! && (currentpass.text?.isEmpty)!{
             self.PresentAlertController(title: "Something Wrong", message: "Please properly insert your data", actionTitle: "Ok")
             
-        }else{
+        } else {
             let currentuser = Auth.auth().currentUser
             var current_email    = currentuser?.email
             print (current_email)

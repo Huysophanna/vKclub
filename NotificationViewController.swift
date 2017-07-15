@@ -29,7 +29,7 @@ class NotificationViewController: UITableViewController {
         let notificationRequest:NSFetchRequest<Notifications> = Notifications.fetchRequest()
         
         do {
-             notifications = try context.fetch(notificationRequest)
+             notifications = try manageObjectContext.fetch(notificationRequest)
             self.tableView.reloadData()
         }catch {
             print("Could not load data from database \(error.localizedDescription)")

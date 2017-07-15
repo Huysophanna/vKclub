@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7F1984661F0E478B0063660B /* RoundButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1984651F0E478B0063660B /* RoundButton.swift */; };
 		7F1E24661F0247250090C7E7 /* CreateAccController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1E245F1F0247250090C7E7 /* CreateAccController.swift */; };
 		7F1E24671F0247250090C7E7 /* UIComponentHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1E24601F0247250090C7E7 /* UIComponentHelper.swift */; };
 		7F1E24681F0247250090C7E7 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1E24611F0247250090C7E7 /* LoginController.swift */; };
@@ -14,11 +15,12 @@
 		7F1E246A1F0247250090C7E7 /* DashboardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1E24631F0247250090C7E7 /* DashboardController.swift */; };
 		7F1E246B1F0247250090C7E7 /* MapController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1E24641F0247250090C7E7 /* MapController.swift */; };
 		7F1E246C1F0247250090C7E7 /* ServiceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1E24651F0247250090C7E7 /* ServiceController.swift */; };
-		7F1E24701F0247A20090C7E7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7F1E246F1F0247A20090C7E7 /* Assets.xcassets */; };
 		7F1E24801F024D2F0090C7E7 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F1E247F1F024D2F0090C7E7 /* SWRevealViewController.m */; };
 		7F1E24821F024EF00090C7E7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1E24811F024EF00090C7E7 /* AppDelegate.swift */; };
 		7F3639241F04C54E00716B41 /* InternalCallController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3639231F04C54E00716B41 /* InternalCallController.swift */; };
 		7F3C1DAC1F03AAD100888BEA /* ButtonBorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3C1DAB1F03AAD100888BEA /* ButtonBorder.swift */; };
+		7F6067BE1F17714900F7CE26 /* RecentCallController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6067BD1F17714900F7CE26 /* RecentCallController.swift */; };
+		7FBF65ED1F0C0A8F00307BF3 /* IncomingCallController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FBF65EC1F0C0A8F00307BF3 /* IncomingCallController.swift */; };
 		8F43A0EA78F773EEA1DEDAD0 /* Pods_vKclub.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CE35CA16D2A204E204DA562 /* Pods_vKclub.framework */; };
 		A924DEC21D07A5F80030A438 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = A99663E91D070507003B5EEE /* libz.tbd */; };
 		A924DEC81D07AC620030A438 /* linphonerc in Resources */ = {isa = PBXBuildFile; fileRef = A924DEC41D07AC620030A438 /* linphonerc */; };
@@ -94,19 +96,22 @@
 		A9FACB151D0A7B3700E3C8A5 /* toy-mono.wav in Resources */ = {isa = PBXBuildFile; fileRef = A9FACB071D0A7B3700E3C8A5 /* toy-mono.wav */; };
 		C51157D21F0B7A56008BCEC5 /* PersonService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51157D11F0B7A56008BCEC5 /* PersonService.swift */; };
 		C52C21C21F03DBE100B546E1 /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C52C21C11F03DBE100B546E1 /* MenuController.swift */; };
-		C53D8E7C1F16659400E047A8 /* RoundButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53D8E7B1F16659400E047A8 /* RoundButton.swift */; };
 		C58A7A461F03AA620046E0B3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C58A7A451F03AA620046E0B3 /* Main.storyboard */; };
+		C590B7741F10BE14002C67E3 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		C59D94C81F0756B3009103FA /* CoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C59D94C61F0756B3009103FA /* CoreData.xcdatamodeld */; };
 		C5A7BAB31F166F2E00744979 /* SettingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A7BAB21F166F2E00744979 /* SettingController.swift */; };
 		C5A7BAB51F16712C00744979 /* EditProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A7BAB41F16712C00744979 /* EditProfileController.swift */; };
 		C5AAE0ED1F192973002AEA8C /* NotificationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5AAE0EC1F192973002AEA8C /* NotificationTableViewCell.swift */; };
 		C5AAE0F11F19324D002AEA8C /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5AAE0F01F19324D002AEA8C /* NotificationViewController.swift */; };
 		C5AB9B541F1862E600ED4282 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C5AB9B531F1862E600ED4282 /* GoogleService-Info.plist */; };
+		C5CC29A01F19D0EA00072F8A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C5CC299F1F19D0EA00072F8A /* GoogleService-Info.plist */; };
+		C5FDE0031F10016E00B4F00E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C5FDE0021F10016E00B4F00E /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		4CE35CA16D2A204E204DA562 /* Pods_vKclub.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_vKclub.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5690BC05728159C16A8F60B0 /* Pods-vKclub.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-vKclub.release.xcconfig"; path = "Pods/Target Support Files/Pods-vKclub/Pods-vKclub.release.xcconfig"; sourceTree = "<group>"; };
+		7F1984651F0E478B0063660B /* RoundButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RoundButton.swift; path = vKclub/RoundButton.swift; sourceTree = "<group>"; };
 		7F1E245F1F0247250090C7E7 /* CreateAccController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateAccController.swift; path = vKclub/CreateAccController.swift; sourceTree = "<group>"; };
 		7F1E24601F0247250090C7E7 /* UIComponentHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIComponentHelper.swift; path = vKclub/UIComponentHelper.swift; sourceTree = "<group>"; };
 		7F1E24611F0247250090C7E7 /* LoginController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginController.swift; path = vKclub/LoginController.swift; sourceTree = "<group>"; };
@@ -114,13 +119,15 @@
 		7F1E24631F0247250090C7E7 /* DashboardController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DashboardController.swift; path = vKclub/DashboardController.swift; sourceTree = "<group>"; };
 		7F1E24641F0247250090C7E7 /* MapController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MapController.swift; path = vKclub/MapController.swift; sourceTree = "<group>"; };
 		7F1E24651F0247250090C7E7 /* ServiceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServiceController.swift; path = vKclub/ServiceController.swift; sourceTree = "<group>"; };
-		7F1E246F1F0247A20090C7E7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7F1E247E1F024D2F0090C7E7 /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SWRevealViewController.h; path = vKclub/SWRevealViewController.h; sourceTree = "<group>"; };
 		7F1E247F1F024D2F0090C7E7 /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SWRevealViewController.m; path = vKclub/SWRevealViewController.m; sourceTree = "<group>"; };
 		7F1E24811F024EF00090C7E7 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		7F3639231F04C54E00716B41 /* InternalCallController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InternalCallController.swift; sourceTree = "<group>"; };
-		7F3C1DAB1F03AAD100888BEA /* ButtonBorder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonBorder.swift; sourceTree = "<group>"; };
+		7F3639231F04C54E00716B41 /* InternalCallController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InternalCallController.swift; path = vKclub/InternalCallController.swift; sourceTree = "<group>"; };
+		7F3C1DAB1F03AAD100888BEA /* ButtonBorder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ButtonBorder.swift; path = vKclub/ButtonBorder.swift; sourceTree = "<group>"; };
+		7F6067BD1F17714900F7CE26 /* RecentCallController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RecentCallController.swift; path = vKclub/RecentCallController.swift; sourceTree = "<group>"; };
+		7F8C3C1E1F17CF030060D31B /* vKclub.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = vKclub.entitlements; sourceTree = "<group>"; };
 		7F8E0D0C1F025C4900EE99BF /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../Info.plist; sourceTree = "<group>"; };
+		7FBF65EC1F0C0A8F00307BF3 /* IncomingCallController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IncomingCallController.swift; path = vKclub/IncomingCallController.swift; sourceTree = "<group>"; };
 		A924DEC41D07AC620030A438 /* linphonerc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = linphonerc; sourceTree = "<group>"; };
 		A924DEC51D07AC620030A438 /* linphonerc-factory */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "linphonerc-factory"; sourceTree = "<group>"; };
 		A924DECC1D07D2620030A438 /* Secret.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Secret.plist; sourceTree = "<group>"; };
@@ -222,13 +229,14 @@
 		C52C21C11F03DBE100B546E1 /* MenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
 		C53D8E7B1F16659400E047A8 /* RoundButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundButton.swift; sourceTree = "<group>"; };
 		C58A7A451F03AA620046E0B3 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		C59C9A911F17CA4800996C4B /* vKclub.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = vKclub.entitlements; sourceTree = "<group>"; };
 		C59D94C71F0756B3009103FA /* Coredata.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Coredata.xcdatamodel; sourceTree = "<group>"; };
 		C5A7BAB21F166F2E00744979 /* SettingController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingController.swift; sourceTree = "<group>"; };
 		C5A7BAB41F16712C00744979 /* EditProfileController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileController.swift; sourceTree = "<group>"; };
 		C5AAE0EC1F192973002AEA8C /* NotificationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationTableViewCell.swift; sourceTree = "<group>"; };
 		C5AAE0F01F19324D002AEA8C /* NotificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
 		C5AB9B531F1862E600ED4282 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		C5CC299F1F19D0EA00072F8A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		C5FDE0021F10016E00B4F00E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -366,10 +374,10 @@
 		A99663631D06F877003B5EEE /* vKclub */ = {
 			isa = PBXGroup;
 			children = (
-				C59C9A911F17CA4800996C4B /* vKclub.entitlements */,
+				7F8C3C1E1F17CF030060D31B /* vKclub.entitlements */,
 				C500A2961F065C20003943BD /* Model */,
 				7F8E0D0C1F025C4900EE99BF /* Info.plist */,
-				C5AB9B531F1862E600ED4282 /* GoogleService-Info.plist */,
+				C5CC299F1F19D0EA00072F8A /* GoogleService-Info.plist */,
 				7F1E24811F024EF00090C7E7 /* AppDelegate.swift */,
 				A99663661D06F877003B5EEE /* ViewController.swift */,
 				A9FAC4671D07D6F200E3C8A5 /* View */,
@@ -465,6 +473,8 @@
 				7F1E24621F0247250090C7E7 /* ForgotPWController.swift */,
 				7F1E24631F0247250090C7E7 /* DashboardController.swift */,
 				7F3639231F04C54E00716B41 /* InternalCallController.swift */,
+				7FBF65EC1F0C0A8F00307BF3 /* IncomingCallController.swift */,
+				7F6067BD1F17714900F7CE26 /* RecentCallController.swift */,
 				7F1E24641F0247250090C7E7 /* MapController.swift */,
 				7F1E24651F0247250090C7E7 /* ServiceController.swift */,
 				C52C21C11F03DBE100B546E1 /* MenuController.swift */,
@@ -499,7 +509,7 @@
 		A9FAC4691D07D71600E3C8A5 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
-				7F1E246F1F0247A20090C7E7 /* Assets.xcassets */,
+				C5FDE0021F10016E00B4F00E /* Assets.xcassets */,
 			);
 			name = Resource;
 			sourceTree = "<group>";
@@ -649,7 +659,7 @@
 				A9FACB091D0A7B3700E3C8A5 /* hello16000.wav in Resources */,
 				A9FACB0D1D0A7B3700E3C8A5 /* four_hands_together.mkv in Resources */,
 				A924DEC81D07AC620030A438 /* linphonerc in Resources */,
-				7F1E24701F0247A20090C7E7 /* Assets.xcassets in Resources */,
+				C5FDE0031F10016E00B4F00E /* Assets.xcassets in Resources */,
 				A9FACB0A1D0A7B3700E3C8A5 /* hello8000.wav in Resources */,
 				A9FACB141D0A7B3700E3C8A5 /* soft_as_snow.mkv in Resources */,
 				A996636F1D06F877003B5EEE /* LaunchScreen.storyboard in Resources */,
@@ -664,6 +674,7 @@
 				A9FACB111D0A7B3700E3C8A5 /* notes_of_the_optimistic.mkv in Resources */,
 				A9FACB131D0A7B3700E3C8A5 /* oldphone-mono.wav in Resources */,
 				A9FACB0F1D0A7B3700E3C8A5 /* its_a_game.mkv in Resources */,
+				C5CC29A01F19D0EA00072F8A /* GoogleService-Info.plist in Resources */,
 				A9FACB101D0A7B3700E3C8A5 /* leaving_dreams.mkv in Resources */,
 				C5AB9B541F1862E600ED4282 /* GoogleService-Info.plist in Resources */,
 			);
@@ -724,17 +735,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C53D8E7C1F16659400E047A8 /* RoundButton.swift in Sources */,
 				C5A7BAB51F16712C00744979 /* EditProfileController.swift in Sources */,
 				C59D94C81F0756B3009103FA /* CoreData.xcdatamodeld in Sources */,
 				7F1E24821F024EF00090C7E7 /* AppDelegate.swift in Sources */,
 				A99663671D06F877003B5EEE /* ViewController.swift in Sources */,
 				7F1E246C1F0247250090C7E7 /* ServiceController.swift in Sources */,
+				7F6067BE1F17714900F7CE26 /* RecentCallController.swift in Sources */,
 				7F1E24661F0247250090C7E7 /* CreateAccController.swift in Sources */,
 				C51157D21F0B7A56008BCEC5 /* PersonService.swift in Sources */,
 				C5A7BAB31F166F2E00744979 /* SettingController.swift in Sources */,
 				7F1E24671F0247250090C7E7 /* UIComponentHelper.swift in Sources */,
 				C5AAE0ED1F192973002AEA8C /* NotificationTableViewCell.swift in Sources */,
+				C590B7741F10BE14002C67E3 /* (null) in Sources */,
 				7F1E246A1F0247250090C7E7 /* DashboardController.swift in Sources */,
 				C5AAE0F11F19324D002AEA8C /* NotificationViewController.swift in Sources */,
 				7F3639241F04C54E00716B41 /* InternalCallController.swift in Sources */,
@@ -742,8 +754,10 @@
 				A996637A1D06FE65003B5EEE /* LinphoneManager.swift in Sources */,
 				7F1E24681F0247250090C7E7 /* LoginController.swift in Sources */,
 				7F3C1DAC1F03AAD100888BEA /* ButtonBorder.swift in Sources */,
+				7FBF65ED1F0C0A8F00307BF3 /* IncomingCallController.swift in Sources */,
 				7F1E246B1F0247250090C7E7 /* MapController.swift in Sources */,
 				7F1E24691F0247250090C7E7 /* ForgotPWController.swift in Sources */,
+				7F1984661F0E478B0063660B /* RoundButton.swift in Sources */,
 				C52C21C21F03DBE100B546E1 /* MenuController.swift in Sources */,
 				7F1E24801F024D2F0090C7E7 /* SWRevealViewController.m in Sources */,
 			);
@@ -805,6 +819,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = vKclub;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -846,6 +861,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = vKclub;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = "1,2";

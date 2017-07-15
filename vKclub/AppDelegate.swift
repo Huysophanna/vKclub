@@ -32,10 +32,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
     var linphoneManager: LinphoneManager?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        
-        
-        //        self.linphoneManager = LinphoneManager()
-        //        linphoneManager?.demo()
+        //notification
+        self.linphoneManager = LinphoneManager()
+        linphoneManager?.demo()
         
         // Remove border in navigationBar
         UINavigationBar.appearance().shadowImage = UIImage()
@@ -66,66 +65,45 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
         
         // Override point for customization after application launch.
         FirebaseApp.configure()
-       
-              // FB init
+        // FB init
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         // autoLogin
         
         Auth.auth().addStateDidChangeListener { auth, user in
-            
             if user == nil {
-                
-            }else{
-                
+            } else {
                 let provider = user?.providerData
-                
                 for i in provider!{
                     let providerfb = i.providerID
                     switch providerfb {
                     case "facebook.com":
                         if user?.displayName == nil && user?.photoURL == nil{
-                            print("Wait")
-                            
-                        }else{
-                            
+                            print("Wait")  
+                        } else {
                             self.Dashboard()
-                            
                         }
-                    case "password"    :
+                    case "password":
                         if (user?.email == nil && user?.displayName == nil) {
                             print("Wait")
-                            
-                        }else{
-                            
-                            if (user?.isEmailVerified )!{
+                        } else {
+                            if (user?.isEmailVerified )! {
                                 self.Dashboard()
-                                
-                            }else{
+                            } else {
                                 print("No verified")
                             }
-                            
                         }
                     default:
                         print("Unknown provider ID: \(provider!)")
                         return
                     }
-                    
                 }
-                
-                
             }
         }
-        
-        
-        
-        
         return true
     }
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
 //        InstanceID.instanceID().setAPNSToken(deviceToken, type: .prod)
-
         InstanceID.instanceID().setAPNSToken(deviceToken, type: .sandbox)
-
     }
 
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
@@ -165,9 +143,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
         personService.CreatnotificationCoredata(_notification_num: notification_num, _notification_body: body, _notification_title: title)
                 print("Handle push from background or closed\(response.notification.request.content.userInfo)")
         self.showAlertAppDelegate(title: title,message:body,buttonTitle:"ok",window:self.window!)
-       
-
-        
     }
     // Alert Controller in AppDelegate
     func showAlertAppDelegate(title: String,message : String,buttonTitle: String,window: UIWindow){
@@ -177,7 +152,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
     }
     
     func Dashboard(){
-        
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         appDelegate.window = UIWindow(frame: UIScreen.main.bounds)
         let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
@@ -186,8 +160,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
         appDelegate.window?.makeKeyAndVisible()
     }
    
-    //    func automaticLogin() {
-    //           }
+    
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
         let handled = FBSDKApplicationDelegate.sharedInstance().application(app, open: url, options: options)
         
@@ -257,7 +230,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
         let context = persistentContainer.viewContext
         if context.hasChanges {
             do {
-                try context.save()
+                try manageObjectContext.save()
             } catch {
                 // Replace this implementation with code to handle the error appropriately.
                 // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
@@ -270,4 +243,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
 }
 
 let appDelegate = UIApplication.shared.delegate as! AppDelegate
-let context  = appDelegate.persistentContainer.viewContext
+let manageObjectContext  = appDelegate.persistentContainer.viewContext
+var databaseRef = Database.database().reference()

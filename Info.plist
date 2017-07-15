@@ -33,8 +33,6 @@
 	<string>1190088291053783</string>
 	<key>FacebookDisplayName</key>
 	<string>vKclub</string>
-	<key>FirebaseAppDelegateProxyEnabled</key>
-	<string>NO</string>
 	<key>FirebaseAppDelegateProxyEnabled </key>
 	<string>NO</string>
 	<key>LSApplicationQueriesSchemes</key>
@@ -47,7 +45,7 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>This app will use camera.</string>
+	<string>Allow access to your camera to take picture and upload.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Allow access to your location in order to identify the application mode</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
@@ -55,7 +53,7 @@
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Allow access to your Microphone, you can talk to your partner by the help of the built-in Mic.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>You can select photos to attach to reports.</string>
+	<string>Allow access to your photo library. You can select photos and upload.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>audio</string>
