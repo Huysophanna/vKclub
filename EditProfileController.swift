@@ -17,8 +17,9 @@ class EditProfileController: UIViewController {
     @IBOutlet weak var currentpass: UITextField!
     @IBOutlet weak var UpdateBtn: UIButton!
     let User = UserProfile(context: manageObjectContext)
+    let internetConnection = InternetConnection()
     
-    let personService = PersonService()
+    let personService = UserProfileCoreData()
     
     var menuControllerInstance: MenuController = MenuController()
     
@@ -43,56 +44,76 @@ class EditProfileController: UIViewController {
     }
     
     @IBAction func UpdateBtn(_ sender: Any) {
-        if (Username.text?.isEmpty)! && (Email.text?.isEmpty)! && (currentpass.text?.isEmpty)!{
+        if internetConnection.isConnectedToNetwork() {
+            print("have internet")
+        } else{
+            self.PresentAlertController(title: "Something went wrong", message: "Can not update your Profile right now. Please Check you internet connection ", actionTitle: "Got it")
+            return
+        }
+       
+        if (currentpass.text?.isEmpty == nil){
             self.PresentAlertController(title: "Something Wrong", message: "Please properly insert your data", actionTitle: "Ok")
             
         } else {
             let currentuser = Auth.auth().currentUser
-            var current_email    = currentuser?.email
-            print (current_email)
+            let current_email    = String(describing: currentuser?.email)
             let changeRequest = currentuser?.createProfileChangeRequest()
-            
             
             let credential = EmailAuthProvider.credential(withEmail:(currentuser?.email)!, password: currentpass.text!)
             currentuser?.reauthenticate(with: credential, completion: { (error) in
                 if error == nil {
-                    
-                    currentuser?.updateEmail(to: self.Email.text! , completion: { (error) in
-                        if error == nil{
-                            changeRequest?.displayName = self.Username.text
-                            changeRequest?.commitChanges { (error) in
-                                
-                            }
-                            self.UpdateUsernameandemail(username: (changeRequest?.displayName)!, email:self.Email.text!)
-                            print(current_email)
-                            print(self.Email.text)
-                            let current_email_string : String = String(describing: current_email)
-                            let input_email  :String  = String(describing: self.Email.text)
-                         
-                            // check if user change the email
-                            if(current_email_string == input_email){
-                                
+                    if (self.Email.text?.isEmpty)! {
+                        currentuser?.updateEmail(to: (currentuser?.email)! , completion: { (error) in
+                            if error == nil{
+                                changeRequest?.displayName = self.Username.text
+                                changeRequest?.commitChanges { (error) in
+                                    
+                                }
+                                self.UpdateUsernameandemail(username: (changeRequest?.displayName)!, email: (currentuser?.email)!)
                                 self.PresentAlertController(title: "Done", message: "Your Profile had updated", actionTitle: "Ok")
-                                
                                 self.reNew()
-                                // if chage the email need to verified new email
+                               
+                                
+                            } else{
+                                self.PresentAlertController(title: "Something went wrong", message: (error?.localizedDescription)!, actionTitle: "Okay")
+                            }
+                        })
+                        
+                    }else{
+                        currentuser?.updateEmail(to: self.Email.text! , completion: { (error) in
+                            if error == nil{
+                                changeRequest?.displayName = self.Username.text
+                                changeRequest?.commitChanges { (error) in
+                                }
+                                self.UpdateUsernameandemail(username: (changeRequest?.displayName)!, email:self.Email.text!)
+                                let current_email_string : String = String(describing: current_email)
+                                let input_email  :String  = String(describing: self.Email.text)
+                                
+                                // check if user change the email
+                                if(current_email_string == input_email){
+                                    
+                                    self.PresentAlertController(title: "Done", message: "Your Profile had updated", actionTitle: "Ok")
+                                    
+                                    self.reNew()
+                                    // if chage the email need to verified new email
+                                    
+                                }else{
+                                    currentuser?.sendEmailVerification(completion: { (error) in
+                                        
+                                    })
+                                    self.PresentAlertController(title: "Something went wrong", message: "your Email need to verified", actionTitle: "Okay")
+                                    UIApplication.shared.keyWindow?.rootViewController = self.storyboard!.instantiateViewController(withIdentifier: "loginController")
+                                }
                                 
                             }else{
-                                currentuser?.sendEmailVerification(completion: { (error) in
-                                    
-                                })
-                                self.PresentAlertController(title: "Something went wrong", message: "your Email need to verified", actionTitle: "Okay")
-                                UIApplication.shared.keyWindow?.rootViewController = self.storyboard!.instantiateViewController(withIdentifier: "loginController")
+                                self.PresentAlertController(title: "Something went wrong", message: (error?.localizedDescription)!, actionTitle: "Okay")
+                                
                             }
-                          
-                        }else{
-                           self.PresentAlertController(title: "Something went wrong", message: (error?.localizedDescription)!, actionTitle: "Okay")
-                            
-                        }
-                    })
+                        })
+                    }
                     
                 }else{
-                    self.PresentAlertController(title: "Something Wrong", message: "your password was wrong ", actionTitle: "Ok")
+                    self.PresentAlertController(title: "Something Wrong", message: (error?.localizedDescription)!, actionTitle: "Ok")
                 }
             })
         }
@@ -103,7 +124,7 @@ class EditProfileController: UIViewController {
     func UpdateUsernameandemail(username:String, email:String){
         
         let emailProvider = NSPredicate(format: "facebookProvider = 0")
-        let email_lgoin = personService.get(withPredicate: emailProvider)
+        let email_lgoin = personService.getUserProfile(withPredicate: emailProvider)
         for i in email_lgoin {
             i.email = email
             i.username = username

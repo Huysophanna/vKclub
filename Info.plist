@@ -33,8 +33,6 @@
 	<string>1190088291053783</string>
 	<key>FacebookDisplayName</key>
 	<string>vKclub</string>
-	<key>FirebaseAppDelegateProxyEnabled </key>
-	<string>NO</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fbapi</string>
@@ -81,6 +79,5 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-    
 </dict>
 </plist>

@@ -17,5 +17,7 @@ target 'vKclub' do
   pod 'Bolts'
   pod 'FBSDKCoreKit'
   pod 'FBSDKLoginKit'
+  pod 'paper-onboarding', '~> 2.0.1' 
+
 
 end

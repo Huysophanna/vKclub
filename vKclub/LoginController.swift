@@ -15,7 +15,7 @@ import CoreData
 
 
 class LoginController: UIViewController {
-    let personService = PersonService()
+    let personService = UserProfileCoreData()
     let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
     @IBOutlet weak var pwTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
@@ -57,7 +57,6 @@ class LoginController: UIViewController {
                     if error == nil {
                         
                         if let currentUser = Auth.auth().currentUser {
-                            print(currentUser.photoURL,"+++facebook")
                             self.getDataFromUrl(url: currentUser.photoURL!){
                             
                                 
@@ -67,8 +66,6 @@ class LoginController: UIViewController {
                                         return
                                 }
                                 let image = data as NSData?
-                                print(user?.email)
-                                print(user?.phoneNumber)
                                 if (user?.email == nil){
                                     self.create(username: (user?.displayName)!,email: "someone@gamil.com",facebook: true, imagData: image! )
                                 } else {
@@ -85,7 +82,6 @@ class LoginController: UIViewController {
                             self.present(newViewController, animated: true, completion: nil)     
                         }   
                     } else {
-                        print("Login error: \(error?.localizedDescription)")
                         let alertController = UIAlertController(title: "Login Error", message: error?.localizedDescription, preferredStyle: .alert)
                         let okayAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
                         alertController.addAction(okayAction)
@@ -97,9 +93,6 @@ class LoginController: UIViewController {
             }
         }
     }
-    
-    
-    
     @IBAction func SignInClicked(_ sender: Any) {
         if emailTextField.text == "" || pwTextField.text == "" {
             PresentAlertController(title: "Something went wrong", message: "Please properly insert your data", actionTitle: "Got it")
@@ -114,7 +107,6 @@ class LoginController: UIViewController {
                     if (user?.isEmailVerified)!{
                         // if user don't name and imageprofile
                         if(user?.photoURL == nil ){
-                            print("username",user?.displayName)
                             let img = UIImage(named: "profile-icon")
                             let data :NSData = UIImagePNGRepresentation(img!)! as NSData
                             self.create(username: (user?.displayName)!,email : (user?.email)!,facebook: false, imagData: data )
@@ -191,7 +183,7 @@ class LoginController: UIViewController {
     
     func create(username:String, email:String, facebook: Bool, imagData: NSData){
         var people : [UserProfile] = [User]
-        let firstPerson =  personService.getById(_id: (people[0].objectID))!
+        let firstPerson =  personService.getByIdUserProfile(_id: (people[0].objectID))!
         if firstPerson.isInserted {
             firstPerson.facebookProvider = facebook
             firstPerson.imageData = imagData

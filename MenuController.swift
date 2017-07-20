@@ -8,11 +8,12 @@ import MessageUI
 class MenuController: UIViewController,UIImagePickerControllerDelegate, UINavigationControllerDelegate,MFMessageComposeViewControllerDelegate {
     var imagePicker : UIImagePickerController = UIImagePickerController()
     
-    let personService = PersonService()
+    let personService = UserProfileCoreData()
     let Checklocation = DashboardController()
     let storageRef = Storage.storage().reference()
     let currentUser = Auth.auth().currentUser
     var loginControllerInstance: LoginController = LoginController()
+    let internetConnection = InternetConnection()
     var facebookCheck : Bool = false
     @IBOutlet weak var EmergencyBtn: UIButton!
     @IBOutlet weak var contactBtn: UIButton!
@@ -48,10 +49,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         imageProfile.layer.cornerRadius = 50
         EditBtn.layer.borderColor = UIColor.green.cgColor
         EditBtn.layer.cornerRadius = 2;
-        EditBtn.layer.borderWidth = 1;
-    }
-    
-    
+     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         
@@ -59,7 +57,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     }
     
     @IBAction func Logout(_ sender: Any) {
-        deleteAllData(entity: "UserProfile")
+        personService.deleteAllData(entity: "UserProfile")
         try! Auth.auth().signOut()
         if self.storyboard != nil {
             
@@ -74,7 +72,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     
     @IBAction func AccProviderBtn(_ sender: Any) {
         if EditBtn.tag == 0 {
-            PresentAlertController(title: "FB Linked", message: "Your account link with FaceBook", actionTitle: "Ok")
+            PresentAlertController(title: "FB Linked", message: "Your account link with Facebook", actionTitle: "Ok")
             
             
         }else{
@@ -87,7 +85,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
             
             let data = try? Data(contentsOf: (currentUser?.photoURL)!)
             
-            if let imageData = data {
+            if data != nil {
                 let image = UIImage(data: data!)
                 
                 let newimag = UIComponentHelper.resizeImage(image: image!, targetSize: CGSize(width: 150, height: 100))
@@ -100,23 +98,23 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         EmailBtn.text = currentUser?.email
         
         let facebookProvider = NSPredicate(format: "facebookProvider = 1")
-        let fb_lgoin = personService.get(withPredicate: facebookProvider)
+        let fb_lgoin = personService.getUserProfile(withPredicate: facebookProvider)
         EditBtn.setTitle("FBLinked", for: .normal)
         
         
-        if (fb_lgoin != nil ){
-            for i in fb_lgoin {
-                let img = UIImage(data: i.imageData as! Data)
-                let newimag = UIComponentHelper.resizeImage(image: img!, targetSize: CGSize(width: 150, height: 100))
-                imageProfile.setImage(newimag, for: .normal)
-            }
-            
+   
+        for i in fb_lgoin {
+            let img = UIImage(data: i.imageData! as Data)
+            let newimag = UIComponentHelper.resizeImage(image: img!, targetSize: CGSize(width: 150, height: 100))
+            imageProfile.setImage(newimag, for: .normal)
         }
+            
+        
         
     }
     
     @IBAction func didTapTakePicture(_ sender: Any) {
-        let imageUploadAlert = UIAlertController(title: "Upload Profile Picture", message: "", preferredStyle: .actionSheet)
+        let imageUploadAlert = UIAlertController(title: "Upload Profile Picture", message: "", preferredStyle: .alert)
         
         imageUploadAlert.addAction(UIAlertAction(title:"Take Photo", style:.default,handler: { (action: UIAlertAction!) in
             self.TakePhoto()
@@ -126,6 +124,9 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
             self.SelectPhotoFromLibrary()
         }))
         imageUploadAlert.addAction(UIAlertAction(title:"Cancel", style:.default,handler: nil))
+        imageUploadAlert.popoverPresentationController?.sourceView = self.view
+        imageUploadAlert.popoverPresentationController?.sourceRect = self.view.bounds
+
         self.present(imageUploadAlert,animated: true)
     }
     
@@ -136,7 +137,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         } else {
             let data = try? Data(contentsOf: (currentUser?.photoURL)!)
             
-            if let imageData = data {
+            if data != nil {
                 let image = UIImage(data: data!)
                 
                 let newimag = UIComponentHelper.resizeImage(image: image!, targetSize: CGSize(width: 150, height: 100))
@@ -145,31 +146,36 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
             
             
         }
-        userName.text =  currentUser?.displayName
         EmailBtn.text = currentUser?.email
-        
+        userName.text =  currentUser?.displayName
         let emailProvider = NSPredicate(format: "facebookProvider = 0")
-        let email_lgoin = personService.get(withPredicate: emailProvider)
-        if email_lgoin != nil {
-            for i in email_lgoin {
-                if i.imageData != nil{
-                    print ("No image data save in core data")
+        let email_lgoin = personService.getUserProfile(withPredicate: emailProvider)
+       
+        for i in email_lgoin {
+            if i.imageData == nil{
+                print ("No image data save in core data")
                     
-                }else{
-                    // if user no internet still they can get imageProfile from coredata
-                    let img = UIImage(data: i.imageData as! Data)
-                    let newimag = UIComponentHelper.resizeImage(image: img!, targetSize: CGSize(width: 150, height: 100))
-                    imageProfile.setImage(newimag, for: .normal)
+            }else{
+                    
+                userName.text =  i.username
+
+                // if user no internet still they can get imageProfile from coredata
+                let img = UIImage(data: i.imageData! as Data)
+                let newimag = UIComponentHelper.resizeImage(image: img!, targetSize: CGSize(width: 150, height: 100))
+                imageProfile.setImage(newimag, for: .normal)
                     
                 }
                 
             }
-            
         }
     
-    }
-    
     func TakePhoto(){
+        if internetConnection.isConnectedToNetwork() {
+            print("have internet")
+        } else{
+            self.PresentAlertController(title: "Something went wrong", message: "Can not upload to server. Please Check you internet connection ", actionTitle: "Got it")
+            return
+        }
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera) == true {
             
             self.imagePicker.sourceType = .camera
@@ -182,6 +188,12 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         
     }
     func SelectPhotoFromLibrary(){
+        if internetConnection.isConnectedToNetwork() {
+            print("have internet")
+        } else{
+            self.PresentAlertController(title: "Something went wrong", message: "Can not upload to server. Please Check you internet connection ", actionTitle: "Got it")
+            return
+        }
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.photoLibrary) == true {
             
             self.imagePicker.sourceType = .photoLibrary
@@ -195,24 +207,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         }
     }
     
-    func deleteAllData(entity: String)
-    {
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entity)
-        fetchRequest.returnsObjectsAsFaults = false
-        
-        do {
-            let results = try manageObjectContext.fetch(fetchRequest)
-            for managedObject in results
-            {
-                let managedObjectData:NSManagedObject = managedObject as! NSManagedObject
-                manageObjectContext.delete(managedObjectData)
-                try manageObjectContext.save()
-                
-            }
-        } catch let error as NSError {
-            print("Detele all data in \(entity) error : \(error) \(error.userInfo)")
-        }
-    }
+   
     
     @IBAction func EmergencySOS(_ sender: Any){
         let Check : String =  Checklocation.CheckUserLocation()
@@ -238,8 +233,6 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         
         smsAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         present(smsAlert, animated: true, completion: nil)
-        
-        
     }
     //send SMS
     func SMS(){
@@ -281,16 +274,27 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     
     
     @IBAction func contactusBtn(_ sender: Any) {
-        let contactusAlert = UIAlertController(title: "Contact us", message: "", preferredStyle: .actionSheet)
+        let contactusAlert = UIAlertController(title: "Contact us", message: "", preferredStyle: .alert)
         
-        contactusAlert.addAction(UIAlertAction(title:"English Speaker   010905998", style:.default,handler: { (action: UIAlertAction!) in
-            guard let number = URL(string: "tel://" + "010905998" ) else { return }
+            contactusAlert.addAction(UIAlertAction(title:"English Speaker: (+855) 78 777 284", style:.default,handler: { (action: UIAlertAction!) in
+            guard let number = URL(string: "tel://" + "078777284" ) else { return }
             UIApplication.shared.open(number, options: [:], completionHandler: nil)
                        
            
+            }))
+        contactusAlert.addAction(UIAlertAction(title:"Khmer Speaker: (+855) 96 2222 735", style:.default,handler: { (action: UIAlertAction!) in
+            guard let number = URL(string: "tel://" + "0962222735" ) else { return }
+            UIApplication.shared.open(number, options: [:], completionHandler: nil)
+            
+            
         }))
+        
 
         contactusAlert.addAction(UIAlertAction(title:"Ok", style:.default,handler: nil))
+        if let popoverPresentationController = contactusAlert.popoverPresentationController {
+            popoverPresentationController.sourceView = self.view
+            popoverPresentationController.sourceRect = (sender as AnyObject).bounds
+        }
         self.present(contactusAlert,animated: true)
     }
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
@@ -307,19 +311,18 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
            
             let newImage = UIComponentHelper.resizeImage(image: setectImage, targetSize: CGSize(width: 150, height: 100))
             
-            let imageProfiles = UIImagePNGRepresentation( newImage)
-            let riversRef = storageRef.child("Profile-image").child((currentUser?.displayName)!)
+            let imageProfiles = UIImagePNGRepresentation(newImage)
+            let riversRef = storageRef.child("userprofile-photo").child((currentUser?.displayName)!)
             
             let uploadTask = riversRef.putData(imageProfiles! , metadata: nil) { (metadata, error) in
                 guard let metadata = metadata else {
-                    self.PresentAlertController(title: "Something went wrong", message: "Can not upload to server. Please Check you internet connection ", actionTitle: "Got it")
-
+                    
                     return
                 }
                 // Metadata contains file metadata such as size, content-type, and download URL.
                 let downloadURL = metadata.downloadURL()!.absoluteString
                 print(downloadURL)
-                let url = NSURL(string: downloadURL) as? URL
+                let url = NSURL(string: downloadURL) as URL?
                 let chageProfileimage = self.currentUser?.createProfileChangeRequest()
                 chageProfileimage?.photoURL =  url
                 chageProfileimage?.commitChanges { (error) in
@@ -329,10 +332,10 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
                 // if Facebook login Update Image
                 
                 if self.facebookCheck {
-                    self.FBProviderUpdateImage(image: imageProfiles as! NSData)
+                    self.FBProviderUpdateImage(image: imageProfiles! as NSData)
                     
                 }else{
-                    self.EmailProviderUpdateImage(image: imageProfiles as! NSData)
+                    self.EmailProviderUpdateImage(image: imageProfiles! as NSData)
                 }
                 
             }
@@ -350,7 +353,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     func EmailProviderUpdateImage(image: NSData){
         
         let emailProvider = NSPredicate(format: "facebookProvider = 0")
-        let email_lgoin = personService.get(withPredicate: emailProvider)
+        let email_lgoin = personService.getUserProfile(withPredicate: emailProvider)
         for i in email_lgoin {
             print("Email done")
             i.imageData = image
@@ -361,7 +364,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     // update image to Core
     func FBProviderUpdateImage(image : NSData){
         let facebookProvider = NSPredicate(format: "facebookProvider = 1")
-        let fb_lgoin = personService.get(withPredicate: facebookProvider)
+        let fb_lgoin = personService.getUserProfile(withPredicate: facebookProvider)
         for i in fb_lgoin {
             print("facebook done")
             
@@ -372,7 +375,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         }
      
     }
-
+   
 }
 
 

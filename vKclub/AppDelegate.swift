@@ -20,14 +20,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
     /// Firebase project's Sender ID.
     /// You can send this token to your application server to send notifications to this device.
     func messaging(_ messaging: Messaging, didRefreshRegistrationToken fcmToken: String) {
-        print(fcmToken)
     }
     var notification_num = 0
     var window: UIWindow?
-    let personService = PersonService()
-    
-    
-   
+    let personService = UserProfileCoreData()
     let gcmMessageIDKey = "gcm.message_id"
     var linphoneManager: LinphoneManager?
     
@@ -35,6 +31,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
         //notification
         self.linphoneManager = LinphoneManager()
         linphoneManager?.demo()
+    
+        let launchedBefore = UserDefaults.standard.bool(forKey: "launchedBefore")
+        if launchedBefore  {
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            appDelegate.window = UIWindow(frame: UIScreen.main.bounds)
+            let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let yourVC = mainStoryboard.instantiateViewController(withIdentifier: "loginController") as!  LoginController
+            appDelegate.window?.rootViewController = yourVC
+            appDelegate.window?.makeKeyAndVisible()
+            
+        } else {
+            print("First launch, setting UserDefault.")
+            
+        }
+        
         
         // Remove border in navigationBar
         UINavigationBar.appearance().shadowImage = UIImage()
@@ -53,7 +64,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
                 completionHandler: {_, _ in })
             
             // For iOS 10 data message (sent via FCM)
-             Messaging.messaging().remoteMessageDelegate = self
+             
         } else {
             let settings: UIUserNotificationSettings =
                 UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
@@ -61,7 +72,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
         }
         
         application.registerForRemoteNotifications()
-       
+        
         
         // Override point for customization after application launch.
         FirebaseApp.configure()
@@ -101,23 +112,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
         }
         return true
     }
-    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-//        InstanceID.instanceID().setAPNSToken(deviceToken, type: .prod)
-        InstanceID.instanceID().setAPNSToken(deviceToken, type: .sandbox)
-    }
-
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        print("Registration failed!")
+        print("Unable to register for remote notifications: \(error.localizedDescription)")
     }
     
-    private func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
-        Messaging.messaging().appDidReceiveMessage(userInfo)
-        
+   
+
+    func application(_ application: UIApplication,
+                     didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        var readableToken: String = ""
+        for i in 0..<deviceToken.count {
+            readableToken += String(format: "%02.2hhx", deviceToken[i] as CVarArg)
+        }
+        print("Received an APNs device token: \(readableToken)")
+       
     }
+    func application(received remoteMessage: MessagingRemoteMessage) {
+        print(remoteMessage.appData)
+    }
+    
+
+   
     @available(iOS 10.0, *)
     func userNotificationCenter(_ center: UNUserNotificationCenter,  willPresent notification: UNNotification, withCompletionHandler   completionHandler: @escaping (_ options:   UNNotificationPresentationOptions) -> Void) {
         notification_num += 1
-       
         let dict = notification.request.content.userInfo["aps"] as! NSDictionary
         print (dict)
         let d : [String : Any] = dict["alert"] as! [String : Any]
@@ -141,8 +159,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
         let title : String = d["title"] as! String
         print("Title:\(title) + body:\(body)")
         personService.CreatnotificationCoredata(_notification_num: notification_num, _notification_body: body, _notification_title: title)
-                print("Handle push from background or closed\(response.notification.request.content.userInfo)")
+        print("Handle push from background or closed\(response.notification.request.content.userInfo)")
         self.showAlertAppDelegate(title: title,message:body,buttonTitle:"ok",window:self.window!)
+        completionHandler()
     }
     // Alert Controller in AppDelegate
     func showAlertAppDelegate(title: String,message : String,buttonTitle: String,window: UIWindow){
@@ -158,6 +177,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
         let yourVC = mainStoryboard.instantiateViewController(withIdentifier: "MainDashboard") as!  SWRevealViewController
         appDelegate.window?.rootViewController = yourVC
         appDelegate.window?.makeKeyAndVisible()
+        
     }
    
     
