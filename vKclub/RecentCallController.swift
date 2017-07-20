@@ -9,8 +9,25 @@
 import UIKit
 import CoreData
 
-class RecentCallController: UIViewController {
+
+class RecentCallViewCell: UITableViewCell {
+    @IBOutlet weak var callIndicatorIcon: UIImageView!
+    @IBOutlet weak var callLogTimeLabel: UILabel!
+    @IBOutlet weak var callerID: UILabel!
+    @IBOutlet weak var timeStampLabel: UILabel!
     
+}
+
+
+class RecentCallController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITabBarControllerDelegate {
+    
+    @IBOutlet weak var tableView: UITableView!
+    
+    static let callDataRequest: NSFetchRequest<SipCallData> = SipCallData.fetchRequest()
+    static var callLogData = [SipCallData]()
+    static var tableViewRef = UITableView()
+    
+    let (todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySec) = UIComponentHelper.GetTodayString()
     var incomingCallInstance = IncomingCallController()
     var currentCallLogBtnHeight = 0;
     var callLogBtnColor = "#218154"
@@ -22,127 +39,170 @@ class RecentCallController: UIViewController {
                 callLogBtnColor = "#218154"
             }
         }
+        
     }
-    var callLogData = [SipCallData]()
+    var callLogDataCount = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        self.tabBarController?.delegate = self
+        self.tableView.delegate = self
+        RecentCallController.tableViewRef.delegate = self
+        
+        RecentCallController.LoadCallDataCell()
+    }
     
-        InstantiateCallLogListBtn(_btnIcon: "outgoing-call-icon", _timeStampLabel: "10:00AM", _callerIDLabel: "10050", _callLogTimeLabel: "50 mins ago")
-        InstantiateCallLogListBtn(_btnIcon: "incoming-call-icon", _timeStampLabel: "10:00AM", _callerIDLabel: "10050", _callLogTimeLabel: "50 mins ago")
-        InstantiateCallLogListBtn(_btnIcon: "outgoing-call-icon", _timeStampLabel: "10:00AM", _callerIDLabel: "10050", _callLogTimeLabel: "50 mins ago")
-        InstantiateCallLogListBtn(_btnIcon: "incoming-call-icon", _timeStampLabel: "10:00AM", _callerIDLabel: "10050", _callLogTimeLabel: "50 mins ago")
-        InstantiateCallLogListBtn(_btnIcon: "outgoing-call-icon", _timeStampLabel: "10:00AM", _callerIDLabel: "10050", _callLogTimeLabel: "50 mins ago")
-        InstantiateCallLogListBtn(_btnIcon: "incoming-call-icon", _timeStampLabel: "10:00AM", _callerIDLabel: "10050", _callLogTimeLabel: "50 mins ago")
-       
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        let tabBarIndex = tabBarController.selectedIndex
+        
+        //recent call tab is 1
+        if tabBarIndex == 1 {
+            print("RECENT CALL TAB ===")
+        }
+    }
+    
+    static func LoadCallDataCell() {
+        do {
+            callLogData = try manageObjectContext.fetch(callDataRequest)
+            tableViewRef.reloadData()
+            
+            print(callLogData.count, "==COUNTINLOAD=")
+        } catch {
+            print("Could not get call data from CoreData \(error.localizedDescription) ===")
+        }
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
         
     }
-
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        if RecentCallController.callLogData.count == 0 {
+            return 1
+        } else {
+            return RecentCallController.callLogData.count
+        }
+        
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let recentCallCell = tableView.dequeueReusableCell(withIdentifier: "RecentCallTableView", for: indexPath) as! RecentCallViewCell
+        
+        //start index path from last index instead
+        let lastRow: Int = self.tableView.numberOfRows(inSection: 0) - (indexPath.row + 1)
+        let reverseIndexPath = IndexPath(row: lastRow, section: 0)
+        
+        RecentCallController.tableViewRef = tableView
+        
+        //No call data yet
+        if RecentCallController.callLogData.count == 0 {
+            recentCallCell.callerID.textColor = UIColor(hexString: "#AAAAAA", alpha: 1)
+            recentCallCell.callerID.text = "No call data"
+            recentCallCell.callIndicatorIcon.image = UIImage(named: "outgoing-call-icon")
+            recentCallCell.callIndicatorIcon.tintColor = UIColor(hexString: "#AAAAAA", alpha: 1)
+            recentCallCell.timeStampLabel.text = ""
+            recentCallCell.callLogTimeLabel.text = ""
+        } else {
+            //Loading call log data
+            let callLogDataItem = RecentCallController.callLogData[reverseIndexPath.row]
+            if callLogDataItem.callerID != nil {
+                recentCallCell.callerID.textColor = UIColor.black
+                recentCallCell.callerID.text = callLogDataItem.callerName != "" ? callLogDataItem.callerName : callLogDataItem.callerID
+                recentCallCell.callIndicatorIcon.image = UIImage(named: callLogDataItem.callIndicatorIcon!)
+                recentCallCell.callIndicatorIcon.tintColor = UIColor(hexString: "#008040", alpha: 1)
+                
+                recentCallCell.timeStampLabel.text = callLogDataItem.callDuration == "" ? callLogDataItem.callerID : "\(callLogDataItem.callerID!) (\(callLogDataItem.callDuration!) mn)"
+                
+                
+                let _timeLogArray = callLogDataItem.callLogTime?.components(separatedBy: "-")
+                //if the call log data date is today
+                if todayYear == _timeLogArray?[0] && todayMonth == _timeLogArray?[1] && todayDate == _timeLogArray?[2] {
+                    recentCallCell.callLogTimeLabel.text = (_timeLogArray?[3])! + ":" + (_timeLogArray?[4])!
+                } else {
+                    //if the call log data date is not today
+                    recentCallCell.callLogTimeLabel.text = (_timeLogArray?[1])! + "/" + (_timeLogArray?[2])! + "/" + (_timeLogArray?[0])!
+                }
+                
+            }
+        }
+        
+        //Switch button color
+        //        self.switchCallLogBtnColor = !self.switchCallLogBtnColor
+        //        recentCallCell.backgroundColor = UIColor(hexString: callLogBtnColor, alpha: 1)
+        
+        return recentCallCell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        //start index path from last index instead
+        let lastRow: Int = self.tableView.numberOfRows(inSection: 0) - (indexPath.row + 1)
+        let reverseIndexPath = IndexPath(row: lastRow, section: 0)
+        
+        //cellIndex for removing table view cell, reverseIndex for removing coredata value since we reversed data in view
+        PresentActionSheet(_cellIndex: indexPath, _reverseIndex: reverseIndexPath)
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        //start index path from last index instead
+        let lastRow: Int = self.tableView.numberOfRows(inSection: 0) - (indexPath.row + 1)
+        let reverseIndexPath = IndexPath(row: lastRow, section: 0)
+        
+        //Handle delete cell
+        if editingStyle == .delete {
+            HandleDeleteCallTableCell(_cellIndex: indexPath, _reverseIndex: reverseIndexPath)
+        }
+        
+    }
+    
+    func HandleDeleteCallTableCell(_cellIndex: IndexPath, _reverseIndex: IndexPath) {
+        let callLogDataItem = RecentCallController.callLogData[_reverseIndex.row]
+        RecentCallController.callLogData.remove(at: _reverseIndex.row)
+        do {
+            manageObjectContext.delete(callLogDataItem)
+            try manageObjectContext.save()
+        } catch {
+            print("CAN\'T SAVE IN CELL DELETION \(error.localizedDescription)")
+        }
+        self.tableView.deleteRows(at: [_cellIndex], with: .automatic)
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
         
     }
     
-    
-    func InstantiateCallLogListBtn(_btnIcon: String, _timeStampLabel: String, _callerIDLabel: String, _callLogTimeLabel: String) {
-        //Init button
-        let callListBtn = UIButton(frame: CGRect(x: 0, y: currentCallLogBtnHeight, width: Int(view.frame.width), height: Int(view.frame.height / 10)))
-        callListBtn.backgroundColor = UIColor(hexString: self.callLogBtnColor, alpha: 1)
-        callListBtn.addTarget(self, action: #selector(CallLogListBtnHandler), for: .touchUpInside)
-        view.addSubview(callListBtn)
-        currentCallLogBtnHeight += Int(view.frame.height / 10)
+    func PresentActionSheet(_cellIndex: IndexPath, _reverseIndex: IndexPath) {
+        let callLogDataItem = RecentCallController.callLogData[_reverseIndex.row]
         
-        //Switch button color
-        self.switchCallLogBtnColor = !self.switchCallLogBtnColor
-        
-        //Make button border
-        let lineView = UIView(frame: CGRect(x: 0, y: Int(callListBtn.frame.height - 1), width: Int(callListBtn.frame.width), height: 1))
-        lineView.backgroundColor = UIColor.white
-        callListBtn.addSubview(lineView)
-        
-        //Add call indicator left-icon
-        let imageView = UIImageView();
-        let image = UIImage(named: _btnIcon);
-        imageView.image = image;
-        imageView.frame = CGRect(x: Int(callListBtn.frame.height / 3), y: Int(callListBtn.frame.height / 3), width: Int(callListBtn.frame.height / 2.5), height: Int(callListBtn.frame.height / 2.5))
-        callListBtn.addSubview(imageView)
-        
-        //Add top timestamp label and duration
-        let timeStampLabelXPosition = (Int((callListBtn.frame.height / 3) * 2)) + Int(imageView.frame.width)
-        let timeStampLabelYPosition = Int((callListBtn.frame.height / 3) / 2)
-        let timeStampLabel = UILabel(frame: CGRect(x: timeStampLabelXPosition, y: timeStampLabelYPosition, width: Int(view.frame.width), height: Int(callListBtn.frame.height / 3)))
-        timeStampLabel.text = _timeStampLabel
-        timeStampLabel.textColor = UIColor.white
-        callListBtn.addSubview(timeStampLabel)
-        
-        //Add caller-ID label
-        let callerIDLabel = UILabel(frame: CGRect(x: timeStampLabelXPosition, y: Int(imageView.frame.height * 1.3), width: Int(view.frame.width), height: Int(imageView.frame.height * 80/100)))
-        callerIDLabel.text = _callerIDLabel
-        callerIDLabel.textColor = UIColor.white
-        callerIDLabel.font = callerIDLabel.font.withSize(imageView.frame.height * 80/100)
-        callListBtn.addSubview(callerIDLabel)
-        
-        //Add call log time label
-        let callLogTimeLabel = UILabel(frame: CGRect(x: timeStampLabelXPosition, y: Int(imageView.frame.height * 1.3), width: Int(view.frame.width) - timeStampLabelXPosition - 5, height: Int(imageView.frame.height * 80/100)))
-        callLogTimeLabel.text = _callLogTimeLabel
-        callLogTimeLabel.textColor = UIColor.white
-        callLogTimeLabel.textAlignment = .right
-//        callLogTimeLabel.font = callerIDLabel.font.withSize(imageView.frame.height * 80/100)
-        
-        callListBtn.addSubview(callLogTimeLabel)
-    }
-    
-    func LoadCallLogFromCoreData() {
-        let callDataRequest: NSFetchRequest<SipCallData> = SipCallData.fetchRequest()
-        do {
-            callLogData = try manageObjectContext.fetch(callDataRequest)
-            
-            for ok in callLogData {
-                print(ok.callerID, "===D", ok.callLogTime, ok.callIndicatorIcon )
-            }
-            
-            
-        } catch {
-            print("Could not get call data from CoreData \(error.localizedDescription) ===")
-        }
-    }
-    
-    func CallLogListBtnHandler(senderBtn: UIButton) {
-        //animate button on click
-        UIView.animate(withDuration: 0.1, animations: {
-            senderBtn.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
-        }, completion: { animationFinished in
-            UIView.animate(withDuration: 0.1, animations: {
-                senderBtn.transform = CGAffineTransform.identity
-            })
-        })
-        
-        LoadCallLogFromCoreData()
-        
-        PresentActionSheet(_phoneNumber: "10050")
-        
-        print("\(senderBtn) You TOUCHED me! ===")
-        
-        senderBtn.removeFromSuperview()
-        
-    }
-    
-    func PresentActionSheet(_phoneNumber: String) {
         let actionSheet = UIAlertController(title: "Actions", message: nil, preferredStyle: .actionSheet)
-        let cancelBtnHandler = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         let dialBtnHandler = UIAlertAction(title: "Dial", style: .default, handler: {(action) -> Void in
-            LinphoneManager.makeCall(phoneNumber: _phoneNumber)
-            IncomingCallController.dialPhoneNumber = _phoneNumber
+            IncomingCallController.dialPhoneNumber = callLogDataItem.callerID!
             self.incomingCallInstance.callToFlag = true
-        
+            LinphoneManager.makeCall(phoneNumber: callLogDataItem.callerID!)
         })
+        let cancelBtnHandler = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
         actionSheet.addAction(dialBtnHandler)
         actionSheet.addAction(cancelBtnHandler)
+        actionSheet.addAction(UIAlertAction(title: "Test Delete All", style: .default, handler: {test in
+            UserProfileCoreData.deleteAllData(entity: "SipCallData")
+            print("Done delete ---")
+        }))
+        
         self.present(actionSheet, animated: true)
+        
     }
-    
     
 }

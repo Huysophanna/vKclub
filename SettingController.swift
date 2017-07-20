@@ -76,13 +76,5 @@ class SettingController: UIViewController,UNUserNotificationCenterDelegate {
 
         
     }
-    
-    
-    
-    
-    
-   
-    
-      
-   
+
 }

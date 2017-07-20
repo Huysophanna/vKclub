@@ -23,6 +23,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     @IBOutlet weak var EmailBtn: UILabel!
     @IBOutlet weak var EditBtn: UIButton!
     @IBOutlet weak var userName: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         imagePicker.delegate = self
@@ -46,10 +47,13 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
             }
             
         }
-        imageProfile.layer.cornerRadius = 50
-        EditBtn.layer.borderColor = UIColor.green.cgColor
-        EditBtn.layer.cornerRadius = 2;
-     }
+        
+        //make responsive rounded user profile picture
+        imageProfile.frame = CGRect(x: EditBtn.frame.origin.x, y: imageProfile.bounds.width / 5, width: (view.bounds.width * 35) / 100, height: (view.bounds.width * 35) / 100)
+        imageProfile.layer.cornerRadius = imageProfile.bounds.width / 2
+    }
+    
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         
@@ -58,6 +62,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     
     @IBAction func Logout(_ sender: Any) {
         personService.deleteAllData(entity: "UserProfile")
+        personService.deleteAllData(entity: "SipCallData")
         try! Auth.auth().signOut()
         if self.storyboard != nil {
             
@@ -66,22 +71,21 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
             self.present(newViewController, animated: true, completion: nil)
             
         }
-        
-        
     }
     
     @IBAction func AccProviderBtn(_ sender: Any) {
         if EditBtn.tag == 0 {
-            PresentAlertController(title: "FB Linked", message: "Your account link with Facebook", actionTitle: "Ok")
+            PresentAlertController(title: "FB Linked", message: "Your account link with Facebook", actionTitle: "Okay")
             
             
         }else{
             performSegue(withIdentifier:"GotoEditProfile", sender: self)        }
     }
+    
     func FBProvider(){
         if currentUser?.photoURL == nil {
             
-        }else{
+        } else {
             
             let data = try? Data(contentsOf: (currentUser?.photoURL)!)
             
@@ -152,10 +156,10 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         let email_lgoin = personService.getUserProfile(withPredicate: emailProvider)
        
         for i in email_lgoin {
-            if i.imageData == nil{
+            if i.imageData == nil {
                 print ("No image data save in core data")
                     
-            }else{
+            } else {
                     
                 userName.text =  i.username
 
@@ -164,10 +168,10 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
                 let newimag = UIComponentHelper.resizeImage(image: img!, targetSize: CGSize(width: 150, height: 100))
                 imageProfile.setImage(newimag, for: .normal)
                     
-                }
-                
             }
+                
         }
+    }
     
     func TakePhoto(){
         if internetConnection.isConnectedToNetwork() {
@@ -177,20 +181,19 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
             return
         }
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera) == true {
-            
             self.imagePicker.sourceType = .camera
             self.present(imagePicker, animated: true)
-            
-        }else{
+        } else {
             print("no wokr")
             
         }
         
     }
+    
     func SelectPhotoFromLibrary(){
         if internetConnection.isConnectedToNetwork() {
             print("have internet")
-        } else{
+        } else {
             self.PresentAlertController(title: "Something went wrong", message: "Can not upload to server. Please Check you internet connection ", actionTitle: "Got it")
             return
         }
@@ -202,12 +205,10 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
             self.present(imagePicker, animated: true)
             
             
-        }else{
-            print("No wokr")
+        } else {
+            print("No work")
         }
     }
-    
-   
     
     @IBAction func EmergencySOS(_ sender: Any){
         let Check : String =  Checklocation.CheckUserLocation()
@@ -227,13 +228,14 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     func inKirirom(){
         let smsAlert = UIAlertController(title: "EmergencySOS", message: "We will generate a SMS along with your current location to our supports. We suggest you not to move far away from your current position, as we're trying our best to get there as soon as possible. \n (Standard SMS rates may apply)", preferredStyle: UIAlertControllerStyle.alert)
         
-        smsAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
+        smsAlert.addAction(UIAlertAction(title: "Okay", style: .default, handler: { (action: UIAlertAction!) in
             self.SMS()
         }))
         
         smsAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         present(smsAlert, animated: true, completion: nil)
     }
+    
     //send SMS
     func SMS(){
         let currentLocaltion_lat = String(Checklocation.lat)
@@ -297,6 +299,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         }
         self.present(contactusAlert,animated: true)
     }
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         var selectedImageFromPicker : UIImage?
         if let editedImage = info["UIImagePickerCOntrollerEditedImage"] as? UIImage {
@@ -334,7 +337,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
                 if self.facebookCheck {
                     self.FBProviderUpdateImage(image: imageProfiles! as NSData)
                     
-                }else{
+                } else {
                     self.EmailProviderUpdateImage(image: imageProfiles! as NSData)
                 }
                 
@@ -346,9 +349,11 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         
         
     }
+    
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
     }
+    
     // update image to Core
     func EmailProviderUpdateImage(image: NSData){
         
@@ -361,6 +366,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
             
         }
     }
+    
     // update image to Core
     func FBProviderUpdateImage(image : NSData){
         let facebookProvider = NSPredicate(format: "facebookProvider = 1")

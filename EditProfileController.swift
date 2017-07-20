@@ -26,10 +26,11 @@ class EditProfileController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        UIComponentHelper.MakeWhitePlaceholderTextField(textfield: Username, name: "Name")
-        UIComponentHelper.MakeWhitePlaceholderTextField(textfield: Email, name: "Email")
-        UIComponentHelper.MakeWhitePlaceholderTextField(textfield: currentpass, name: "Current Password")
-        UIComponentHelper.MakeBtnWhiteBorder(button: UpdateBtn )
+        UIComponentHelper.MakeCustomPlaceholderTextField(textfield: Username, name: "Name", color: UIColor(hexString: "#008040", alpha: 1))
+        UIComponentHelper.MakeCustomPlaceholderTextField(textfield: Email, name: "Email", color: UIColor(hexString: "#008040", alpha: 1))
+        UIComponentHelper.MakeCustomPlaceholderTextField(textfield: currentpass, name: "Current Password", color: UIColor(hexString: "#008040", alpha: 1))
+        
+        UIComponentHelper.MakeBtnWhiteBorder(button: UpdateBtn, color: UIColor(hexString: "#008040", alpha: 1))
         
         // Do any additional setup after loading the view.
     }
@@ -56,7 +57,7 @@ class EditProfileController: UIViewController {
             
         } else {
             let currentuser = Auth.auth().currentUser
-            let current_email    = String(describing: currentuser?.email)
+            let current_email = String(describing: currentuser?.email)
             let changeRequest = currentuser?.createProfileChangeRequest()
             
             let credential = EmailAuthProvider.credential(withEmail:(currentuser?.email)!, password: currentpass.text!)
@@ -79,7 +80,7 @@ class EditProfileController: UIViewController {
                             }
                         })
                         
-                    }else{
+                    } else {
                         currentuser?.updateEmail(to: self.Email.text! , completion: { (error) in
                             if error == nil{
                                 changeRequest?.displayName = self.Username.text
@@ -105,14 +106,14 @@ class EditProfileController: UIViewController {
                                     UIApplication.shared.keyWindow?.rootViewController = self.storyboard!.instantiateViewController(withIdentifier: "loginController")
                                 }
                                 
-                            }else{
+                            } else {
                                 self.PresentAlertController(title: "Something went wrong", message: (error?.localizedDescription)!, actionTitle: "Okay")
                                 
                             }
                         })
                     }
                     
-                }else{
+                } else {
                     self.PresentAlertController(title: "Something Wrong", message: (error?.localizedDescription)!, actionTitle: "Ok")
                 }
             })
@@ -134,7 +135,6 @@ class EditProfileController: UIViewController {
     }
     
     func reNew(){
-        
         UIApplication.shared.keyWindow?.rootViewController = storyboard!.instantiateViewController(withIdentifier: "MainDashboard")
     }
 }

@@ -5,7 +5,6 @@
         <attribute name="notification_num" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="notification_title" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
-    <entity name="OnorOffnotification" representedClassName="OnorOffnotification" syncable="YES" codeGenerationType="class"/>
     <entity name="SipCallData" representedClassName="SipCallData" syncable="YES" codeGenerationType="class">
         <attribute name="callDuration" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="callerID" optional="YES" attributeType="String" syncable="YES"/>
@@ -21,9 +20,8 @@
         <attribute name="username" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Notifications" positionX="-27" positionY="45" width="128" height="90"/>
-        <element name="OnorOffnotification" positionX="-27" positionY="81" width="128" height="30"/>
         <element name="SipCallData" positionX="-27" positionY="45" width="128" height="135"/>
+        <element name="Notifications" positionX="-27" positionY="45" width="128" height="90"/>
         <element name="UserProfile" positionX="-27" positionY="18" width="128" height="105"/>
     </elements>
 </model>

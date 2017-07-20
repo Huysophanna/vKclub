@@ -27,9 +27,11 @@ class DashboardController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        isKirirom()
-        let time = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.isKirirom), userInfo: nil, repeats: true)
+        
+        Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.isKirirom), userInfo: nil, repeats: true)
         Slidemenu()
+        
+        KiriromScope.setTitle("Identifying", for: .normal)
     }
     
     override func didReceiveMemoryWarning() {
@@ -49,6 +51,11 @@ class DashboardController: UIViewController {
         performSegue(withIdentifier: "PushMap", sender: self)
     }
 
+    @IBAction func AboutUsBtn(_ sender: Any) {
+        performSegue(withIdentifier: "PushAboutUs", sender: nil)
+        
+        
+    }
     @IBAction func MembershipBtn(_ sender: Any) {
         PresentAlertController(title: "Coming Soon!", message: "Introducing vKirirom Membership Card with vPoints, will be available soon.", actionTitle: "Okay")
     }
@@ -88,18 +95,18 @@ class DashboardController: UIViewController {
     
     func isKirirom() {
         let Check : String =  CheckUserLocation()
-        if Check == "inKirirom" {
+        if Check == IN_KIRIROM {
             KiriromScope.setTitle("In-Kirirom Mode", for: .normal)
             let mainGreen = UIColor(hexString: "#008040", alpha: 1)
             KiriromScope.setTitleColor(mainGreen, for: .normal)
             
-        } else if Check == "offKirirom" {
+        } else if Check == OFF_KIRIROM {
             KiriromScope.setTitle("Off-Kirirom Mode", for: .normal)
             let mainGreen = UIColor(hexString: "#008040", alpha: 1)
             KiriromScope.setTitleColor(mainGreen, for: .normal)
             
-        } else if Check == "identifying" {
-            KiriromScope.setTitle("Identifying...", for: .normal)
+        } else if Check == INAPP_UNIDENTIFIED {
+            KiriromScope.setTitle("Unidentified Mode", for: .normal)
             KiriromScope.setTitleColor(UIColor.yellow, for: .normal)
             
         } else {

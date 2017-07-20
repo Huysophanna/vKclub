@@ -22,13 +22,13 @@ class CreateAccController: ViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        UIComponentHelper.MakeBtnWhiteBorder(button: signUpBtn)
-        UIComponentHelper.MakeBtnWhiteBorder(button: backBtn)
+        UIComponentHelper.MakeBtnWhiteBorder(button: signUpBtn, color: UIColor.white)
+        UIComponentHelper.MakeBtnWhiteBorder(button: backBtn, color: UIColor.white)
         
-        UIComponentHelper.MakeWhitePlaceholderTextField(textfield: nameTextField, name: "Name")
-        UIComponentHelper.MakeWhitePlaceholderTextField(textfield: emailTextField, name: "Email")
-        UIComponentHelper.MakeWhitePlaceholderTextField(textfield: passwordTextField, name: "Password")
-        UIComponentHelper.MakeWhitePlaceholderTextField(textfield: confirmTextField, name: "Confirm Password")
+        UIComponentHelper.MakeCustomPlaceholderTextField(textfield: nameTextField, name: "Name", color: UIColor.white)
+        UIComponentHelper.MakeCustomPlaceholderTextField(textfield: emailTextField, name: "Email", color: UIColor.white)
+        UIComponentHelper.MakeCustomPlaceholderTextField(textfield: passwordTextField, name: "Password", color: UIColor.white)
+        UIComponentHelper.MakeCustomPlaceholderTextField(textfield: confirmTextField, name: "Confirm Password", color: UIColor.white)
         
     }
     

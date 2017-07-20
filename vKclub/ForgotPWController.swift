@@ -18,9 +18,9 @@ class ForgotPWController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        UIComponentHelper.MakeBtnWhiteBorder(button: signUpBtn)
-        UIComponentHelper.MakeBtnWhiteBorder(button: backBtn)
-        UIComponentHelper.MakeWhitePlaceholderTextField(textfield: emailTextField, name: "Name")
+        UIComponentHelper.MakeBtnWhiteBorder(button: signUpBtn, color: UIColor.white)
+        UIComponentHelper.MakeBtnWhiteBorder(button: backBtn, color: UIColor.white)
+        UIComponentHelper.MakeCustomPlaceholderTextField(textfield: emailTextField, name: "Name", color: UIColor.white)
     }
     
     override func didReceiveMemoryWarning() {

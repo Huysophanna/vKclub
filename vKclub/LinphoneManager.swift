@@ -82,7 +82,7 @@ class LinphoneManager {
     static var lcOpaquePointerData: Optional<OpaquePointer>
     static var incomingCallFlag: Bool = false {
         didSet {
-            incomingCallInstance.incomingCallFlag = incomingCallFlag
+            incomingCallInstance.incomingCallFlags = incomingCallFlag
         }
     }
     static var callStreamRunning: Bool = false {
@@ -251,7 +251,7 @@ class LinphoneManager {
 //        let password = dict?.object(forKey: "password") as! String
 //        let domain = dict?.object(forKey: "domain") as! String
         
-        let account = "0000"
+        let account = "10100"
         let password = "A2apbx10100"
         let domain = "192.168.7.251:5060"
         

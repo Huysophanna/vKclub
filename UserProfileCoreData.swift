@@ -1,11 +1,6 @@
 import CoreData
 class UserProfileCoreData {
-    
     // check if user close the notification
-    
-    
-    
-    // Creates a new Person
     func CreatnotificationCoredata(_notification_num: intmax_t , _notification_body: String,_notification_title : String ){
         let newNotification = NSEntityDescription.insertNewObject(forEntityName: "Notifications", into: manageObjectContext)
         newNotification.setValue(_notification_num, forKey: "notification_num")
@@ -13,16 +8,42 @@ class UserProfileCoreData {
         newNotification.setValue(_notification_title, forKey: "notification_title")
         do{
            try  manageObjectContext.save()
-            
-        }catch{
+        } catch {
             print("error")
         }
         
     }
     
-    // Gets a userProfile by id
+    func StoreCallDataLog(_callerID: String , _callerName: String, _callDuration : String, _callIndicatorIcon: String) {
+        
+        let (year, month, date, hour, min, sec) = UIComponentHelper.GetTodayString()
+        let timeStamp = "\(hour):\(min)"
+        let callLogTime = "\(year)-\(month)-\(date)-\(hour)-\(min)-\(sec)"
+        //Used to check and update duration into the this particular call log
+        IncomingCallController.callLogTime = callLogTime
+        
+        let CallDataLog = NSEntityDescription.insertNewObject(forEntityName: "SipCallData", into: manageObjectContext)
+        CallDataLog.setValue(_callDuration, forKey: "callDuration")
+        CallDataLog.setValue(_callerID, forKey: "callerID")
+        CallDataLog.setValue(_callerName, forKey: "callerName")
+        CallDataLog.setValue(_callIndicatorIcon, forKey: "callIndicatorIcon")
+        CallDataLog.setValue(timeStamp, forKey: "timeStamp")
+        CallDataLog.setValue(callLogTime, forKey: "callLogTime")
+        do {
+            try manageObjectContext.save()
+            RecentCallController.LoadCallDataCell()
+        } catch {
+            print("Could not save CallDataLog into CoreData \(error.localizedDescription) ===")
+        }
+    }
+    
+    // Gets a person by id
     func getByIdUserProfile(_id: NSManagedObjectID) -> UserProfile? {
         return manageObjectContext.object(with: _id) as? UserProfile
+    }
+    
+    func getCallDataByID (_id: NSManagedObjectID) -> SipCallData? {
+        return manageObjectContext.object(with: _id) as? SipCallData
     }
     
     func updateUserProfile(_updatedPerson: UserProfile){
@@ -41,7 +62,8 @@ class UserProfileCoreData {
         }
         
     }
-    func getUserProfile(withPredicate queryPredicate: NSPredicate) -> [UserProfile]{
+
+    func getUserProfile(withPredicate queryPredicate: NSPredicate) -> [UserProfile] {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "UserProfile")
         
         fetchRequest.predicate = queryPredicate
@@ -56,8 +78,8 @@ class UserProfileCoreData {
             return [UserProfile]()
         }
     }
-    func deleteAllData(entity: String)
-    {
+
+    func deleteAllData(entity: String) {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entity)
         fetchRequest.returnsObjectsAsFaults = false
         
@@ -75,5 +97,38 @@ class UserProfileCoreData {
         }
     }
     
+    func getSipCallDataFetchResult(withPredicate queryPredicate: NSPredicate) -> [SipCallData] {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "SipCallData")
+        
+        fetchRequest.predicate = queryPredicate
+        
+        do {
+            let response = try manageObjectContext.fetch(fetchRequest)
+            return response as! [SipCallData]
+            
+        } catch let error as NSError {
+            // failure
+            print(error)
+            return [SipCallData]()
+        }
+    }
+    
+    static func deleteAllData(entity: String) {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entity)
+        fetchRequest.returnsObjectsAsFaults = false
+        
+        do {
+            let results = try manageObjectContext.fetch(fetchRequest)
+            for managedObject in results
+            {
+                let managedObjectData:NSManagedObject = managedObject as! NSManagedObject
+                manageObjectContext.delete(managedObjectData)
+                try manageObjectContext.save()
+                
+            }
+        } catch let error as NSError {
+            print("Detele all data in \(entity) error : \(error) \(error.userInfo)")
+        }
+    }
       
 }
