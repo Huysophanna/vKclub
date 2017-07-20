@@ -26,8 +26,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
     var window: UIWindow?
     let personService = PersonService()
     
-    
-   
     let gcmMessageIDKey = "gcm.message_id"
     var linphoneManager: LinphoneManager?
     

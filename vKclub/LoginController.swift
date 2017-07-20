@@ -29,7 +29,7 @@ class LoginController: UIViewController {
         MakeLeftViewIconToTextField(textField: emailTextField, icon: "user_left_icon")
         MakeLeftViewIconToTextField(textField: pwTextField, icon: "pw_icon")
         
-        UIComponentHelper.MakeBtnWhiteBorder(button: signInBtn)
+        UIComponentHelper.MakeBtnWhiteBorder(button: signInBtn, color: UIColor.white)
         MakeFBBorderBtn(button: signInFBBtn)
         //Btn Call Function FBSignIn
         signInFBBtn.addTarget(self, action: #selector(FBSignIn), for: .touchUpInside)

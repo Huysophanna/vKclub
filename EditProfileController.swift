@@ -25,10 +25,11 @@ class EditProfileController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        UIComponentHelper.MakeWhitePlaceholderTextField(textfield: Username, name: "Name")
-        UIComponentHelper.MakeWhitePlaceholderTextField(textfield: Email, name: "Email")
-        UIComponentHelper.MakeWhitePlaceholderTextField(textfield: currentpass, name: "Current Password")
-        UIComponentHelper.MakeBtnWhiteBorder(button: UpdateBtn )
+        UIComponentHelper.MakeCustomPlaceholderTextField(textfield: Username, name: "Name", color: UIColor(hexString: "#008040", alpha: 1))
+        UIComponentHelper.MakeCustomPlaceholderTextField(textfield: Email, name: "Email", color: UIColor(hexString: "#008040", alpha: 1))
+        UIComponentHelper.MakeCustomPlaceholderTextField(textfield: currentpass, name: "Current Password", color: UIColor(hexString: "#008040", alpha: 1))
+        
+        UIComponentHelper.MakeBtnWhiteBorder(button: UpdateBtn, color: UIColor(hexString: "#008040", alpha: 1))
         
         // Do any additional setup after loading the view.
     }
@@ -48,7 +49,7 @@ class EditProfileController: UIViewController {
             
         } else {
             let currentuser = Auth.auth().currentUser
-            var current_email    = currentuser?.email
+            var current_email = currentuser?.email
             print (current_email)
             let changeRequest = currentuser?.createProfileChangeRequest()
             
@@ -56,7 +57,6 @@ class EditProfileController: UIViewController {
             let credential = EmailAuthProvider.credential(withEmail:(currentuser?.email)!, password: currentpass.text!)
             currentuser?.reauthenticate(with: credential, completion: { (error) in
                 if error == nil {
-                    
                     currentuser?.updateEmail(to: self.Email.text! , completion: { (error) in
                         if error == nil{
                             changeRequest?.displayName = self.Username.text
@@ -64,8 +64,7 @@ class EditProfileController: UIViewController {
                                 
                             }
                             self.UpdateUsernameandemail(username: (changeRequest?.displayName)!, email:self.Email.text!)
-                            print(current_email)
-                            print(self.Email.text)
+                            
                             let current_email_string : String = String(describing: current_email)
                             let input_email  :String  = String(describing: self.Email.text)
                          
@@ -77,7 +76,7 @@ class EditProfileController: UIViewController {
                                 self.reNew()
                                 // if chage the email need to verified new email
                                 
-                            }else{
+                            } else {
                                 currentuser?.sendEmailVerification(completion: { (error) in
                                     
                                 })
@@ -85,13 +84,12 @@ class EditProfileController: UIViewController {
                                 UIApplication.shared.keyWindow?.rootViewController = self.storyboard!.instantiateViewController(withIdentifier: "loginController")
                             }
                           
-                        }else{
+                        } else {
                            self.PresentAlertController(title: "Something went wrong", message: (error?.localizedDescription)!, actionTitle: "Okay")
-                            
                         }
                     })
                     
-                }else{
+                } else {
                     self.PresentAlertController(title: "Something Wrong", message: "your password was wrong ", actionTitle: "Ok")
                 }
             })
@@ -113,7 +111,6 @@ class EditProfileController: UIViewController {
     }
     
     func reNew(){
-        
         UIApplication.shared.keyWindow?.rootViewController = storyboard!.instantiateViewController(withIdentifier: "MainDashboard")
     }
 }

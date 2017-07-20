@@ -82,7 +82,7 @@ class LinphoneManager {
     static var lcOpaquePointerData: Optional<OpaquePointer>
     static var incomingCallFlag: Bool = false {
         didSet {
-            incomingCallInstance.incomingCallFlag = incomingCallFlag
+            incomingCallInstance.incomingCallFlags = incomingCallFlag
         }
     }
     static var callStreamRunning: Bool = false {
