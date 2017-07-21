@@ -23,6 +23,7 @@
 		7F6067BE1F17714900F7CE26 /* RecentCallController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6067BD1F17714900F7CE26 /* RecentCallController.swift */; };
 		7F8A70051F2066EA00B83290 /* CardViewHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F8A70041F2066EA00B83290 /* CardViewHelper.swift */; };
 		7FBF65ED1F0C0A8F00307BF3 /* IncomingCallController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FBF65EC1F0C0A8F00307BF3 /* IncomingCallController.swift */; };
+		7FEB4BD11F21148C00BACBA4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7FEB4BCF1F21148C00BACBA4 /* Main.storyboard */; };
 		8F43A0EA78F773EEA1DEDAD0 /* Pods_vKclub.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CE35CA16D2A204E204DA562 /* Pods_vKclub.framework */; };
 		A924DEC21D07A5F80030A438 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = A99663E91D070507003B5EEE /* libz.tbd */; };
 		A924DEC81D07AC620030A438 /* linphonerc in Resources */ = {isa = PBXBuildFile; fileRef = A924DEC41D07AC620030A438 /* linphonerc */; };
@@ -102,7 +103,6 @@
 		C515AF1A1F1FA27C0054A27D /* paper_onboarding.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C515AF151F1F9D0C0054A27D /* paper_onboarding.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C515AF1D1F1FAAE40054A27D /* onboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C515AF1C1F1FAAE40054A27D /* onboardingView.swift */; };
 		C52C21C21F03DBE100B546E1 /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C52C21C11F03DBE100B546E1 /* MenuController.swift */; };
-		C57311561F20ABE80087C9B6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C57311551F20ABE80087C9B6 /* Main.storyboard */; };
 		C576988B1F1F3D9300556D38 /* InternetConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C576988A1F1F3D9300556D38 /* InternetConnection.swift */; };
 		C590B7741F10BE14002C67E3 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		C59D94C81F0756B3009103FA /* CoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C59D94C61F0756B3009103FA /* CoreData.xcdatamodeld */; };
@@ -118,14 +118,14 @@
 /* Begin PBXCopyFilesBuildPhase section */
 		C515AF1B1F1FA27C0054A27D /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
 				C515AF1A1F1FA27C0054A27D /* paper_onboarding.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
@@ -151,6 +151,7 @@
 		7F8C3C1E1F17CF030060D31B /* vKclub.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = vKclub.entitlements; sourceTree = "<group>"; };
 		7F8E0D0C1F025C4900EE99BF /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../Info.plist; sourceTree = "<group>"; };
 		7FBF65EC1F0C0A8F00307BF3 /* IncomingCallController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IncomingCallController.swift; path = vKclub/IncomingCallController.swift; sourceTree = "<group>"; };
+		7FEB4BD01F21148C00BACBA4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A924DEC41D07AC620030A438 /* linphonerc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = linphonerc; sourceTree = "<group>"; };
 		A924DEC51D07AC620030A438 /* linphonerc-factory */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "linphonerc-factory"; sourceTree = "<group>"; };
 		A924DECC1D07D2620030A438 /* Secret.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Secret.plist; sourceTree = "<group>"; };
@@ -253,7 +254,6 @@
 		C515AF1C1F1FAAE40054A27D /* onboardingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = onboardingView.swift; sourceTree = "<group>"; };
 		C52C21C11F03DBE100B546E1 /* MenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
 		C53D8E7B1F16659400E047A8 /* RoundButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundButton.swift; sourceTree = "<group>"; };
-		C57311551F20ABE80087C9B6 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = ../../../../../../Downloads/Main.storyboard; sourceTree = "<group>"; };
 		C576988A1F1F3D9300556D38 /* InternetConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InternetConnection.swift; sourceTree = "<group>"; };
 		C59D94C71F0756B3009103FA /* Coredata.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Coredata.xcdatamodel; sourceTree = "<group>"; };
 		C5A7BAB21F166F2E00744979 /* SettingController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingController.swift; sourceTree = "<group>"; };
@@ -523,7 +523,7 @@
 		A9FAC4671D07D6F200E3C8A5 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				C57311551F20ABE80087C9B6 /* Main.storyboard */,
+				7FEB4BCF1F21148C00BACBA4 /* Main.storyboard */,
 				A996636D1D06F877003B5EEE /* LaunchScreen.storyboard */,
 			);
 			name = View;
@@ -694,7 +694,7 @@
 				A924DEC81D07AC620030A438 /* linphonerc in Resources */,
 				C5FDE0031F10016E00B4F00E /* Assets.xcassets in Resources */,
 				A9FACB0A1D0A7B3700E3C8A5 /* hello8000.wav in Resources */,
-				C57311561F20ABE80087C9B6 /* Main.storyboard in Resources */,
+				7FEB4BD11F21148C00BACBA4 /* Main.storyboard in Resources */,
 				A9FACB141D0A7B3700E3C8A5 /* soft_as_snow.mkv in Resources */,
 				A996636F1D06F877003B5EEE /* LaunchScreen.storyboard in Resources */,
 				A9FACB0B1D0A7B3700E3C8A5 /* incoming_chat.wav in Resources */,
@@ -804,6 +804,14 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		7FEB4BCF1F21148C00BACBA4 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7FEB4BD01F21148C00BACBA4 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
 		A996636D1D06F877003B5EEE /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16A2323a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="kyH-gu-ETi">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="kyH-gu-ETi">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -389,19 +389,28 @@
                                     <outlet property="delegate" destination="Iva-qI-x10" id="eVp-nK-lKm"/>
                                 </connections>
                             </tableView>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Recents" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Fg-T6-4hV">
+                                <rect key="frame" x="142.66666666666669" y="318" width="128.66666666666669" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="x19-CE-eLd" firstAttribute="leading" secondItem="rTs-LL-GNw" secondAttribute="leading" id="0Ai-3W-AgX"/>
+                            <constraint firstItem="9Fg-T6-4hV" firstAttribute="centerX" secondItem="rTs-LL-GNw" secondAttribute="centerX" id="7Db-BG-dEr"/>
                             <constraint firstAttribute="trailing" secondItem="x19-CE-eLd" secondAttribute="trailing" id="RpV-Rm-d8a"/>
                             <constraint firstItem="gp6-zv-Tbv" firstAttribute="top" secondItem="x19-CE-eLd" secondAttribute="bottom" id="U5R-Y9-g4H"/>
                             <constraint firstItem="x19-CE-eLd" firstAttribute="leading" secondItem="rTs-LL-GNw" secondAttribute="leading" id="aiE-pV-7cc"/>
                             <constraint firstItem="x19-CE-eLd" firstAttribute="top" secondItem="rTs-LL-GNw" secondAttribute="top" id="dNH-uv-LIk"/>
                             <constraint firstAttribute="trailing" secondItem="x19-CE-eLd" secondAttribute="trailing" id="mRI-fH-MAs"/>
+                            <constraint firstItem="9Fg-T6-4hV" firstAttribute="centerY" secondItem="rTs-LL-GNw" secondAttribute="centerY" constant="-35" id="wXL-x7-Z4O"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" systemItem="mostRecent" id="oFA-Oi-tzm"/>
                     <connections>
+                        <outlet property="noRecentLabel" destination="9Fg-T6-4hV" id="YbV-CK-ua5"/>
                         <outlet property="tableView" destination="x19-CE-eLd" id="67y-fq-Ccm"/>
                     </connections>
                 </viewController>
@@ -962,7 +971,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zf9-rm-bsr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="7107.2463768115949" y="-391.304347826087"/>
+            <point key="canvasLocation" x="6414" y="-391"/>
         </scene>
         <!--Notification-->
         <scene sceneID="qe2-Wf-60u">
@@ -1045,7 +1054,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SVP-R1-FYX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4729" y="-1641"/>
+            <point key="canvasLocation" x="4778" y="-1641"/>
         </scene>
         <!--Internal Phone-->
         <scene sceneID="4NH-vu-zpT">
@@ -1400,7 +1409,7 @@
                                             <segue destination="RQC-c3-qVZ" kind="show" identifier="GotoEditProfile" id="8jU-JW-AZg"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" clipsSubviews="YES" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fLJ-4G-4WN" customClass="RoundButton" customModule="vKclub" customModuleProvider="target">
+                                    <button opaque="NO" clipsSubviews="YES" contentMode="scaleAspectFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fLJ-4G-4WN" customClass="RoundButton" customModule="vKclub" customModuleProvider="target">
                                         <rect key="frame" x="105" y="35" width="150" height="150"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="tintColor" red="0.0" green="0.50196081400000003" blue="0.25098040700000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -1659,11 +1668,44 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vra-vq-xT5" customClass="OnboardingView" customModule="vKclub" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                                <subviews>
+                                    <button opaque="NO" alpha="0.0" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FVT-bw-RcL">
+                                        <rect key="frame" x="117" y="523" width="180" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                        <state key="normal">
+                                            <attributedString key="attributedTitle">
+                                                <fragment content="GET START">
+                                                    <attributes>
+                                                        <color key="NSBackgroundColor" white="1" alpha="0.0" colorSpace="deviceWhite"/>
+                                                        <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                        <font key="NSFont" size="26" name="Helvetica"/>
+                                                        <font key="NSOriginalFont" size="26" name="Helvetica"/>
+                                                        <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                    </attributes>
+                                                </fragment>
+                                                <fragment content="ED">
+                                                    <attributes>
+                                                        <color key="NSBackgroundColor" white="1" alpha="0.0" colorSpace="deviceWhite"/>
+                                                        <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                        <font key="NSFont" size="26" name="Helvetica"/>
+                                                        <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                    </attributes>
+                                                </fragment>
+                                            </attributedString>
+                                        </state>
+                                        <connections>
+                                            <action selector="gotStarted:" destination="kyH-gu-ETi" eventType="touchUpInside" id="LQQ-8O-YdA"/>
+                                            <segue destination="HRX-3u-gR7" kind="popoverPresentation" popoverAnchorView="FVT-bw-RcL" id="0gy-tH-TZT">
+                                                <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                            </segue>
+                                        </connections>
+                                    </button>
+                                </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dW8-8h-hrL">
                                 <rect key="frame" x="350" y="30" width="40" height="40"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <state key="normal" title="Skip">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1671,29 +1713,6 @@
                                 <connections>
                                     <action selector="SkipBtn:" destination="kyH-gu-ETi" eventType="touchUpInside" id="ugx-Kr-XAl"/>
                                     <segue destination="HRX-3u-gR7" kind="presentation" id="qbb-ZR-V3H"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" alpha="0.0" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FVT-bw-RcL">
-                                <rect key="frame" x="135" y="530" width="144" height="50"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES"/>
-                                <state key="normal">
-                                    <attributedString key="attributedTitle">
-                                        <fragment content="GET START">
-                                            <attributes>
-                                                <color key="NSBackgroundColor" white="1" alpha="0.0" colorSpace="deviceWhite"/>
-                                                <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                <font key="NSFont" size="26" name="Helvetica"/>
-                                                <font key="NSOriginalFont" size="26" name="Helvetica"/>
-                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                            </attributes>
-                                        </fragment>
-                                    </attributedString>
-                                </state>
-                                <connections>
-                                    <action selector="gotStarted:" destination="kyH-gu-ETi" eventType="touchUpInside" id="LQQ-8O-YdA"/>
-                                    <segue destination="HRX-3u-gR7" kind="popoverPresentation" popoverAnchorView="FVT-bw-RcL" id="0gy-tH-TZT">
-                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
-                                    </segue>
                                 </connections>
                             </button>
                         </subviews>
