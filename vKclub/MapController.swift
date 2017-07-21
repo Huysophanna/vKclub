@@ -121,9 +121,6 @@ class MapController: UIViewController,GMSMapViewDelegate,CLLocationManagerDelega
         
         mapView?.settings.myLocationButton = true;
         mapView?.isMyLocationEnabled = true
-        
-        
-        
         view = mapView
         
         //Map overlay
