@@ -18,7 +18,7 @@ class ViewController: UIViewController, PaperOnboardingDataSource, PaperOnboardi
     @IBOutlet weak var getStartedButton: UIButton!
     
     override func viewDidLoad() {
-        super.viewDidLoad()
+        
         onboardingView.dataSource = self
         onboardingView.delegate = self
         skipBtn.isHidden = true
@@ -27,7 +27,7 @@ class ViewController: UIViewController, PaperOnboardingDataSource, PaperOnboardi
     
     
     func onboardingItemsCount() -> Int {
-        return 5
+        return 6
     }
     
     func onboardingItemAtIndex(_ index: Int) -> OnboardingItemInfo {
@@ -44,8 +44,9 @@ class ViewController: UIViewController, PaperOnboardingDataSource, PaperOnboardi
                  ("voip-intro", "Voip", "Norestriction and Free Call", "", greenBackgroundColor , UIColor.white, UIColor.white, titleFont, descirptionFont),
                 
                  ("sos-intro", "Emergency SOS", "Emergency SOS button guarantees users safety and help when lost in the forest or in dangerous situation", "", greenBackgroundColor , UIColor.white, UIColor.white, titleFont, descirptionFont),
-                
-                 ("mode-intro", "Onsite / Off-site Mode", "Experience all function of the app within On-site mode, while some including SOS, Voip are restricted for Off-site user.", "", greenBackgroundColor, UIColor.white, UIColor.white, titleFont, descirptionFont)][index]
+                 ("mode-intro", "Onsite / Off-site Mode", "Experience all function of the app within On-site mode, while some including SOS, Voip are restricted for Off-site user.", "", greenBackgroundColor, UIColor.white, UIColor.white, titleFont, descirptionFont),
+                 ("ready-intro", "You are all set Enjoy vKclub", "", "", greenBackgroundColor , UIColor.white, UIColor.white, titleFont, descirptionFont)][index]
+        
     }
     
     
@@ -87,11 +88,21 @@ class ViewController: UIViewController, PaperOnboardingDataSource, PaperOnboardi
             }
             
         }
+        if index == 4 {
+            
+            if self.getStartedButton.alpha == 1 {
+                UIView.animate(withDuration: 0.2, animations: {
+                    self.getStartedButton.alpha = 0
+                })
+            }
+            
+        }
+
     
     }
     
     func onboardingDidTransitonToIndex(_ index: Int) {
-        if index == 4 {
+        if index == 5 {
             UIView.animate(withDuration: 0.4, animations: {
                 self.getStartedButton.alpha = 1
             })

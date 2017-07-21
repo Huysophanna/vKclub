@@ -20,7 +20,7 @@ class CreateAccController: ViewController {
     @IBOutlet weak var passwordTextField: UITextField!
     
     override func viewDidLoad() {
-        super.viewDidLoad()
+        
         
         UIComponentHelper.MakeBtnWhiteBorder(button: signUpBtn, color: UIColor.white)
         UIComponentHelper.MakeBtnWhiteBorder(button: backBtn, color: UIColor.white)

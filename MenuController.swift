@@ -119,21 +119,32 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     }
     
     @IBAction func didTapTakePicture(_ sender: Any) {
-        let imageUploadAlert = UIAlertController(title: "Upload Profile Picture", message: "", preferredStyle: .alert)
+        let alertController = UIAlertController(title: nil, message: "Upload Profile Picture", preferredStyle: .actionSheet)
         
-        imageUploadAlert.addAction(UIAlertAction(title:"Take Photo", style:.default,handler: { (action: UIAlertAction!) in
+        let defaultAction = UIAlertAction(title: "Take Photo", style: .default, handler: { (alert: UIAlertAction!) -> Void in
             self.TakePhoto()
-        }))
-        
-        imageUploadAlert.addAction(UIAlertAction(title:"Select from Photo Library", style:.default,handler:{ (action: UIAlertAction!) in
-            self.SelectPhotoFromLibrary()
-        }))
-        imageUploadAlert.addAction(UIAlertAction(title:"Cancel", style:.default,handler: nil))
-        imageUploadAlert.popoverPresentationController?.sourceView = self.view
-        imageUploadAlert.popoverPresentationController?.sourceRect = self.view.bounds
 
-        self.present(imageUploadAlert,animated: true)
-    }
+        })
+        
+        let deleteAction = UIAlertAction(title: "Select from Photo Library", style: .default, handler: { (alert: UIAlertAction!) -> Void in
+            self.SelectPhotoFromLibrary()
+            
+        })
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        alertController.addAction(defaultAction)
+        alertController.addAction(deleteAction)
+        alertController.addAction(cancelAction)
+        if let popoverController = alertController.popoverPresentationController {
+            popoverController.sourceView = self.view
+            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+            popoverController.permittedArrowDirections = []
+        }
+        
+        self.present(alertController, animated: true, completion: nil)
+        
+        }
     
     func EmailProvider(){
         EditBtn.tag = 1
@@ -145,7 +156,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
             if data != nil {
                 let image = UIImage(data: data!)
                 
-                let newimag = UIComponentHelper.resizeImage(image: image!, targetSize: CGSize(width: 150, height: 100))
+                let newimag = UIComponentHelper.resizeImage(image: image!, targetSize: CGSize(width: 250, height: 250))
                 imageProfile.setImage(newimag, for: .normal)
             }
             
@@ -165,7 +176,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
 
                 // if user no internet still they can get imageProfile from coredata
                 let img = UIImage(data: i.imageData! as Data)
-                let newimag = UIComponentHelper.resizeImage(image: img!, targetSize: CGSize(width: 150, height: 100))
+                let newimag = UIComponentHelper.resizeImage(image: img!, targetSize: CGSize(width: 250, height: 250))
                 imageProfile.setImage(newimag, for: .normal)
                 imageProfile.imageView?.contentMode = .scaleAspectFill
                     
@@ -212,6 +223,11 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     }
     
     @IBAction func EmergencySOS(_ sender: Any){
+        if (UIDevice.current.userInterfaceIdiom == UIUserInterfaceIdiom.pad) {
+            self.PresentAlertController(title: "Something went wrong", message: "Your device doesn't support with this feature ", actionTitle: "Got it")
+            
+            return
+        }
         let Check : String =  Checklocation.CheckUserLocation()
         if Check == "inKirirom" {
             self.inKirirom()
@@ -277,43 +293,50 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     
     
     @IBAction func contactusBtn(_ sender: Any) {
-        let contactusAlert = UIAlertController(title: "Contact us", message: "", preferredStyle: .alert)
+        if (UIDevice.current.userInterfaceIdiom == UIUserInterfaceIdiom.pad) {
+            self.PresentAlertController(title: "Something went wrong", message: "Your device doesn't support with this feature ", actionTitle: "Got it")
+            
+           return
+        }
+        let alertController = UIAlertController(title: nil, message: "Contact us", preferredStyle: .actionSheet)
         
-            contactusAlert.addAction(UIAlertAction(title:"English Speaker: (+855) 78 777 284", style:.default,handler: { (action: UIAlertAction!) in
+        let defaultAction = UIAlertAction(title: "English Speaker: (+855) 78 777 284", style: .default, handler: { (alert: UIAlertAction!) -> Void in
             guard let number = URL(string: "tel://" + "078777284" ) else { return }
             UIApplication.shared.open(number, options: [:], completionHandler: nil)
-                       
-           
-            }))
-        contactusAlert.addAction(UIAlertAction(title:"Khmer Speaker: (+855) 96 2222 735", style:.default,handler: { (action: UIAlertAction!) in
+            
+        })
+        
+        let deleteAction = UIAlertAction(title: "Khmer Speaker: (+855) 96 2222 735", style: .default, handler: { (alert: UIAlertAction!) -> Void in
             guard let number = URL(string: "tel://" + "0962222735" ) else { return }
             UIApplication.shared.open(number, options: [:], completionHandler: nil)
             
-            
-        }))
+        })
         
-
-        contactusAlert.addAction(UIAlertAction(title:"Ok", style:.default,handler: nil))
-        if let popoverPresentationController = contactusAlert.popoverPresentationController {
-            popoverPresentationController.sourceView = self.view
-            popoverPresentationController.sourceRect = (sender as AnyObject).bounds
-        }
-        self.present(contactusAlert,animated: true)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        alertController.addAction(defaultAction)
+        alertController.addAction(deleteAction)
+        alertController.addAction(cancelAction)
+        
+        self.present(alertController, animated: true, completion: nil)
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         var selectedImageFromPicker : UIImage?
-        if let editedImage = info["UIImagePickerCOntrollerEditedImage"] as? UIImage {
+        print(info)
+        if let editedImage = info["UIImagePickerControllerEditedImage"] as? UIImage {
             
             selectedImageFromPicker = editedImage
+            print("editedImage")
             
             
         }else if let originalImage = info["UIImagePickerControllerOriginalImage"] as? UIImage{
             selectedImageFromPicker = originalImage
+            print("originalImage")
         }
         if let setectImage = selectedImageFromPicker{
            
-            let newImage = UIComponentHelper.resizeImage(image: setectImage, targetSize: CGSize(width: 150, height: 100))
+            let newImage = UIComponentHelper.resizeImage(image: setectImage, targetSize: CGSize(width: 250, height: 250))
             
             let imageProfiles = UIImagePNGRepresentation(newImage)
             let riversRef = storageRef.child("userprofile-photo").child((currentUser?.displayName)!)

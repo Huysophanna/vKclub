@@ -82,7 +82,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
         
         Auth.auth().addStateDidChangeListener { auth, user in
             if user == nil {
+                UIApplication.shared.unregisterForRemoteNotifications()
+                print(" not Work")
+                
             } else {
+                print("Work")
+
+                UIApplication.shared.registerForRemoteNotifications()
                 let provider = user?.providerData
                 for i in provider!{
                     let providerfb = i.providerID
