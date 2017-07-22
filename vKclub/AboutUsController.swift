@@ -100,7 +100,7 @@ class ActivityController: UITableViewController {
         let path =  Bundle.main.path(forResource: "AboutUs", ofType: "json")
         let jsonData = try? NSData(contentsOfFile: path!, options: NSData.ReadingOptions.mappedIfSafe)
         let jsonResult: NSDictionary = try! JSONSerialization.jsonObject(with: jsonData! as Data, options: JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
-        accommodationData = jsonResult["accommodation"] as! [[String: AnyObject]]
+        accommodationData = jsonResult["activity"] as! [[String: AnyObject]]
         DispatchQueue.main.async(execute: {
             self.tableView.reloadData()
         })
