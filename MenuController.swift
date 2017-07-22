@@ -92,7 +92,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
             if data != nil {
                 let image = UIImage(data: data!)
                 
-                let newimag = UIComponentHelper.resizeImage(image: image!, targetSize: CGSize(width: 150, height: 100))
+                let newimag = UIComponentHelper.resizeImage(image: image!, targetSize: CGSize(width: 400, height: 400))
                 imageProfile.setImage(newimag, for: .normal)
             }
             
@@ -109,7 +109,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
    
         for i in fb_lgoin {
             let img = UIImage(data: i.imageData! as Data)
-            let newimag = UIComponentHelper.resizeImage(image: img!, targetSize: CGSize(width: 150, height: 100))
+            let newimag = UIComponentHelper.resizeImage(image: img!, targetSize: CGSize(width: 400, height: 400))
             imageProfile.setImage(newimag, for: .normal)
         }
             
@@ -155,7 +155,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
             if data != nil {
                 let image = UIImage(data: data!)
                 
-                let newimag = UIComponentHelper.resizeImage(image: image!, targetSize: CGSize(width: 250, height: 250))
+                let newimag = UIComponentHelper.resizeImage(image: image!, targetSize: CGSize(width: 400, height: 400))
                 imageProfile.setImage(newimag, for: .normal)
             }
             
@@ -176,7 +176,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
 
                 // if user no internet still they can get imageProfile from coredata
                 let img = UIImage(data: i.imageData! as Data)
-                let newimag = UIComponentHelper.resizeImage(image: img!, targetSize: CGSize(width: 250, height: 250))
+                let newimag = UIComponentHelper.resizeImage(image: img!, targetSize: CGSize(width: 400, height: 400))
                 imageProfile.setImage(newimag, for: .normal)
                     
             }
@@ -335,7 +335,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         }
         if let setectImage = selectedImageFromPicker{
            
-            let newImage = UIComponentHelper.resizeImage(image: setectImage, targetSize: CGSize(width: 250, height: 250))
+            let newImage = UIComponentHelper.resizeImage(image: setectImage, targetSize: CGSize(width: 400, height: 400))
             
             let imageProfiles = UIImagePNGRepresentation(newImage)
             let riversRef = storageRef.child("userprofile-photo").child((currentUser?.displayName)!)
