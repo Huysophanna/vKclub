@@ -11,20 +11,19 @@ import Foundation
 
 class AboutUsTableCell: UITableViewCell {
     @IBOutlet weak var Imageitem: UIImageView!
-    
     @IBOutlet weak var titleItem: UILabel!
-    
-    
     @IBOutlet weak var decriptionItem: UITextView!
-    
-    
+   
 }
 
 class AccommodationController:  UITableViewController {
     
     var accommodationData = [[String: AnyObject]]()
+    var selectedArticle: [String: AnyObject]!
+    var selectedArticleImage: UIImage!
     var indexOfCellToExpand: Int!
     var expandedLabel: UILabel!
+    
     
 
     override func viewDidLoad() {
@@ -37,8 +36,6 @@ class AccommodationController:  UITableViewController {
         DispatchQueue.main.async(execute: {
             self.tableView.reloadData()
         })
-        print(accommodationData)
-      
         let tabBarHeight = self.tabBarController?.tabBar.bounds.height
         self.edgesForExtendedLayout = UIRectEdge.all
         self.tableView.contentInset = UIEdgeInsets(top: 0.0, left: 0.0, bottom: tabBarHeight!, right: 0.0)
@@ -86,12 +83,29 @@ class AccommodationController:  UITableViewController {
         cell.decriptionItem.text = intro
         return cell
     }
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        selectedArticle = accommodationData[indexPath.row]
+        let cell = tableView.cellForRow(at: indexPath) as! AboutUsTableCell
+        selectedArticleImage = cell.Imageitem.image
+        self.performSegue(withIdentifier: "SgaccommodationusWebView", sender: self)
+
+        
+    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let detailsVC = segue.destination as! AccommodationWebViewController
+        detailsVC.accommodationData = selectedArticle
+    
+    }
 }
+
+
 class ActivityController: UITableViewController {
     
-    var accommodationData = [[String: AnyObject]]()
+    var ativityData = [[String: AnyObject]]()
     var indexOfCellToExpand: Int!
     var expandedLabel: UILabel!
+    var selectedArticle: [String: AnyObject]!
+    var selectedArticleImage: UIImage!
     
     
     override func viewDidLoad() {
@@ -100,12 +114,10 @@ class ActivityController: UITableViewController {
         let path =  Bundle.main.path(forResource: "AboutUs", ofType: "json")
         let jsonData = try? NSData(contentsOfFile: path!, options: NSData.ReadingOptions.mappedIfSafe)
         let jsonResult: NSDictionary = try! JSONSerialization.jsonObject(with: jsonData! as Data, options: JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
-        accommodationData = jsonResult["activity"] as! [[String: AnyObject]]
+        ativityData = jsonResult["activity"] as! [[String: AnyObject]]
         DispatchQueue.main.async(execute: {
             self.tableView.reloadData()
         })
-        print(accommodationData)
-        
         let tabBarHeight = self.tabBarController?.tabBar.bounds.height
         self.edgesForExtendedLayout = UIRectEdge.all
         self.tableView.contentInset = UIEdgeInsets(top: 0.0, left: 0.0, bottom: tabBarHeight!, right: 0.0)
@@ -127,7 +139,7 @@ class ActivityController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return accommodationData.count
+        return ativityData.count
     }
     
     //    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -142,10 +154,10 @@ class ActivityController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "activityTableView", for: indexPath) as! AboutUsTableCell
         
-        let accommodation = self.accommodationData[indexPath.row]
-        let photoURL = accommodation["Photo"] as! String
-        let title = accommodation["Title"] as! String
-        let intro = accommodation["Intro"] as! String
+        let ativity = self.ativityData[indexPath.row]
+        let photoURL = ativity["Photo"] as! String
+        let title = ativity["Title"] as! String
+        let intro = ativity["Intro"] as! String
         let image = UIImage(named:photoURL)
         let newimag = UIComponentHelper.resizeImage(image: image!, targetSize: CGSize(width: 400, height: 400))
         cell.Imageitem.image = newimag
@@ -153,12 +165,25 @@ class ActivityController: UITableViewController {
         cell.decriptionItem.text = intro
         return cell
     }
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        selectedArticle = ativityData[indexPath.row]
+        let cell = tableView.cellForRow(at: indexPath) as! AboutUsTableCell
+        selectedArticleImage = cell.Imageitem.image
+        self.performSegue(withIdentifier: "SgativityWebview", sender: self)
+    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let detailsVC = segue.destination as! AtivityWebViewController
+        detailsVC.ativityData = selectedArticle
+        
+    }
 }
-class  ProyotypeController: UITableViewController {
+class  PropertyController: UITableViewController {
     
-    var accommodationData = [[String: AnyObject]]()
+    var propertyData = [[String: AnyObject]]()
     var indexOfCellToExpand: Int!
     var expandedLabel: UILabel!
+    var selectedArticle: [String: AnyObject]!
+    var selectedArticleImage: UIImage!
     
     
     override func viewDidLoad() {
@@ -167,11 +192,11 @@ class  ProyotypeController: UITableViewController {
         let path =  Bundle.main.path(forResource: "AboutUs", ofType: "json")
         let jsonData = try? NSData(contentsOfFile: path!, options: NSData.ReadingOptions.mappedIfSafe)
         let jsonResult: NSDictionary = try! JSONSerialization.jsonObject(with: jsonData! as Data, options: JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
-        accommodationData = jsonResult["property"] as! [[String: AnyObject]]
+        propertyData = jsonResult["property"] as! [[String: AnyObject]]
         DispatchQueue.main.async(execute: {
             self.tableView.reloadData()
         })
-        print(accommodationData)
+       
         
         let tabBarHeight = self.tabBarController?.tabBar.bounds.height
         self.edgesForExtendedLayout = UIRectEdge.all
@@ -194,7 +219,7 @@ class  ProyotypeController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return accommodationData.count
+        return propertyData.count
     }
     
     //    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -203,16 +228,15 @@ class  ProyotypeController: UITableViewController {
     //
     //    override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
     //        return UITableViewAutomaticDimension
-    //    }
-    //
+    //    }     //
     //
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "proyotypeTableView", for: indexPath) as! AboutUsTableCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "propertyTableView", for: indexPath) as! AboutUsTableCell
         
-        let accommodation = self.accommodationData[indexPath.row]
-        let photoURL = accommodation["Photo"] as! String
-        let title = accommodation["Title"] as! String
-        let intro = accommodation["Intro"] as! String
+        let property = self.propertyData[indexPath.row]
+        let photoURL =  property["Photo"] as! String
+        let title =  property["Title"] as! String
+        let intro = property["Intro"] as! String
         let image = UIImage(named:photoURL)
         let newimag = UIComponentHelper.resizeImage(image: image!, targetSize: CGSize(width: 400, height: 400))
         cell.Imageitem.image = newimag
@@ -220,7 +244,120 @@ class  ProyotypeController: UITableViewController {
         cell.decriptionItem.text = intro
         return cell
     }
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        selectedArticle = propertyData[indexPath.row]
+        let cell = tableView.cellForRow(at: indexPath) as! AboutUsTableCell
+        selectedArticleImage = cell.Imageitem.image
+        self.performSegue(withIdentifier: "SgpropertyWebView", sender: self)
+        
+        
+    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let detailsVC = segue.destination as! PropertyWebViewController
+        detailsVC.propertyData = selectedArticle
+        
+    }
+
+    
 }
+class AccommodationWebViewController: UIViewController, UITableViewDataSource {
+    var accommodationData: [String: AnyObject]!
+    @IBOutlet var tableView: UITableView!
+    @IBOutlet weak var webView: UIWebView!
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        tableView.dataSource = self
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "accommodationTableView")
+        tableView.estimatedRowHeight = 100
+        let url = NSURL (string: (accommodationData["url"] as? String)!)
+        let requestObj = URLRequest(url: url! as URL)
+        webView.loadRequest(requestObj)
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    //MARK: UITableViewDataSource
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "accommodationTableView")
+        cell?.textLabel?.text = accommodationData["url"] as? String
+        cell?.textLabel?.numberOfLines = 0
+        return cell!
+    }
+}
+class AtivityWebViewController: UIViewController, UITableViewDataSource {
+    var ativityData: [String: AnyObject]!
+    @IBOutlet var tableView: UITableView!
+    @IBOutlet weak var webView: UIWebView!
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        tableView.dataSource = self
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "activityTableView")
+        tableView.estimatedRowHeight = 100
+        let url = NSURL (string: (ativityData["url"] as? String)!)
+        let requestObj = URLRequest(url: url! as URL)
+        webView.loadRequest(requestObj)
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    //MARK: UITableViewDataSource
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "activityTableView")
+        cell?.textLabel?.text = ativityData["url"] as? String
+        cell?.textLabel?.numberOfLines = 0
+        return cell!
+    }
+}
+class PropertyWebViewController: UIViewController, UITableViewDataSource {
+    var propertyData: [String: AnyObject]!
+    @IBOutlet var tableView: UITableView!
+    @IBOutlet weak var webView: UIWebView!
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        tableView.dataSource = self
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "propertyTableView")
+        tableView.estimatedRowHeight = 100
+        let url = NSURL (string: (propertyData["url"] as? String)!)
+        let requestObj = URLRequest(url: url! as URL)
+        webView.loadRequest(requestObj)
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    //MARK: UITableViewDataSource
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "propertyTableView")
+        cell?.textLabel?.text = propertyData["url"] as? String
+        cell?.textLabel?.numberOfLines = 0
+        return cell!
+    }
+}
+
+
+
+
+
 
 
 
