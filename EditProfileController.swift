@@ -45,6 +45,7 @@ class EditProfileController: UIViewController {
     }
     
     @IBAction func UpdateBtn(_ sender: Any) {
+        UIComponentHelper.PresentActivityIndicator(view: self.view, option: true)
         if internetConnection.isConnectedToNetwork() {
             print("have internet")
         } else{
@@ -92,9 +93,7 @@ class EditProfileController: UIViewController {
                                 
                                 // check if user change the email
                                 if(current_email_string == input_email){
-                                    
-                                    self.PresentAlertController(title: "Done", message: "Your Profile had updated", actionTitle: "Ok")
-                                    
+                                   self.PresentAlertController(title: "Done", message: "Your Profile had updated", actionTitle: "Ok")
                                     self.reNew()
                                     // if chage the email need to verified new email
                                     

@@ -75,7 +75,4 @@ class CreateAccController: ViewController {
     @IBAction func BackBtn(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
-    
-   
-    
 }
