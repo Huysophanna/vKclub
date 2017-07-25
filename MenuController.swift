@@ -51,6 +51,10 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         //make responsive rounded user profile picture
         imageProfile.frame = CGRect(x: EditBtn.frame.origin.x, y: imageProfile.bounds.width / 5, width: (view.bounds.width * 35) / 100, height: (view.bounds.width * 35) / 100)
         imageProfile.layer.cornerRadius = imageProfile.bounds.width / 2
+        imageProfile.imageView?.contentMode = .scaleAspectFill
+        imageProfile.contentHorizontalAlignment = .fill
+        imageProfile.contentVerticalAlignment = .fill
+
     }
     
     
@@ -183,7 +187,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
             self.imagePicker.sourceType = .camera
             self.present(imagePicker, animated: true)
         } else {
-            print("no wokr")
+            print("no work")
             
         }
         
