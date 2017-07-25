@@ -1,6 +1,7 @@
 import Foundation
 
 var answerCall: Bool = false
+let LINPHONE_CALLSTREAM_RUNNING = "LinphoneCallStreamsRunning"
 
 struct theLinphone {
     static var lc: OpaquePointer?
@@ -75,7 +76,6 @@ let callStateChanged: LinphoneCoreCallStateChangedCb = {
 }
 
 class LinphoneManager {
-    
     static let incomingCallInstance = IncomingCallController()
     
     static var callOpaquePointerData: Optional<OpaquePointer>

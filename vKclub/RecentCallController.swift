@@ -18,7 +18,6 @@ class RecentCallViewCell: UITableViewCell {
     
 }
 
-
 class RecentCallController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITabBarControllerDelegate {
     
     @IBOutlet weak var tableView: UITableView!

@@ -51,7 +51,10 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         //make responsive rounded user profile picture
         imageProfile.frame = CGRect(x: EditBtn.frame.origin.x, y: imageProfile.bounds.width / 5, width: (view.bounds.width * 35) / 100, height: (view.bounds.width * 35) / 100)
         imageProfile.layer.cornerRadius = imageProfile.bounds.width / 2
-        imageProfile.imageView?.contentMode = .scaleToFill
+        imageProfile.imageView?.contentMode = .scaleAspectFill
+        imageProfile.contentHorizontalAlignment = .fill
+        imageProfile.contentVerticalAlignment = .fill
+
     }
     
     
@@ -173,13 +176,22 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
                     
             } else {
                 userName.text =  i.username
-
-                // if user no internet still they can get imageProfile from coredata
-                let img = UIImage(data: i.imageData! as Data)
-                let newimag = UIComponentHelper.resizeImage(image: img!, targetSize: CGSize(width: 250, height: 250))
-                imageProfile.setImage(newimag, for: .normal)
-                imageProfile.imageView?.contentMode = .scaleAspectFill
+                
+                if i.imageData != nil {
+                    // if user no internet still they can get imageProfile from coredata
+                    let img = UIImage(data: i.imageData! as Data)
                     
+                    if img != nil {
+                            let newimag = UIComponentHelper.resizeImage(image: img!, targetSize: CGSize(width: 250, height: 250))
+                        imageProfile.setImage(newimag, for: .normal)
+//                        imageProfile.imageView?.contentMode = .scaleAspectFill
+                    }
+                    
+                    
+
+                }
+                
+                
             }
                 
         }

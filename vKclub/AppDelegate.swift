@@ -13,9 +13,22 @@ import FBSDKCoreKit
 import UserNotifications
 import FirebaseMessaging
 
+let appDelegate = UIApplication.shared.delegate as! AppDelegate
+let manageObjectContext  = appDelegate.persistentContainer.viewContext
+var databaseRef = Database.database().reference()
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterDelegate,MessagingDelegate{
+class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterDelegate, MessagingDelegate {
+    let callKitManager = CallKitCallInit(uuid: UUID(), handle: "")
+    lazy var providerDelegate: ProviderDelegate = ProviderDelegate(callKitManager: self.callKitManager)
+    func displayIncomingCall(uuid: UUID, handle: String, completion: ((NSError?) -> Void)?) {
+        providerDelegate.reportIncomingCall(uuid: uuid, handle: handle, completion: completion)
+    }
+    
+    class var shared: AppDelegate {
+        return UIApplication.shared.delegate as! AppDelegate
+    }
+    
     /// This method will be called whenever FCM receives a new, default FCM token for your
     /// Firebase project's Sender ID.
     /// You can send this token to your application server to send notifications to this device.
@@ -148,7 +161,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
         let body : String = d["body"] as! String
         let title : String = d["title"] as! String
         print("Title:\(title) + body:\(body)")
-        personService.CreatnotificationCoredata(_notification_num: notification_num, _notification_body: body, _notification_title: title)
+        personService.CreatnotificationCoredata(_notification_num: intmax_t(notification_num), _notification_body: body, _notification_title: title)
         // custom code to handle push while app is in the foreground
         print("Handle push from foreground\(notification.request.content.userInfo)")
         self.showAlertAppDelegate(title: title,message:body,buttonTitle:"ok",window:self.window!)
@@ -164,7 +177,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
         let body : String = d["body"] as! String
         let title : String = d["title"] as! String
         print("Title:\(title) + body:\(body)")
-        personService.CreatnotificationCoredata(_notification_num: notification_num, _notification_body: body, _notification_title: title)
+        personService.CreatnotificationCoredata(_notification_num: intmax_t(notification_num), _notification_body: body, _notification_title: title)
         print("Handle push from background or closed\(response.notification.request.content.userInfo)")
         self.showAlertAppDelegate(title: title,message:body,buttonTitle:"ok",window:self.window!)
         completionHandler()
@@ -267,7 +280,3 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
     }
     
 }
-
-let appDelegate = UIApplication.shared.delegate as! AppDelegate
-let manageObjectContext  = appDelegate.persistentContainer.viewContext
-var databaseRef = Database.database().reference()

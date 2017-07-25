@@ -10,6 +10,8 @@ import UIKit
 import GoogleMaps
 import CoreData
 
+var backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask(expirationHandler: nil)
+
 class DashboardController: UIViewController {
     @IBOutlet weak var menuBtn: UIBarButtonItem!
     @IBOutlet weak var KiriromScope: UIButton!
@@ -27,6 +29,9 @@ class DashboardController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //init background task for incoming call
+        backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask(expirationHandler: nil)
         
         Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.isKirirom), userInfo: nil, repeats: true)
         Slidemenu()
