@@ -154,7 +154,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
    
     @available(iOS 10.0, *)
     func userNotificationCenter(_ center: UNUserNotificationCenter,  willPresent notification: UNNotification, withCompletionHandler   completionHandler: @escaping (_ options:   UNNotificationPresentationOptions) -> Void) {
+        
         notification_num += 1
+        
         let dict = notification.request.content.userInfo["aps"] as! NSDictionary
         print (dict)
         let d : [String : Any] = dict["alert"] as! [String : Any]
@@ -222,6 +224,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
     }
     
     func applicationDidBecomeActive(_ application: UIApplication) {
+        application.applicationIconBadgeNumber = 0
         
         FBSDKAppEvents.activateApp()
         

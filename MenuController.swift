@@ -87,38 +87,34 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     }
     
     func FBProvider(){
-        if currentUser?.photoURL == nil {
-            
-        } else {
-            
-            let data = try? Data(contentsOf: (currentUser?.photoURL)!)
-            
-            if data != nil {
-                let image = UIImage(data: data!)
-                
-                let newimag = UIComponentHelper.resizeImage(image: image!, targetSize: CGSize(width: 150, height: 100))
-                imageProfile.setImage(newimag, for: .normal)
-            }
-            
-            
-        }
         userName.text =  currentUser?.displayName
         EmailBtn.text = currentUser?.email
-        
         let facebookProvider = NSPredicate(format: "facebookProvider = 1")
         let fb_lgoin = personService.getUserProfile(withPredicate: facebookProvider)
         EditBtn.setTitle("FBLinked", for: .normal)
-        
-        
-   
-        for i in fb_lgoin {
-            let img = UIImage(data: i.imageData! as Data)
-            let newimag = UIComponentHelper.resizeImage(image: img!, targetSize: CGSize(width: 150, height: 100))
-            imageProfile.setImage(newimag, for: .normal)
-        }
+        if fb_lgoin == [] {
+            if currentUser?.photoURL == nil {
+            } else {
+                let data = try? Data(contentsOf: (currentUser?.photoURL)!)
+                
+                if data != nil {
+                    let image = UIImage(data: data!)
+                    
+                    let newimag = UIComponentHelper.resizeImage(image: image!, targetSize: CGSize(width: 400, height: 400))
+                    imageProfile.setImage(newimag, for: .normal)
+                }
+            }
+        } else {
+            for i in fb_lgoin {
+                userName.text =  i.username
+                // if user no internet still they can get imageProfile from coredata
+                let img = UIImage(data: i.imageData! as Data)
+                let newimag = UIComponentHelper.resizeImage(image: img!, targetSize: CGSize(width: 400, height: 400))
+                imageProfile.setImage(newimag, for: .normal)
+                
+            }
             
-        
-        
+        }
     }
     
     @IBAction func didTapTakePicture(_ sender: Any) {
@@ -151,51 +147,34 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     
     func EmailProvider(){
         EditBtn.tag = 1
-        if currentUser?.photoURL == nil {
-            
-        } else {
-            let data = try? Data(contentsOf: (currentUser?.photoURL)!)
-            
-            if data != nil {
-                let image = UIImage(data: data!)
-                
-                let newimag = UIComponentHelper.resizeImage(image: image!, targetSize: CGSize(width: 250, height: 250))
-                imageProfile.setImage(newimag, for: .normal)
-            }
-            
-            
-        }
         EmailBtn.text = currentUser?.email
         userName.text =  currentUser?.displayName
         let emailProvider = NSPredicate(format: "facebookProvider = 0")
         let email_lgoin = personService.getUserProfile(withPredicate: emailProvider)
-       
-        for i in email_lgoin {
-            if i.imageData == nil {
-                print ("No image data save in core data")
-                    
+        if email_lgoin == [] {
+          if currentUser?.photoURL == nil {
             } else {
-                userName.text =  i.username
+                let data = try? Data(contentsOf: (currentUser?.photoURL)!)
                 
-                if i.imageData != nil {
+                if data != nil {
+                    let image = UIImage(data: data!)
+                    
+                    let newimag = UIComponentHelper.resizeImage(image: image!, targetSize: CGSize(width: 400, height: 400))
+                    imageProfile.setImage(newimag, for: .normal)
+                }
+              }
+        } else {
+            for i in email_lgoin {
+                    userName.text =  i.username
                     // if user no internet still they can get imageProfile from coredata
                     let img = UIImage(data: i.imageData! as Data)
-                    
-                    if img != nil {
-                            let newimag = UIComponentHelper.resizeImage(image: img!, targetSize: CGSize(width: 250, height: 250))
-                        imageProfile.setImage(newimag, for: .normal)
-//                        imageProfile.imageView?.contentMode = .scaleAspectFill
-                    }
-                    
-                    
-
-                }
-                
+                    let newimag = UIComponentHelper.resizeImage(image: img!, targetSize: CGSize(width: 400, height: 400))
+                    imageProfile.setImage(newimag, for: .normal)
                 
             }
-                
+            
         }
-    }
+  }
     
     func TakePhoto(){
         if internetConnection.isConnectedToNetwork() {
@@ -334,6 +313,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+         UIComponentHelper.PresentActivityIndicator(view: self.view, option: true)
         var selectedImageFromPicker : UIImage?
         print(info)
         if let editedImage = info["UIImagePickerControllerEditedImage"] as? UIImage {
@@ -348,7 +328,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         }
         if let setectImage = selectedImageFromPicker{
            
-            let newImage = UIComponentHelper.resizeImage(image: setectImage, targetSize: CGSize(width: 250, height: 250))
+            let newImage = UIComponentHelper.resizeImage(image: setectImage, targetSize: CGSize(width: 400, height: 400))
             
             let imageProfiles = UIImagePNGRepresentation(newImage)
             let riversRef = storageRef.child("userprofile-photo").child((currentUser?.displayName)!)
@@ -367,6 +347,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
                 chageProfileimage?.commitChanges { (error) in
                     
                 }
+                UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
                 self.imageProfile.setImage(setectImage, for: .normal)
                 // if Facebook login Update Image
                 

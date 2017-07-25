@@ -20,7 +20,7 @@ class ForgotPWController: UIViewController {
         
         UIComponentHelper.MakeBtnWhiteBorder(button: signUpBtn, color: UIColor.white)
         UIComponentHelper.MakeBtnWhiteBorder(button: backBtn, color: UIColor.white)
-        UIComponentHelper.MakeCustomPlaceholderTextField(textfield: emailTextField, name: "Name", color: UIColor.white)
+        UIComponentHelper.MakeCustomPlaceholderTextField(textfield: emailTextField, name: "Email", color: UIColor.white)
     }
     
     override func didReceiveMemoryWarning() {
@@ -28,9 +28,20 @@ class ForgotPWController: UIViewController {
     }
 
     @IBAction func RecoverBtnClicked(_ sender: Any) {
-        Auth.auth().sendPasswordReset(withEmail: emailTextField.text!) { (error) in
+        Auth.auth().fetchProviders(forEmail: emailTextField.text!) { (accData, error) in
+            for i in accData!{
+               if i == "facebook.com"{
+                self.PresentAlertController(title: "Something went wrong", message: "Your account is linked with Facebook. Please Sign in with Facebook instead to move on.", actionTitle: "Got it")
+                return
+               }
+            }
+        
+        }
+        Auth.auth().sendPasswordReset(withEmail: self.emailTextField.text!) { (error) in
             if error == nil {
+                
                 self.PresentAlertController(title: "Success", message: "Please check your email to recover your password", actionTitle: "Got it")
+                UIApplication.shared.keyWindow?.rootViewController = self.storyboard!.instantiateViewController(withIdentifier: "loginController")
             } else {
                 self.PresentAlertController(title: "Error", message: (error?.localizedDescription)!, actionTitle: "Okay")
             }

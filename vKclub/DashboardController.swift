@@ -33,6 +33,7 @@ class DashboardController: UIViewController {
         //init background task for incoming call
         backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask(expirationHandler: nil)
         
+        UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
         Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.isKirirom), userInfo: nil, repeats: true)
         Slidemenu()
         

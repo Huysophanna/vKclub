@@ -50,7 +50,5 @@ class InternalCallController: UIViewController {
             incomingCallInstance?.callToFlag = true
         }
     }
-    
-    
-    
+
 }
