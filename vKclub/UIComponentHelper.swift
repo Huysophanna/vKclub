@@ -18,8 +18,8 @@ extension UIViewController {
         
         self.present(alertController, animated: true, completion: nil)
     }
-    
-}
+ }
+
 
 extension UIApplication {
     class func topViewController(base: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
@@ -172,5 +172,8 @@ class UIComponentHelper {
 
         return (String(year!), String(month), String(day), String(hour), String(minute), String(second))
     }
+    
+        
+    
 
 }

@@ -102,8 +102,6 @@
 		C515AF1A1F1FA27C0054A27D /* paper_onboarding.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C515AF151F1F9D0C0054A27D /* paper_onboarding.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C515AF1D1F1FAAE40054A27D /* onboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C515AF1C1F1FAAE40054A27D /* onboardingView.swift */; };
 		C52C21C21F03DBE100B546E1 /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C52C21C11F03DBE100B546E1 /* MenuController.swift */; };
-		C542CC2E1F21DD05000BCF8C /* AboutUs.json in Resources */ = {isa = PBXBuildFile; fileRef = C542CC2D1F21DD05000BCF8C /* AboutUs.json */; };
-		C57311561F20ABE80087C9B6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C57311551F20ABE80087C9B6 /* Main.storyboard */; };
 		C576988B1F1F3D9300556D38 /* InternetConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C576988A1F1F3D9300556D38 /* InternetConnection.swift */; };
 		C590B7741F10BE14002C67E3 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		C59D94C81F0756B3009103FA /* CoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C59D94C61F0756B3009103FA /* CoreData.xcdatamodeld */; };
@@ -113,6 +111,8 @@
 		C5AAE0F11F19324D002AEA8C /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5AAE0F01F19324D002AEA8C /* NotificationViewController.swift */; };
 		C5AB9B541F1862E600ED4282 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C5AB9B531F1862E600ED4282 /* GoogleService-Info.plist */; };
 		C5CC29A01F19D0EA00072F8A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C5CC299F1F19D0EA00072F8A /* GoogleService-Info.plist */; };
+		C5F5A81E1F279DD300190CDF /* AboutUs.json in Resources */ = {isa = PBXBuildFile; fileRef = C5F5A81D1F279DD300190CDF /* AboutUs.json */; };
+		C5F5A8201F279DF900190CDF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C5F5A81F1F279DF900190CDF /* Main.storyboard */; };
 		C5FDE0031F10016E00B4F00E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C5FDE0021F10016E00B4F00E /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
@@ -254,9 +254,8 @@
 		C515AF1C1F1FAAE40054A27D /* onboardingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = onboardingView.swift; sourceTree = "<group>"; };
 		C52C21C11F03DBE100B546E1 /* MenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
 		C53D8E7B1F16659400E047A8 /* RoundButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundButton.swift; sourceTree = "<group>"; };
-		C542CC2D1F21DD05000BCF8C /* AboutUs.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = AboutUs.json; path = ../../../../../../Downloads/2016Movies/2016Movies/AboutUs.json; sourceTree = "<group>"; };
-		C57311551F20ABE80087C9B6 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = ../../../../../../Downloads/Main.storyboard; sourceTree = "<group>"; };
 		C576988A1F1F3D9300556D38 /* InternetConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InternetConnection.swift; sourceTree = "<group>"; };
+		C5923E101F282C71006D6D70 /* Base */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Base; path = Base.lproj/ProviderDelegate.swift; sourceTree = "<group>"; };
 		C59D94C71F0756B3009103FA /* Coredata.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Coredata.xcdatamodel; sourceTree = "<group>"; };
 		C5A7BAB21F166F2E00744979 /* SettingController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingController.swift; sourceTree = "<group>"; };
 		C5A7BAB41F16712C00744979 /* EditProfileController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileController.swift; sourceTree = "<group>"; };
@@ -264,6 +263,8 @@
 		C5AAE0F01F19324D002AEA8C /* NotificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
 		C5AB9B531F1862E600ED4282 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C5CC299F1F19D0EA00072F8A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		C5F5A81D1F279DD300190CDF /* AboutUs.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = AboutUs.json; path = Assets.xcassets/AboutUs.json; sourceTree = "<group>"; };
+		C5F5A81F1F279DF900190CDF /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C5FDE0021F10016E00B4F00E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -525,7 +526,8 @@
 		A9FAC4671D07D6F200E3C8A5 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				C57311551F20ABE80087C9B6 /* Main.storyboard */,
+				C5923E0F1F282C71006D6D70 /* ProviderDelegate.swift */,
+				C5F5A81F1F279DF900190CDF /* Main.storyboard */,
 				A996636D1D06F877003B5EEE /* LaunchScreen.storyboard */,
 			);
 			name = View;
@@ -544,7 +546,7 @@
 		A9FAC4691D07D71600E3C8A5 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
-				C542CC2D1F21DD05000BCF8C /* AboutUs.json */,
+				C5F5A81D1F279DD300190CDF /* AboutUs.json */,
 				C5FDE0021F10016E00B4F00E /* Assets.xcassets */,
 			);
 			name = Resource;
@@ -697,14 +699,14 @@
 				A924DEC81D07AC620030A438 /* linphonerc in Resources */,
 				C5FDE0031F10016E00B4F00E /* Assets.xcassets in Resources */,
 				A9FACB0A1D0A7B3700E3C8A5 /* hello8000.wav in Resources */,
-				C542CC2E1F21DD05000BCF8C /* AboutUs.json in Resources */,
-				C57311561F20ABE80087C9B6 /* Main.storyboard in Resources */,
+				C5F5A81E1F279DD300190CDF /* AboutUs.json in Resources */,
 				A9FACB141D0A7B3700E3C8A5 /* soft_as_snow.mkv in Resources */,
 				A996636F1D06F877003B5EEE /* LaunchScreen.storyboard in Resources */,
 				A9FACB0B1D0A7B3700E3C8A5 /* incoming_chat.wav in Resources */,
 				A9FACB081D0A7B3700E3C8A5 /* dont_wait_too_long.mkv in Resources */,
 				A9FACB151D0A7B3700E3C8A5 /* toy-mono.wav in Resources */,
 				A924DECD1D07D2620030A438 /* Secret.plist in Resources */,
+				C5F5A8201F279DF900190CDF /* Main.storyboard in Resources */,
 				A9FACB121D0A7B3700E3C8A5 /* oldphone-mono-30s.caf in Resources */,
 				A9FACB0C1D0A7B3700E3C8A5 /* ringback.wav in Resources */,
 				A9FACB0E1D0A7B3700E3C8A5 /* house_keeping.mkv in Resources */,
@@ -814,6 +816,14 @@
 				A996636E1D06F877003B5EEE /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		C5923E0F1F282C71006D6D70 /* ProviderDelegate.swift */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C5923E101F282C71006D6D70 /* Base */,
+			);
+			name = ProviderDelegate.swift;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

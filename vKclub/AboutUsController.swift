@@ -9,12 +9,12 @@
 import UIKit
 import Foundation
 
-class AboutUsTableCell: UITableViewCell {
+class AboutUsTableCell: UITableViewCell{
     @IBOutlet weak var Imageitem: UIImageView!
     @IBOutlet weak var titleItem: UILabel!
     @IBOutlet weak var decriptionItem: UITextView!
-   
 }
+
 
 class AccommodationController:  UITableViewController {
     
@@ -23,9 +23,6 @@ class AccommodationController:  UITableViewController {
     var selectedArticleImage: UIImage!
     var indexOfCellToExpand: Int!
     var expandedLabel: UILabel!
-    
-    
-
     override func viewDidLoad() {
         super.viewDidLoad()
         indexOfCellToExpand = -1
@@ -52,23 +49,10 @@ class AccommodationController:  UITableViewController {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
-    
-    
-
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return accommodationData.count
     }
-    
-//    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        return UITableViewAutomaticDimension
-//    }
-//    
-//    override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-//        return UITableViewAutomaticDimension
-//    }
-//    
-//    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "accommodationTableView", for: indexPath) as! AboutUsTableCell
        
@@ -88,14 +72,12 @@ class AccommodationController:  UITableViewController {
         let cell = tableView.cellForRow(at: indexPath) as! AboutUsTableCell
         selectedArticleImage = cell.Imageitem.image
         self.performSegue(withIdentifier: "SgaccommodationusWebView", sender: self)
-
         
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let detailsVC = segue.destination as! AccommodationWebViewController
         detailsVC.accommodationData = selectedArticle
-    
-    }
+        }
 }
 
 
@@ -153,7 +135,6 @@ class ActivityController: UITableViewController {
     //
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "activityTableView", for: indexPath) as! AboutUsTableCell
-        
         let ativity = self.ativityData[indexPath.row]
         let photoURL = ativity["Photo"] as! String
         let title = ativity["Title"] as! String
@@ -177,6 +158,9 @@ class ActivityController: UITableViewController {
         
     }
 }
+
+
+
 class  PropertyController: UITableViewController {
     
     var propertyData = [[String: AnyObject]]()
@@ -255,24 +239,36 @@ class  PropertyController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let detailsVC = segue.destination as! PropertyWebViewController
         detailsVC.propertyData = selectedArticle
-        
-    }
-
-    
+        }
 }
-class AccommodationWebViewController: UIViewController, UITableViewDataSource {
+
+
+
+
+class AccommodationWebViewController: UIViewController{
     var accommodationData: [String: AnyObject]!
-    @IBOutlet var tableView: UITableView!
     @IBOutlet weak var webView: UIWebView!
+    
+    @IBOutlet weak var noInternet: UILabel!
+    let internetConnection = InternetConnection()
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        tableView.dataSource = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "accommodationTableView")
-        tableView.estimatedRowHeight = 100
+        if internetConnection.isConnectedToNetwork() {
+            noInternet.alpha = 0
+            
+        } else{
+            self.PresentAlertController(title: "Something went wrong", message: "Please Check you internet connection ", actionTitle: "Got it")
+            return
+        }
+       
         let url = NSURL (string: (accommodationData["url"] as? String)!)
         let requestObj = URLRequest(url: url! as URL)
         webView.loadRequest(requestObj)
+        UIComponentHelper.PresentActivityIndicator(view: self.view, option: true)
+        let when = DispatchTime.now() + 4 // change 2 to desired number of seconds
+        DispatchQueue.main.asyncAfter(deadline: when) {
+            UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -281,78 +277,79 @@ class AccommodationWebViewController: UIViewController, UITableViewDataSource {
     }
     
     //MARK: UITableViewDataSource
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
-    }
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "accommodationTableView")
-        cell?.textLabel?.text = accommodationData["url"] as? String
-        cell?.textLabel?.numberOfLines = 0
-        return cell!
-    }
+    
+ 
 }
-class AtivityWebViewController: UIViewController, UITableViewDataSource {
+
+
+class AtivityWebViewController: UIViewController{
     var ativityData: [String: AnyObject]!
-    @IBOutlet var tableView: UITableView!
+   
+    @IBOutlet weak var noInternet: UILabel!
     @IBOutlet weak var webView: UIWebView!
+    let internetConnection = InternetConnection()
     override func viewDidLoad() {
         super.viewDidLoad()
+        if internetConnection.isConnectedToNetwork() {
         
-        tableView.dataSource = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "activityTableView")
-        tableView.estimatedRowHeight = 100
+            noInternet.alpha = 0
+            print("have internet")
+        } else{
+            self.PresentAlertController(title: "Something went wrong", message: "Please Check you internet connection ", actionTitle: "Got it")
+            return
+        }
+
         let url = NSURL (string: (ativityData["url"] as? String)!)
         let requestObj = URLRequest(url: url! as URL)
         webView.loadRequest(requestObj)
+        UIComponentHelper.PresentActivityIndicator(view: self.view, option: true)
+        let when = DispatchTime.now() + 4 // change 2 to desired number of seconds
+        DispatchQueue.main.asyncAfter(deadline: when) {
+            UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
+        }
+
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    //MARK: UITableViewDataSource
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
-    }
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "activityTableView")
-        cell?.textLabel?.text = ativityData["url"] as? String
-        cell?.textLabel?.numberOfLines = 0
-        return cell!
-    }
+  
 }
-class PropertyWebViewController: UIViewController, UITableViewDataSource {
+
+
+
+class PropertyWebViewController: UIViewController {
     var propertyData: [String: AnyObject]!
-    @IBOutlet var tableView: UITableView!
     @IBOutlet weak var webView: UIWebView!
+    
+    @IBOutlet weak var noInternet: UILabel!
+    let internetConnection = InternetConnection()
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        tableView.dataSource = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "propertyTableView")
-        tableView.estimatedRowHeight = 100
+        if internetConnection.isConnectedToNetwork() {
+            noInternet.alpha = 0
+        } else{
+            self.PresentAlertController(title: "Something went wrong", message: "Please Check you internet connection ", actionTitle: "Got it")
+            return
+        }
+
         let url = NSURL (string: (propertyData["url"] as? String)!)
         let requestObj = URLRequest(url: url! as URL)
         webView.loadRequest(requestObj)
+        UIComponentHelper.PresentActivityIndicator(view: self.view, option: true)
+        let when = DispatchTime.now() + 4 // change 2 to desired number of seconds
+        DispatchQueue.main.asyncAfter(deadline: when) {
+            UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
+        }
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    //MARK: UITableViewDataSource
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
-    }
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "propertyTableView")
-        cell?.textLabel?.text = propertyData["url"] as? String
-        cell?.textLabel?.numberOfLines = 0
-        return cell!
-    }
-}
+  
+ }
 
 
 

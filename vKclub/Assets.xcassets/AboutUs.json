@@ -1,0 +1,249 @@
+{
+    
+    "accommodation" : [
+                
+                {
+                "Title" : "Villa Suite",
+                "Intro" : "This two-bedroom villa with a mezzanine level is suitable for bigger families or group. This modern designed building has a bath and shower room, a wide living room and an open roof deck for BBQ party.",
+                "Photo" : "accom-borey-a",
+                "url"   : "http://vkirirom.com/en/details.php#BoreyA"
+                },
+                {
+                "Title" : "Villa Jasmine",
+                "Intro" : "Comprising of a combined bedroom, living, dining, kitchen area and an attached toilet, these versatile homes promises lots of many pleasant experiences in the cool Kiririom mountain.",
+                "Photo" : "accom-bR",
+                "url"   : "http://vkirirom.com/en/details.php#BoreyR"
+                       
+                },
+                {
+                "Title" : "Bungalow",
+                "Intro" : "Stay in one of our specially designed bungalows and experience the invigorating fresh air and peaceful life in the pine forests of kirirom. Relax in our king size or twin-bed bungalows",
+               
+                "Photo" : "bungalow",
+                "url"   : "http://vkirirom.com/en/details.php#Bungalow"
+
+                },
+                {
+                "Title" : "Camping",
+                "Intro" : "Experience a fun and safe camping under the moon light and the twinkling stars in our camping ground or book one of our luxury tents with an en suite bathroom.",
+                
+                "Photo" : "camping",
+                "url"   : "http://vkirirom.com/en/details.php#Camping"
+
+                },
+                {
+                "Title" : "Khmer Cottage",
+                "Intro" : "Experience a real Khmer traditional hut with the fresh and cool breeze. Stay in a Khmer farmer's open-style house nicely decorated with natural materials",
+               
+                "Photo" : "khmercottage",
+                "url"   : "http://vkirirom.com/en/details.php#Khmercottage"
+
+                },
+                {
+                "Title" : "Luxury Tent",
+                "Intro" : "Luxury Tent-Stay in style and comfort in a high quality tent with the comfort of a hotel room. The tents come with a king size bed and en suite bathroom.",
+                
+                "Photo" : "luxurytent",
+                "url"   : "http://vkirirom.com/en/details.php#Luxurytent"
+
+                },
+                {
+                  "Title" : "Pipe Room",
+                  "Intro" : "A unique design to Cambodia and other Asian countries, the Pipe Rooms are affordable and cozy option. Ideal for students and couples who want to experience a creatively.",
+                       
+                  "Photo" : "piperoom",
+                  "url"   : "http://vkirirom.com/en/details.php#Piperoom"
+                       
+                }
+                
+                ],
+    
+    "property" : [
+                       
+                  {
+                    "Title" : "BoreyA -Orchid Hills-",
+                    "Intro" : "Our resort provides this special house for a big family and it is suitable for a holiday party.",
+                    "Photo" : "boreyA",
+                    "url"   :  "http://property.vkirirom.com/type_a.php"
+                  
+                       },
+                       {
+                    "Title" : "BoreyR -Jasmine Hills-",
+                    "Intro" : "Studio designed holiday homes for everyone. With a spacious built up area of 36 sqaure meters, these units are perfect for couples or small families wanting a private retreat away from the city",
+                    "Photo" : "property-boreyR",
+                    "url"   : "http://property.vkirirom.com/type_r.php"
+
+                  
+                    }
+                 
+                 ],
+    "activity" : [
+                  
+                  {
+                  "Title" : "Pine View Restaurant",
+                  "Intro" : "Serves the best foods with our experienced chefs among all the pine trees.",
+                  "Photo" : "pineResort",
+                  "url"   : "http://vkirirom.com"
+                  },
+                  {
+                  "Title" : "Mountain Bike Rental",
+                  "Intro" : "Do you prefer riding a mountain bike to see the sights around Kirirom? You can rent the vehicles here, please ask the reception for more details.",
+                  "Photo" : "BikeRental",
+                  "url"   : "http://vkirirom.com/en/services.php#"
+                  
+                  },
+                  {
+                  "Title" : "Massage",
+                  "Intro" : "You can feel the traditional massage from our professional staffs on top of Kirirom mountain. Available only in vKirirom.",
+                  "Photo" : "massage-service",
+                  "url"   : "http://vkirirom.com/en/"
+                  
+                  },
+                  {
+                  "Title" : "Conference Room",
+                  "Intro" : "For seminar, meeting, conference etc. Share your ideas in the        mountain.",
+                  "Photo" : "conferenceroom",
+                  "url"   : "http://vkirirom.com"
+
+                  },
+                  {
+                  "Title" : "Shuttle Bus",
+                  "Intro" : "Resort also provides transportation service to customers with an acceptable and reasonal price rate.",
+                  "Photo" : "vkirirombus",
+                  "url"   : "http://vkirirom.com/en/detailsFacilities.php"
+                  
+                  },
+                  {
+                  "Title" : "Banquet",
+                  "Intro" : "Pine View Kitchen has around 160 seats, where you can have a big party.Buffet can also be available.",
+                  "Photo" : "banquet",
+                  "url"   : "http://vkirirom.com"
+                  
+                  },
+                  {
+                  "Title" : "Bubble Soccer",
+                  "Intro" : "Bubble soccer is becoming popular around the world. Come and try the first bubble soccer in Cambodia.",
+                  "Photo" : "BubbleSoccer",
+                  "url"   : "http://vkirirom.com/en/gallery.php"
+                  
+                  },
+                  {
+                  "Title" : "Nine Holes Disc Golf Course",
+                  "Intro" : "Disc golf, also known as Frisbee golf, is a flying disc game, as well as a precision and accuracy sport.",
+                  "Photo" : "DiscGolf",
+                  "url"   : "http://vkirirom.com/en/gallery.php"
+                  
+                  },
+                  {
+                  "Title" : "Color Ball Fighting",
+                  "Intro" : "Let's ball fighting! How good are you at hiding, ducking and throwing a ball? Let's find it out here at vKirirom Pine Resort.",
+                  "Photo" : "ColorBallFighting",
+                  "url"   : "http://vkirirom.com/en/gallery.php"
+                  
+                  },
+                  {
+                  "Title" : "Bicycle Race",
+                  "Intro" : "Ready Set GO! Come with your friends and challenge them to an exciting bicycle race.",
+                  "Photo" : "BikeRace",
+                  "url"   : "http://vkirirom.com/en/details.php#BoreyR"
+                  
+                  },
+                  {
+                  "Title" : "Go Cycling",
+                  "Intro" : "Cycling is a very popular leisure activity while in Kirirom Pine Resort. Ask our staff for a map.",
+                  "Photo" : "Cycling",
+                  "url"   : "http://vkirirom.com/en/gallery.php"
+                  
+                  },
+                  {
+                  "Title" : "Field Day",
+                  "Intro" : "Field Trip? Visit us at vKirirom Pine Resort and enjoy a variety of team building activities.",
+                  "Photo" : "Pullbat",
+                  "url"   : "http://vkirirom.com/en/gallery.php"
+                  
+                  },
+                  {
+                  "Title" : "Multiple Court",
+                  "Intro" : "We have a volleyball, netball, futsal, and dodge ball.",
+                  "Photo" : "MultipleCourt",
+                  "url"   : "http://vkirirom.com/en/gallery.php"
+                  
+                  },
+                  {
+                  "Title" : "Hit The Clay Pot",
+                  "Intro" : "One of Cambodia's favourite popular game is here. Blind folded with a bat and a group of directors. Will you hit the pot?",
+                  "Photo" : "HitClayPot",
+                  "url"   : "http://vkirirom.com/en/gallery.php"
+                  
+                  },
+                  {
+                  "Title" : "Drone Flying Lesson",
+                  "Intro" : "Do you want to experience being a pilot? Learn how to fly and maneuver this drone with us, available only at vKirirom Pine Resort.",
+                  "Photo" : "Drone",
+                  "url"   : "http://vkirirom.com/en/gallery.php"
+                  
+                  },
+                  {
+                  "Title" : "Struck Out",
+                  "Intro" : "9 out of 9? You won $300 in cold cash. How good is your aim? You might be our next struck out $300 winner.",
+                  "Photo" : "StruckOut",
+                  "url"   : "http://vkirirom.com/en/gallery.php"
+                  
+                  },
+                  {
+                  "Title" : "Petanque",
+                  "Intro" : "Now it's about the time for you to try one of Europes most popular outdoor strategy game. Let's knock them out.",
+                  "Photo" : "Petanque",
+                  "url"   : "http://vkirirom.com/en/gallery.php"
+                  
+                  },
+                  {
+                  "Title" : "Treasure Hunting",
+                  "Intro" : "How good are you at reading and finding clues? Come and try our Treasure Hunting game and win an exciting prices in our century treasure.",
+                  "Photo" : "TreasureHunting",
+                  "url"   : "http://vkirirom.com/en/gallery.php"
+                  
+                  },
+                  {
+                  "Title" : "Rope Climbing",
+                  "Intro" : "Strap and buckle that harness and climb that rope.",
+                  "Photo" : "RopeClimbing",
+                  "url"   : "http://vkirirom.com/en/gallery.php"
+                  
+                  },
+                  {
+                  "Title" : "Three Legged Race",
+                  "Intro" : "A game of cooperation between partners as much as it is one of speed.",
+                  "Photo" : "Walkracing",
+                  "url"   : "http://vkirirom.com/en/gallery.php"
+                  
+                  },
+                  {
+                  "Title" : "Chambok Waterfall Tour",
+                  "Intro" : "Join our Chambok water fall tour and experience the magnificent beauty of the fall as well as the native around.",
+                  "Photo" : "Chambok",
+                  "url"   : "http://vkirirom.com/en/gallery.php"
+                  
+                  },
+                  {
+                  "Title" : "Jungle Trekking",
+                  "Intro" : "Jungle treks can be taken throughout the year. In the green season when rain is plentiful the forest is awash with lush.",
+                  "Photo" : "JungleTrekking",
+                  "url"   : "http://vkirirom.com/en/gallery.php"
+                  
+                  },
+                  {
+                  "Title" : "Half Day Sightseeing Tour",
+                  "Intro" : "We will show you around the Kirirom National Park, including king Sihanouk's royal palace ruins.",
+                  "Photo" : "Cambodia_BuddhistTemple",
+                  "url"   : "http://vkirirom.com/en/gallery.php"
+                  
+                  }
+                  
+                  ]
+    
+
+
+}
+
+

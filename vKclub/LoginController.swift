@@ -15,8 +15,8 @@ import CoreData
 
 
 class LoginController: UIViewController {
+    
     let personService = UserProfileCoreData()
-    let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
     @IBOutlet weak var pwTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var signInBtn: UIButton!
@@ -40,14 +40,17 @@ class LoginController: UIViewController {
     }
     
     func FBSignIn(){
+        UIComponentHelper.PresentActivityIndicator(view: self.view, option: true)
         let fbLoginManager = FBSDKLoginManager()
         fbLoginManager.logIn(withReadPermissions: ["public_profile", "email"], from: self) { (result, error) in
             if error != nil {
                 print("eroor", error!)
             } else if (result?.isCancelled)! {
+                UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
                 print("Facebook Cancelled")
             } else {
                 guard let accessToken = FBSDKAccessToken.current() else {
+                    UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
                     print("Failed to get access token")
                     return
                 }
@@ -77,11 +80,13 @@ class LoginController: UIViewController {
                         if (user?.email == nil && user?.displayName == nil ) {
                             self.PresentAlertController(title: "Error", message: "Try again, because your internet conntion was too slow", actionTitle: "Okay")
                         } else {
+                            UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
                             let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
                             let newViewController = storyBoard.instantiateViewController(withIdentifier: "MainDashboard") as! SWRevealViewController
                             self.present(newViewController, animated: true, completion: nil)     
                         }   
                     } else {
+                        UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
                         let alertController = UIAlertController(title: "Login Error", message: error?.localizedDescription, preferredStyle: .alert)
                         let okayAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
                         alertController.addAction(okayAction)
@@ -94,7 +99,11 @@ class LoginController: UIViewController {
         }
     }
     @IBAction func SignInClicked(_ sender: Any) {
+        UIComponentHelper.PresentActivityIndicator(view: self.view, option: true)
+        
         if emailTextField.text == "" || pwTextField.text == "" {
+            UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
+            
             PresentAlertController(title: "Something went wrong", message: "Please properly insert your data", actionTitle: "Got it")
             
         } else {
@@ -107,6 +116,7 @@ class LoginController: UIViewController {
                     if (user?.isEmailVerified)!{
                         // if user don't name and imageprofile
                         if(user?.photoURL == nil ){
+                            UIComponentHelper.PresentActivityIndicator(view: self.view, option: true)
                             let img = UIImage(named: "profile-icon")
                             let data :NSData = UIImagePNGRepresentation(img!)! as NSData
                             self.create(username: (user?.displayName)!,email : (user?.email)!,facebook: false, imagData: data )
@@ -123,22 +133,24 @@ class LoginController: UIViewController {
                         }
                         
                         if(user?.email == nil && user?.displayName == nil ) {
+                            UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
                             self.PresentAlertController(title: "Error", message: "Try again, because your internet conntion was too slow", actionTitle: "Okay")
-                            
+                            return
                             
                         } else {
+                            
                             let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
                             let newViewController = storyBoard.instantiateViewController(withIdentifier: "MainDashboard") as! SWRevealViewController
-                            
                             self.present(newViewController, animated: true, completion: nil)
                             
                         }
                         
                     } else {
+                        UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
                         self.PresentAlertController(title: "Comfirmation", message: "Please verify your email address with a link that we have already sent you to proceed login in", actionTitle: "Okay")
                     }
                 } else {
-                    
+                    UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
                     self.PresentAlertController(title: "Error", message: (error?.localizedDescription)!, actionTitle: "Okay")
                 }
             }
