@@ -526,8 +526,8 @@
 		A9FAC4671D07D6F200E3C8A5 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				C5923E0F1F282C71006D6D70 /* ProviderDelegate.swift */,
 				C5F5A81F1F279DF900190CDF /* Main.storyboard */,
+				C5923E0F1F282C71006D6D70 /* ProviderDelegate.swift */,
 				A996636D1D06F877003B5EEE /* LaunchScreen.storyboard */,
 			);
 			name = View;
