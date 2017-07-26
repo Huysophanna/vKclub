@@ -18,15 +18,15 @@ class RecentCallViewCell: UITableViewCell {
     
 }
 
-
 class RecentCallController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITabBarControllerDelegate {
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var noRecentLabel: UILabel!
     
     static let callDataRequest: NSFetchRequest<SipCallData> = SipCallData.fetchRequest()
     static var callLogData = [SipCallData]()
     static var tableViewRef = UITableView()
-    
+
     let (todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySec) = UIComponentHelper.GetTodayString()
     var incomingCallInstance = IncomingCallController()
     var currentCallLogBtnHeight = 0;
@@ -51,6 +51,12 @@ class RecentCallController: UIViewController, UITableViewDelegate, UITableViewDa
         RecentCallController.tableViewRef.delegate = self
         
         RecentCallController.LoadCallDataCell()
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+     
     }
     
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
@@ -87,13 +93,18 @@ class RecentCallController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        //Get table view reference
+        RecentCallController.tableViewRef = tableView
         
         if RecentCallController.callLogData.count == 0 {
-            return 1
+            //Display no recents
+            noRecentLabel.isHidden = false
         } else {
-            return RecentCallController.callLogData.count
+            //Hide it back
+            noRecentLabel.isHidden = true
         }
         
+        return RecentCallController.callLogData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -102,8 +113,6 @@ class RecentCallController: UIViewController, UITableViewDelegate, UITableViewDa
         //start index path from last index instead
         let lastRow: Int = self.tableView.numberOfRows(inSection: 0) - (indexPath.row + 1)
         let reverseIndexPath = IndexPath(row: lastRow, section: 0)
-        
-        RecentCallController.tableViewRef = tableView
         
         //No call data yet
         if RecentCallController.callLogData.count == 0 {
@@ -196,8 +205,9 @@ class RecentCallController: UIViewController, UITableViewDelegate, UITableViewDa
         
         actionSheet.addAction(dialBtnHandler)
         actionSheet.addAction(cancelBtnHandler)
-        actionSheet.addAction(UIAlertAction(title: "Test Delete All", style: .default, handler: {test in
+        actionSheet.addAction(UIAlertAction(title: "Clear all", style: .default, handler: {test in
             UserProfileCoreData.deleteAllData(entity: "SipCallData")
+            RecentCallController.LoadCallDataCell()
             print("Done delete ---")
         }))
         if let popoverController =  actionSheet.popoverPresentationController {

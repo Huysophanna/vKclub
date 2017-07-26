@@ -59,7 +59,7 @@ class CreateAccController: ViewController {
                         }
                      })
                      
-                    self.PresentAlertController(title: "Success", message: "Your new account has been created. Try logging in 🤠", actionTitle: "Okay")
+                    self.PresentAlertController(title: "Success", message: "Please verify your account with the link we have sent to your email address.", actionTitle: "Okay")
                   
                     UIApplication.shared.keyWindow?.rootViewController = self.storyboard!.instantiateViewController(withIdentifier: "loginController")
 
