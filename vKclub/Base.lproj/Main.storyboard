@@ -1266,7 +1266,7 @@
                                 <rect key="frame" x="39" y="243" width="335" height="51"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.48746768050543809" green="1" blue="0.82191064060360874" alpha="0.0" colorSpace="custom" customColorSpace="displayP3"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
@@ -1274,7 +1274,7 @@
                                 <rect key="frame" x="39" y="304" width="335" height="52"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.48746768050543809" green="1" blue="0.82191064060360874" alpha="0.0" colorSpace="custom" customColorSpace="displayP3"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
@@ -1282,7 +1282,7 @@
                                 <rect key="frame" x="39" y="366" width="335" height="53"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.48746768050543809" green="1" blue="0.82191064060360874" alpha="0.0" colorSpace="custom" customColorSpace="displayP3"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                             </textField>
@@ -1290,7 +1290,7 @@
                                 <rect key="frame" x="39" y="429" width="335" height="51"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.48746768050543809" green="1" blue="0.82191064060360874" alpha="0.0" colorSpace="custom" customColorSpace="displayP3"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                             </textField>
@@ -1367,7 +1367,7 @@
                                 <rect key="frame" x="78" y="308" width="258" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.4874676805" green="1" blue="0.82191064059999996" alpha="0.0" colorSpace="custom" customColorSpace="displayP3"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
@@ -1625,6 +1625,9 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="HelpBtn:" destination="qKX-eP-R9c" eventType="touchUpInside" id="Wie-cf-gnN"/>
+                                </connections>
                             </button>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Avn-EB-kcG">
                                 <rect key="frame" x="20" y="145" width="374" height="1"/>
@@ -1826,38 +1829,6 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vra-vq-xT5" customClass="OnboardingView" customModule="vKclub" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
-                                <subviews>
-                                    <button opaque="NO" alpha="0.0" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FVT-bw-RcL">
-                                        <rect key="frame" x="117" y="522.5" width="179.5" height="50.5"/>
-                                        <state key="normal">
-                                            <attributedString key="attributedTitle">
-                                                <fragment content="GET START">
-                                                    <attributes>
-                                                        <color key="NSBackgroundColor" white="1" alpha="0.0" colorSpace="deviceWhite"/>
-                                                        <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                        <font key="NSFont" size="26" name="Helvetica"/>
-                                                        <font key="NSOriginalFont" size="26" name="Helvetica"/>
-                                                        <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                                    </attributes>
-                                                </fragment>
-                                                <fragment content="ED">
-                                                    <attributes>
-                                                        <color key="NSBackgroundColor" white="1" alpha="0.0" colorSpace="deviceWhite"/>
-                                                        <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                        <font key="NSFont" size="26" name="Helvetica"/>
-                                                        <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                                    </attributes>
-                                                </fragment>
-                                            </attributedString>
-                                        </state>
-                                        <connections>
-                                            <action selector="gotStarted:" destination="kyH-gu-ETi" eventType="touchUpInside" id="LQQ-8O-YdA"/>
-                                            <segue destination="HRX-3u-gR7" kind="popoverPresentation" popoverAnchorView="FVT-bw-RcL" id="0gy-tH-TZT">
-                                                <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
-                                            </segue>
-                                        </connections>
-                                    </button>
-                                </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dW8-8h-hrL">
@@ -1871,20 +1842,47 @@
                                     <segue destination="HRX-3u-gR7" kind="presentation" id="qbb-ZR-V3H"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" alpha="0.0" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FVT-bw-RcL">
+                                <rect key="frame" x="117" y="500" width="179.5" height="50.5"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <state key="normal">
+                                    <attributedString key="attributedTitle">
+                                        <fragment content="GET START">
+                                            <attributes>
+                                                <color key="NSBackgroundColor" white="1" alpha="0.0" colorSpace="deviceWhite"/>
+                                                <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <font key="NSFont" size="26" name="Helvetica"/>
+                                                <font key="NSOriginalFont" size="26" name="Helvetica"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment content="ED">
+                                            <attributes>
+                                                <color key="NSBackgroundColor" white="1" alpha="0.0" colorSpace="deviceWhite"/>
+                                                <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <font key="NSFont" size="26" name="Helvetica"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                            </attributes>
+                                        </fragment>
+                                    </attributedString>
+                                </state>
+                                <connections>
+                                    <action selector="gotStarted:" destination="kyH-gu-ETi" eventType="touchUpInside" id="LQQ-8O-YdA"/>
+                                    <segue destination="HRX-3u-gR7" kind="popoverPresentation" popoverAnchorView="FVT-bw-RcL" id="0gy-tH-TZT">
+                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                    </segue>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="FVT-bw-RcL" firstAttribute="top" secondItem="YzU-lr-zNN" secondAttribute="bottom" constant="480" id="3PE-Fl-v9h"/>
                             <constraint firstItem="dW8-8h-hrL" firstAttribute="top" secondItem="YzU-lr-zNN" secondAttribute="bottom" constant="10" id="3V8-CM-VWm"/>
                             <constraint firstAttribute="trailingMargin" secondItem="dW8-8h-hrL" secondAttribute="trailing" constant="10" id="AnD-Z7-uWK"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Vra-vq-xT5" secondAttribute="trailing" constant="-20" id="O7P-oF-efx"/>
                             <constraint firstItem="HIu-wn-zOm" firstAttribute="top" secondItem="dW8-8h-hrL" secondAttribute="bottom" constant="673" id="YHO-xK-V3A"/>
                             <constraint firstItem="dW8-8h-hrL" firstAttribute="leading" secondItem="ROR-j0-5q3" secondAttribute="leadingMargin" constant="330" id="jXq-RB-det"/>
                             <constraint firstItem="Vra-vq-xT5" firstAttribute="top" secondItem="YzU-lr-zNN" secondAttribute="bottom" constant="-20" id="mgv-XP-OqC"/>
-                            <constraint firstItem="HIu-wn-zOm" firstAttribute="top" secondItem="FVT-bw-RcL" secondAttribute="bottom" constant="186" id="nAI-29-s1j"/>
                             <constraint firstItem="HIu-wn-zOm" firstAttribute="top" secondItem="Vra-vq-xT5" secondAttribute="bottom" id="nOc-jP-lHq"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="FVT-bw-RcL" secondAttribute="trailing" constant="79" id="ojO-wN-N8D"/>
-                            <constraint firstItem="FVT-bw-RcL" firstAttribute="leading" secondItem="ROR-j0-5q3" secondAttribute="leadingMargin" constant="80" id="tVf-7C-1Hd"/>
                             <constraint firstItem="Vra-vq-xT5" firstAttribute="leading" secondItem="ROR-j0-5q3" secondAttribute="leadingMargin" constant="-20" id="uoi-tH-uwL"/>
                         </constraints>
                     </view>

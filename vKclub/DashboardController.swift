@@ -29,7 +29,6 @@ class DashboardController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         //init background task for incoming call
         backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask(expirationHandler: nil)
         
@@ -77,10 +76,11 @@ class DashboardController: UIViewController {
             PresentAlertController(title: "Off-Kirirom Mode", message: "Emergency SOS & Free internal phone call features are not accessible for Off-Kirirom users.", actionTitle: "Okay")
         break
         case UNIDENTIFIED:
-            PresentAlertController(title: "Unidentified Mode", message: "Location service failed. Turn on Location Service to determine your current location for App Mode: \n Setting > Privacy > Location Services > ON", actionTitle: "Okay")
+            PresentAlertController(title: "Unidentified App Mode", message: "Location Permission Denied. Turn on Location Service to Determine your current location for App Mode: \n Setting > Privacy > Allo Location", actionTitle: "Okay")
+            
         break
         case INAPP_UNIDENTIFIED:
-            PresentAlertController(title: "Unidentified Mode", message: "Location service failed. Turn on Location Service to determine your current location for App Mode: \n Setting > Privacy > Location Services > vKclub > Always", actionTitle: "Okay")
+            LocationPermission()
         break
         default: break
         }
@@ -177,5 +177,18 @@ class DashboardController: UIViewController {
     
     @IBAction func NoticationBtn(_ sender: Any) {
         performSegue(withIdentifier: "GotoNotification", sender: self)
+    }
+    func LocationPermission(){
+        let LocationPermissionAlert = UIAlertController(title: "Location disabled for vKclub App", message: "Please enable Location by Clicking Okay", preferredStyle: UIAlertControllerStyle.alert)
+        
+        LocationPermissionAlert.addAction(UIAlertAction(title: "Okay", style: .default, handler: { (action: UIAlertAction!) in
+            if let settingsURL = NSURL(string: UIApplicationOpenSettingsURLString) {
+                UIApplication.shared.openURL(settingsURL as URL)
+            }
+        }))
+         LocationPermissionAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler:{ (action: UIAlertAction!) in
+            
+        }))
+        self.present( LocationPermissionAlert, animated: true, completion: nil)
     }
 }

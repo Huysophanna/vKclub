@@ -1,26 +1,24 @@
 import UIKit
 import UserNotifications
 
-class SettingController: UIViewController,UNUserNotificationCenterDelegate {
+class SettingController: UIViewController,UNUserNotificationCenterDelegate,UIApplicationDelegate {
     
     
     @IBOutlet weak var NotificationSetting: UISwitch!
    
     override func viewDidLoad() {
         super.viewDidLoad()
+          Check()
        
-        Check()
         
     }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        
-               // Dispose of any resources that can be recreated.
-    }
-    
     @IBAction func cancelBtn(_ sender: Any) {
         dismiss(animated: true, completion: nil)   
+    }
+    
+    @IBAction func HelpBtn(_ sender: Any) {
+        self.PresentAlertController(title: "Help", message: "Notification: Turn OFF/ON all incoming alert notification including Digital News Content as well as Chat Messaging.", actionTitle: "Okay")
+        
     }
     
     func Check(){
@@ -40,41 +38,44 @@ class SettingController: UIViewController,UNUserNotificationCenterDelegate {
            }
         }
     }
-        
-
-    
-   
-    
-    @IBAction func OnofOffNotification(_ sender: UISwitch) {
+   @IBAction func OnofOffNotification(_ sender: UISwitch) {
         let center = UNUserNotificationCenter.current()
         center.getNotificationSettings { (settings) in
             if(settings.authorizationStatus == .authorized)
             {
+                
+                
                 if sender.isOn{
                     
+                    self.NotificationSetting.isOn = true
                     UIApplication.shared.registerForRemoteNotifications()
                 } else{
-                    
+                    self.NotificationSetting.isOn = false
                     UIApplication.shared.unregisterForRemoteNotifications()
                     
                 }
 
             }else{
-                let notificationPermissionAlert = UIAlertController(title: "Notifications disabled for vKclub App", message: "Please enable Notifications in Settings -> Notifications -> vKclub", preferredStyle: UIAlertControllerStyle.alert)
+                // OPEN Nottification user when you not allow notification
+                self.NotificationSetting.isOn = false
+                let notificationPermissionAlert = UIAlertController(title: "Notifications disabled for vKclub App", message: "Please enable Notifications by Clicking Okay", preferredStyle: UIAlertControllerStyle.alert)
                 
-                
-                
-                notificationPermissionAlert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: { (action: UIAlertAction!) in
-                    self.NotificationSetting.isOn = false
-
+                notificationPermissionAlert.addAction(UIAlertAction(title: "Okay", style: .default, handler: { (action: UIAlertAction!) in
+                    if let settingsURL = NSURL(string: UIApplicationOpenSettingsURLString) {
+                        UIApplication.shared.openURL(settingsURL as URL)
+                    }
                 }))
-
+                notificationPermissionAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler:{ (action: UIAlertAction!) in
+                    self.NotificationSetting.isOn = false
+                   
+                }))
                 self.present(notificationPermissionAlert, animated: true, completion: nil)
+               
             }
         
         }
 
         
     }
-
-}
+    
+    }

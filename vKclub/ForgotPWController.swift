@@ -22,20 +22,31 @@ class ForgotPWController: UIViewController {
         UIComponentHelper.MakeBtnWhiteBorder(button: backBtn, color: UIColor.white)
         UIComponentHelper.MakeCustomPlaceholderTextField(textfield: emailTextField, name: "Email", color: UIColor.white)
     }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-
     @IBAction func RecoverBtnClicked(_ sender: Any) {
-        Auth.auth().fetchProviders(forEmail: emailTextField.text!) { (accData, error) in
-            for i in accData!{
-               if i == "facebook.com"{
-                self.PresentAlertController(title: "Something went wrong", message: "Your account is linked with Facebook. Please Sign in with Facebook instead to move on.", actionTitle: "Got it")
-                return
-               }
-            }
+        if (emailTextField.text?.isEmpty)!{
+            
+            PresentAlertController(title: "Something went wrong", message: "Please properly insert your data", actionTitle: "Got it")
+            return 
+        }
         
+        Auth.auth().fetchProviders(forEmail: emailTextField.text!) { (accData, error) in
+            if error == nil{
+                if accData == nil {
+                    self.PresentAlertController(title: "Something went wrong", message: "The email you entered did not match our records. Please double-check and try again.", actionTitle: "Got it")
+                    return
+                    
+                }
+                for i in accData!{
+                    if i == "facebook.com"{
+                        self.PresentAlertController(title: "Something went wrong", message: "Your account is linked with Facebook. Please Sign in with Facebook instead to move on.", actionTitle: "Got it")
+                        return
+                    }
+                }
+                
+            } else {
+                self.PresentAlertController(title: "Error", message: (error?.localizedDescription)!, actionTitle: "Okay")
+                return
+            }
         }
         Auth.auth().sendPasswordReset(withEmail: self.emailTextField.text!) { (error) in
             if error == nil {
@@ -48,7 +59,6 @@ class ForgotPWController: UIViewController {
             
         }
     }
-    
     @IBAction func BackBtnClicked(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }

@@ -24,6 +24,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     @IBOutlet weak var EditBtn: UIButton!
     @IBOutlet weak var userName: UILabel!
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         imagePicker.delegate = self
@@ -56,8 +57,6 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         imageProfile.contentVerticalAlignment = .fill
 
     }
-    
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         
@@ -99,14 +98,12 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
                 
                 if data != nil {
                     let image = UIImage(data: data!)
-                    
                     let newimag = UIComponentHelper.resizeImage(image: image!, targetSize: CGSize(width: 400, height: 400))
                     imageProfile.setImage(newimag, for: .normal)
                 }
             }
         } else {
             for i in fb_lgoin {
-                userName.text =  i.username
                 // if user no internet still they can get imageProfile from coredata
                 let img = UIImage(data: i.imageData! as Data)
                 let newimag = UIComponentHelper.resizeImage(image: img!, targetSize: CGSize(width: 400, height: 400))
@@ -158,19 +155,16 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
                 
                 if data != nil {
                     let image = UIImage(data: data!)
-                    
                     let newimag = UIComponentHelper.resizeImage(image: image!, targetSize: CGSize(width: 400, height: 400))
                     imageProfile.setImage(newimag, for: .normal)
+                  }
                 }
-              }
         } else {
             for i in email_lgoin {
-                    userName.text =  i.username
                     // if user no internet still they can get imageProfile from coredata
                     let img = UIImage(data: i.imageData! as Data)
                     let newimag = UIComponentHelper.resizeImage(image: img!, targetSize: CGSize(width: 400, height: 400))
                     imageProfile.setImage(newimag, for: .normal)
-                
             }
             
         }
@@ -201,15 +195,10 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
             return
         }
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.photoLibrary) == true {
-            
             self.imagePicker.sourceType = .photoLibrary
-            
-            
             self.present(imagePicker, animated: true)
-            
-            
         } else {
-            print("No work")
+           
         }
     }
     
@@ -252,7 +241,6 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         if (MFMessageComposeViewController.canSendText()) {
             let phone = "+13343758067"
             let message = "Please help! I'm currently facing an emergency problem. Here is my Location: http://maps.google.com/?q="+currentLocaltion_lat+","+currentLocation_long+""
-            
             let controller = MFMessageComposeViewController()
             controller.body = message
             controller.recipients = [phone]
@@ -304,11 +292,9 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         })
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        
         alertController.addAction(defaultAction)
         alertController.addAction(deleteAction)
         alertController.addAction(cancelAction)
-        
         self.present(alertController, animated: true, completion: nil)
     }
     
@@ -317,26 +303,17 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         var selectedImageFromPicker : UIImage?
         print(info)
         if let editedImage = info["UIImagePickerControllerEditedImage"] as? UIImage {
-            
             selectedImageFromPicker = editedImage
-            print("editedImage")
-            
-            
-        }else if let originalImage = info["UIImagePickerControllerOriginalImage"] as? UIImage{
+        } else if let originalImage = info["UIImagePickerControllerOriginalImage"] as? UIImage{
             selectedImageFromPicker = originalImage
-            print("originalImage")
-        }
+            }
         if let setectImage = selectedImageFromPicker{
-           
             let newImage = UIComponentHelper.resizeImage(image: setectImage, targetSize: CGSize(width: 400, height: 400))
-            
             let imageProfiles = UIImagePNGRepresentation(newImage)
             let riversRef = storageRef.child("userprofile-photo").child((currentUser?.displayName)!)
-            
-            let uploadTask = riversRef.putData(imageProfiles! , metadata: nil) { (metadata, error) in
+            _ = riversRef.putData(imageProfiles! , metadata: nil) { (metadata, error) in
                 guard let metadata = metadata else {
-                    
-                    return
+                        return
                 }
                 // Metadata contains file metadata such as size, content-type, and download URL.
                 let downloadURL = metadata.downloadURL()!.absoluteString
@@ -345,12 +322,10 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
                 let chageProfileimage = self.currentUser?.createProfileChangeRequest()
                 chageProfileimage?.photoURL =  url
                 chageProfileimage?.commitChanges { (error) in
-                    
                 }
                 UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
                 self.imageProfile.setImage(setectImage, for: .normal)
                 // if Facebook login Update Image
-                
                 if self.facebookCheck {
                     self.FBProviderUpdateImage(image: imageProfiles! as NSData)
                     
@@ -360,11 +335,8 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
                 
             }
             
-            
         }
         dismiss(animated: true, completion: nil)
-        
-        
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
@@ -390,9 +362,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         let fb_lgoin = personService.getUserProfile(withPredicate: facebookProvider)
         for i in fb_lgoin {
             print("facebook done")
-            
             i.imageData = image
-            
             personService.updateUserProfile(_updatedPerson: i)
             
         }

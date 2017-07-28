@@ -26,7 +26,6 @@ class RecentCallController: UIViewController, UITableViewDelegate, UITableViewDa
     static let callDataRequest: NSFetchRequest<SipCallData> = SipCallData.fetchRequest()
     static var callLogData = [SipCallData]()
     static var tableViewRef = UITableView()
-
     let (todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySec) = UIComponentHelper.GetTodayString()
     var incomingCallInstance = IncomingCallController()
     var currentCallLogBtnHeight = 0;
