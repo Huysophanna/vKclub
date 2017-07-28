@@ -198,6 +198,31 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
             return
         }
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera) == true {
+            if AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo) ==  AVAuthorizationStatus.authorized {
+                // Already Authorized
+            } else {
+                AVCaptureDevice.requestAccess(forMediaType: AVMediaTypeVideo, completionHandler: { (granted: Bool) -> Void in
+                    if granted == true {
+                        // User granted
+                    } else {
+                        let LocationPermissionAlert = UIAlertController(title: "Camera disabled for vKclub App", message: "Please enable your Camera by Clicking Okay", preferredStyle: UIAlertControllerStyle.alert)
+                        
+                        LocationPermissionAlert.addAction(UIAlertAction(title: "Okay", style: .default, handler: { (action: UIAlertAction!) in
+                           
+                            if let settingsURL = NSURL(string: UIApplicationOpenSettingsURLString) {
+                                    UIApplication.shared.openURL(settingsURL as URL)
+                            }
+                                
+                           
+                        }))
+                        LocationPermissionAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler:{ (action: UIAlertAction!) in
+                            
+                        }))
+                        self.present( LocationPermissionAlert, animated: true, completion: nil)
+                        
+                    }
+                })
+            }
             self.imagePicker.sourceType = .camera
             self.present(imagePicker, animated: true)
         } else {
@@ -218,6 +243,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
             self.imagePicker.sourceType = .photoLibrary
             self.present(imagePicker, animated: true)
         } else {
+            print("NO")
            
         }
     }

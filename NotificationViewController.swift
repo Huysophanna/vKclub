@@ -92,14 +92,34 @@ class NotificationViewController: UITableViewController {
         cell.notitfication_body.text = notificationItem.notification_body
         return cell
     }
-
+    func HandleDeleteCallTableCell(_cellIndex: IndexPath, _reverseIndex: IndexPath) {
+        let callLogDataItem = notifications[_reverseIndex.row]
+        notifications.remove(at: _reverseIndex.row)
+        do {
+            manageObjectContext.delete(callLogDataItem)
+            try manageObjectContext.save()
+        } catch {
+            print("CAN\'T SAVE IN CELL DELETION \(error.localizedDescription)")
+        }
+        self.tableView.deleteRows(at: [_cellIndex], with: .automatic)
+    }
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        
+        let lastRow: Int = self.tableView.numberOfRows(inSection: 0) - (indexPath.row + 1)
+        let reverseIndexPath = IndexPath(row: lastRow, section: 0)
         //handle delete cell
         if editingStyle == .delete {
-            print("call for delete row handling ===")
+            HandleDeleteCallTableCell(_cellIndex: indexPath, _reverseIndex: reverseIndexPath)
             
         }
+        if notifications.count == 0 {
+            ViewofClearnotification.isHidden = false
+            Imgae.isHidden  = false
+            text.isHidden   = false
+            loadData()
+            self.tableView.reloadData()
+        }
+        
+        
     }
 
     /*
@@ -158,11 +178,12 @@ class NotificationViewController: UITableViewController {
         ViewofClearnotification.isHidden = false
         Imgae.isHidden  = false
         text.isHidden   = false
+        loadData()
         self.tableView.reloadData()
         
-        
-       
     }
+    
+
     
 
 }

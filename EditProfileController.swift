@@ -105,7 +105,6 @@ class EditProfileController: UIViewController {
                                 self.UpdateUsernameandemail(username: (changeRequest?.displayName)!, email:self.Email.text!)
                                 let current_email_string : String = String(describing: current_email)
                                 let input_email  :String  = String(describing: self.Email.text)
-                                
                                 // check if user change the email
                                 if(current_email_string == input_email){
                                    self.PresentAlertController(title: "Done", message: "Your Profile had updated", actionTitle: "Ok")
