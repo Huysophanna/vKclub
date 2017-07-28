@@ -14,10 +14,7 @@ class AboutUsTableCell: UITableViewCell{
     @IBOutlet weak var titleItem: UILabel!
     @IBOutlet weak var decriptionItem: UITextView!
 }
-
-
 class AccommodationController:  UITableViewController {
-    
     var accommodationData = [[String: AnyObject]]()
     var selectedArticle: [String: AnyObject]!
     var selectedArticleImage: UIImage!
@@ -37,12 +34,6 @@ class AccommodationController:  UITableViewController {
         self.edgesForExtendedLayout = UIRectEdge.all
         self.tableView.contentInset = UIEdgeInsets(top: 0.0, left: 0.0, bottom: tabBarHeight!, right: 0.0)
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -55,7 +46,6 @@ class AccommodationController:  UITableViewController {
     }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "accommodationTableView", for: indexPath) as! AboutUsTableCell
-       
         let accommodation = self.accommodationData[indexPath.row]
         let photoURL = accommodation["Photo"] as! String
         let title = accommodation["Title"] as! String
@@ -72,7 +62,6 @@ class AccommodationController:  UITableViewController {
         let cell = tableView.cellForRow(at: indexPath) as! AboutUsTableCell
         selectedArticleImage = cell.Imageitem.image
         self.performSegue(withIdentifier: "SgaccommodationusWebView", sender: self)
-        
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let detailsVC = segue.destination as! AccommodationWebViewController
@@ -82,14 +71,11 @@ class AccommodationController:  UITableViewController {
 
 
 class ActivityController: UITableViewController {
-    
     var ativityData = [[String: AnyObject]]()
     var indexOfCellToExpand: Int!
     var expandedLabel: UILabel!
     var selectedArticle: [String: AnyObject]!
     var selectedArticleImage: UIImage!
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         indexOfCellToExpand = -1
@@ -162,14 +148,11 @@ class ActivityController: UITableViewController {
 
 
 class  PropertyController: UITableViewController {
-    
     var propertyData = [[String: AnyObject]]()
     var indexOfCellToExpand: Int!
     var expandedLabel: UILabel!
     var selectedArticle: [String: AnyObject]!
     var selectedArticleImage: UIImage!
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         indexOfCellToExpand = -1
@@ -180,8 +163,6 @@ class  PropertyController: UITableViewController {
         DispatchQueue.main.async(execute: {
             self.tableView.reloadData()
         })
-       
-        
         let tabBarHeight = self.tabBarController?.tabBar.bounds.height
         self.edgesForExtendedLayout = UIRectEdge.all
         self.tableView.contentInset = UIEdgeInsets(top: 0.0, left: 0.0, bottom: tabBarHeight!, right: 0.0)
@@ -248,7 +229,6 @@ class  PropertyController: UITableViewController {
 class AccommodationWebViewController: UIViewController{
     var accommodationData: [String: AnyObject]!
     @IBOutlet weak var webView: UIWebView!
-    
     @IBOutlet weak var noInternet: UILabel!
     let internetConnection = InternetConnection()
     override func viewDidLoad() {
@@ -275,23 +255,17 @@ class AccommodationWebViewController: UIViewController{
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    //MARK: UITableViewDataSource
-    
- 
 }
 
 
 class AtivityWebViewController: UIViewController{
     var ativityData: [String: AnyObject]!
-   
     @IBOutlet weak var noInternet: UILabel!
     @IBOutlet weak var webView: UIWebView!
     let internetConnection = InternetConnection()
     override func viewDidLoad() {
         super.viewDidLoad()
         if internetConnection.isConnectedToNetwork() {
-        
             noInternet.alpha = 0
             print("have internet")
         } else{
@@ -314,7 +288,6 @@ class AtivityWebViewController: UIViewController{
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-  
 }
 
 
@@ -322,7 +295,6 @@ class AtivityWebViewController: UIViewController{
 class PropertyWebViewController: UIViewController {
     var propertyData: [String: AnyObject]!
     @IBOutlet weak var webView: UIWebView!
-    
     @IBOutlet weak var noInternet: UILabel!
     let internetConnection = InternetConnection()
     override func viewDidLoad() {

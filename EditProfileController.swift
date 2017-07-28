@@ -49,11 +49,18 @@ class EditProfileController: UIViewController {
         if internetConnection.isConnectedToNetwork() {
             print("have internet")
         } else{
+            UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
             self.PresentAlertController(title: "Something went wrong", message: "Can not update your Profile right now. Please Check you internet connection ", actionTitle: "Got it")
             return
         }
+        if ((Username.text?.isEmpty)! && (Email.text?.isEmpty)!){
+            UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
+            self.PresentAlertController(title: "Something Wrong", message: "Please properly insert your data", actionTitle: "Ok")
+            return
+        }
        
-        if (currentpass.text?.isEmpty == nil){
+        if (currentpass.text?.isEmpty)!{
+            UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
             self.PresentAlertController(title: "Something Wrong", message: "Please properly insert your data", actionTitle: "Ok")
             
         } else {
@@ -67,7 +74,9 @@ class EditProfileController: UIViewController {
                     if (self.Email.text?.isEmpty)! {
                         currentuser?.updateEmail(to: (currentuser?.email)! , completion: { (error) in
                             if error == nil{
+                                
                                 changeRequest?.displayName = self.Username.text
+                                
                                 changeRequest?.commitChanges { (error) in
                                     
                                 }
@@ -77,6 +86,7 @@ class EditProfileController: UIViewController {
                                
                                 
                             } else{
+                                UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
                                 self.PresentAlertController(title: "Something went wrong", message: (error?.localizedDescription)!, actionTitle: "Okay")
                             }
                         })
@@ -84,7 +94,12 @@ class EditProfileController: UIViewController {
                     } else {
                         currentuser?.updateEmail(to: self.Email.text! , completion: { (error) in
                             if error == nil{
-                                changeRequest?.displayName = self.Username.text
+                                if (self.Username.text?.isEmpty)!{
+                                     changeRequest?.displayName = currentuser?.displayName
+                                    
+                                } else {
+                                     changeRequest?.displayName = self.Username.text
+                                }
                                 changeRequest?.commitChanges { (error) in
                                 }
                                 self.UpdateUsernameandemail(username: (changeRequest?.displayName)!, email:self.Email.text!)
@@ -106,6 +121,7 @@ class EditProfileController: UIViewController {
                                 }
                                 
                             } else {
+                                UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
                                 self.PresentAlertController(title: "Something went wrong", message: (error?.localizedDescription)!, actionTitle: "Okay")
                                 
                             }
@@ -113,6 +129,7 @@ class EditProfileController: UIViewController {
                     }
                     
                 } else {
+                    UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
                     self.PresentAlertController(title: "Something Wrong", message: (error?.localizedDescription)!, actionTitle: "Ok")
                 }
             })

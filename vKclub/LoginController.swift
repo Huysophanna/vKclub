@@ -12,33 +12,23 @@ import Firebase
 import FirebaseAuth
 import FBSDKLoginKit
 import CoreData
-
-
 class LoginController: UIViewController {
-    
     let personService = UserProfileCoreData()
     @IBOutlet weak var pwTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var signInBtn: UIButton!
     @IBOutlet weak var signInFBBtn: UIButton!
     let User = UserProfile(context: manageObjectContext)
-    
     override func viewDidLoad() {
-        
         super.viewDidLoad()
+        UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
         MakeLeftViewIconToTextField(textField: emailTextField, icon: "user_left_icon")
         MakeLeftViewIconToTextField(textField: pwTextField, icon: "pw_icon")
-        
         UIComponentHelper.MakeBtnWhiteBorder(button: signInBtn, color: UIColor.white)
         MakeFBBorderBtn(button: signInFBBtn)
         //Btn Call Function FBSignIn
         signInFBBtn.addTarget(self, action: #selector(FBSignIn), for: .touchUpInside)
     }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-    
     func FBSignIn(){
         UIComponentHelper.PresentActivityIndicator(view: self.view, option: true)
         let fbLoginManager = FBSDKLoginManager()
@@ -56,28 +46,29 @@ class LoginController: UIViewController {
                 }
                 let credential = FacebookAuthProvider.credential(withAccessToken: accessToken.tokenString)
                 Auth.auth().signIn(with: credential, completion: { (user, error) in
-                    
                     if error == nil {
-                        
                         if let currentUser = Auth.auth().currentUser {
                             self.getDataFromUrl(url: currentUser.photoURL!){
-                            
-                                
-                                (data, response, error)  in
+                            (data, response, error)  in
                                 guard let data = data, error == nil
                                     else {
                                         return
                                 }
                                 let image = data as NSData?
+                                let imageFB = UIImage(data: image! as Data)
+                                let newimag = UIComponentHelper.resizeImage(image: imageFB!, targetSize: CGSize(width: 400, height: 400))
+                                let imageProfiles = UIImagePNGRepresentation(newimag)
                                 if (user?.email == nil){
-                                    self.create(username: (user?.displayName)!,email: "someone@gamil.com",facebook: true, imagData: image! )
+                                    UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
+                                    self.create(username: (user?.displayName)!,email: "someone@gamil.com",facebook: true, imagData: imageProfiles! as NSData)
                                 } else {
-                                     self.create(username: (user?.displayName)!,email: (user?.email)!,facebook: true, imagData: image! )
+                                     self.create(username: (user?.displayName)!,email: (user?.email)!,facebook: true, imagData: imageProfiles! as NSData)
                                 } 
                             }
                         }
 
                         if (user?.email == nil && user?.displayName == nil ) {
+                            UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
                             self.PresentAlertController(title: "Error", message: "Try again, because your internet conntion was too slow", actionTitle: "Okay")
                         } else {
                             UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
@@ -115,13 +106,8 @@ class LoginController: UIViewController {
                 if error == nil {
                     if (user?.isEmailVerified)!{
                         // if user don't name and imageprofile
-                        if(user?.photoURL == nil ){
-                            UIComponentHelper.PresentActivityIndicator(view: self.view, option: true)
-                            let img = UIImage(named: "profile-icon")
-                            let data :NSData = UIImagePNGRepresentation(img!)! as NSData
-                            self.create(username: (user?.displayName)!,email : (user?.email)!,facebook: false, imagData: data )
-                     } else {
-                            self.getDataFromUrl(url: (user?.photoURL!)!){  
+                     
+                        self.getDataFromUrl(url: (user?.photoURL!)!){
                                 (data, response, error)  in
                                 guard let data = data, error == nil
                                     else {    
@@ -129,21 +115,12 @@ class LoginController: UIViewController {
                                 }
                                 let image = data as NSData?
                                 self.create(username: (user?.displayName)!,email : (user?.email)!,facebook: false, imagData: image!  )
-                            }  
-                        }
-                        
-                        if(user?.email == nil && user?.displayName == nil ) {
-                            UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
-                            self.PresentAlertController(title: "Error", message: "Try again, because your internet conntion was too slow", actionTitle: "Okay")
-                            return
+                                }
+                        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                        let newViewController = storyBoard.instantiateViewController(withIdentifier: "MainDashboard") as! SWRevealViewController
+                        self.present(newViewController, animated: true, completion: nil)
                             
-                        } else {
-                            
-                            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                            let newViewController = storyBoard.instantiateViewController(withIdentifier: "MainDashboard") as! SWRevealViewController
-                            self.present(newViewController, animated: true, completion: nil)
-                            
-                        }
+                    
                         
                     } else {
                         UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
@@ -164,15 +141,12 @@ class LoginController: UIViewController {
     @IBAction func ForgotPWClicked(_ sender: Any) {
         performSegue(withIdentifier: "SegueToForgotPW", sender: self)
     }
-    
-    
     func MakeFBBorderBtn(button: UIButton) {
         button.backgroundColor = UIColor(red:0.23, green:0.35, blue:0.60, alpha:1.0)
         button.layer.borderWidth = 1
         button.layer.borderColor = UIColor(red:0.23, green:0.35, blue:0.60, alpha:1.0).cgColor
         button.layer.cornerRadius = 5
     }
-    
     func MakeLeftViewIconToTextField(textField: UITextField, icon: String) {
         let imageView = UIImageView();
         let image = UIImage(named: icon);
@@ -185,14 +159,11 @@ class LoginController: UIViewController {
         textField.leftViewMode = UITextFieldViewMode.always
         
     }
-    
-    
     func getDataFromUrl(url: URL, completion: @escaping (_ data: Data?, _  response: URLResponse?, _ error: Error?) -> Void) {
         URLSession.shared.dataTask (with: url) { (data, response, error) in
             completion(data, response, error)
         }.resume()
     }
-    
     func create(username:String, email:String, facebook: Bool, imagData: NSData){
         var people : [UserProfile] = [User]
         let firstPerson =  personService.getByIdUserProfile(_id: (people[0].objectID))!
