@@ -59,7 +59,7 @@ class CreateAccController: ViewController {
                     let imageProfiles = UIImagePNGRepresentation(newImage)
                     let riversRef =  self.storageRef.child("userprofile-photo").child((self.nameTextField.text)!)
                     
-                    _ = riversRef.putData(imageProfiles! , metadata: nil) { (metadata, error) in
+                    riversRef.putData(imageProfiles! , metadata: nil) { (metadata, error) in
                         guard let metadata = metadata else {
                             return
                         }
@@ -92,6 +92,7 @@ class CreateAccController: ViewController {
             }
         }
     }
+    
     @IBAction func BackBtn(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
