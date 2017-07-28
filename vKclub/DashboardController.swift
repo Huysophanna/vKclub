@@ -20,12 +20,12 @@ class DashboardController: UIViewController {
     let OFF_KIRIROM = "offKirirom"
     let UNIDENTIFIED = "unidentified"
     let INAPP_UNIDENTIFIED = "inApp_unidentified"
-    let KIRIROMLAT : Double = 11.316541;
-    let KIRIROMLNG : Double = 104.065818;
-    let R : Double = 6371; // Radius of the earth in km
+    let KIRIROMLAT: Double = 11.316541;
+    let KIRIROMLNG: Double = 104.065818;
+    let R: Double = 6371; // Radius of the earth in km
     let locationManager = CLLocationManager()
     var lat: Double = 0
-    var long:Double = 0
+    var long: Double = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,7 +35,7 @@ class DashboardController: UIViewController {
         UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
         Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.isKirirom), userInfo: nil, repeats: true)
         Slidemenu()
-        
+
         KiriromScope.setTitle("Identifying", for: .normal)
     }
     
@@ -49,7 +49,6 @@ class DashboardController: UIViewController {
     }
     
     @IBAction func InternalCallBtn(_ sender: Any) {
-//        LinphoneManager.getLinphoneCallIdentify()
         LinphoneManager.register(proxyConfig!)
         performSegue(withIdentifier: "PushInternalCall", sender: self)
     }
@@ -69,20 +68,21 @@ class DashboardController: UIViewController {
     
     @IBAction func ModeBtn(_ sender: Any) {
         switch CheckUserLocation() {
-        case IN_KIRIROM:
-            PresentAlertController(title: "In-Kirirom Mode", message: "Welcome to vKirirom. Experience full features of vKclub with In-Kirirom mode including Emergency SOS & Free internal phone call", actionTitle: "Okay")
-        break
-        case OFF_KIRIROM:
-            PresentAlertController(title: "Off-Kirirom Mode", message: "Emergency SOS & Free internal phone call features are not accessible for Off-Kirirom users.", actionTitle: "Okay")
-        break
-        case UNIDENTIFIED:
-            PresentAlertController(title: "Unidentified App Mode", message: "Location Permission Denied. Turn on Location Service to Determine your current location for App Mode: \n Setting > Privacy > Allo Location", actionTitle: "Okay")
+            case IN_KIRIROM:
+                PresentAlertController(title: "In-Kirirom Mode", message: "Welcome to vKirirom. Experience full features of vKclub with In-Kirirom mode including Emergency SOS & Free internal phone call", actionTitle: "Okay")
+            break
+            case OFF_KIRIROM:
+                PresentAlertController(title: "Off-Kirirom Mode", message: "Emergency SOS & Free internal phone call features are not accessible for Off-Kirirom users.", actionTitle: "Okay")
+            break
+            case UNIDENTIFIED:
+                PresentAlertController(title: "Unidentified App Mode", message: "Location Permission Denied. Turn on Location Service to Determine your current location for App Mode: \n Setting > Privacy > Allo Location", actionTitle: "Okay")
             
-        break
-        case INAPP_UNIDENTIFIED:
-            LocationPermission()
-        break
-        default: break
+            break
+            case INAPP_UNIDENTIFIED:
+                LocationPermission()
+            break
+            default: break
+            
         }
 
     }
@@ -102,22 +102,22 @@ class DashboardController: UIViewController {
     }
     
     func isKirirom() {
-        let Check : String =  CheckUserLocation()
-        if Check == IN_KIRIROM {
+        switch CheckUserLocation() {
+        case IN_KIRIROM:
             KiriromScope.setTitle("In-Kirirom Mode", for: .normal)
             let mainGreen = UIColor(hexString: "#008040", alpha: 1)
             KiriromScope.setTitleColor(mainGreen, for: .normal)
-            
-        } else if Check == OFF_KIRIROM {
+        break
+        case OFF_KIRIROM:
             KiriromScope.setTitle("Off-Kirirom Mode", for: .normal)
             let mainGreen = UIColor(hexString: "#008040", alpha: 1)
             KiriromScope.setTitleColor(mainGreen, for: .normal)
-            
-        } else if Check == INAPP_UNIDENTIFIED {
+        break
+        case INAPP_UNIDENTIFIED:
             KiriromScope.setTitle("Unidentified Mode", for: .normal)
             KiriromScope.setTitleColor(UIColor.yellow, for: .normal)
-            
-        } else {
+        break
+        default:
             KiriromScope.setTitle("Unidentified Mode", for: .normal)
             KiriromScope.setTitleColor(UIColor.red, for: .normal)
         }
@@ -125,6 +125,8 @@ class DashboardController: UIViewController {
         //Set linphoneCall identity
         LinphoneManager.register(proxyConfig!)
         
+        //Check linphone status
+//        LinphoneManager.linphoneCallStatus = LinphoneManager.CheckLinphoneCallState()
     }
     
     func CheckUserLocation() -> String {

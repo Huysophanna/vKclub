@@ -11,6 +11,8 @@ import UIKit
 import AVFoundation
 import CoreData
 
+var waitForStreamRunningInterval: Timer?
+
 class IncomingCallController: UIViewController {
     @IBOutlet weak var callerNameLabel: UILabel!
     @IBOutlet weak var callerIDLabel: UILabel!
@@ -32,7 +34,6 @@ class IncomingCallController: UIViewController {
     
     static var dialPhoneNumber: String = ""
     var setUpCallInProgressInterval: Timer?
-    var waitForStreamRunningInterval: Timer?
     
     var incomingCallFlags = false {
         didSet {
@@ -41,9 +42,26 @@ class IncomingCallController: UIViewController {
                 IncomingCallController.CallToAction = false
                 PresentIncomingVC()
                 
-                DispatchQueue.main.asyncAfter(wallDeadline: DispatchWallTime.now() + 1.5) {
-                    AppDelegate.shared.displayIncomingCall(uuid: UUID(), handle: LinphoneManager.getContactName()) { _ in
-                        UIApplication.shared.endBackgroundTask(backgroundTaskIdentifier)
+                let appState = UIApplication.shared.applicationState
+                if appState == .background {
+                    DispatchQueue.main.asyncAfter(wallDeadline: DispatchWallTime.now() + 1.5) {
+                        //Display CallKit for iOS 10
+                        if #available(iOS 10, *) {
+                            AppDelegate.shared.displayIncomingCall(uuid: UUID(), handle: LinphoneManager.getContactName()) { _ in
+                                UIApplication.shared.endBackgroundTask(backgroundTaskIdentifier)
+                            }
+                        //Display local notification alert for non-callkit supported device
+                        } else {
+                            // ios 9
+                            let notification = UILocalNotification()
+                            notification.fireDate = NSDate(timeIntervalSinceNow: 0) as Date
+                            notification.alertBody = "Incoming Call"
+                            notification.alertAction = LinphoneManager.getContactName() + " is calling"
+                            notification.soundName = UILocalNotificationDefaultSoundName
+                            UIApplication.shared.scheduleLocalNotification(notification)
+                        }
+                        
+                        
                     }
                 }
             }
@@ -114,8 +132,7 @@ class IncomingCallController: UIViewController {
         } catch {
             print("CAN\'T FETCH CALLLOGDATA \(error.localizedDescription) ===")
         }
-        
-        
+
         //Set all image buttons
         SetImageBtn(button: speakerBtn, imageName: "speaker-icon", imgEdgeInsets: 25)
         SetImageBtn(button: muteBtn, imageName: "mute-icon", imgEdgeInsets: 25)
@@ -139,35 +156,6 @@ class IncomingCallController: UIViewController {
         
     }
     
-//    func SaveCallLogDataToCoreData(_callIndicatorIcon: String, _callerName: String, _callerID: String) {
-//        if _callIndicatorIcon != "" && _callerID != "" {
-//            //Save call log data for recents section to coredata
-//            let callLogCoreData = SipCallData(context: manageObjectContext)
-//            callLogCoreData.callerID = _callerID
-//            
-//            callLogCoreData.callerName = _callerName
-//            callLogCoreData.callIndicatorIcon = _callIndicatorIcon
-//            
-//            callLogCoreData.callDuration = callDuration
-//            let (year, month, date, hour, min, sec) = UIComponentHelper.GetTodayString()
-//            callLogCoreData.timeStamp = "\(hour):\(min)"
-//            callLogCoreData.callLogTime = "\(year)-\(month)-\(date)-\(hour)-\(min)-\(sec)"
-//            
-//            //Used to check and update duration into the this particular call log
-//            IncomingCallController.callLogTime = callLogCoreData.callLogTime!
-//            
-//            print("STH HAPPENN ", IncomingCallController.callLogTime)
-//            
-//            do {
-//                try manageObjectContext.save()
-//            } catch {
-//                print ("Saving to CoreData error \(error.localizedDescription) ===")
-//            }
-//
-//        }
-//        
-//    }
-    
     func SetCallDurationToCoreData() {
         for _callData in callLogData {
             if _callData.callLogTime != nil {
@@ -186,17 +174,30 @@ class IncomingCallController: UIViewController {
     }
     
     func WaitForStreamRunning() {
+        print(LinphoneManager.linphoneCallStatus, "===OKAY===")
+        
         if IncomingCallController.AcceptCallFlag == true {
             AcceptCallAction()
         }
         
-        if IncomingCallController.CheckLinphoneCallState() == LINPHONE_CALLSTREAM_RUNNING {
+        if LinphoneManager.CheckLinphoneCallState() == LINPHONE_CALLSTREAM_RUNNING {
             waitForStreamRunningInterval?.invalidate()
             
             print("waitForStreamRunningInterval ========")
             
             PrepareInCallProgressUI()
         }
+        
+        //LinphoneCallError occurred
+        print(LinphoneManager.linphoneCallErrorIndicator ,"==LinphoneError==")
+        if LinphoneManager.linphoneCallErrorIndicator {
+            waitForStreamRunningInterval?.invalidate()
+            
+            PresentAlertController(title: "Something went wrong", message: "You are not connected to our server. Please ensure that you are connected to our network and try again later.", actionTitle: "Okay")
+            LinphoneManager.linphoneCallErrorIndicator = false
+            
+        }
+        
     }
     
     func PrepareCallToActionUI() {
@@ -215,22 +216,24 @@ class IncomingCallController: UIViewController {
     }
     
     @IBAction func EndCallBtnClicked(_ sender: Any) {
-        if IncomingCallController.CheckLinphoneCallState() != LINPHONE_CALLSTREAM_RUNNING {
+        if LinphoneManager.CheckLinphoneCallState() != LINPHONE_CALLSTREAM_RUNNING {
             //decline call
             LinphoneManager.endCall()
             incomingCallFlags = false
             releaseCallFlag = true
-            print(IncomingCallController.CheckLinphoneCallState(), "JONGMER==")
-        } else if IncomingCallController.CheckLinphoneCallState() == LINPHONE_CALLSTREAM_RUNNING {
+            print(LinphoneManager.CheckLinphoneCallState(), "JONGMER==")
+            waitForStreamRunningInterval?.invalidate()
+        } else if LinphoneManager.CheckLinphoneCallState() == LINPHONE_CALLSTREAM_RUNNING {
             IncomingCallController.EndCallFlag = true
         }
     }
     
     @IBAction func DeclineCallBtnClicked(_ sender: Any) {
         LinphoneManager.declineCall(_declinedReason: LinphoneReasonBusy)
-        
+            print("STH")
         incomingCallFlags = false
         releaseCallFlag = true
+        waitForStreamRunningInterval?.invalidate()
     }
     
     @IBAction func AcceptCallBtnClicked(_ sender: Any) {
@@ -249,12 +252,6 @@ class IncomingCallController: UIViewController {
         
         //Report to end the last call for CallKit
         callKitManager?.end(uuid: lastCallUUID)
-    }
-    
-    static func CheckLinphoneCallState() -> String {
-        let callStateRawValue = linphone_call_state_to_string(linphone_call_get_state(LinphoneManager.callOpaquePointerData))
-        let callState = String(cString: callStateRawValue!)
-        return callState
     }
     
     func PrepareInCallProgressUI() {
@@ -339,7 +336,7 @@ class IncomingCallController: UIViewController {
         //initialize call duration into calling label, condition show hours value only when it reaches an hour
         callingDurationLabel.text = hour == 0 ? minuteStr + ":" + secondStr : hourStr + ":" + minuteStr + ":" + secondStr
         
-        if IncomingCallController.CheckLinphoneCallState() == LINPHONE_CALLSTREAM_RUNNING {
+        if LinphoneManager.CheckLinphoneCallState() == LINPHONE_CALLSTREAM_RUNNING {
             //store active call duration
             callDuration = hour == 0 ? minuteStr + ":" + secondStr : hourStr + ":" + minuteStr + ":" + secondStr
         }
@@ -350,7 +347,7 @@ class IncomingCallController: UIViewController {
         }
         
         //remove interval when A accept the call and B end the call
-        if IncomingCallController.CheckLinphoneCallState() != LINPHONE_CALLSTREAM_RUNNING {
+        if LinphoneManager.CheckLinphoneCallState() != LINPHONE_CALLSTREAM_RUNNING {
             print(callDuration, "--- STH")
             
             //Set call duration when call is dropped
@@ -359,17 +356,14 @@ class IncomingCallController: UIViewController {
             setUpCallInProgressInterval?.invalidate()
         }
         
-        print(IncomingCallController.CheckLinphoneCallState(), "======")
+        print(LinphoneManager.CheckLinphoneCallState(), "===OKAY===")
     }
     
-    
     func PresentIncomingVC() {
-//        SaveCallLogDataToCoreData(_callIndicatorIcon: IncomingCallController.CallToAction == true ? "outgoing-call-icon" : "incoming-call-icon" , _callerName: IncomingCallController.CallToAction == true ? "" : LinphoneManager.getContactName(), _callerID: IncomingCallController.CallToAction == true ? IncomingCallController.dialPhoneNumber : LinphoneManager.getCallerNb())
-//        
         userCoreDataInstance.StoreCallDataLog(_callerID: IncomingCallController.CallToAction == true ? IncomingCallController.dialPhoneNumber : LinphoneManager.getCallerNb(), _callerName: IncomingCallController.CallToAction == true ? "" : LinphoneManager.getContactName(), _callDuration: callDuration, _callIndicatorIcon: IncomingCallController.CallToAction == true ? "outgoing-call-icon" : "incoming-call-icon")
         
         print("--- SAVED", IncomingCallController.dialPhoneNumber)
-        
+
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let newViewController = storyBoard.instantiateViewController(withIdentifier: "IncomingCallSB") as! IncomingCallController
         
