@@ -13,6 +13,17 @@ class AboutUsTableCell: UITableViewCell{
     @IBOutlet weak var Imageitem: UIImageView!
     @IBOutlet weak var titleItem: UILabel!
     @IBOutlet weak var decriptionItem: UITextView!
+    
+    
+    
+    func changeImageContentMode() {
+        if UI_USER_INTERFACE_IDIOM() == .pad {
+            Imageitem.contentMode = .scaleAspectFit
+        } else if UI_USER_INTERFACE_IDIOM() == .phone {
+            Imageitem.contentMode = .scaleToFill
+        }
+    }
+    
 }
 class AccommodationController:  UITableViewController {
     var accommodationData = [[String: AnyObject]]()
@@ -20,8 +31,12 @@ class AccommodationController:  UITableViewController {
     var selectedArticleImage: UIImage!
     var indexOfCellToExpand: Int!
     var expandedLabel: UILabel!
+
     override func viewDidLoad() {
+        
+        
         super.viewDidLoad()
+
         indexOfCellToExpand = -1
         let path =  Bundle.main.path(forResource: "AboutUs", ofType: "json")
         let jsonData = try? NSData(contentsOfFile: path!, options: NSData.ReadingOptions.mappedIfSafe)
@@ -46,6 +61,9 @@ class AccommodationController:  UITableViewController {
     }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "accommodationTableView", for: indexPath) as! AboutUsTableCell
+        
+        cell.changeImageContentMode()
+        
         let accommodation = self.accommodationData[indexPath.row]
         let photoURL = accommodation["Photo"] as! String
         let title = accommodation["Title"] as! String
@@ -121,6 +139,9 @@ class ActivityController: UITableViewController {
     //
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "activityTableView", for: indexPath) as! AboutUsTableCell
+        
+        cell.changeImageContentMode()
+        
         let ativity = self.ativityData[indexPath.row]
         let photoURL = ativity["Photo"] as! String
         let title = ativity["Title"] as! String
@@ -197,6 +218,8 @@ class  PropertyController: UITableViewController {
     //
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "propertyTableView", for: indexPath) as! AboutUsTableCell
+        
+        cell.changeImageContentMode()
         
         let property = self.propertyData[indexPath.row]
         let photoURL =  property["Photo"] as! String
