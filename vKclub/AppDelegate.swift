@@ -165,14 +165,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
         let dict = notification.request.content.userInfo["aps"] as! NSDictionary
         print (dict)
         
-//        let d : [String : Any] = dict["alert"] as! [String : Any]
-//        let body : String = d["body"] as! String
-//        let title : String = d["title"] as! String
-//        print("Title:\(title) + body:\(body)")
-//        personService.CreatnotificationCoredata(_notification_num: intmax_t(notification_num), _notification_body: body, _notification_title: title)
-//        // custom code to handle push while app is in the foreground
-//        print("Handle push from foreground\(notification.request.content.userInfo)")
-//        self.showAlertAppDelegate(title: title,message:body,buttonTitle:"ok",window:self.window!)
+        let d : [String : Any] = dict["alert"] as! [String : Any]
+        let body : String = d["body"] as! String
+        let title : String = d["title"] as! String
+        print("Title:\(title) + body:\(body)")
+        personService.CreatnotificationCoredata(_notification_num: intmax_t(notification_num), _notification_body: body, _notification_title: title)
+        // custom code to handle push while app is in the foreground
+        print("Handle push from foreground\(notification.request.content.userInfo)")
+        self.showAlertAppDelegate(title: "Hello there", message: title + ": " + body, buttonTitle:"Okay", window:self.window!)
     }
     
     @available(iOS 10.0, *)
@@ -182,13 +182,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
         let dict = response.notification.request.content.userInfo["aps"] as! NSDictionary
         print (dict)
         
-//        let d : [String : Any] = dict["alert"] as! [String : Any]
-//        let body : String = d["body"] as! String
-//        let title : String = d["title"] as! String
-//        print("Title:\(title) + body:\(body)")
-//        personService.CreatnotificationCoredata(_notification_num: intmax_t(notification_num), _notification_body: body, _notification_title: title)
-//        print("Handle push from background or closed\(response.notification.request.content.userInfo)")
-//        self.showAlertAppDelegate(title: title,message:body,buttonTitle:"ok",window:self.window!)
+        let d : [String : Any] = dict["alert"] as! [String : Any]
+        let body : String = d["body"] as! String
+        let title : String = d["title"] as! String
+        print("Title:\(title) + body:\(body)")
+        personService.CreatnotificationCoredata(_notification_num: intmax_t(notification_num), _notification_body: body, _notification_title: title)
+        print("Handle push from background or closed\(response.notification.request.content.userInfo)")
+        self.showAlertAppDelegate(title: "Hello there", message: title + ": " + body, buttonTitle:"Okay", window:self.window!)
         completionHandler()
     }
     // Alert Controller in AppDelegate

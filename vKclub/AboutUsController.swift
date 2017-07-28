@@ -223,9 +223,6 @@ class  PropertyController: UITableViewController {
         }
 }
 
-
-
-
 class AccommodationWebViewController: UIViewController{
     var accommodationData: [String: AnyObject]!
     @IBOutlet weak var webView: UIWebView!

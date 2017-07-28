@@ -75,6 +75,14 @@ class NotificationViewController: UITableViewController {
         return cell
     }
 
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        
+        //handle delete cell
+        if editingStyle == .delete {
+            print("call for delete row handling ===")
+            
+        }
+    }
 
     /*
      Override to support conditional editing of the table view.
