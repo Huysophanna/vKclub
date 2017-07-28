@@ -215,7 +215,15 @@ class IncomingCallController: UIViewController {
     }
     
     @IBAction func EndCallBtnClicked(_ sender: Any) {
-        IncomingCallController.EndCallFlag = true
+        if IncomingCallController.CheckLinphoneCallState() != LINPHONE_CALLSTREAM_RUNNING {
+            //decline call
+            LinphoneManager.endCall()
+            incomingCallFlags = false
+            releaseCallFlag = true
+            print(IncomingCallController.CheckLinphoneCallState(), "JONGMER==")
+        } else if IncomingCallController.CheckLinphoneCallState() == LINPHONE_CALLSTREAM_RUNNING {
+            IncomingCallController.EndCallFlag = true
+        }
     }
     
     @IBAction func DeclineCallBtnClicked(_ sender: Any) {

@@ -50,6 +50,8 @@ class DashboardController: UIViewController {
     }
     
     @IBAction func InternalCallBtn(_ sender: Any) {
+//        LinphoneManager.getLinphoneCallIdentify()
+        LinphoneManager.register(proxyConfig!)
         performSegue(withIdentifier: "PushInternalCall", sender: self)
     }
    
@@ -119,6 +121,9 @@ class DashboardController: UIViewController {
             KiriromScope.setTitle("Unidentified Mode", for: .normal)
             KiriromScope.setTitleColor(UIColor.red, for: .normal)
         }
+        
+        //Set linphoneCall identity
+        LinphoneManager.register(proxyConfig!)
         
     }
     

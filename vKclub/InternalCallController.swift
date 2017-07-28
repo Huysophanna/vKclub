@@ -10,13 +10,9 @@ import Foundation
 import UIKit
 
 class InternalCallController: UIViewController {
-
     @IBOutlet weak var numberTextField: UITextField!
-    
     var incomingCallInstance: IncomingCallController? = IncomingCallController()
-    
     var dialPhoneNumber: String = ""
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()

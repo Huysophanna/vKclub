@@ -3,6 +3,8 @@ import Foundation
 var answerCall: Bool = false
 let LINPHONE_CALLSTREAM_RUNNING = "LinphoneCallStreamsRunning"
 
+var proxyConfig: OpaquePointer? = nil
+
 struct theLinphone {
     static var lc: OpaquePointer?
     static var lct: LinphoneCoreVTable?
@@ -159,7 +161,7 @@ class LinphoneManager {
     
     static func makeCall(phoneNumber: String) {
         let calleeAccount = phoneNumber
-        
+//
 //        guard let _ = setIdentify() else {
 //            print("no identity")
 //            return;
@@ -167,6 +169,10 @@ class LinphoneManager {
         linphone_core_invite(theLinphone.lc, calleeAccount)
 //        setTimer()
 //        shutdown()
+    }
+    
+    static func getLinphoneCallIdentify() {
+        print(linphone_core_get_identity(lcOpaquePointerData), "==IDENTITY==")
     }
     
     static func receiveCall() {
@@ -191,8 +197,6 @@ class LinphoneManager {
 
     static func getCallerNb() -> String {
         let remoteAddr = linphone_address_as_string(linphone_call_get_remote_address(LinphoneManager.callOpaquePointerData))
-        
-        
         
         let remoteAddrStr:String? = String(cString: remoteAddr!)
         let delimiter = "\""
@@ -232,11 +236,8 @@ class LinphoneManager {
     }
     
     func idle() {
-        guard let proxyConfig = setIdentify() else {
-            print("no identity")
-            return;
-        }
-        register(proxyConfig)
+        proxyConfig = setIdentify()
+        LinphoneManager.register(proxyConfig!)
         setTimer()
 //        shutdown()
     }
@@ -251,12 +252,11 @@ class LinphoneManager {
 //        let password = dict?.object(forKey: "password") as! String
 //        let domain = dict?.object(forKey: "domain") as! String
         
-        let account = "1000000"
+        let account = "10100"
         let password = "A2apbx10100"
         let domain = "192.168.7.251:5060"
         
         let identity = "sip:" + account + "@" + domain;
-        
 
         /*create proxy config*/
         let proxy_cfg = linphone_proxy_config_new();
@@ -286,7 +286,7 @@ class LinphoneManager {
         return proxy_cfg!
     }
     
-    func register(_ proxy_cfg: OpaquePointer){
+    static func register(_ proxy_cfg: OpaquePointer){
         linphone_proxy_config_enable_register(proxy_cfg, 1); /* activate registration for this proxy config*/
     }
     
