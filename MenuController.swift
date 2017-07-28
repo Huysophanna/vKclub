@@ -3,6 +3,7 @@ import CoreData
 import Firebase
 import Photos
 import MessageUI
+import FBSDKLoginKit
 
 
 class MenuController: UIViewController,UIImagePickerControllerDelegate, UINavigationControllerDelegate,MFMessageComposeViewControllerDelegate {
@@ -23,8 +24,6 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     @IBOutlet weak var EmailBtn: UILabel!
     @IBOutlet weak var EditBtn: UIButton!
     @IBOutlet weak var userName: UILabel!
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         imagePicker.delegate = self
@@ -64,6 +63,17 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     }
     
     @IBAction func Logout(_ sender: Any) {
+        let logoutAlert = UIAlertController(title: "Logout", message: "Are your sure to logout ?", preferredStyle: UIAlertControllerStyle.alert)
+        
+        logoutAlert.addAction(UIAlertAction(title: "Okay", style: .default, handler: { (action: UIAlertAction!) in
+            self.Logout()
+            
+        }))
+        logoutAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        self.present( logoutAlert, animated: true, completion: nil)
+    }
+    
+    func Logout(){
         personService.deleteAllData(entity: "UserProfile")
         personService.deleteAllData(entity: "SipCallData")
         try! Auth.auth().signOut()
@@ -74,6 +84,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
             self.present(newViewController, animated: true, completion: nil)
             
         }
+
     }
     
     @IBAction func AccProviderBtn(_ sender: Any) {
@@ -94,8 +105,17 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         if fb_lgoin == [] {
             if currentUser?.photoURL == nil {
             } else {
-                let data = try? Data(contentsOf: (currentUser?.photoURL)!)
-                
+                var  getFBimageUrl : URL = (currentUser?.photoURL)!
+                let str = currentUser?.photoURL?.absoluteString
+                let index = str?.index((str?.startIndex)!, offsetBy: 30)
+                let url : String = (str?.substring(to: index!))!
+                print(url)
+                if url == "https://scontent.xx.fbcdn.net/" {
+                    let FBImageUrl : String = "https://graph.facebook.com/"+FBSDKAccessToken.current().userID+"/picture?width=320&height=320"
+                    getFBimageUrl = URL(string:FBImageUrl)!
+                }
+
+                let data = try? Data(contentsOf: (getFBimageUrl))
                 if data != nil {
                     let image = UIImage(data: data!)
                     let newimag = UIComponentHelper.resizeImage(image: image!, targetSize: CGSize(width: 400, height: 400))
@@ -311,7 +331,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
             let newImage = UIComponentHelper.resizeImage(image: setectImage, targetSize: CGSize(width: 400, height: 400))
             let imageProfiles = UIImagePNGRepresentation(newImage)
             let riversRef = storageRef.child("userprofile-photo").child((currentUser?.displayName)!)
-            _ = riversRef.putData(imageProfiles! , metadata: nil) { (metadata, error) in
+            riversRef.putData(imageProfiles! , metadata: nil) { (metadata, error) in
                 guard let metadata = metadata else {
                         return
                 }

@@ -146,9 +146,8 @@ class MapController: UIViewController,GMSMapViewDelegate,CLLocationManagerDelega
             marker.title = currentDestination.title
             marker.snippet = currentDestination.dec
             marker.icon = UIImage(named: "marker")
-
             marker.map = mapView
-           
+            
             
         }          
     } 

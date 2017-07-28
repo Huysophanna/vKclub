@@ -44,11 +44,28 @@ class LoginController: UIViewController {
                     print("Failed to get access token")
                     return
                 }
+               
                 let credential = FacebookAuthProvider.credential(withAccessToken: accessToken.tokenString)
                 Auth.auth().signIn(with: credential, completion: { (user, error) in
                     if error == nil {
                         if let currentUser = Auth.auth().currentUser {
-                            self.getDataFromUrl(url: currentUser.photoURL!){
+                            var getFBimageUrl  : URL = currentUser.photoURL!
+                            print (getFBimageUrl,"befor++")
+                            let str = currentUser.photoURL?.absoluteString
+                            let index = str?.index((str?.startIndex)!, offsetBy: 30)
+                            let url : String = (str?.substring(to: index!))!
+                            print(url)
+                            if url == "https://scontent.xx.fbcdn.net/" {
+                                let FBImageUrl : String = "https://graph.facebook.com/"+FBSDKAccessToken.current().userID+"/picture?width=320&height=320"
+                                getFBimageUrl = URL(string:FBImageUrl)!
+                            }
+                            let chageProfileuser = currentUser.createProfileChangeRequest()
+                            print(getFBimageUrl,"after++")
+                            chageProfileuser.photoURL = getFBimageUrl
+                            chageProfileuser.commitChanges { (error) in
+                                
+                            }
+                            self.getDataFromUrl(url: getFBimageUrl){
                             (data, response, error)  in
                                 guard let data = data, error == nil
                                     else {
