@@ -84,7 +84,7 @@ class AccommodationController:  UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let detailsVC = segue.destination as! AccommodationWebViewController
         detailsVC.accommodationData = selectedArticle
-        }
+    }
 }
 
 

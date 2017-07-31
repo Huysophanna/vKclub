@@ -16,6 +16,7 @@ import FirebaseMessaging
 let appDelegate = UIApplication.shared.delegate as! AppDelegate
 let manageObjectContext  = appDelegate.persistentContainer.viewContext
 var databaseRef = Database.database().reference()
+var userName : String = "Oudom"
 
 
 @UIApplicationMain
@@ -111,6 +112,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
                         if user?.displayName == nil && user?.photoURL == nil{
                             print("Wait")  
                         } else {
+                            userName = (user?.displayName)!
                             self.Dashboard()
                         }
                     case "password":
@@ -118,6 +120,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
                             print("Wait")
                         } else {
                             if (user?.isEmailVerified )! {
+                                userName = (user?.displayName)!
                                 self.Dashboard()
                             } else {
                                 print("No verified")
@@ -160,11 +163,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
    
     @available(iOS 10.0, *)
     func userNotificationCenter(_ center: UNUserNotificationCenter,  willPresent notification: UNNotification, withCompletionHandler   completionHandler: @escaping (_ options:   UNNotificationPresentationOptions) -> Void) {
-        
+        UIApplication.topViewController()?.dismiss(animated: true, completion: nil)
         notification_num += 1
-       
-       
-        
         let dict = notification.request.content.userInfo["aps"] as! NSDictionary
         print (dict)
         
@@ -175,7 +175,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
         personService.CreatnotificationCoredata(_notification_num: intmax_t(notification_num), _notification_body: body, _notification_title: title)
         // custom code to handle push while app is in the foreground
         print("Handle push from foreground\(notification.request.content.userInfo)")
-        self.showAlertAppDelegate(title: "Hello there", message: title + ": " + body, buttonTitle:"Okay", window:self.window!)
+        self.showAlertAppDelegate(title: "Hello "+userName, message: title + ": " + body, buttonTitle:"Okay", window:self.window!)
         
     }
     
@@ -191,7 +191,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
         print("Title:\(title) + body:\(body)")
         personService.CreatnotificationCoredata(_notification_num: intmax_t(notification_num), _notification_body: body, _notification_title: title)
         print("Handle push from background or closed\(response.notification.request.content.userInfo)")
-        self.showAlertAppDelegate(title: "Hello there", message: title + ": " + body, buttonTitle:"Okay", window:self.window!)
+        self.showAlertAppDelegate(title: "Hello "+userName, message: title + ": " + body, buttonTitle:"Okay", window:self.window!)
         
         completionHandler()
     }

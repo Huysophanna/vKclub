@@ -213,7 +213,6 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
                                     UIApplication.shared.openURL(settingsURL as URL)
                             }
                                 
-                           
                         }))
                         LocationPermissionAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler:{ (action: UIAlertAction!) in
                             

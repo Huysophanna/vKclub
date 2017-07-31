@@ -61,9 +61,7 @@ class SettingController: UIViewController,UNUserNotificationCenterDelegate,UIApp
                 let notificationPermissionAlert = UIAlertController(title: "Notifications disabled for vKclub App", message: "Please enable Notifications by Clicking Okay", preferredStyle: UIAlertControllerStyle.alert)
                 
                 notificationPermissionAlert.addAction(UIAlertAction(title: "Okay", style: .default, handler: { (action: UIAlertAction!) in
-                    if let settingsURL = NSURL(string: UIApplicationOpenSettingsURLString) {
-                        UIApplication.shared.openURL(settingsURL as URL)
-                    }
+                   UIApplication.shared.open(URL(string:UIApplicationOpenSettingsURLString)!, options: [:], completionHandler:nil)
                 }))
                 notificationPermissionAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler:{ (action: UIAlertAction!) in
                     self.NotificationSetting.isOn = false

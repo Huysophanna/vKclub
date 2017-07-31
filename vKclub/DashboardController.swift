@@ -183,11 +183,9 @@ class DashboardController: UIViewController {
         
         LocationPermissionAlert.addAction(UIAlertAction(title: "Okay", style: .default, handler: { (action: UIAlertAction!) in
             if INAPP_UNIDENTIFIEDSetting {
-                if let settingsURL = NSURL(string: UIApplicationOpenSettingsURLString) {
-                    UIApplication.shared.openURL(settingsURL as URL)
-                }
-                
-             } else{
+               
+                UIApplication.shared.open(URL(string:UIApplicationOpenSettingsURLString)!, options: [:], completionHandler:nil)
+            } else{
                 UIApplication.shared.open(URL(string:"App-Prefs:root=Privacy")!, options: [:], completionHandler: nil)
 
              }

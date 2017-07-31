@@ -12,8 +12,10 @@ import CoreData
 class NotificationTableViewCell: UITableViewCell {
     
     @IBOutlet weak var notitfication_body: UILabel!
+    @IBOutlet weak var viewNotifictionBtn: UIButton!
     @IBOutlet weak var notification_title: UILabel!
     override func awakeFromNib() {
+        
         super.awakeFromNib()
         // Initialization code
     }
@@ -23,6 +25,7 @@ class NotificationTableViewCell: UITableViewCell {
         
         // Configure the view for the selected state
     }
+
     
 }
 
@@ -32,15 +35,12 @@ class NotificationViewController: UITableViewController {
     @IBOutlet weak var ViewofClearnotification: UIView!
     
     @IBOutlet weak var Imgae: UIImageView!
-   
     @IBOutlet weak var text: UILabel!
     var notifications = [Notifications]()
     let personService = UserProfileCoreData()
     override func viewDidLoad() {
         super.viewDidLoad()
         loadData()
-        
-
     }
     
     
@@ -90,9 +90,11 @@ class NotificationViewController: UITableViewController {
         let notificationItem = notifications[indexPath.row]
         cell.notification_title.text = notificationItem.notification_title
         cell.notitfication_body.text = notificationItem.notification_body
+        cell.viewNotifictionBtn.tag = indexPath.row
+        cell.viewNotifictionBtn.addTarget(self, action: #selector(HandleViewNotification), for: .touchUpInside)
         return cell
     }
-    func HandleDeleteCallTableCell(_cellIndex: IndexPath, _reverseIndex: IndexPath) {
+    func HandleDeleteNotificationTableCell(_cellIndex: IndexPath, _reverseIndex: IndexPath) {
         let callLogDataItem = notifications[_reverseIndex.row]
         notifications.remove(at: _reverseIndex.row)
         do {
@@ -103,12 +105,17 @@ class NotificationViewController: UITableViewController {
         }
         self.tableView.deleteRows(at: [_cellIndex], with: .automatic)
     }
+    @IBAction func HandleViewNotification(sender : UIButton){
+        let alertNotificationData = notifications[sender.tag]
+        
+        PresentAlertController(title: alertNotificationData.notification_title!, message: alertNotificationData.notification_body!, actionTitle: "Okay")
+    }
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         let lastRow: Int = self.tableView.numberOfRows(inSection: 0) - (indexPath.row + 1)
         let reverseIndexPath = IndexPath(row: lastRow, section: 0)
         //handle delete cell
         if editingStyle == .delete {
-            HandleDeleteCallTableCell(_cellIndex: indexPath, _reverseIndex: reverseIndexPath)
+            HandleDeleteNotificationTableCell(_cellIndex: indexPath, _reverseIndex: reverseIndexPath)
             
         }
         if notifications.count == 0 {
@@ -121,56 +128,8 @@ class NotificationViewController: UITableViewController {
         
         
     }
-
-    /*
-     Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-         Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-     Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-             Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-             Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-     Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-     Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-         Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-     MARK: - Navigation
-
-     In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-         Get the new view controller using segue.destinationViewController.
-         Pass the selected object to the new view controller.
-    }
-    */
-    @IBAction func CancelBtn(_ sender: Any) {
+  @IBAction func CancelBtn(_ sender: Any) {
          dismiss(animated: true, completion: nil)
-        
-        
-        
     }
     
     @IBAction func ClearNotification(_ sender: Any) {
@@ -182,8 +141,5 @@ class NotificationViewController: UITableViewController {
         self.tableView.reloadData()
         
     }
-    
-
-    
 
 }

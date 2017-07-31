@@ -1093,6 +1093,7 @@
                                 <connections>
                                     <outlet property="notification_title" destination="YL2-WF-Qod" id="YuZ-Gw-340"/>
                                     <outlet property="notitfication_body" destination="Vhy-rc-1EV" id="vO1-lz-8EM"/>
+                                    <outlet property="viewNotifictionBtn" destination="Mee-LX-f50" id="LRT-Gl-pYJ"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -1226,9 +1227,6 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" red="0.10980392160000001" green="0.53725490200000003" blue="0.3294117647" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <state key="normal" title="Call Now"/>
-                                        <connections>
-                                            <segue destination="jCk-TN-Xcx" kind="show" identifier="SgGotoBookpage" id="90b-5f-oeK"/>
-                                        </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Activity" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wAZ-db-G60">
                                         <rect key="frame" x="19" y="300" width="126" height="32"/>
