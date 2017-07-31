@@ -25,6 +25,7 @@ class InternalCallController: UIViewController {
         }
         dialPhoneNumber = dialPhoneNumber + ((sender as AnyObject).titleLabel??.text)!
         numberTextField.text = dialPhoneNumber
+        
     }
     
     @IBAction func DelBtnClicked(_ sender: Any) {

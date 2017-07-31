@@ -2,6 +2,8 @@ import Foundation
 
 var answerCall: Bool = false
 let LINPHONE_CALLSTREAM_RUNNING = "LinphoneCallStreamsRunning"
+let LINPHONE_CALL_ERROR = "LinphoneCallError"
+
 
 var proxyConfig: OpaquePointer? = nil
 
@@ -63,6 +65,7 @@ let callStateChanged: LinphoneCoreCallStateChangedCb = {
         
         case LinphoneCallError: /**<The call encountered an error*/
             print("callStateChanged: LinphoneCallError", "====")
+            LinphoneManager.linphoneCallErrorIndicator = true
         break
         
         case LinphoneCallReleased:
@@ -79,7 +82,8 @@ let callStateChanged: LinphoneCoreCallStateChangedCb = {
 
 class LinphoneManager {
     static let incomingCallInstance = IncomingCallController()
-    
+    static var linphoneCallStatus: String = ""
+    static var linphoneCallErrorIndicator = false
     static var callOpaquePointerData: Optional<OpaquePointer>
     static var lcOpaquePointerData: Optional<OpaquePointer>
     static var incomingCallFlag: Bool = false {
@@ -144,21 +148,7 @@ class LinphoneManager {
         let documentsPath: NSString = paths[0] as NSString
         return documentsPath.appendingPathComponent(file as String) as NSString
     }
-    
-    
-    //
-    // This is the start point to know how linphone library works.
-    //
-    
-    func demo() {
-//        makeCall()
-//        autoPickImcomingCall()
-        idle()
-//        LinphoneManager.IncomingCallHandle()
-//        makeCall(phoneNumber: "10050")
-        
-    }
-    
+
     static func makeCall(phoneNumber: String) {
         let calleeAccount = phoneNumber
 //
@@ -171,10 +161,6 @@ class LinphoneManager {
 //        shutdown()
     }
     
-    static func getLinphoneCallIdentify() {
-        print(linphone_core_get_identity(lcOpaquePointerData), "==IDENTITY==")
-    }
-    
     static func receiveCall() {
 //        guard let proxyConfig = setIdentify() else {
 //            print("no identity")
@@ -184,6 +170,19 @@ class LinphoneManager {
         linphone_core_accept_call(theLinphone.lc, LinphoneManager.callOpaquePointerData)
 //        setTimer()
 //        shutdown()
+    }
+    
+    static func CheckLinphoneCallState() -> String {
+        if LinphoneManager.callOpaquePointerData != nil {
+            let callStateRawValue = linphone_call_state_to_string(linphone_call_get_state(LinphoneManager.callOpaquePointerData))
+            let callState = String(cString: callStateRawValue!)
+            linphoneCallStatus = callState
+            
+            return callState
+        } else {
+            return "ERROR"
+        }
+        
     }
     
     static func muteMic() {
@@ -208,14 +207,18 @@ class LinphoneManager {
     }
     
     static func getContactName() -> String {
-        let remoteAddr = linphone_address_as_string(linphone_call_get_remote_address(LinphoneManager.callOpaquePointerData))
-        let remoteAddrStr:String? = String(cString: remoteAddr!)
-        let delimiter = "\""
-        var dividedRemodeAddrStr = remoteAddrStr?.components(separatedBy: delimiter)
-        
-        let contactName = dividedRemodeAddrStr?[1]
-        
-        return contactName!
+        print(LinphoneManager.callOpaquePointerData, "PPPP")
+        if LinphoneManager.callOpaquePointerData != nil {
+            let remoteAddr = linphone_address_as_string(linphone_call_get_remote_address(LinphoneManager.callOpaquePointerData))
+            let remoteAddrStr:String? = String(cString: remoteAddr!)
+            let delimiter = "\""
+            var dividedRemodeAddrStr = remoteAddrStr?.components(separatedBy: delimiter)
+            
+            let contactName = dividedRemodeAddrStr?[1]
+            
+            return contactName!
+        }
+        return ""
     }
     
     static func getCurrentCallDuration() -> (Int, Int, Int) {
@@ -235,7 +238,7 @@ class LinphoneManager {
         linphone_core_terminate_call(LinphoneManager.lcOpaquePointerData, LinphoneManager.callOpaquePointerData)
     }
     
-    func idle() {
+    func LinphoneInit() {
         proxyConfig = setIdentify()
         LinphoneManager.register(proxyConfig!)
         setTimer()
@@ -243,7 +246,6 @@ class LinphoneManager {
     }
     
     func setIdentify() -> OpaquePointer? {
-        
         // Reference: http://www.linphone.org/docs/liblinphone/group__registration__tutorials.html
         
 //        let path = Bundle.main.path(forResource: "Secret", ofType: "plist")

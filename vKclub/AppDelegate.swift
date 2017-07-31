@@ -45,7 +45,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         //notification
         self.linphoneManager = LinphoneManager()
-        linphoneManager?.demo()
+        linphoneManager?.LinphoneInit()
     
         let launchedBefore = UserDefaults.standard.bool(forKey: "launchedBefore")
         if launchedBefore  {

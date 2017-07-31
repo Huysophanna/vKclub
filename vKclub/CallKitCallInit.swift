@@ -76,12 +76,13 @@ class CallKitCallInit {
         
         requestTransaction(transaction)
         
-        if IncomingCallController.CheckLinphoneCallState() != LINPHONE_CALLSTREAM_RUNNING {
+        if LinphoneManager.CheckLinphoneCallState() != LINPHONE_CALLSTREAM_RUNNING {
             //decline call
             LinphoneManager.declineCall(_declinedReason: LinphoneReasonBusy)
             incomingCallInstance.incomingCallFlags = false
             incomingCallInstance.releaseCallFlag = true
-        } else if IncomingCallController.CheckLinphoneCallState() == LINPHONE_CALLSTREAM_RUNNING {
+            waitForStreamRunningInterval?.invalidate()
+        } else if LinphoneManager.CheckLinphoneCallState() == LINPHONE_CALLSTREAM_RUNNING {
             //end in progress call
             incomingCallInstance.endCallFlag = true
         }
