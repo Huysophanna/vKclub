@@ -32,7 +32,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         
         let provider = currentUser?.providerData
         
-        for i in provider!{
+        for i in provider! {
             let providerfb = i.providerID
             switch providerfb {
             case "facebook.com":
@@ -50,7 +50,6 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         }
         
         //make responsive rounded user profile picture
-        
         let checkDevice = UI_USER_INTERFACE_IDIOM()
         if checkDevice == .phone {
             imageProfile.frame = CGRect(x: EditBtn.frame.origin.x, y: imageProfile.bounds.width / 5, width: (view.bounds.width * 35) / 100, height: (view.bounds.width * 35) / 100)
@@ -102,13 +101,11 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     @IBAction func AccProviderBtn(_ sender: Any) {
         if EditBtn.tag == 0 {
             PresentAlertController(title: "FB Linked", message: "Your account link with Facebook", actionTitle: "Okay")
-            
-            
-        }else{
+        } else {
             performSegue(withIdentifier:"GotoEditProfile", sender: self)        }
     }
     
-    func FBProvider(){
+    func FBProvider() {
         userName.text =  currentUser?.displayName
         EmailBtn.text = currentUser?.email
         let facebookProvider = NSPredicate(format: "facebookProvider = 1")
@@ -172,7 +169,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         
         self.present(alertController, animated: true, completion: nil)
         
-        }
+    }
     
     func EmailProvider(){
         EditBtn.tag = 1
@@ -356,7 +353,10 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-         UIComponentHelper.PresentActivityIndicator(view: self.view, option: true)
+        
+        //show image button loading indicator when changing profile picture
+        imageProfile.loadingIndicator(true)
+        
         var selectedImageFromPicker : UIImage?
         print(info)
         if let editedImage = info["UIImagePickerControllerEditedImage"] as? UIImage {
@@ -378,9 +378,11 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
                 let url = NSURL(string: downloadURL) as URL?
                 let chageProfileimage = self.currentUser?.createProfileChangeRequest()
                 chageProfileimage?.photoURL =  url
-                chageProfileimage?.commitChanges { (error) in
-                }
-                UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
+                chageProfileimage?.commitChanges { (error) in }
+                
+                //dismiss image button loading indicator when done
+                self.imageProfile.loadingIndicator(false)
+                
                 self.imageProfile.setImage(setectImage, for: .normal)
                 // if Facebook login Update Image
                 if self.facebookCheck {

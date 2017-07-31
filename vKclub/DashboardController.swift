@@ -13,6 +13,7 @@ import CoreData
 var backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask(expirationHandler: nil)
 
 class DashboardController: UIViewController {
+    @IBOutlet weak var serviceImg: UIImageView!
     @IBOutlet weak var menuBtn: UIBarButtonItem!
     @IBOutlet weak var KiriromScope: UIButton!
     
@@ -46,6 +47,8 @@ class DashboardController: UIViewController {
     
     @IBAction func ServiceBtn(_ sender: Any) {
         performSegue(withIdentifier: "PushService", sender: self)
+        
+//        AnimateBtn(senderBtn: sender as! UIButton)
     }
     
     @IBAction func InternalCallBtn(_ sender: Any) {
@@ -86,9 +89,25 @@ class DashboardController: UIViewController {
 
     }
     
-// func for show the Slidemenu
+    //animate button on click
+    
+    func AnimateBtn(senderBtn: UIButton) {
+        UIView.animate(withDuration: 0.1, animations: {
+            self.serviceImg.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+            self.serviceImg.tintColor = UIColor.gray
+        }, completion: { animationFinished in
+            UIView.animate(withDuration: 0.1, animations: {
+                self.serviceImg.transform = CGAffineTransform.identity
+                self.serviceImg.tintColor = UIColor.white
+            })
+            
+        })
+    }
+    
+
+    
+    //Func for show the Slidemenu
     func Slidemenu() {
-        print(revealViewController())
         if revealViewController() != nil {
             menuBtn.target = self.revealViewController()
             menuBtn.action = #selector(SWRevealViewController.revealToggle(_:))
@@ -180,6 +199,7 @@ class DashboardController: UIViewController {
     @IBAction func NoticationBtn(_ sender: Any) {
         performSegue(withIdentifier: "GotoNotification", sender: self)
     }
+    
     func LocationPermission(INAPP_UNIDENTIFIEDSetting : Bool){
         let LocationPermissionAlert = UIAlertController(title: "Location disabled for vKclub App", message: "Please enable Location by Clicking Okay", preferredStyle: UIAlertControllerStyle.alert)
         
