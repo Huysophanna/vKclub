@@ -15,7 +15,6 @@ class RecentCallViewCell: UITableViewCell {
     @IBOutlet weak var callLogTimeLabel: UILabel!
     @IBOutlet weak var callerID: UILabel!
     @IBOutlet weak var timeStampLabel: UILabel!
-    
 }
 
 class RecentCallController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITabBarControllerDelegate {

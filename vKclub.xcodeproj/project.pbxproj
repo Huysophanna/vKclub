@@ -25,7 +25,6 @@
 		7FA8F7ED1F226DE700AE3EA2 /* ProviderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA8F7EC1F226DE700AE3EA2 /* ProviderDelegate.swift */; };
 		7FBF65ED1F0C0A8F00307BF3 /* IncomingCallController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FBF65EC1F0C0A8F00307BF3 /* IncomingCallController.swift */; };
 		7FE373701F25EDDA00051971 /* CallKitCallInit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FE3736F1F25EDDA00051971 /* CallKitCallInit.swift */; };
-		7FEB4BD11F21148C00BACBA4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7FEB4BCF1F21148C00BACBA4 /* Main.storyboard */; };
 		8F43A0EA78F773EEA1DEDAD0 /* Pods_vKclub.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CE35CA16D2A204E204DA562 /* Pods_vKclub.framework */; };
 		A924DEC21D07A5F80030A438 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = A99663E91D070507003B5EEE /* libz.tbd */; };
 		A924DEC81D07AC620030A438 /* linphonerc in Resources */ = {isa = PBXBuildFile; fileRef = A924DEC41D07AC620030A438 /* linphonerc */; };
@@ -110,7 +109,6 @@
 		C59D94C81F0756B3009103FA /* CoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C59D94C61F0756B3009103FA /* CoreData.xcdatamodeld */; };
 		C5A7BAB31F166F2E00744979 /* SettingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A7BAB21F166F2E00744979 /* SettingController.swift */; };
 		C5A7BAB51F16712C00744979 /* EditProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A7BAB41F16712C00744979 /* EditProfileController.swift */; };
-		C5AAE0ED1F192973002AEA8C /* NotificationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5AAE0EC1F192973002AEA8C /* NotificationTableViewCell.swift */; };
 		C5AAE0F11F19324D002AEA8C /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5AAE0F01F19324D002AEA8C /* NotificationViewController.swift */; };
 		C5AB9B541F1862E600ED4282 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C5AB9B531F1862E600ED4282 /* GoogleService-Info.plist */; };
 		C5CC29A01F19D0EA00072F8A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C5CC299F1F19D0EA00072F8A /* GoogleService-Info.plist */; };
@@ -157,7 +155,6 @@
 		7FA8F7EC1F226DE700AE3EA2 /* ProviderDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProviderDelegate.swift; sourceTree = SOURCE_ROOT; };
 		7FBF65EC1F0C0A8F00307BF3 /* IncomingCallController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IncomingCallController.swift; path = vKclub/IncomingCallController.swift; sourceTree = "<group>"; };
 		7FE3736F1F25EDDA00051971 /* CallKitCallInit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CallKitCallInit.swift; path = vKclub/CallKitCallInit.swift; sourceTree = "<group>"; };
-		7FEB4BD01F21148C00BACBA4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A924DEC41D07AC620030A438 /* linphonerc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = linphonerc; sourceTree = "<group>"; };
 		A924DEC51D07AC620030A438 /* linphonerc-factory */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "linphonerc-factory"; sourceTree = "<group>"; };
 		A924DECC1D07D2620030A438 /* Secret.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Secret.plist; sourceTree = "<group>"; };
@@ -265,7 +262,6 @@
 		C59D94C71F0756B3009103FA /* Coredata.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Coredata.xcdatamodel; sourceTree = "<group>"; };
 		C5A7BAB21F166F2E00744979 /* SettingController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingController.swift; sourceTree = "<group>"; };
 		C5A7BAB41F16712C00744979 /* EditProfileController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileController.swift; sourceTree = "<group>"; };
-		C5AAE0EC1F192973002AEA8C /* NotificationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationTableViewCell.swift; sourceTree = "<group>"; };
 		C5AAE0F01F19324D002AEA8C /* NotificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
 		C5AB9B531F1862E600ED4282 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C5CC299F1F19D0EA00072F8A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -522,7 +518,6 @@
 				C52C21C11F03DBE100B546E1 /* MenuController.swift */,
 				C5A7BAB21F166F2E00744979 /* SettingController.swift */,
 				C5A7BAB41F16712C00744979 /* EditProfileController.swift */,
-				C5AAE0EC1F192973002AEA8C /* NotificationTableViewCell.swift */,
 				C5AAE0F01F19324D002AEA8C /* NotificationViewController.swift */,
 				C515AF1C1F1FAAE40054A27D /* onboardingView.swift */,
 			);
@@ -794,7 +789,6 @@
 				7FA8F7ED1F226DE700AE3EA2 /* ProviderDelegate.swift in Sources */,
 				C5A7BAB31F166F2E00744979 /* SettingController.swift in Sources */,
 				7F1E24671F0247250090C7E7 /* UIComponentHelper.swift in Sources */,
-				C5AAE0ED1F192973002AEA8C /* NotificationTableViewCell.swift in Sources */,
 				C590B7741F10BE14002C67E3 /* (null) in Sources */,
 				7F1E246A1F0247250090C7E7 /* DashboardController.swift in Sources */,
 				C5AAE0F11F19324D002AEA8C /* NotificationViewController.swift in Sources */,
@@ -819,14 +813,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		7FEB4BCF1F21148C00BACBA4 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				7FEB4BD01F21148C00BACBA4 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		A996636D1D06F877003B5EEE /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (

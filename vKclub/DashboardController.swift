@@ -68,21 +68,20 @@ class DashboardController: UIViewController {
     
     @IBAction func ModeBtn(_ sender: Any) {
         switch CheckUserLocation() {
-            case IN_KIRIROM:
-                PresentAlertController(title: "In-Kirirom Mode", message: "Welcome to vKirirom. Experience full features of vKclub with In-Kirirom mode including Emergency SOS & Free internal phone call", actionTitle: "Okay")
-            break
-            case OFF_KIRIROM:
-                PresentAlertController(title: "Off-Kirirom Mode", message: "Emergency SOS & Free internal phone call features are not accessible for Off-Kirirom users.", actionTitle: "Okay")
-            break
-            case UNIDENTIFIED:
-                PresentAlertController(title: "Unidentified App Mode", message: "Location Permission Denied. Turn on Location Service to Determine your current location for App Mode: \n Setting > Privacy > Allo Location", actionTitle: "Okay")
+        case IN_KIRIROM:
+            PresentAlertController(title: "In-Kirirom Mode", message: "Welcome to vKirirom. Experience full features of vKclub with In-Kirirom mode including Emergency SOS & Free internal phone call", actionTitle: "Okay")
+        break
+        case OFF_KIRIROM:
+            PresentAlertController(title: "Off-Kirirom Mode", message: "Emergency SOS & Free internal phone call features are not accessible for Off-Kirirom users.", actionTitle: "Okay")
+        break
+        case UNIDENTIFIED:
+            LocationPermission(INAPP_UNIDENTIFIEDSetting: false)
             
-            break
-            case INAPP_UNIDENTIFIED:
-                LocationPermission()
-            break
-            default: break
-            
+        break
+        case INAPP_UNIDENTIFIED:
+            LocationPermission(INAPP_UNIDENTIFIEDSetting: true)
+        break
+        default: break
         }
 
     }
@@ -180,13 +179,20 @@ class DashboardController: UIViewController {
     @IBAction func NoticationBtn(_ sender: Any) {
         performSegue(withIdentifier: "GotoNotification", sender: self)
     }
-    func LocationPermission(){
+    func LocationPermission(INAPP_UNIDENTIFIEDSetting : Bool){
         let LocationPermissionAlert = UIAlertController(title: "Location disabled for vKclub App", message: "Please enable Location by Clicking Okay", preferredStyle: UIAlertControllerStyle.alert)
         
         LocationPermissionAlert.addAction(UIAlertAction(title: "Okay", style: .default, handler: { (action: UIAlertAction!) in
-            if let settingsURL = NSURL(string: UIApplicationOpenSettingsURLString) {
-                UIApplication.shared.openURL(settingsURL as URL)
-            }
+            if INAPP_UNIDENTIFIEDSetting {
+                if let settingsURL = NSURL(string: UIApplicationOpenSettingsURLString) {
+                    UIApplication.shared.openURL(settingsURL as URL)
+                }
+                
+             } else{
+                UIApplication.shared.open(URL(string:"App-Prefs:root=Privacy")!, options: [:], completionHandler: nil)
+
+             }
+            
         }))
          LocationPermissionAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler:{ (action: UIAlertAction!) in
             
