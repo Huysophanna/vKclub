@@ -48,19 +48,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
         self.linphoneManager = LinphoneManager()
         linphoneManager?.LinphoneInit()
     
-        let launchedBefore = UserDefaults.standard.bool(forKey: "launchedBefore")
-        if launchedBefore  {
-            let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            appDelegate.window = UIWindow(frame: UIScreen.main.bounds)
-            let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let yourVC = mainStoryboard.instantiateViewController(withIdentifier: "loginController") as!  LoginController
-            appDelegate.window?.rootViewController = yourVC
-            appDelegate.window?.makeKeyAndVisible()
-            
-        } else {
-            print("First launch, setting UserDefault.")
-            
-        }
+        
         
         
         // Remove border in navigationBar
@@ -133,6 +121,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
                     }
                 }
             }
+        }
+        let launchedBefore = UserDefaults.standard.bool(forKey: "launchedBefore")
+        if launchedBefore  {
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            appDelegate.window = UIWindow(frame: UIScreen.main.bounds)
+            let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let yourVC = mainStoryboard.instantiateViewController(withIdentifier: "loginController") as!  LoginController
+            appDelegate.window?.rootViewController = yourVC
+            appDelegate.window?.makeKeyAndVisible()
+            
+        } else {
+            print("First launch, setting UserDefault.")
+            
         }
         return true
     }

@@ -207,7 +207,6 @@ class LinphoneManager {
     }
     
     static func getContactName() -> String {
-        print(LinphoneManager.callOpaquePointerData, "PPPP")
         if LinphoneManager.callOpaquePointerData != nil {
             let remoteAddr = linphone_address_as_string(linphone_call_get_remote_address(LinphoneManager.callOpaquePointerData))
             let remoteAddrStr:String? = String(cString: remoteAddr!)

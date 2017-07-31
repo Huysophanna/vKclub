@@ -62,7 +62,6 @@ class ViewController: UIViewController, PaperOnboardingDataSource, PaperOnboardi
         }
         if index == 1 {
             skipBtn.isHidden = false
-            
             if self.getStartedButton.alpha == 1 {
                 UIView.animate(withDuration: 0.2, animations: {
                     self.getStartedButton.alpha = 0
@@ -71,7 +70,7 @@ class ViewController: UIViewController, PaperOnboardingDataSource, PaperOnboardi
             
         }
         if index == 2 {
-            
+            skipBtn.isHidden = false
             if self.getStartedButton.alpha == 1 {
                 UIView.animate(withDuration: 0.2, animations: {
                     self.getStartedButton.alpha = 0
@@ -80,7 +79,7 @@ class ViewController: UIViewController, PaperOnboardingDataSource, PaperOnboardi
             
         }
         if index == 3 {
-            
+            skipBtn.isHidden = false
             if self.getStartedButton.alpha == 1 {
                 UIView.animate(withDuration: 0.2, animations: {
                     self.getStartedButton.alpha = 0
@@ -89,8 +88,9 @@ class ViewController: UIViewController, PaperOnboardingDataSource, PaperOnboardi
             
         }
         if index == 4 {
-            
+            skipBtn.isHidden = false
             if self.getStartedButton.alpha == 1 {
+                
                 UIView.animate(withDuration: 0.2, animations: {
                     self.getStartedButton.alpha = 0
                 })

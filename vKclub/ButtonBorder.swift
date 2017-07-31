@@ -16,8 +16,8 @@ class ButtonBorder: UIButton {
 //        layer.borderWidth = 1
 //        layer.borderColor = UIColor.white.cgColor
         
-        let topBorder = UIView(frame: CGRect(x: 0,y:  0, width: frame.size.width * 2, height: 1))
-        let leftBorder = UIView(frame: CGRect(x: 0,y:  0, width: 1, height: frame.size.height * 2))
+        let topBorder = UIView(frame: CGRect(x: 0,y:  0, width: frame.size.width * 3, height: 1))
+        let leftBorder = UIView(frame: CGRect(x: 0,y:  0, width: 1, height: frame.size.height * 3))
         topBorder.backgroundColor = UIColor.white
         leftBorder.backgroundColor = UIColor.white
         addSubview(topBorder)

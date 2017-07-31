@@ -88,7 +88,7 @@ class LoginController: UIViewController {
                             UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
                             self.PresentAlertController(title: "Error", message: "Try again, because your internet conntion was too slow", actionTitle: "Okay")
                         } else {
-                            UserDefaults.standard.set(true, forKey: "loginBefore")
+                            
                             UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
                             let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
                             let newViewController = storyBoard.instantiateViewController(withIdentifier: "MainDashboard") as! SWRevealViewController
@@ -134,7 +134,7 @@ class LoginController: UIViewController {
                                 let image = data as NSData?
                                 self.create(username: (user?.displayName)!,email : (user?.email)!,facebook: false, imagData: image!  )
                                 }
-                        UserDefaults.standard.set(true, forKey: "loginBefore")
+                        
                         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
                         let newViewController = storyBoard.instantiateViewController(withIdentifier: "MainDashboard") as! SWRevealViewController
                         self.present(newViewController, animated: true, completion: nil)
