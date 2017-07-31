@@ -49,12 +49,22 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         }
         
         //make responsive rounded user profile picture
-        imageProfile.frame = CGRect(x: EditBtn.frame.origin.x, y: imageProfile.bounds.width / 5, width: (view.bounds.width * 35) / 100, height: (view.bounds.width * 35) / 100)
-        imageProfile.layer.cornerRadius = imageProfile.bounds.width / 2
-        imageProfile.imageView?.contentMode = .scaleAspectFill
-        imageProfile.contentHorizontalAlignment = .fill
-        imageProfile.contentVerticalAlignment = .fill
-
+        
+        let checkDevice = UI_USER_INTERFACE_IDIOM()
+        if checkDevice == .phone {
+            imageProfile.frame = CGRect(x: EditBtn.frame.origin.x, y: imageProfile.bounds.width / 5, width: (view.bounds.width * 35) / 100, height: (view.bounds.width * 35) / 100)
+            imageProfile.layer.cornerRadius = imageProfile.bounds.width / 2
+            imageProfile.imageView?.contentMode = .scaleAspectFill
+            imageProfile.contentHorizontalAlignment = .fill
+            imageProfile.contentVerticalAlignment = .fill
+        } else if checkDevice == .pad {
+            imageProfile.frame = CGRect(x: EditBtn.frame.origin.x + (EditBtn.frame.origin.x / 6), y: imageProfile.bounds.width / 3, width: (view.bounds.width * 25) / 100, height: (view.bounds.width * 25) / 100)
+            imageProfile.layer.cornerRadius = imageProfile.bounds.width / 2
+            imageProfile.imageView?.contentMode = .scaleAspectFill
+            imageProfile.contentHorizontalAlignment = .fill
+            imageProfile.contentVerticalAlignment = .fill
+        }
+        
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -63,7 +73,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     }
     
     @IBAction func Logout(_ sender: Any) {
-        let logoutAlert = UIAlertController(title: "Logout", message: "Are your sure to logout ?", preferredStyle: UIAlertControllerStyle.alert)
+        let logoutAlert = UIAlertController(title: "Logout", message: "Are your sure to logout?", preferredStyle: UIAlertControllerStyle.alert)
         
         logoutAlert.addAction(UIAlertAction(title: "Okay", style: .default, handler: { (action: UIAlertAction!) in
             self.Logout()

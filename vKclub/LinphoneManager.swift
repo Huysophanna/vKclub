@@ -207,7 +207,6 @@ class LinphoneManager {
     }
     
     static func getContactName() -> String {
-        print(LinphoneManager.callOpaquePointerData, "PPPP")
         if LinphoneManager.callOpaquePointerData != nil {
             let remoteAddr = linphone_address_as_string(linphone_call_get_remote_address(LinphoneManager.callOpaquePointerData))
             let remoteAddrStr:String? = String(cString: remoteAddr!)
@@ -254,8 +253,8 @@ class LinphoneManager {
 //        let password = dict?.object(forKey: "password") as! String
 //        let domain = dict?.object(forKey: "domain") as! String
         
-        let account = "1111232"
-        let password = "A2apbx10100"
+        let account = "10099"
+        let password = "A2apbx10099"
         let domain = "192.168.7.251:5060"
         
         let identity = "sip:" + account + "@" + domain;

@@ -68,20 +68,20 @@ class DashboardController: UIViewController {
     
     @IBAction func ModeBtn(_ sender: Any) {
         switch CheckUserLocation() {
-        case IN_KIRIROM:
-            PresentAlertController(title: "In-Kirirom Mode", message: "Welcome to vKirirom. Experience full features of vKclub with In-Kirirom mode including Emergency SOS & Free internal phone call", actionTitle: "Okay")
-        break
-        case OFF_KIRIROM:
-            PresentAlertController(title: "Off-Kirirom Mode", message: "Emergency SOS & Free internal phone call features are not accessible for Off-Kirirom users.", actionTitle: "Okay")
-        break
-        case UNIDENTIFIED:
-            LocationPermission(INAPP_UNIDENTIFIEDSetting: false)
+            case IN_KIRIROM:
+                PresentAlertController(title: "In-Kirirom Mode", message: "Welcome to vKirirom. Experience full features of vKclub with In-Kirirom mode including Emergency SOS & Free internal phone call", actionTitle: "Okay")
+            break
+            case OFF_KIRIROM:
+                PresentAlertController(title: "Off-Kirirom Mode", message: "Emergency SOS & Free internal   phone call features are not accessible for Off-Kirirom users.", actionTitle: "Okay")
+            break
+            case UNIDENTIFIED:
+                LocationPermission(INAPP_UNIDENTIFIEDSetting: false)
             
-        break
-        case INAPP_UNIDENTIFIED:
-            LocationPermission(INAPP_UNIDENTIFIEDSetting: true)
-        break
-        default: break
+            break
+            case INAPP_UNIDENTIFIED:
+                LocationPermission(INAPP_UNIDENTIFIEDSetting: true)
+            break
+            default: break
         }
 
     }
