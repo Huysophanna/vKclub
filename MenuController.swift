@@ -28,6 +28,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         super.viewDidLoad()
         imagePicker.delegate = self
         self.imagePicker.allowsEditing = true
+        UserDefaults.standard.set(true, forKey: "loginBefore")
         
         let provider = currentUser?.providerData
         
@@ -74,6 +75,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     }
     
     func Logout(){
+        UserDefaults.standard.set(false, forKey: "loginBefore")
         personService.deleteAllData(entity: "UserProfile")
         personService.deleteAllData(entity: "SipCallData")
         try! Auth.auth().signOut()

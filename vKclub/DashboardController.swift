@@ -88,6 +88,7 @@ class DashboardController: UIViewController {
     
 // func for show the Slidemenu
     func Slidemenu() {
+        print(revealViewController())
         if revealViewController() != nil {
             menuBtn.target = self.revealViewController()
             menuBtn.action = #selector(SWRevealViewController.revealToggle(_:))

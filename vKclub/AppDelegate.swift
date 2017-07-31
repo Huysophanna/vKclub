@@ -17,6 +17,7 @@ let appDelegate = UIApplication.shared.delegate as! AppDelegate
 let manageObjectContext  = appDelegate.persistentContainer.viewContext
 var databaseRef = Database.database().reference()
 var userName : String = "Oudom"
+var alert = UIAlertController(title: "test", message: "test", preferredStyle: UIAlertControllerStyle.alert)
 
 
 @UIApplicationMain
@@ -163,7 +164,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
    
     @available(iOS 10.0, *)
     func userNotificationCenter(_ center: UNUserNotificationCenter,  willPresent notification: UNNotification, withCompletionHandler   completionHandler: @escaping (_ options:   UNNotificationPresentationOptions) -> Void) {
-        UIApplication.topViewController()?.dismiss(animated: true, completion: nil)
+        alert.dismiss(animated: true, completion: nil)
         notification_num += 1
         let dict = notification.request.content.userInfo["aps"] as! NSDictionary
         print (dict)
@@ -197,7 +198,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
     }
     // Alert Controller in AppDelegate
     func showAlertAppDelegate(title: String,message : String,buttonTitle: String,window: UIWindow){
-        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
+        alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: buttonTitle, style: UIAlertActionStyle.default, handler: nil))
         window.rootViewController?.present(alert, animated: false, completion: nil)
     }

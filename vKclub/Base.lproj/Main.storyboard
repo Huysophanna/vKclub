@@ -245,7 +245,7 @@
                             <inset key="imageInsets" minX="-20" minY="16" maxX="0.0" maxY="13"/>
                             <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </barButtonItem>
-                        <button key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="J2d-ry-wLA" customClass="RoundButton" customModule="vKclub" customModuleProvider="target">
+                        <button key="titleView" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="J2d-ry-wLA" customClass="RoundButton" customModule="vKclub" customModuleProvider="target">
                             <rect key="frame" x="119.5" y="12" width="175" height="20"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1433,7 +1433,7 @@
             <objects>
                 <navigationController title="Nav Dashboard" automaticallyAdjustsScrollViewInsets="NO" id="BCS-x1-0Ov" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="7mV-p2-rx5">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="7mV-p2-rx5">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.0" green="0.50196081400000003" blue="0.25098040700000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -1693,7 +1693,7 @@
             <objects>
                 <navigationController title="Setting " automaticallyAdjustsScrollViewInsets="NO" id="FDM-nb-cqY" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="593-nz-exy">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="593-nz-exy">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="0.25098040700000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -1792,7 +1792,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="RQC-c3-qVZ" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="x6O-AM-ljS">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="x6O-AM-ljS">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="0.25098040700000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -1812,7 +1812,7 @@
             <objects>
                 <navigationController storyboardIdentifier="NotificationNav" title="Notificaation Nav" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="6G4-rs-krt" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="kRJ-Ku-5Rj">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="kRJ-Ku-5Rj">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="0.25098040700000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -1880,9 +1880,7 @@
                                 </state>
                                 <connections>
                                     <action selector="gotStarted:" destination="kyH-gu-ETi" eventType="touchUpInside" id="LQQ-8O-YdA"/>
-                                    <segue destination="HRX-3u-gR7" kind="popoverPresentation" popoverAnchorView="FVT-bw-RcL" id="0gy-tH-TZT">
-                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
-                                    </segue>
+                                    <segue destination="HRX-3u-gR7" kind="presentation" id="0gy-tH-TZT"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -2087,7 +2085,7 @@
             <objects>
                 <navigationController title="Bookpage Nav" automaticallyAdjustsScrollViewInsets="NO" id="jCk-TN-Xcx" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="fwm-ZH-MwA">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="fwm-ZH-MwA">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="0.25098040700000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -2127,7 +2125,7 @@
         <image name="white_logo" width="1024" height="1024"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="qbb-ZR-V3H"/>
+        <segue reference="0gy-tH-TZT"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
 </document>
