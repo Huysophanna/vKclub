@@ -253,7 +253,7 @@ class AccommodationWebViewController: UIViewController{
     let internetConnection = InternetConnection()
     override func viewDidLoad() {
         super.viewDidLoad()
-        if internetConnection.isConnectedToNetwork() {
+        if InternetConnection.isConnectedToNetwork() {
             noInternet.alpha = 0
             
         } else{
@@ -278,14 +278,13 @@ class AccommodationWebViewController: UIViewController{
 }
 
 
-class AtivityWebViewController: UIViewController{
+class AtivityWebViewController: UIViewController {
     var ativityData: [String: AnyObject]!
     @IBOutlet weak var noInternet: UILabel!
     @IBOutlet weak var webView: UIWebView!
-    let internetConnection = InternetConnection()
     override func viewDidLoad() {
         super.viewDidLoad()
-        if internetConnection.isConnectedToNetwork() {
+        if InternetConnection.isConnectedToNetwork() {
             noInternet.alpha = 0
             print("have internet")
         } else{
@@ -316,10 +315,9 @@ class PropertyWebViewController: UIViewController {
     var propertyData: [String: AnyObject]!
     @IBOutlet weak var webView: UIWebView!
     @IBOutlet weak var noInternet: UILabel!
-    let internetConnection = InternetConnection()
     override func viewDidLoad() {
         super.viewDidLoad()
-        if internetConnection.isConnectedToNetwork() {
+        if InternetConnection.isConnectedToNetwork() {
             noInternet.alpha = 0
         } else{
             self.PresentAlertController(title: "Something went wrong", message: "Please Check you internet connection ", actionTitle: "Got it")

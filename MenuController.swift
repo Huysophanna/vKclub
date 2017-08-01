@@ -14,7 +14,6 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     let storageRef = Storage.storage().reference()
     let currentUser = Auth.auth().currentUser
     var loginControllerInstance: LoginController = LoginController()
-    let internetConnection = InternetConnection()
     var facebookCheck : Bool = false
     @IBOutlet weak var EmergencyBtn: UIButton!
     @IBOutlet weak var contactBtn: UIButton!
@@ -114,6 +113,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         let facebookProvider = NSPredicate(format: "facebookProvider = 1")
         let fb_lgoin = personService.getUserProfile(withPredicate: facebookProvider)
         EditBtn.setTitle("FBLinked", for: .normal)
+        print(fb_lgoin,"++'")
         if fb_lgoin == [] {
             if currentUser?.photoURL == nil {
             } else {
@@ -121,7 +121,6 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
                 let str = currentUser?.photoURL?.absoluteString
                 let index = str?.index((str?.startIndex)!, offsetBy: 30)
                 let url : String = (str?.substring(to: index!))!
-                print(url)
                 if url == "https://scontent.xx.fbcdn.net/" {
                     let FBImageUrl : String = "https://graph.facebook.com/"+FBSDKAccessToken.current().userID+"/picture?width=320&height=320"
                     getFBimageUrl = URL(string:FBImageUrl)!
@@ -131,7 +130,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
                 if data != nil {
                     let image = UIImage(data: data!)
                     let newimag = UIComponentHelper.resizeImage(image: image!, targetSize: CGSize(width: 400, height: 400))
-                    imageProfile.setImage(newimag, for: .normal)
+                    imageProfile.setImage(image, for: .normal)
                 }
             }
         } else {
@@ -203,7 +202,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
   }
     
     func TakePhoto(){
-        if internetConnection.isConnectedToNetwork() {
+        if InternetConnection.isConnectedToNetwork() {
             print("have internet")
         } else{
             self.PresentAlertController(title: "Something went wrong", message: "Can not upload to server. Please Check you internet connection ", actionTitle: "Got it")
@@ -221,10 +220,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
                         
                         LocationPermissionAlert.addAction(UIAlertAction(title: "Okay", style: .default, handler: { (action: UIAlertAction!) in
                            
-                            if let settingsURL = NSURL(string: UIApplicationOpenSettingsURLString) {
-                                    UIApplication.shared.openURL(settingsURL as URL)
-                            }
-                                
+                            UIApplication.shared.open(URL(string:UIApplicationOpenSettingsURLString)!, options: [:], completionHandler:nil)                                
                         }))
                         LocationPermissionAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler:{ (action: UIAlertAction!) in
                             
@@ -244,7 +240,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     }
     
     func SelectPhotoFromLibrary(){
-        if internetConnection.isConnectedToNetwork() {
+        if InternetConnection.isConnectedToNetwork() {
             print("have internet")
         } else {
             self.PresentAlertController(title: "Something went wrong", message: "Can not upload to server. Please Check you internet connection ", actionTitle: "Got it")
@@ -356,9 +352,8 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-         UIComponentHelper.PresentActivityIndicator(view: self.view, option: true)
+        UIComponentHelper.PresentActivityIndicator(view: self.view, option: true)
         var selectedImageFromPicker : UIImage?
-        print(info)
         if let editedImage = info["UIImagePickerControllerEditedImage"] as? UIImage {
             selectedImageFromPicker = editedImage
         } else if let originalImage = info["UIImagePickerControllerOriginalImage"] as? UIImage{

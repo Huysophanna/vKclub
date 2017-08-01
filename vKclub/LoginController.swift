@@ -19,6 +19,8 @@ class LoginController: UIViewController {
     @IBOutlet weak var signInBtn: UIButton!
     @IBOutlet weak var signInFBBtn: UIButton!
     let User = UserProfile(context: manageObjectContext)
+    var second = 0
+    var countTimer = Timer()
     override func viewDidLoad() {
         super.viewDidLoad()
         UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
@@ -29,7 +31,10 @@ class LoginController: UIViewController {
         //Btn Call Function FBSignIn
         signInFBBtn.addTarget(self, action: #selector(FBSignIn), for: .touchUpInside)
     }
+    
     func FBSignIn(){
+        self.second = 0
+        self.countTimer.invalidate()
         UIComponentHelper.PresentActivityIndicator(view: self.view, option: true)
         let fbLoginManager = FBSDKLoginManager()
         fbLoginManager.logIn(withReadPermissions: ["public_profile", "email"], from: self) { (result, error) in
@@ -44,11 +49,22 @@ class LoginController: UIViewController {
                     print("Failed to get access token")
                     return
                 }
-               
+                
+                self.countTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.CountSecond), userInfo: nil, repeats: true)
+                
                 let credential = FacebookAuthProvider.credential(withAccessToken: accessToken.tokenString)
                 Auth.auth().signIn(with: credential, completion: { (user, error) in
+                    
+                    if self.second == 7 {
+                        self.countTimer.invalidate()
+                        self.second = 0
+                        return
+                    }
+                    
                     if error == nil {
-                        if let currentUser = Auth.auth().currentUser {
+                            self.countTimer.invalidate()
+                            self.second = 0
+                            if let currentUser = Auth.auth().currentUser {
                             var getFBimageUrl  : URL = currentUser.photoURL!
                             print (getFBimageUrl,"befor++")
                             let str = currentUser.photoURL?.absoluteString
@@ -84,16 +100,16 @@ class LoginController: UIViewController {
                             }
                         }
 
-                        if (user?.email == nil && user?.displayName == nil ) {
-                            UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
-                            self.PresentAlertController(title: "Error", message: "Try again, because your internet conntion was too slow", actionTitle: "Okay")
-                        } else {
+                        
                             
                             UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
                             let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
                             let newViewController = storyBoard.instantiateViewController(withIdentifier: "MainDashboard") as! SWRevealViewController
-                            self.present(newViewController, animated: true, completion: nil)     
-                        }   
+                            self.present(newViewController, animated: true, completion: nil)
+                        
+                            
+                        
+                        
                     } else {
                         UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
                         let alertController = UIAlertController(title: "Login Error", message: error?.localizedDescription, preferredStyle: .alert)
@@ -192,6 +208,15 @@ class LoginController: UIViewController {
             firstPerson.username  = username
             firstPerson.email     = email
             personService.updateUserProfile(_updatedPerson: firstPerson)
+        }
+    }
+    
+    func CountSecond(){
+        second += 1
+        if self.second == 7 {
+            self.countTimer.invalidate()
+            UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
+            self.PresentAlertController(title: "Error", message: "Try again, because your internet conntion was too slow", actionTitle: "Okay")
         }
     }
 }

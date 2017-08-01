@@ -28,14 +28,14 @@ class DashboardController: UIViewController {
     var long: Double = 0
     
     override func viewDidLoad() {
-        super.viewDidLoad()
+        UserDefaults.standard.set(true, forKey: "loginBefore")
         //init background task for incoming call
         backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask(expirationHandler: nil)
         
         UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
         Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.isKirirom), userInfo: nil, repeats: true)
+//        Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(isConnectedToNetwork), userInfo: nil, repeats: true)
         Slidemenu()
-
         KiriromScope.setTitle("Identifying", for: .normal)
     }
     
@@ -124,6 +124,9 @@ class DashboardController: UIViewController {
         
         //Set linphoneCall identity
         LinphoneManager.register(proxyConfig!)
+        
+        //Check whether user is connected to the internet
+        InternetConnection.isConnected = InternetConnection.isConnectedToNetwork()
         
         //Check linphone status
 //        LinphoneManager.linphoneCallStatus = LinphoneManager.CheckLinphoneCallState()

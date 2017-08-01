@@ -46,7 +46,7 @@ class EditProfileController: UIViewController {
     
     @IBAction func UpdateBtn(_ sender: Any) {
         UIComponentHelper.PresentActivityIndicator(view: self.view, option: true)
-        if internetConnection.isConnectedToNetwork() {
+        if InternetConnection.isConnectedToNetwork() {
             print("have internet")
         } else{
             UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)

@@ -25,7 +25,7 @@ class BookingViewController: UIViewController {
     let internetConnection = InternetConnection()
     override func viewDidLoad() {
         super.viewDidLoad()
-        if internetConnection.isConnectedToNetwork() {
+        if InternetConnection.isConnectedToNetwork() {
             noInternet.alpha = 0
         } else{
             self.PresentAlertController(title: "Something went wrong", message: "Please Check you internet connection ", actionTitle: "Got it")
