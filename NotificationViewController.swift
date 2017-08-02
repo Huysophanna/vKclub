@@ -15,7 +15,7 @@ class NotificationTableViewCell: UITableViewCell {
     @IBOutlet weak var viewNotifictionBtn: UIButton!
     @IBOutlet weak var notification_title: UILabel!
     override func awakeFromNib() {
-        
+        notification_num = 0
         super.awakeFromNib()
         // Initialization code
     }
@@ -56,22 +56,16 @@ class NotificationViewController: UITableViewController {
         let notificationRequest:NSFetchRequest<Notifications> = Notifications.fetchRequest()
         
         do {
-             notifications = try manageObjectContext.fetch(notificationRequest)
-            
-             if notifications != [] {
-                ViewofClearnotification.isHidden = true
-                Imgae.isHidden  = true
-                text.isHidden   = true
-             }
-            
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
+            notifications = try manageObjectContext.fetch(notificationRequest)
+            for i in notifications{
+                i.notification_num = Int16(notification_num)
             }
             
             
         }catch {
             print("Could not load data from database \(error.localizedDescription)")
         }
+       
         
         
     }
@@ -85,6 +79,17 @@ class NotificationViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
+        if notifications.count == 0 {
+            ViewofClearnotification.isHidden = false
+            Imgae.isHidden  = false
+            text.isHidden   = false
+        } else{
+            ViewofClearnotification.isHidden = true
+            Imgae.isHidden  = true
+            text.isHidden   = true
+            loadData()
+        }
+        
         return notifications.count
     }
 
@@ -122,16 +127,7 @@ class NotificationViewController: UITableViewController {
             HandleDeleteNotificationTableCell(_cellIndex: indexPath, _reverseIndex: reverseIndexPath)
             
         }
-        if notifications.count == 0 {
-            
-            DispatchQueue.main.async {
-                self.ViewofClearnotification.isHidden = false
-                self.Imgae.isHidden  = false
-                self.text.isHidden   = false
-                self.loadData()
-            }
-            self.tableView.reloadData()
-        }
+        
         
         
     }

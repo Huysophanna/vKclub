@@ -12,7 +12,6 @@ import CoreData
 
 var backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask(expirationHandler: nil)
 
-
 class DashboardController: UIViewController {
     @IBOutlet weak var serviceImg: UIImageView!
     @IBOutlet weak var menuBtn: UIBarButtonItem!
@@ -28,27 +27,17 @@ class DashboardController: UIViewController {
     let locationManager = CLLocationManager()
     var lat: Double = 0
     var long: Double = 0
-    
+    var notifications = [Notifications]()
     override func viewDidLoad() {
         UserDefaults.standard.set(true, forKey: "loginBefore")
         //init background task for incoming call
         backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask(expirationHandler: nil)
-        
+        loadData()
         UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
         Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.isKirirom), userInfo: nil, repeats: true)
 //        Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(isConnectedToNetwork), userInfo: nil, repeats: true)
         Slidemenu()
         KiriromScope.setTitle("Identifying", for: .normal)
-        print(notification_num,"++")
-       
-        DispatchQueue.main.async {
-            if notification_num > 0{
-                self.notificationBtn.addBadge(number: notification_num, withOffset: CGPoint(x: 10, y: 10), andColor: .red, andFilled: true)
-            } else{
-                self.notificationBtn.removeBadge()
-            }
-            
-        }
 
     }
     
@@ -152,6 +141,14 @@ class DashboardController: UIViewController {
             KiriromScope.setTitle("Unidentified Mode", for: .normal)
             KiriromScope.setTitleColor(UIColor.red, for: .normal)
         }
+        if notification_num > 0{
+            self.notificationBtn.addBadge(number: notification_num, withOffset: CGPoint(x: 10, y: 10), andColor: .red, andFilled: true)
+        } else{
+            self.notificationBtn.removeBadge()
+        }
+            
+        
+
         
         //Set linphoneCall identity
         LinphoneManager.register(proxyConfig!)
@@ -231,4 +228,22 @@ class DashboardController: UIViewController {
         }))
         self.present( LocationPermissionAlert, animated: true, completion: nil)
     }
+    func loadData(){
+        let notificationRequest:NSFetchRequest<Notifications> = Notifications.fetchRequest()
+        
+        do {
+            notifications = try manageObjectContext.fetch(notificationRequest)
+            for i in notifications{
+                notification_num = Int(i.notification_num)
+            }
+            
+            
+            
+        }catch {
+            print("Could not load data from database \(error.localizedDescription)")
+        }
+        
+        
+    }
+
 }
