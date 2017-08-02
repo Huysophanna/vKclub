@@ -356,10 +356,7 @@ class PropertyWebViewController: UIViewController ,UIWebViewDelegate{
         webView.contentMode = .scaleAspectFit
         webView.loadRequest(requestObj)
         UIComponentHelper.PresentActivityIndicator(view: self.view, option: true)
-        let when = DispatchTime.now() + 4 // change 2 to desired number of seconds
-        DispatchQueue.main.asyncAfter(deadline: when) {
-           
-        }
+                
     }
     
     override func didReceiveMemoryWarning() {

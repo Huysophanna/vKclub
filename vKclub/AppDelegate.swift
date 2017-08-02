@@ -18,7 +18,7 @@ let manageObjectContext  = appDelegate.persistentContainer.viewContext
 var databaseRef = Database.database().reference()
 var userName : String = "Oudom"
 var alert = UIAlertController(title: "test", message: "test", preferredStyle: UIAlertControllerStyle.alert)
-var notification_num = 0
+var notification_num = 0 
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterDelegate, MessagingDelegate {
@@ -121,8 +121,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
         alert.dismiss(animated: true, completion: nil)
         notification_num += 1
         let dict = notification.request.content.userInfo["aps"] as! NSDictionary
-        print (dict)
-        
         let d : [String : Any] = dict["alert"] as! [String : Any]
         let body : String = d["body"] as! String
         let title : String = d["title"] as! String
