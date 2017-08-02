@@ -95,6 +95,7 @@ extension UIButton {
             }
         }
     }
+    
 }
 
 class UIComponentHelper {
@@ -119,6 +120,34 @@ class UIComponentHelper {
             
             activityIndicator.startAnimating()
             UIApplication.shared.beginIgnoringInteractionEvents()
+        } else {
+            activityIndicator.stopAnimating()
+            UIApplication.shared.endIgnoringInteractionEvents()
+            
+            //remove opacity views
+            let removeOpacityView = view.viewWithTag(50)
+            removeOpacityView?.removeFromSuperview()
+        }
+    }
+    static func PresentActivityIndicatorWebView(view: UIView!, option: Bool) {
+        if option {
+            //initialize opacity background while showing loading
+            let opacityView: UIView = UIView()
+            opacityView.frame = view.frame
+            opacityView.backgroundColor = UIColor(white: 0.1, alpha: 0.3)
+            opacityView.tag = 50;
+            
+            //initialize activity indicator loading
+            activityIndicator.center = view.center
+            activityIndicator.hidesWhenStopped = true
+            activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
+            
+            //add subviews into the super view
+            view.addSubview(activityIndicator)
+            view.addSubview(opacityView)
+            
+            activityIndicator.startAnimating()
+           
         } else {
             activityIndicator.stopAnimating()
             UIApplication.shared.endIgnoringInteractionEvents()

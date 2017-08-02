@@ -40,7 +40,7 @@ class BookingViewController: UIViewController ,UIWebViewDelegate{
         webView.contentMode = .scaleAspectFit
         
         webView.loadRequest(requestObj)
-        UIComponentHelper.PresentActivityIndicator(view: self.view, option: true)
+        UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: true)
         let when = DispatchTime.now() + 3 // change 2 to desired number of seconds
         DispatchQueue.main.asyncAfter(deadline: when) {
             UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
@@ -52,13 +52,14 @@ class BookingViewController: UIViewController ,UIWebViewDelegate{
         // Dispose of any resources that can be recreated.
     }
     func webViewDidFinishLoad(_ webView: UIWebView) {
-        UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
+        UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: false)
         
         
     }
     
     func webView(_ webView: UIWebView, didFailLoadWithError error: Error) {
-        UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
+        self.PresentAlertController(title: "Something went wrong", message: "Please Check you internet connection ", actionTitle: "Got it")
+        UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: false)
         noInternet.alpha = 1
         
     }
