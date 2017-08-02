@@ -180,7 +180,6 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     }
     
     func EmailProvider(){
-        print(currentUser?.displayName,"++")
         EditBtn.tag = 1
         EmailBtn.text = currentUser?.email
         let emailProvider = NSPredicate(format: "facebookProvider = 0")
