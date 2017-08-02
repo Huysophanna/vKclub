@@ -12,10 +12,12 @@ import CoreData
 
 var backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask(expirationHandler: nil)
 
+
 class DashboardController: UIViewController {
+    @IBOutlet weak var serviceImg: UIImageView!
     @IBOutlet weak var menuBtn: UIBarButtonItem!
     @IBOutlet weak var KiriromScope: UIButton!
-    
+    @IBOutlet weak var notificationBtn: UIBarButtonItem!
     let IN_KIRIROM = "inKirirom"
     let OFF_KIRIROM = "offKirirom"
     let UNIDENTIFIED = "unidentified"
@@ -37,6 +39,17 @@ class DashboardController: UIViewController {
 //        Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(isConnectedToNetwork), userInfo: nil, repeats: true)
         Slidemenu()
         KiriromScope.setTitle("Identifying", for: .normal)
+        print(notification_num,"++")
+       
+        DispatchQueue.main.async {
+            if notification_num > 0{
+                self.notificationBtn.addBadge(number: notification_num, withOffset: CGPoint(x: 10, y: 10), andColor: .red, andFilled: true)
+            } else{
+                self.notificationBtn.removeBadge()
+            }
+            
+        }
+
     }
     
     override func didReceiveMemoryWarning() {
@@ -46,6 +59,8 @@ class DashboardController: UIViewController {
     
     @IBAction func ServiceBtn(_ sender: Any) {
         performSegue(withIdentifier: "PushService", sender: self)
+        
+//        AnimateBtn(senderBtn: sender as! UIButton)
     }
     
     @IBAction func InternalCallBtn(_ sender: Any) {
@@ -86,9 +101,25 @@ class DashboardController: UIViewController {
 
     }
     
-// func for show the Slidemenu
+    //animate button on click
+    
+    func AnimateBtn(senderBtn: UIButton) {
+        UIView.animate(withDuration: 0.1, animations: {
+            self.serviceImg.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+            self.serviceImg.tintColor = UIColor.gray
+        }, completion: { animationFinished in
+            UIView.animate(withDuration: 0.1, animations: {
+                self.serviceImg.transform = CGAffineTransform.identity
+                self.serviceImg.tintColor = UIColor.white
+            })
+            
+        })
+    }
+    
+
+    
+    //Func for show the Slidemenu
     func Slidemenu() {
-        print(revealViewController())
         if revealViewController() != nil {
             menuBtn.target = self.revealViewController()
             menuBtn.action = #selector(SWRevealViewController.revealToggle(_:))
@@ -124,10 +155,6 @@ class DashboardController: UIViewController {
         
         //Set linphoneCall identity
         LinphoneManager.register(proxyConfig!)
-        
-        //Check whether user is connected to the internet
-        InternetConnection.isConnected = InternetConnection.isConnectedToNetwork()
-        
         //Check linphone status
 //        LinphoneManager.linphoneCallStatus = LinphoneManager.CheckLinphoneCallState()
     }
@@ -181,8 +208,11 @@ class DashboardController: UIViewController {
     }
     
     @IBAction func NoticationBtn(_ sender: Any) {
+        self.notificationBtn.removeBadge()
+        notification_num = 0
         performSegue(withIdentifier: "GotoNotification", sender: self)
     }
+    
     func LocationPermission(INAPP_UNIDENTIFIEDSetting : Bool){
         let LocationPermissionAlert = UIAlertController(title: "Location disabled for vKclub App", message: "Please enable Location by Clicking Okay", preferredStyle: UIAlertControllerStyle.alert)
         

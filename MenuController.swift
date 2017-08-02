@@ -31,7 +31,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         
         let provider = currentUser?.providerData
         
-        for i in provider!{
+        for i in provider! {
             let providerfb = i.providerID
             switch providerfb {
             case "facebook.com":
@@ -49,7 +49,6 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         }
         
         //make responsive rounded user profile picture
-        
         let checkDevice = UI_USER_INTERFACE_IDIOM()
         if checkDevice == .phone {
             imageProfile.frame = CGRect(x: EditBtn.frame.origin.x, y: imageProfile.bounds.width / 5, width: (view.bounds.width * 35) / 100, height: (view.bounds.width * 35) / 100)
@@ -76,14 +75,14 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         let logoutAlert = UIAlertController(title: "Logout", message: "Are your sure to logout?", preferredStyle: UIAlertControllerStyle.alert)
         
         logoutAlert.addAction(UIAlertAction(title: "Okay", style: .default, handler: { (action: UIAlertAction!) in
-            self.Logout()
+            self.Logouts()
             
         }))
         logoutAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         self.present( logoutAlert, animated: true, completion: nil)
     }
     
-    func Logout(){
+    func Logouts(){
         UserDefaults.standard.set(false, forKey: "loginBefore")
         personService.deleteAllData(entity: "UserProfile")
         personService.deleteAllData(entity: "SipCallData")
@@ -101,13 +100,11 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     @IBAction func AccProviderBtn(_ sender: Any) {
         if EditBtn.tag == 0 {
             PresentAlertController(title: "FB Linked", message: "Your account link with Facebook", actionTitle: "Okay")
-            
-            
-        }else{
+        } else {
             performSegue(withIdentifier:"GotoEditProfile", sender: self)        }
     }
     
-    func FBProvider(){
+    func FBProvider() {
         userName.text =  currentUser?.displayName
         EmailBtn.text = currentUser?.email
         let facebookProvider = NSPredicate(format: "facebookProvider = 1")
@@ -117,20 +114,29 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         if fb_lgoin == [] {
             if currentUser?.photoURL == nil {
             } else {
-                var  getFBimageUrl : URL = (currentUser?.photoURL)!
-                let str = currentUser?.photoURL?.absoluteString
-                let index = str?.index((str?.startIndex)!, offsetBy: 30)
-                let url : String = (str?.substring(to: index!))!
-                if url == "https://scontent.xx.fbcdn.net/" {
-                    let FBImageUrl : String = "https://graph.facebook.com/"+FBSDKAccessToken.current().userID+"/picture?width=320&height=320"
-                    getFBimageUrl = URL(string:FBImageUrl)!
-                }
-
-                let data = try? Data(contentsOf: (getFBimageUrl))
-                if data != nil {
-                    let image = UIImage(data: data!)
-                    let newimag = UIComponentHelper.resizeImage(image: image!, targetSize: CGSize(width: 400, height: 400))
-                    imageProfile.setImage(image, for: .normal)
+                imageProfile.loadingIndicator(true)
+                
+                DispatchQueue.global(qos: .userInitiated).async {
+                    var  getFBimageUrl : URL = (self.currentUser?.photoURL)!
+                    let str = self.currentUser?.photoURL?.absoluteString
+                    let index = str?.index((str?.startIndex)!, offsetBy: 30)
+                    let url : String = (str?.substring(to: index!))!
+                    if url == "https://scontent.xx.fbcdn.net/" {
+                        let FBImageUrl : String = "https://graph.facebook.com/"+FBSDKAccessToken.current().userID+"/picture?width=320&height=320"
+                        getFBimageUrl = URL(string:FBImageUrl)!
+                    }
+                    
+                    let data = try? Data(contentsOf: (getFBimageUrl))
+                    
+                    // When from background thread, UI needs to be updated on main_queue
+                    DispatchQueue.main.async {
+                        if data != nil {
+                            self.imageProfile.loadingIndicator(false)
+                            let image = UIImage(data: data!)
+                            self.imageProfile.setImage(image, for: .normal)
+                        }
+    
+                    }
                 }
             }
         } else {
@@ -171,27 +177,33 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         
         self.present(alertController, animated: true, completion: nil)
         
-        }
+    }
     
     func EmailProvider(){
+        print(currentUser?.displayName,"++")
         EditBtn.tag = 1
         EmailBtn.text = currentUser?.email
-        userName.text =  currentUser?.displayName
         let emailProvider = NSPredicate(format: "facebookProvider = 0")
         let email_lgoin = personService.getUserProfile(withPredicate: emailProvider)
         if email_lgoin == [] {
-          if currentUser?.photoURL == nil {
-            } else {
-                let data = try? Data(contentsOf: (currentUser?.photoURL)!)
-                
-                if data != nil {
-                    let image = UIImage(data: data!)
-                    let newimag = UIComponentHelper.resizeImage(image: image!, targetSize: CGSize(width: 400, height: 400))
-                    imageProfile.setImage(newimag, for: .normal)
-                  }
+            imageProfile.loadingIndicator(true)
+                        userName.text =  currentUser?.displayName
+            DispatchQueue.global(qos: .userInitiated).async {
+                let data = try? Data(contentsOf: (self.currentUser?.photoURL)!)
+                        // When from background thread, UI needs to be updated on main_queue
+                DispatchQueue.main.async {
+                    if data != nil {
+                        self.imageProfile.loadingIndicator(false)
+                        let image = UIImage(data: data!)
+                        
+                        self.imageProfile.setImage(image, for: .normal)
+                    }
                 }
+            }
+            
         } else {
             for i in email_lgoin {
+                    userName.text = i.username
                     // if user no internet still they can get imageProfile from coredata
                     let img = UIImage(data: i.imageData! as Data)
                     let newimag = UIComponentHelper.resizeImage(image: img!, targetSize: CGSize(width: 400, height: 400))
@@ -352,7 +364,10 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        UIComponentHelper.PresentActivityIndicator(view: self.view, option: true)
+        
+        //show image button loading indicator when changing profile picture
+        imageProfile.loadingIndicator(true)
+        
         var selectedImageFromPicker : UIImage?
         if let editedImage = info["UIImagePickerControllerEditedImage"] as? UIImage {
             selectedImageFromPicker = editedImage
@@ -365,6 +380,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
             let riversRef = storageRef.child("userprofile-photo").child((currentUser?.displayName)!)
             riversRef.putData(imageProfiles! , metadata: nil) { (metadata, error) in
                 guard let metadata = metadata else {
+                    self.PresentAlertController(title: "Error", message: "please check with your internet connection", actionTitle: "Okay")
                         return
                 }
                 // Metadata contains file metadata such as size, content-type, and download URL.
@@ -373,9 +389,11 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
                 let url = NSURL(string: downloadURL) as URL?
                 let chageProfileimage = self.currentUser?.createProfileChangeRequest()
                 chageProfileimage?.photoURL =  url
-                chageProfileimage?.commitChanges { (error) in
-                }
-                UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
+                chageProfileimage?.commitChanges { (error) in }
+                
+                //dismiss image button loading indicator when done
+                self.imageProfile.loadingIndicator(false)
+                
                 self.imageProfile.setImage(setectImage, for: .normal)
                 // if Facebook login Update Image
                 if self.facebookCheck {

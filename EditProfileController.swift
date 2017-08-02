@@ -26,8 +26,8 @@ class EditProfileController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        UIComponentHelper.MakeCustomPlaceholderTextField(textfield: Username, name: "Name", color: UIColor(hexString: "#008040", alpha: 1))
-        UIComponentHelper.MakeCustomPlaceholderTextField(textfield: Email, name: "Email", color: UIColor(hexString: "#008040", alpha: 1))
+        UIComponentHelper.MakeCustomPlaceholderTextField(textfield: Username, name: "Name (Optional)", color: UIColor(hexString: "#008040", alpha: 1))
+        UIComponentHelper.MakeCustomPlaceholderTextField(textfield: Email, name: "Email (Optional)†", color: UIColor(hexString: "#008040", alpha: 1))
         UIComponentHelper.MakeCustomPlaceholderTextField(textfield: currentpass, name: "Current Password", color: UIColor(hexString: "#008040", alpha: 1))
         
         UIComponentHelper.MakeBtnWhiteBorder(button: UpdateBtn, color: UIColor(hexString: "#008040", alpha: 1))
@@ -86,6 +86,7 @@ class EditProfileController: UIViewController {
                                
                                 
                             } else{
+                               
                                 UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
                                 self.PresentAlertController(title: "Something went wrong", message: (error?.localizedDescription)!, actionTitle: "Okay")
                             }
@@ -112,10 +113,11 @@ class EditProfileController: UIViewController {
                                     // if chage the email need to verified new email
                                     
                                 }else{
+                                    UserDefaults.standard.set(false, forKey: "loginBefore")
                                     currentuser?.sendEmailVerification(completion: { (error) in
                                         
                                     })
-                                    self.PresentAlertController(title: "Something went wrong", message: "your Email need to verified", actionTitle: "Okay")
+                                    self.PresentAlertController(title: "Something went wrong", message: "Your Email need to verified", actionTitle: "Okay")
                                     UIApplication.shared.keyWindow?.rootViewController = self.storyboard!.instantiateViewController(withIdentifier: "loginController")
                                 }
                                 

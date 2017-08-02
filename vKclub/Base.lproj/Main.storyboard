@@ -245,7 +245,7 @@
                             <inset key="imageInsets" minX="-20" minY="16" maxX="0.0" maxY="13"/>
                             <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </barButtonItem>
-                        <button key="titleView" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="J2d-ry-wLA" customClass="RoundButton" customModule="vKclub" customModuleProvider="target">
+                        <button key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="J2d-ry-wLA" customClass="RoundButton" customModule="vKclub" customModuleProvider="target">
                             <rect key="frame" x="119.5" y="12" width="175" height="20"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -275,6 +275,7 @@
                             <inset key="imageInsets" minX="15" minY="13" maxX="7" maxY="11"/>
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
+                                <action selector="NoticationBtn:" destination="KXb-Gj-HWw" id="SiC-SZ-lr6"/>
                                 <segue destination="6G4-rs-krt" kind="show" identifier="GotoNotification" id="GMf-EA-6wK"/>
                             </connections>
                         </barButtonItem>
@@ -282,6 +283,8 @@
                     <connections>
                         <outlet property="KiriromScope" destination="J2d-ry-wLA" id="YDF-cm-0qH"/>
                         <outlet property="menuBtn" destination="KY3-ax-zyI" id="uSd-xn-VhY"/>
+                        <outlet property="notificationBtn" destination="ytR-Gf-yyf" id="bno-K3-6fs"/>
+                        <outlet property="serviceImg" destination="Q0W-nc-dGb" id="TPc-fC-A4z"/>
                         <segue destination="voC-AM-ckx" kind="show" identifier="PushMap" id="DbX-k8-vgU"/>
                         <segue destination="F2d-tm-glx" kind="show" identifier="PushService" id="eKb-2U-xNS"/>
                         <segue destination="sf4-Fb-Dzb" kind="show" identifier="PushInternalCall" id="ccw-Zk-HxO"/>
@@ -389,7 +392,7 @@
                                 </connections>
                             </tableView>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Recents" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Fg-T6-4hV">
-                                <rect key="frame" x="142.66666666666669" y="318" width="129.00000000000006" height="30"/>
+                                <rect key="frame" x="143" y="318" width="129" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -432,7 +435,7 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="kEb-or-bWg">
                                 <rect key="frame" x="0.0" y="64" width="414" height="623"/>
                                 <subviews>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" placeholder="Enter phone number" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FJo-b9-1Ts">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" placeholder="Enter phone number" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FJo-b9-1Ts">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="124.66666666666666"/>
                                         <color key="backgroundColor" red="0.91653517455339717" green="0.91210746839613432" blue="0.9209628807106599" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <nil key="textColor"/>
@@ -602,22 +605,22 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wdO-58-vNb" customClass="CardViewHelper" customModule="vKclub" customModuleProvider="target">
-                                            <rect key="frame" x="8" y="8" width="400" height="313"/>
+                                            <rect key="frame" x="8" y="7.5" width="400" height="313.5"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="asm-Da-3Bq">
-                                                    <rect key="frame" x="1.5" y="1" width="401" height="146"/>
+                                                    <rect key="frame" x="1" y="0.0" width="401.5" height="147"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="title" textAlignment="justified" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5TY-92-5Pb">
-                                                    <rect key="frame" x="11" y="179" width="250" height="29"/>
+                                                    <rect key="frame" x="10.5" y="178" width="249.5" height="30"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="23"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" textAlignment="justified" translatesAutoresizingMaskIntoConstraints="NO" id="4uh-oK-i31">
-                                                    <rect key="frame" x="6" y="215.5" width="387.5" height="97.5"/>
+                                                    <rect key="frame" x="5.5" y="215" width="387.5" height="98.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -684,22 +687,22 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <view contentMode="scaleAspectFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lXa-Nq-VS4" customClass="CardViewHelper" customModule="vKclub" customModuleProvider="target">
-                                            <rect key="frame" x="8" y="8" width="400" height="313"/>
+                                            <rect key="frame" x="8" y="7.5" width="400" height="313"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Zr4-ux-Ksd">
-                                                    <rect key="frame" x="0.0" y="0.0" width="398" height="172"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="397.5" height="172"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xln-wT-glx">
-                                                    <rect key="frame" x="13" y="180" width="242" height="28"/>
+                                                    <rect key="frame" x="12.5" y="179" width="241.5" height="29"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" textAlignment="justified" translatesAutoresizingMaskIntoConstraints="NO" id="ApR-ce-sjl">
-                                                    <rect key="frame" x="8" y="216" width="382" height="90"/>
+                                                    <rect key="frame" x="6.5" y="215" width="383" height="90"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -749,22 +752,22 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dC1-Ha-HKV" customClass="CardViewHelper" customModule="vKclub" customModuleProvider="target">
-                                            <rect key="frame" x="8" y="8" width="400" height="313"/>
+                                            <rect key="frame" x="8" y="7" width="400" height="313"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9Fu-mi-cmz">
-                                                    <rect key="frame" x="0.0" y="0.0" width="398" height="140"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="397.5" height="140"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qrm-AH-5Ro">
-                                                    <rect key="frame" x="13" y="148" width="327" height="32"/>
+                                                    <rect key="frame" x="12.5" y="148" width="327" height="31.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" textAlignment="justified" translatesAutoresizingMaskIntoConstraints="NO" id="LBt-ML-LEl">
-                                                    <rect key="frame" x="8" y="188" width="382" height="123"/>
+                                                    <rect key="frame" x="6.5" y="187.5" width="383" height="123.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -1061,28 +1064,28 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mee-LX-f50">
-                                            <rect key="frame" x="353" y="15" width="34" height="19.5"/>
+                                            <rect key="frame" x="353" y="14.5" width="33.5" height="20"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                             <state key="normal" title="View">
                                                 <color key="titleColor" red="0.0" green="0.50196081400000003" blue="0.25098040700000002" alpha="1" colorSpace="calibratedRGB"/>
                                             </state>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YL2-WF-Qod">
-                                            <rect key="frame" x="79" y="8" width="256" height="14.5"/>
+                                            <rect key="frame" x="79" y="7.5" width="255.5" height="14"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="body" textAlignment="justified" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vhy-rc-1EV">
-                                            <rect key="frame" x="79" y="24" width="256" height="21"/>
+                                            <rect key="frame" x="79" y="22.5" width="255.5" height="22"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="notificationPanel-icon" translatesAutoresizingMaskIntoConstraints="NO" id="Kx7-zk-enT" userLabel="icon">
-                                            <rect key="frame" x="27" y="8" width="40" height="33"/>
+                                            <rect key="frame" x="27" y="7.5" width="39.5" height="32.5"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                             <color key="tintColor" red="0.0" green="0.50196081400000003" blue="0.25098040700000002" alpha="1" colorSpace="calibratedRGB"/>
                                         </imageView>
@@ -1433,7 +1436,7 @@
             <objects>
                 <navigationController title="Nav Dashboard" automaticallyAdjustsScrollViewInsets="NO" id="BCS-x1-0Ov" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="7mV-p2-rx5">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="7mV-p2-rx5">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.0" green="0.50196081400000003" blue="0.25098040700000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -1467,7 +1470,7 @@
                                         <rect key="frame" x="105" y="35" width="150" height="150"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <color key="tintColor" red="0.0" green="0.50196081400000003" blue="0.25098040700000002" alpha="1" colorSpace="calibratedRGB"/>
-                                        <state key="normal" image="user_left_icon"/>
+                                        <state key="normal" image="profile-icon"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
                                                 <real key="value" value="3"/>
@@ -1693,7 +1696,7 @@
             <objects>
                 <navigationController title="Setting " automaticallyAdjustsScrollViewInsets="NO" id="FDM-nb-cqY" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="593-nz-exy">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="593-nz-exy">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="0.25098040700000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -1792,7 +1795,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="RQC-c3-qVZ" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="x6O-AM-ljS">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="x6O-AM-ljS">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="0.25098040700000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -1812,7 +1815,7 @@
             <objects>
                 <navigationController storyboardIdentifier="NotificationNav" title="Notificaation Nav" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="6G4-rs-krt" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="kRJ-Ku-5Rj">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="kRJ-Ku-5Rj">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="0.25098040700000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -2065,7 +2068,7 @@
             <objects>
                 <navigationController title="Bookpage Nav" automaticallyAdjustsScrollViewInsets="NO" id="jCk-TN-Xcx" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="fwm-ZH-MwA">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="fwm-ZH-MwA">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="0.25098040700000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -2096,12 +2099,12 @@
         <image name="phone-call" width="512" height="512"/>
         <image name="phone-icon" width="32" height="32"/>
         <image name="placeholder" width="512" height="512"/>
+        <image name="profile-icon" width="256" height="256"/>
         <image name="property-icon" width="24" height="24"/>
         <image name="services" width="512" height="512"/>
         <image name="settings" width="512" height="512"/>
         <image name="telephone-icon" width="128" height="128"/>
         <image name="user-card" width="512" height="512"/>
-        <image name="user_left_icon" width="64" height="64"/>
         <image name="white_logo" width="1024" height="1024"/>
     </resources>
     <inferredMetricsTieBreakers>

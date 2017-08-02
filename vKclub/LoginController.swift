@@ -19,8 +19,6 @@ class LoginController: UIViewController {
     @IBOutlet weak var signInBtn: UIButton!
     @IBOutlet weak var signInFBBtn: UIButton!
     let User = UserProfile(context: manageObjectContext)
-    var second = 0
-    var countTimer = Timer()
     override func viewDidLoad() {
         super.viewDidLoad()
         UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
@@ -28,13 +26,15 @@ class LoginController: UIViewController {
         MakeLeftViewIconToTextField(textField: pwTextField, icon: "pw_icon")
         UIComponentHelper.MakeBtnWhiteBorder(button: signInBtn, color: UIColor.white)
         MakeFBBorderBtn(button: signInFBBtn)
+        
         //Btn Call Function FBSignIn
         signInFBBtn.addTarget(self, action: #selector(FBSignIn), for: .touchUpInside)
+        
     }
     
     func FBSignIn(){
-        self.second = 0
-        self.countTimer.invalidate()
+        InternetConnection.second = 0
+        InternetConnection.countTimer.invalidate()
         UIComponentHelper.PresentActivityIndicator(view: self.view, option: true)
         let fbLoginManager = FBSDKLoginManager()
         fbLoginManager.logIn(withReadPermissions: ["public_profile", "email"], from: self) { (result, error) in
@@ -49,21 +49,21 @@ class LoginController: UIViewController {
                     print("Failed to get access token")
                     return
                 }
-                
-                self.countTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.CountSecond), userInfo: nil, repeats: true)
-                
+                InternetConnection.CountTimer()
+                print(InternetConnection.second,"++")
+
                 let credential = FacebookAuthProvider.credential(withAccessToken: accessToken.tokenString)
                 Auth.auth().signIn(with: credential, completion: { (user, error) in
-                    
-                    if self.second == 7 {
-                        self.countTimer.invalidate()
-                        self.second = 0
+                    if InternetConnection.second == 10 {
+                        
+                        InternetConnection.countTimer.invalidate()
+                        InternetConnection.second = 0
+                        UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
                         return
                     }
-                    
                     if error == nil {
-                            self.countTimer.invalidate()
-                            self.second = 0
+                            InternetConnection.countTimer.invalidate()
+                            InternetConnection.second = 0
                             if let currentUser = Auth.auth().currentUser {
                             var getFBimageUrl  : URL = currentUser.photoURL!
                             print (getFBimageUrl,"befor++")
@@ -111,6 +111,8 @@ class LoginController: UIViewController {
                         
                         
                     } else {
+                        InternetConnection.countTimer.invalidate()
+                        InternetConnection.second = 0
                         UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
                         let alertController = UIAlertController(title: "Login Error", message: error?.localizedDescription, preferredStyle: .alert)
                         let okayAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
@@ -125,6 +127,8 @@ class LoginController: UIViewController {
     }
     @IBAction func SignInClicked(_ sender: Any) {
         UIComponentHelper.PresentActivityIndicator(view: self.view, option: true)
+        InternetConnection.second = 0
+        InternetConnection.countTimer.invalidate()
         
         if emailTextField.text == "" || pwTextField.text == "" {
             UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
@@ -135,9 +139,20 @@ class LoginController: UIViewController {
             //handle firebase sign in
             
             //UIComponentHelper.PresentActivityIndicator(view: self.view, option: true)
+
+            InternetConnection.CountTimer()
             
             Auth.auth().signIn(withEmail: emailTextField.text!, password: pwTextField.text!) { (user, error) in
+                if InternetConnection.second == 10 {
+                    
+                    InternetConnection.countTimer.invalidate()
+                    InternetConnection.second = 0
+                    UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
+                    return
+                }
                 if error == nil {
+                    InternetConnection.countTimer.invalidate()
+                    InternetConnection.second = 0
                     if (user?.isEmailVerified)!{
                         // if user don't name and imageprofile
                      
@@ -158,10 +173,14 @@ class LoginController: UIViewController {
                     
                         
                     } else {
+                        InternetConnection.countTimer.invalidate()
+                        InternetConnection.second = 0
                         UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
                         self.PresentAlertController(title: "Comfirmation", message: "Please verify your email address with a link that we have already sent you to proceed login in", actionTitle: "Okay")
                     }
                 } else {
+                    InternetConnection.countTimer.invalidate()
+                    InternetConnection.second = 0
                     UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
                     self.PresentAlertController(title: "Error", message: (error?.localizedDescription)!, actionTitle: "Okay")
                 }
@@ -208,15 +227,6 @@ class LoginController: UIViewController {
             firstPerson.username  = username
             firstPerson.email     = email
             personService.updateUserProfile(_updatedPerson: firstPerson)
-        }
-    }
-    
-    func CountSecond(){
-        second += 1
-        if self.second == 7 {
-            self.countTimer.invalidate()
-            UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
-            self.PresentAlertController(title: "Error", message: "Try again, because your internet conntion was too slow", actionTitle: "Okay")
         }
     }
 }

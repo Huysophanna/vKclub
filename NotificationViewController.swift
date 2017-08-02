@@ -40,6 +40,7 @@ class NotificationViewController: UITableViewController {
     let personService = UserProfileCoreData()
     override func viewDidLoad() {
         super.viewDidLoad()
+        notification_num = 0
         loadData()
     }
     
@@ -63,8 +64,11 @@ class NotificationViewController: UITableViewController {
                 text.isHidden   = true
              }
             
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
             
-             self.tableView.reloadData()
+            
         }catch {
             print("Could not load data from database \(error.localizedDescription)")
         }
@@ -119,10 +123,13 @@ class NotificationViewController: UITableViewController {
             
         }
         if notifications.count == 0 {
-            ViewofClearnotification.isHidden = false
-            Imgae.isHidden  = false
-            text.isHidden   = false
-            loadData()
+            
+            DispatchQueue.main.async {
+                self.ViewofClearnotification.isHidden = false
+                self.Imgae.isHidden  = false
+                self.text.isHidden   = false
+                self.loadData()
+            }
             self.tableView.reloadData()
         }
         

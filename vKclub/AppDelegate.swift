@@ -18,7 +18,7 @@ let manageObjectContext  = appDelegate.persistentContainer.viewContext
 var databaseRef = Database.database().reference()
 var userName : String = "Oudom"
 var alert = UIAlertController(title: "test", message: "test", preferredStyle: UIAlertControllerStyle.alert)
-
+var notification_num = 0
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterDelegate, MessagingDelegate {
@@ -37,7 +37,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
     /// You can send this token to your application server to send notifications to this device.
     func messaging(_ messaging: Messaging, didRefreshRegistrationToken fcmToken: String) {
     }
-    var notification_num = 0
+    
     var window: UIWindow?
     let personService = UserProfileCoreData()
     let gcmMessageIDKey = "gcm.message_id"
@@ -47,10 +47,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
         //notification
         self.linphoneManager = LinphoneManager()
         linphoneManager?.LinphoneInit()
-    
-        
-        
-        
         // Remove border in navigationBar
         UINavigationBar.appearance().shadowImage = UIImage()
         UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
@@ -84,44 +80,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         // autoLogin
         
-//        Auth.auth().addStateDidChangeListener { auth, user in
-//            if user == nil {
-//                UIApplication.shared.unregisterForRemoteNotifications()
-//                print(" not Work")
-//                
-//            } else {
-//                print("Work")
-//
-//                UIApplication.shared.registerForRemoteNotifications()
-//                let provider = user?.providerData
-//                for i in provider!{
-//                    let providerfb = i.providerID
-//                    switch providerfb {
-//                    case "facebook.com":
-//                        if user?.displayName == nil && user?.photoURL == nil{
-//                            print("Wait")  
-//                        } else {
-//                            userName = (user?.displayName)!
-//                            self.Dashboard()
-//                        }
-//                    case "password":
-//                        if (user?.email == nil && user?.displayName == nil) {
-//                            print("Wait")
-//                        } else {
-//                            if (user?.isEmailVerified )! {
-//                                userName = (user?.displayName)!
-//                                self.Dashboard()
-//                            } else {
-//                                print("No verified")
-//                            }
-//                        }
-//                    default:
-//                        print("Unknown provider ID: \(provider!)")
-//                        return
-//                    }
-//                }
-//            }
-//        }
         let launchedBefore = UserDefaults.standard.bool(forKey: "launchedBefore")
         if launchedBefore  {
             self.LogoutController()

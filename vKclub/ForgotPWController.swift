@@ -14,7 +14,6 @@ class ForgotPWController: UIViewController {
     @IBOutlet weak var backBtn: UIButton!
     @IBOutlet weak var signUpBtn: UIButton!
     @IBOutlet weak var emailTextField: UITextField!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -22,7 +21,9 @@ class ForgotPWController: UIViewController {
         UIComponentHelper.MakeBtnWhiteBorder(button: backBtn, color: UIColor.white)
         UIComponentHelper.MakeCustomPlaceholderTextField(textfield: emailTextField, name: "Email", color: UIColor.white)
     }
-    @IBAction func RecoverBtnClicked(_ sender: Any) {
+    @IBAction func RecoverBtnClicked(_ sender: Any) { 
+        InternetConnection.second = 0
+        InternetConnection.countTimer.invalidate()
         if (emailTextField.text?.isEmpty)!{
             
             PresentAlertController(title: "Something went wrong", message: "Please properly insert your data", actionTitle: "Got it")
@@ -48,7 +49,15 @@ class ForgotPWController: UIViewController {
                 return
             }
         }
+        InternetConnection.CountTimer()
         Auth.auth().sendPasswordReset(withEmail: self.emailTextField.text!) { (error) in
+            if InternetConnection.second == 10 {
+                
+                InternetConnection.countTimer.invalidate()
+                InternetConnection.second = 0
+                UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
+                return
+            }
             if error == nil {
                 
                 self.PresentAlertController(title: "Success", message: "Please check your email to recover your password", actionTitle: "Got it")

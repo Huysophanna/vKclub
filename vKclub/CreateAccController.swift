@@ -46,13 +46,21 @@ class CreateAccController: ViewController {
             return
         }
         else {
+            InternetConnection.second = 0
+            InternetConnection.countTimer.invalidate()
             //show loading activity indicator
             UIComponentHelper.PresentActivityIndicator(view: self.view, option: true)
-            
+            InternetConnection.CountTimer()
             Auth.auth().createUser(withEmail: emailTextField.text!, password: passwordTextField.text!) { (user, error) in
                 //successfully created, done loading activity indicator
                 UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
-                
+                if InternetConnection.second == 10 {
+                    
+                    InternetConnection.countTimer.invalidate()
+                    InternetConnection.second = 0
+                    UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
+                    return
+                }
                 if (error == nil) {
                     let img = UIImage(named: "profile-icon")
                     let newImage = UIComponentHelper.resizeImage(image: img!, targetSize: CGSize(width: 400, height: 400))
