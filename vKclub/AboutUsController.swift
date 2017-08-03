@@ -254,9 +254,10 @@ class AccommodationWebViewController: UIViewController,UIWebViewDelegate{
     override func viewDidLoad() {
         super.viewDidLoad()
         if InternetConnection.isConnectedToNetwork() {
-            noInternet.alpha = 0
+            noInternet.isHidden = true
             
         } else{
+            noInternet.isHidden = false
             self.PresentAlertController(title: "Something went wrong", message: "Please Check you internet connection ", actionTitle: "Got it")
             return
         }
@@ -277,15 +278,12 @@ class AccommodationWebViewController: UIViewController,UIWebViewDelegate{
         // Dispose of any resources that can be recreated.
     }
     func webViewDidFinishLoad(_ webView: UIWebView) {
-        
         UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: false)
-        
-        
     }
     
-    func webView(_ webView: UIWebView, didFailLoadWithError error: Error) {
+    func webView(_ webView: UIWebView, didFailLoadWithError error: Error){
+        noInternet.isHidden = true
         self.PresentAlertController(title: "Something went wrong", message: "Please Check you internet connection ", actionTitle: "Got it")
-        noInternet.alpha = 0
         UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: false)
         
         
@@ -300,9 +298,10 @@ class AtivityWebViewController: UIViewController,UIWebViewDelegate{
     override func viewDidLoad() {
         super.viewDidLoad()
         if InternetConnection.isConnectedToNetwork() {
-            noInternet.alpha = 0
+            noInternet.isHidden = true
             print("have internet")
         } else{
+            noInternet.isHidden = false
             self.PresentAlertController(title: "Something went wrong", message: "Please Check you internet connection ", actionTitle: "Got it")
             return
         }
@@ -324,11 +323,11 @@ class AtivityWebViewController: UIViewController,UIWebViewDelegate{
         // Dispose of any resources that can be recreated.
     }
     func webViewDidFinishLoad(_ webView: UIWebView) {
-       
         UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: false)
     }
     
     func webView(_ webView: UIWebView, didFailLoadWithError error: Error) {
+        noInternet.isHidden = false
         self.PresentAlertController(title: "Something went wrong", message: "Please Check you internet connection ", actionTitle: "Got it")
         noInternet.alpha = 1
         UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: false)
@@ -346,8 +345,9 @@ class PropertyWebViewController: UIViewController ,UIWebViewDelegate{
         super.viewDidLoad()
         if InternetConnection.isConnectedToNetwork() {
             
-            noInternet.alpha = 0
+            noInternet.isHidden = true
         } else{
+             noInternet.isHidden = false
             self.PresentAlertController(title: "Something went wrong", message: "Please Check you internet connection ", actionTitle: "Got it")
             return
         }
@@ -375,8 +375,9 @@ class PropertyWebViewController: UIViewController ,UIWebViewDelegate{
     }
     
     func webView(_ webView: UIWebView, didFailLoadWithError error: Error) {
+        noInternet.isHidden = false
         self.PresentAlertController(title: "Something went wrong", message: "Please Check you internet connection ", actionTitle: "Got it")
-        noInternet.alpha = 1
+        
         UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: false)
         
     }

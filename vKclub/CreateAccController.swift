@@ -62,6 +62,8 @@ class CreateAccController: ViewController {
                     return
                 }
                 if (error == nil) {
+                    InternetConnection.countTimer.invalidate()
+                    InternetConnection.second = 0
                     let img = UIImage(named: "profile-icon")
                     let newImage = UIComponentHelper.resizeImage(image: img!, targetSize: CGSize(width: 400, height: 400))
                     let imageProfiles = UIImagePNGRepresentation(newImage)

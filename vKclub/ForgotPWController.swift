@@ -59,7 +59,8 @@ class ForgotPWController: UIViewController {
                 return
             }
             if error == nil {
-                
+                InternetConnection.countTimer.invalidate()
+                InternetConnection.second = 0
                 self.PresentAlertController(title: "Success", message: "Please check your email to recover your password", actionTitle: "Got it")
                 UIApplication.shared.keyWindow?.rootViewController = self.storyboard!.instantiateViewController(withIdentifier: "loginController")
             } else {

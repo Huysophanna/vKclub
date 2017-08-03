@@ -334,7 +334,7 @@
                                         <rect key="frame" x="0.0" y="28" width="414" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qkw-4g-aiv" id="4Bx-ni-HNO">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="60"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="59.666666666666664"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="mOD-Av-apR">
@@ -601,11 +601,11 @@
                                 <rect key="frame" x="0.0" y="28" width="414" height="329"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="PgN-QN-HVX" id="eul-nn-v64">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="329"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="328.66666666666669"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wdO-58-vNb" customClass="CardViewHelper" customModule="vKclub" customModuleProvider="target">
-                                            <rect key="frame" x="8" y="7" width="400" height="313"/>
+                                            <rect key="frame" x="7.5" y="6.5" width="400.5" height="312.5"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="asm-Da-3Bq">
@@ -613,14 +613,14 @@
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="title" textAlignment="justified" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5TY-92-5Pb">
-                                                    <rect key="frame" x="10" y="178" width="250" height="29"/>
+                                                    <rect key="frame" x="10" y="178" width="250.5" height="28.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="23"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" textAlignment="justified" translatesAutoresizingMaskIntoConstraints="NO" id="4uh-oK-i31">
-                                                    <rect key="frame" x="4" y="215" width="388" height="98"/>
+                                                    <rect key="frame" x="4" y="215" width="388" height="97.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -683,26 +683,26 @@
                                 <rect key="frame" x="0.0" y="28" width="414" height="329"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="y1q-YJ-gan" id="TK0-WB-I8N">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="329"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="328.66666666666669"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <view contentMode="scaleAspectFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lXa-Nq-VS4" customClass="CardViewHelper" customModule="vKclub" customModuleProvider="target">
-                                            <rect key="frame" x="8" y="7" width="400" height="313"/>
+                                            <rect key="frame" x="8" y="6.5" width="399.5" height="312.5"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Zr4-ux-Ksd">
-                                                    <rect key="frame" x="0.0" y="0.0" width="397" height="172"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="396.5" height="171.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xln-wT-glx">
-                                                    <rect key="frame" x="12" y="179" width="242" height="29"/>
+                                                    <rect key="frame" x="11.5" y="179" width="242" height="29"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" textAlignment="justified" translatesAutoresizingMaskIntoConstraints="NO" id="ApR-ce-sjl">
-                                                    <rect key="frame" x="6" y="215" width="383" height="90"/>
+                                                    <rect key="frame" x="5.5" y="215" width="383" height="89.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -748,26 +748,26 @@
                                 <rect key="frame" x="0.0" y="28" width="414" height="329"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Qdz-xf-8eq" id="fd0-mE-MaH" userLabel="Cell">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="329"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="328.66666666666669"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dC1-Ha-HKV" customClass="CardViewHelper" customModule="vKclub" customModuleProvider="target">
-                                            <rect key="frame" x="8" y="7" width="400" height="312"/>
+                                            <rect key="frame" x="8" y="7" width="399.5" height="311"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9Fu-mi-cmz">
-                                                    <rect key="frame" x="0.0" y="0.0" width="397" height="139"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="396.5" height="139"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qrm-AH-5Ro">
-                                                    <rect key="frame" x="12" y="148" width="327" height="31"/>
+                                                    <rect key="frame" x="11.5" y="148" width="327" height="31"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" textAlignment="justified" translatesAutoresizingMaskIntoConstraints="NO" id="LBt-ML-LEl">
-                                                    <rect key="frame" x="6" y="187" width="383" height="123"/>
+                                                    <rect key="frame" x="5.5" y="187" width="383" height="122.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -1060,32 +1060,32 @@
                                 <rect key="frame" x="0.0" y="28" width="414" height="50"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Nuh-Fk-CvM" id="5pn-ue-aBi">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="50"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="49.666666666666664"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mee-LX-f50">
-                                            <rect key="frame" x="352" y="14" width="34" height="20"/>
+                                            <rect key="frame" x="351.5" y="13.5" width="34.5" height="20"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                             <state key="normal" title="View">
                                                 <color key="titleColor" red="0.0" green="0.50196081400000003" blue="0.25098040700000002" alpha="1" colorSpace="calibratedRGB"/>
                                             </state>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YL2-WF-Qod">
-                                            <rect key="frame" x="79" y="7" width="255" height="14"/>
+                                            <rect key="frame" x="78.5" y="6.5" width="255.5" height="14"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="body" textAlignment="justified" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vhy-rc-1EV">
-                                            <rect key="frame" x="79" y="22" width="255" height="22"/>
+                                            <rect key="frame" x="78.5" y="21.5" width="255.5" height="22"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="notificationPanel-icon" translatesAutoresizingMaskIntoConstraints="NO" id="Kx7-zk-enT" userLabel="icon">
-                                            <rect key="frame" x="27" y="7" width="39" height="32"/>
+                                            <rect key="frame" x="27" y="6.5" width="39" height="32"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                             <color key="tintColor" red="0.0" green="0.50196081400000003" blue="0.25098040700000002" alpha="1" colorSpace="calibratedRGB"/>
                                         </imageView>
