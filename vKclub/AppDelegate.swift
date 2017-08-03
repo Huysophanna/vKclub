@@ -18,7 +18,7 @@ let manageObjectContext  = appDelegate.persistentContainer.viewContext
 var databaseRef = Database.database().reference()
 var userName : String = "Oudom"
 var alert = UIAlertController(title: "test", message: "test", preferredStyle: UIAlertControllerStyle.alert)
-
+var notification_num = 0 
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterDelegate, MessagingDelegate {
@@ -37,7 +37,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
     /// You can send this token to your application server to send notifications to this device.
     func messaging(_ messaging: Messaging, didRefreshRegistrationToken fcmToken: String) {
     }
-    var notification_num = 0
+    
     var window: UIWindow?
     let personService = UserProfileCoreData()
     let gcmMessageIDKey = "gcm.message_id"
@@ -47,10 +47,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
         //notification
         self.linphoneManager = LinphoneManager()
         linphoneManager?.LinphoneInit()
-    
-        
-        
-        
         // Remove border in navigationBar
         UINavigationBar.appearance().shadowImage = UIImage()
         UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
@@ -84,57 +80,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         // autoLogin
         
-        Auth.auth().addStateDidChangeListener { auth, user in
-            if user == nil {
-                UIApplication.shared.unregisterForRemoteNotifications()
-                print(" not Work")
-                
-            } else {
-                print("Work")
-
-                UIApplication.shared.registerForRemoteNotifications()
-                let provider = user?.providerData
-                for i in provider!{
-                    let providerfb = i.providerID
-                    switch providerfb {
-                    case "facebook.com":
-                        if user?.displayName == nil && user?.photoURL == nil{
-                            print("Wait")  
-                        } else {
-                            userName = (user?.displayName)!
-                            self.Dashboard()
-                        }
-                    case "password":
-                        if (user?.email == nil && user?.displayName == nil) {
-                            print("Wait")
-                        } else {
-                            if (user?.isEmailVerified )! {
-                                userName = (user?.displayName)!
-                                self.Dashboard()
-                            } else {
-                                print("No verified")
-                            }
-                        }
-                    default:
-                        print("Unknown provider ID: \(provider!)")
-                        return
-                    }
-                }
-            }
-        }
         let launchedBefore = UserDefaults.standard.bool(forKey: "launchedBefore")
         if launchedBefore  {
-            let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            appDelegate.window = UIWindow(frame: UIScreen.main.bounds)
-            let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let yourVC = mainStoryboard.instantiateViewController(withIdentifier: "loginController") as!  LoginController
-            appDelegate.window?.rootViewController = yourVC
-            appDelegate.window?.makeKeyAndVisible()
-            
+            self.LogoutController()
         } else {
             print("First launch, setting UserDefault.")
             
         }
+        let loginBefore = UserDefaults.standard.bool(forKey: "loginBefore")
+        if loginBefore  {
+            self.Dashboard()
+        } else {
+            print("First launch, setting UserDefault.")
+        }
+        
         return true
     }
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
@@ -145,9 +104,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
                               fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void){
         print(userInfo)
     }
-    
-   
-
     func application(_ application: UIApplication,
                      didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         var readableToken: String = ""
@@ -160,16 +116,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
     func application(received remoteMessage: MessagingRemoteMessage) {
         print(remoteMessage.appData)
     }
-    
-
-   
     @available(iOS 10.0, *)
     func userNotificationCenter(_ center: UNUserNotificationCenter,  willPresent notification: UNNotification, withCompletionHandler   completionHandler: @escaping (_ options:   UNNotificationPresentationOptions) -> Void) {
         alert.dismiss(animated: true, completion: nil)
         notification_num += 1
         let dict = notification.request.content.userInfo["aps"] as! NSDictionary
-        print (dict)
-        
         let d : [String : Any] = dict["alert"] as! [String : Any]
         let body : String = d["body"] as! String
         let title : String = d["title"] as! String
@@ -180,7 +131,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
         self.showAlertAppDelegate(title: "Hello "+userName, message: title + ": " + body, buttonTitle:"Okay", window:self.window!)
         
     }
-    
     @available(iOS 10.0, *)
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         // if you set a member variable in didReceiveRemoteNotification, you  will know if this is from closed or background
@@ -211,6 +161,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
         let yourVC = mainStoryboard.instantiateViewController(withIdentifier: "MainDashboard") as!  SWRevealViewController
         appDelegate.window?.rootViewController = yourVC
         appDelegate.window?.makeKeyAndVisible()
+        
+    }
+    func LogoutController(){
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDelegate.window = UIWindow(frame: UIScreen.main.bounds)
+        let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let yourVC = mainStoryboard.instantiateViewController(withIdentifier: "loginController") as!  LoginController
+        appDelegate.window?.rootViewController = yourVC
+        appDelegate.window?.makeKeyAndVisible()
+
         
     }
    

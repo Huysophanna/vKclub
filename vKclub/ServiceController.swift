@@ -17,7 +17,7 @@ class ServiceController: UIViewController {
          self.performSegue(withIdentifier: "SgGotoBookpage", sender: self)
     }
  }
-class BookingViewController: UIViewController {
+class BookingViewController: UIViewController ,UIWebViewDelegate{
     var propertyData: [String: AnyObject]!
     @IBOutlet weak var webView: UIWebView!
     
@@ -25,7 +25,7 @@ class BookingViewController: UIViewController {
     let internetConnection = InternetConnection()
     override func viewDidLoad() {
         super.viewDidLoad()
-        if internetConnection.isConnectedToNetwork() {
+        if InternetConnection.isConnectedToNetwork() {
             noInternet.alpha = 0
         } else{
             self.PresentAlertController(title: "Something went wrong", message: "Please Check you internet connection ", actionTitle: "Got it")
@@ -34,8 +34,13 @@ class BookingViewController: UIViewController {
         
         let url = NSURL (string: "http://vkirirom.com/en/reservation.php")
         let requestObj = URLRequest(url: url! as URL)
+        self.view.addSubview(webView)
+        webView.delegate = self as UIWebViewDelegate
+        webView.scalesPageToFit = true
+        webView.contentMode = .scaleAspectFit
+        
         webView.loadRequest(requestObj)
-        UIComponentHelper.PresentActivityIndicator(view: self.view, option: true)
+        UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: true)
         let when = DispatchTime.now() + 3 // change 2 to desired number of seconds
         DispatchQueue.main.asyncAfter(deadline: when) {
             UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
@@ -46,7 +51,18 @@ class BookingViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    func webViewDidFinishLoad(_ webView: UIWebView) {
+        UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: false)
+        
+        
+    }
     
+    func webView(_ webView: UIWebView, didFailLoadWithError error: Error) {
+        self.PresentAlertController(title: "Something went wrong", message: "Please Check you internet connection ", actionTitle: "Got it")
+        UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: false)
+        noInternet.alpha = 1
+        
+    }
     @IBAction func CancelBtn(_ sender: Any) {
         dismiss(animated: true, completion: nil)
         

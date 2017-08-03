@@ -1,7 +1,7 @@
 import CoreData
 class UserProfileCoreData {
     // check if user close the notification
-    func CreatnotificationCoredata(_notification_num: intmax_t , _notification_body: String,_notification_title : String ){
+    func CreatnotificationCoredata(_notification_num: Int , _notification_body: String,_notification_title : String ){
         let newNotification = NSEntityDescription.insertNewObject(forEntityName: "Notifications", into: manageObjectContext)
         newNotification.setValue(_notification_num, forKey: "notification_num")
         newNotification.setValue(_notification_body, forKey: "notification_body")

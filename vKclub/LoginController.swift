@@ -26,10 +26,15 @@ class LoginController: UIViewController {
         MakeLeftViewIconToTextField(textField: pwTextField, icon: "pw_icon")
         UIComponentHelper.MakeBtnWhiteBorder(button: signInBtn, color: UIColor.white)
         MakeFBBorderBtn(button: signInFBBtn)
+        
         //Btn Call Function FBSignIn
         signInFBBtn.addTarget(self, action: #selector(FBSignIn), for: .touchUpInside)
+        
     }
+    
     func FBSignIn(){
+        InternetConnection.second = 0
+        InternetConnection.countTimer.invalidate()
         UIComponentHelper.PresentActivityIndicator(view: self.view, option: true)
         let fbLoginManager = FBSDKLoginManager()
         fbLoginManager.logIn(withReadPermissions: ["public_profile", "email"], from: self) { (result, error) in
@@ -44,11 +49,22 @@ class LoginController: UIViewController {
                     print("Failed to get access token")
                     return
                 }
-               
+                InternetConnection.CountTimer()
+                print(InternetConnection.second,"++")
+
                 let credential = FacebookAuthProvider.credential(withAccessToken: accessToken.tokenString)
                 Auth.auth().signIn(with: credential, completion: { (user, error) in
+                    if InternetConnection.second == 10 {
+                        
+                        InternetConnection.countTimer.invalidate()
+                        InternetConnection.second = 0
+                        UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
+                        return
+                    }
                     if error == nil {
-                        if let currentUser = Auth.auth().currentUser {
+                            InternetConnection.countTimer.invalidate()
+                            InternetConnection.second = 0
+                            if let currentUser = Auth.auth().currentUser {
                             var getFBimageUrl  : URL = currentUser.photoURL!
                             print (getFBimageUrl,"befor++")
                             let str = currentUser.photoURL?.absoluteString
@@ -84,17 +100,19 @@ class LoginController: UIViewController {
                             }
                         }
 
-                        if (user?.email == nil && user?.displayName == nil ) {
-                            UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
-                            self.PresentAlertController(title: "Error", message: "Try again, because your internet conntion was too slow", actionTitle: "Okay")
-                        } else {
+                        
                             
                             UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
                             let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
                             let newViewController = storyBoard.instantiateViewController(withIdentifier: "MainDashboard") as! SWRevealViewController
-                            self.present(newViewController, animated: true, completion: nil)     
-                        }   
+                            self.present(newViewController, animated: true, completion: nil)
+                        
+                            
+                        
+                        
                     } else {
+                        InternetConnection.countTimer.invalidate()
+                        InternetConnection.second = 0
                         UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
                         let alertController = UIAlertController(title: "Login Error", message: error?.localizedDescription, preferredStyle: .alert)
                         let okayAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
@@ -109,6 +127,8 @@ class LoginController: UIViewController {
     }
     @IBAction func SignInClicked(_ sender: Any) {
         UIComponentHelper.PresentActivityIndicator(view: self.view, option: true)
+        InternetConnection.second = 0
+        InternetConnection.countTimer.invalidate()
         
         if emailTextField.text == "" || pwTextField.text == "" {
             UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
@@ -119,9 +139,20 @@ class LoginController: UIViewController {
             //handle firebase sign in
             
             //UIComponentHelper.PresentActivityIndicator(view: self.view, option: true)
+
+            InternetConnection.CountTimer()
             
             Auth.auth().signIn(withEmail: emailTextField.text!, password: pwTextField.text!) { (user, error) in
+                if InternetConnection.second == 10 {
+                    
+                    InternetConnection.countTimer.invalidate()
+                    InternetConnection.second = 0
+                    UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
+                    return
+                }
                 if error == nil {
+                    InternetConnection.countTimer.invalidate()
+                    InternetConnection.second = 0
                     if (user?.isEmailVerified)!{
                         // if user don't name and imageprofile
                      
@@ -142,10 +173,14 @@ class LoginController: UIViewController {
                     
                         
                     } else {
+                        InternetConnection.countTimer.invalidate()
+                        InternetConnection.second = 0
                         UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
                         self.PresentAlertController(title: "Comfirmation", message: "Please verify your email address with a link that we have already sent you to proceed login in", actionTitle: "Okay")
                     }
                 } else {
+                    InternetConnection.countTimer.invalidate()
+                    InternetConnection.second = 0
                     UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
                     self.PresentAlertController(title: "Error", message: (error?.localizedDescription)!, actionTitle: "Okay")
                 }

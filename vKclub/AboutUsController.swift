@@ -246,61 +246,75 @@ class  PropertyController: UITableViewController {
         }
 }
 
-class AccommodationWebViewController: UIViewController{
+class AccommodationWebViewController: UIViewController,UIWebViewDelegate{
     var accommodationData: [String: AnyObject]!
     @IBOutlet weak var webView: UIWebView!
     @IBOutlet weak var noInternet: UILabel!
     let internetConnection = InternetConnection()
     override func viewDidLoad() {
         super.viewDidLoad()
-        if internetConnection.isConnectedToNetwork() {
-            noInternet.alpha = 0
+        if InternetConnection.isConnectedToNetwork() {
+            noInternet.isHidden = true
             
         } else{
+            noInternet.isHidden = false
             self.PresentAlertController(title: "Something went wrong", message: "Please Check you internet connection ", actionTitle: "Got it")
             return
         }
        
         let url = NSURL (string: (accommodationData["url"] as? String)!)
+        self.view.addSubview(webView)
+        webView.delegate = self as UIWebViewDelegate
+        webView.scalesPageToFit = true
+        webView.contentMode = .scaleAspectFit
         let requestObj = URLRequest(url: url! as URL)
         webView.loadRequest(requestObj)
-        UIComponentHelper.PresentActivityIndicator(view: self.view, option: true)
-        let when = DispatchTime.now() + 4 // change 2 to desired number of seconds
-        DispatchQueue.main.asyncAfter(deadline: when) {
-            UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
-        }
+        UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: true)
+        
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    func webViewDidFinishLoad(_ webView: UIWebView) {
+        UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: false)
+    }
+    
+    func webView(_ webView: UIWebView, didFailLoadWithError error: Error){
+        noInternet.isHidden = true
+        self.PresentAlertController(title: "Something went wrong", message: "Please Check you internet connection ", actionTitle: "Got it")
+        UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: false)
+        
+        
+    }
 }
 
 
-class AtivityWebViewController: UIViewController{
+class AtivityWebViewController: UIViewController,UIWebViewDelegate{
     var ativityData: [String: AnyObject]!
     @IBOutlet weak var noInternet: UILabel!
     @IBOutlet weak var webView: UIWebView!
-    let internetConnection = InternetConnection()
     override func viewDidLoad() {
         super.viewDidLoad()
-        if internetConnection.isConnectedToNetwork() {
-            noInternet.alpha = 0
+        if InternetConnection.isConnectedToNetwork() {
+            noInternet.isHidden = true
             print("have internet")
         } else{
+            noInternet.isHidden = false
             self.PresentAlertController(title: "Something went wrong", message: "Please Check you internet connection ", actionTitle: "Got it")
             return
         }
 
         let url = NSURL (string: (ativityData["url"] as? String)!)
+        self.view.addSubview(webView)
+        webView.delegate = self as UIWebViewDelegate
+        webView.scalesPageToFit = true
+        webView.contentMode = .scaleAspectFit
         let requestObj = URLRequest(url: url! as URL)
         webView.loadRequest(requestObj)
-        UIComponentHelper.PresentActivityIndicator(view: self.view, option: true)
-        let when = DispatchTime.now() + 4 // change 2 to desired number of seconds
-        DispatchQueue.main.asyncAfter(deadline: when) {
-            UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
-        }
+        UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: true)
+        
 
     }
     
@@ -308,43 +322,68 @@ class AtivityWebViewController: UIViewController{
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-}
+    func webViewDidFinishLoad(_ webView: UIWebView) {
+        UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: false)
+    }
+    
+    func webView(_ webView: UIWebView, didFailLoadWithError error: Error) {
+        noInternet.isHidden = false
+        self.PresentAlertController(title: "Something went wrong", message: "Please Check you internet connection ", actionTitle: "Got it")
+        noInternet.alpha = 1
+        UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: false)
+        
+        
+    }}
 
 
 
-class PropertyWebViewController: UIViewController {
+class PropertyWebViewController: UIViewController ,UIWebViewDelegate{
     var propertyData: [String: AnyObject]!
     @IBOutlet weak var webView: UIWebView!
     @IBOutlet weak var noInternet: UILabel!
-    let internetConnection = InternetConnection()
     override func viewDidLoad() {
         super.viewDidLoad()
-        if internetConnection.isConnectedToNetwork() {
-            noInternet.alpha = 0
+        if InternetConnection.isConnectedToNetwork() {
+            
+            noInternet.isHidden = true
         } else{
+             noInternet.isHidden = false
             self.PresentAlertController(title: "Something went wrong", message: "Please Check you internet connection ", actionTitle: "Got it")
             return
         }
 
         let url = NSURL (string: (propertyData["url"] as? String)!)
         let requestObj = URLRequest(url: url! as URL)
+        self.view.addSubview(webView)
+        webView.delegate = self as UIWebViewDelegate
+        webView.scalesPageToFit = true
+        webView.contentMode = .scaleAspectFit
         webView.loadRequest(requestObj)
-        UIComponentHelper.PresentActivityIndicator(view: self.view, option: true)
-        let when = DispatchTime.now() + 4 // change 2 to desired number of seconds
-        DispatchQueue.main.asyncAfter(deadline: when) {
-            UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
-        }
+        UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: true)
+
+        
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-  
- }
+    func webViewDidFinishLoad(_ webView: UIWebView) {
+        UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: false)
+        
+        
+    }
+    
+    func webView(_ webView: UIWebView, didFailLoadWithError error: Error) {
+        noInternet.isHidden = false
+        self.PresentAlertController(title: "Something went wrong", message: "Please Check you internet connection ", actionTitle: "Got it")
+        
+        UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: false)
+        
+    }
 
 
-
+}
 
 
 

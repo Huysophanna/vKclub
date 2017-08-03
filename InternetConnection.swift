@@ -3,8 +3,11 @@ import SystemConfiguration
 
 // Internet Vaidation Helper...
 public class InternetConnection {
+    static var second = 0
+    static var countTimer = Timer()
+    static var isConnected: Bool = false
     
-    func isConnectedToNetwork() -> Bool {
+    static func isConnectedToNetwork() -> Bool {
         
         var zeroAddress = sockaddr_in(sin_len: 0, sin_family: 0, sin_port: 0, sin_addr: in_addr(s_addr: 0), sin_zero: (0, 0, 0, 0, 0, 0, 0, 0))
         zeroAddress.sin_len = UInt8(MemoryLayout.size(ofValue: zeroAddress))
@@ -35,5 +38,19 @@ public class InternetConnection {
         
         return ret
         
+    }
+    @objc static func CountSecond(){
+        second += 1
+        if self.second == 10 {
+            second = 0
+            self.countTimer.invalidate()
+            UIComponentHelper.PresentActivityIndicator(view: UIApplication.topViewController()?.view, option: false)
+            UIApplication.topViewController()?.PresentAlertController(title: "Warning", message: "Because your internet conntion was too slow", actionTitle: "Okay")
+            return
+        }
+    }
+    static func CountTimer() {
+        self.countTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.CountSecond), userInfo: nil, repeats: true)
+    
     }
 }

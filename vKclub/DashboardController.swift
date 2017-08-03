@@ -16,7 +16,7 @@ class DashboardController: UIViewController {
     @IBOutlet weak var serviceImg: UIImageView!
     @IBOutlet weak var menuBtn: UIBarButtonItem!
     @IBOutlet weak var KiriromScope: UIButton!
-    
+    @IBOutlet weak var notificationBtn: UIBarButtonItem!
     let IN_KIRIROM = "inKirirom"
     let OFF_KIRIROM = "offKirirom"
     let UNIDENTIFIED = "unidentified"
@@ -28,18 +28,22 @@ class DashboardController: UIViewController {
     var lat: Double = 0
     var long: Double = 0
     let backgroundTask = BackgroundTask()
+    var notifications = [Notifications]()
     
     override func viewDidLoad() {
-        super.viewDidLoad()
+        UserDefaults.standard.set(true, forKey: "loginBefore")
         //init background task for incoming call
         backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask(expirationHandler: nil)
+        
+        loadData()
         UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
         backgroundTask.startBackgroundTask()
         
         Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.isKirirom), userInfo: nil, repeats: true)
+//        Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(isConnectedToNetwork), userInfo: nil, repeats: true)
         Slidemenu()
-
         KiriromScope.setTitle("Identifying", for: .normal)
+
     }
     
     override func didReceiveMemoryWarning() {
@@ -142,10 +146,17 @@ class DashboardController: UIViewController {
             KiriromScope.setTitle("Unidentified Mode", for: .normal)
             KiriromScope.setTitleColor(UIColor.red, for: .normal)
         }
+        if notification_num > 0{
+            self.notificationBtn.addBadge(number: notification_num, withOffset: CGPoint(x: 10, y: 10), andColor: .red, andFilled: true)
+        } else{
+            self.notificationBtn.removeBadge()
+        }
+            
+        
+
         
         //Set linphoneCall identity
         LinphoneManager.register(proxyConfig!)
-        
         //Check linphone status
 //        LinphoneManager.linphoneCallStatus = LinphoneManager.CheckLinphoneCallState()
     }
@@ -199,6 +210,8 @@ class DashboardController: UIViewController {
     }
     
     @IBAction func NoticationBtn(_ sender: Any) {
+        self.notificationBtn.removeBadge()
+        notification_num = 0
         performSegue(withIdentifier: "GotoNotification", sender: self)
     }
     
@@ -219,4 +232,22 @@ class DashboardController: UIViewController {
         }))
         self.present( LocationPermissionAlert, animated: true, completion: nil)
     }
+    func loadData(){
+        let notificationRequest:NSFetchRequest<Notifications> = Notifications.fetchRequest()
+        
+        do {
+            notifications = try manageObjectContext.fetch(notificationRequest)
+            for i in notifications{
+                notification_num = Int(i.notification_num)
+            }
+            
+            
+            
+        }catch {
+            print("Could not load data from database \(error.localizedDescription)")
+        }
+        
+        
+    }
+
 }

@@ -108,6 +108,7 @@
 		C515AF1D1F1FAAE40054A27D /* onboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C515AF1C1F1FAAE40054A27D /* onboardingView.swift */; };
 		C52C21C21F03DBE100B546E1 /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C52C21C11F03DBE100B546E1 /* MenuController.swift */; };
 		C576988B1F1F3D9300556D38 /* InternetConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C576988A1F1F3D9300556D38 /* InternetConnection.swift */; };
+		C58C18571F30D4CB00CAA663 /* Bagde.swift in Sources */ = {isa = PBXBuildFile; fileRef = C58C18561F30D4CB00CAA663 /* Bagde.swift */; };
 		C590B7741F10BE14002C67E3 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		C59D94C81F0756B3009103FA /* CoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C59D94C61F0756B3009103FA /* CoreData.xcdatamodeld */; };
 		C5A7BAB31F166F2E00744979 /* SettingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A7BAB21F166F2E00744979 /* SettingController.swift */; };
@@ -264,6 +265,7 @@
 		C52C21C11F03DBE100B546E1 /* MenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
 		C53D8E7B1F16659400E047A8 /* RoundButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundButton.swift; sourceTree = "<group>"; };
 		C576988A1F1F3D9300556D38 /* InternetConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InternetConnection.swift; sourceTree = "<group>"; };
+		C58C18561F30D4CB00CAA663 /* Bagde.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bagde.swift; sourceTree = "<group>"; };
 		C5923E101F282C71006D6D70 /* Base */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Base; path = Base.lproj/ProviderDelegate.swift; sourceTree = "<group>"; };
 		C59D94C71F0756B3009103FA /* Coredata.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Coredata.xcdatamodel; sourceTree = "<group>"; };
 		C5A7BAB21F166F2E00744979 /* SettingController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingController.swift; sourceTree = "<group>"; };
@@ -378,6 +380,7 @@
 				7F3C1DAB1F03AAD100888BEA /* ButtonBorder.swift */,
 				C51157D11F0B7A56008BCEC5 /* UserProfileCoreData.swift */,
 				C576988A1F1F3D9300556D38 /* InternetConnection.swift */,
+				C58C18561F30D4CB00CAA663 /* Bagde.swift */,
 			);
 			name = HelperClass;
 			sourceTree = "<group>";
@@ -821,6 +824,7 @@
 				7FE373701F25EDDA00051971 /* CallKitCallInit.swift in Sources */,
 				7FBF65ED1F0C0A8F00307BF3 /* IncomingCallController.swift in Sources */,
 				7F1E246B1F0247250090C7E7 /* MapController.swift in Sources */,
+				C58C18571F30D4CB00CAA663 /* Bagde.swift in Sources */,
 				7F1E24691F0247250090C7E7 /* ForgotPWController.swift in Sources */,
 				7F8A70051F2066EA00B83290 /* CardViewHelper.swift in Sources */,
 				7F1984661F0E478B0063660B /* RoundButton.swift in Sources */,
