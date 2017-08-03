@@ -21,6 +21,9 @@
 		7F38C32E1F20606100666B36 /* AboutUsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F38C32D1F20606100666B36 /* AboutUsController.swift */; };
 		7F3C1DAC1F03AAD100888BEA /* ButtonBorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3C1DAB1F03AAD100888BEA /* ButtonBorder.swift */; };
 		7F6067BE1F17714900F7CE26 /* RecentCallController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6067BD1F17714900F7CE26 /* RecentCallController.swift */; };
+		7F7804291F32E7460086A226 /* BackgroundTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7804281F32E7460086A226 /* BackgroundTask.swift */; };
+		7F7804361F32E95B0086A226 /* noSound.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7F7804351F32E95B0086A226 /* noSound.wav */; };
+		7F7804381F32EB5C0086A226 /* ringback.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7F7804371F32EB5C0086A226 /* ringback.wav */; };
 		7F8A70051F2066EA00B83290 /* CardViewHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F8A70041F2066EA00B83290 /* CardViewHelper.swift */; };
 		7FA8F7ED1F226DE700AE3EA2 /* ProviderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA8F7EC1F226DE700AE3EA2 /* ProviderDelegate.swift */; };
 		7FBF65ED1F0C0A8F00307BF3 /* IncomingCallController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FBF65EC1F0C0A8F00307BF3 /* IncomingCallController.swift */; };
@@ -150,6 +153,9 @@
 		7F38C32D1F20606100666B36 /* AboutUsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AboutUsController.swift; path = vKclub/AboutUsController.swift; sourceTree = "<group>"; };
 		7F3C1DAB1F03AAD100888BEA /* ButtonBorder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ButtonBorder.swift; path = vKclub/ButtonBorder.swift; sourceTree = "<group>"; };
 		7F6067BD1F17714900F7CE26 /* RecentCallController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RecentCallController.swift; path = vKclub/RecentCallController.swift; sourceTree = "<group>"; };
+		7F7804281F32E7460086A226 /* BackgroundTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundTask.swift; sourceTree = "<group>"; };
+		7F7804351F32E95B0086A226 /* noSound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = noSound.wav; path = Sounds/noSound.wav; sourceTree = "<group>"; };
+		7F7804371F32EB5C0086A226 /* ringback.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = ringback.wav; path = ../ringback.wav; sourceTree = "<group>"; };
 		7F8A70041F2066EA00B83290 /* CardViewHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardViewHelper.swift; sourceTree = SOURCE_ROOT; };
 		7F8C3C1E1F17CF030060D31B /* vKclub.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = vKclub.entitlements; sourceTree = "<group>"; };
 		7F8E0D0C1F025C4900EE99BF /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../Info.plist; sourceTree = "<group>"; };
@@ -368,6 +374,7 @@
 			isa = PBXGroup;
 			children = (
 				7F8A70041F2066EA00B83290 /* CardViewHelper.swift */,
+				7F7804281F32E7460086A226 /* BackgroundTask.swift */,
 				C53D8E7B1F16659400E047A8 /* RoundButton.swift */,
 				7F1E24601F0247250090C7E7 /* UIComponentHelper.swift */,
 				7F3C1DAB1F03AAD100888BEA /* ButtonBorder.swift */,
@@ -376,6 +383,15 @@
 				C58C18561F30D4CB00CAA663 /* Bagde.swift */,
 			);
 			name = HelperClass;
+			sourceTree = "<group>";
+		};
+		7F7804311F32E8B50086A226 /* Sound */ = {
+			isa = PBXGroup;
+			children = (
+				7F7804351F32E95B0086A226 /* noSound.wav */,
+				7F7804371F32EB5C0086A226 /* ringback.wav */,
+			);
+			name = Sound;
 			sourceTree = "<group>";
 		};
 		A924DEC31D07AC520030A438 /* Resources */ = {
@@ -516,6 +532,7 @@
 				7F6067BD1F17714900F7CE26 /* RecentCallController.swift */,
 				7FBF65EC1F0C0A8F00307BF3 /* IncomingCallController.swift */,
 				7FE3736F1F25EDDA00051971 /* CallKitCallInit.swift */,
+				C5923E0F1F282C71006D6D70 /* ProviderDelegate.swift */,
 				7F1E24641F0247250090C7E7 /* MapController.swift */,
 				7F1E24651F0247250090C7E7 /* ServiceController.swift */,
 				C52C21C11F03DBE100B546E1 /* MenuController.swift */,
@@ -532,7 +549,6 @@
 			isa = PBXGroup;
 			children = (
 				C5F5A81F1F279DF900190CDF /* Main.storyboard */,
-				C5923E0F1F282C71006D6D70 /* ProviderDelegate.swift */,
 				A996636D1D06F877003B5EEE /* LaunchScreen.storyboard */,
 			);
 			name = View;
@@ -551,6 +567,7 @@
 		A9FAC4691D07D71600E3C8A5 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				7F7804311F32E8B50086A226 /* Sound */,
 				C5F5A81D1F279DD300190CDF /* AboutUs.json */,
 				C5FDE0021F10016E00B4F00E /* Assets.xcassets */,
 			);
@@ -699,6 +716,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7F7804381F32EB5C0086A226 /* ringback.wav in Resources */,
+				7F7804361F32E95B0086A226 /* noSound.wav in Resources */,
 				A9FACB091D0A7B3700E3C8A5 /* hello16000.wav in Resources */,
 				A9FACB0D1D0A7B3700E3C8A5 /* four_hands_together.mkv in Resources */,
 				A924DEC81D07AC620030A438 /* linphonerc in Resources */,
@@ -800,6 +819,7 @@
 				A924DECF1D07D4EA0030A438 /* README.md in Sources */,
 				A996637A1D06FE65003B5EEE /* LinphoneManager.swift in Sources */,
 				7F1E24681F0247250090C7E7 /* LoginController.swift in Sources */,
+				7F7804291F32E7460086A226 /* BackgroundTask.swift in Sources */,
 				7F3C1DAC1F03AAD100888BEA /* ButtonBorder.swift in Sources */,
 				7FE373701F25EDDA00051971 /* CallKitCallInit.swift in Sources */,
 				7FBF65ED1F0C0A8F00307BF3 /* IncomingCallController.swift in Sources */,
@@ -831,6 +851,7 @@
 				C5923E101F282C71006D6D70 /* Base */,
 			);
 			name = ProviderDelegate.swift;
+			path = vKclub;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import AVFoundation
 import CoreData
+import CallKit
 
 var waitForStreamRunningInterval: Timer?
 
@@ -31,6 +32,8 @@ class IncomingCallController: UIViewController {
     var callDataRequest: NSFetchRequest<SipCallData> = SipCallData.fetchRequest()
     let userCoreDataInstance = UserProfileCoreData()
     var callKitManager: CallKitCallInit?
+    let callController = CXCallController()
+    let backgroundTask = BackgroundTask()
     
     static var dialPhoneNumber: String = ""
     var setUpCallInProgressInterval: Timer?
@@ -60,8 +63,6 @@ class IncomingCallController: UIViewController {
                             notification.soundName = UILocalNotificationDefaultSoundName
                             UIApplication.shared.scheduleLocalNotification(notification)
                         }
-                        
-                        
                     }
                 }
             }
@@ -82,6 +83,8 @@ class IncomingCallController: UIViewController {
     static var CallStreamRunning = false
     var callStreamRunning = false {
         didSet {
+            backgroundTask.stopBackgroundTask()
+            
             IncomingCallController.CallStreamRunning = callStreamRunning
             print("callStreamRunning ====YAYY====")
         }
@@ -109,6 +112,14 @@ class IncomingCallController: UIViewController {
             if releaseCallFlag == true {
                 IncomingCallController.CallStreamRunning = false
                 UIApplication.topViewController()?.dismiss(animated: true, completion: nil)
+                
+                //report to CallKit that call is ended
+                let endCallAction = CXEndCallAction(call: lastCallUUID)
+                let callTransaction = CXTransaction(action: endCallAction)
+                callController.request(callTransaction, completion: {(data) in })
+                
+                //recall backgroundTask since making call interrupt and end our audio backgroundTask
+                backgroundTask.startBackgroundTask()
                 
                 //set flag back to false when call released
                 acceptCallFlag = false
@@ -189,7 +200,6 @@ class IncomingCallController: UIViewController {
         }
         
         //LinphoneCallError occurred
-        print(LinphoneManager.linphoneCallErrorIndicator ,"==LinphoneError==")
         if LinphoneManager.linphoneCallErrorIndicator {
             waitForStreamRunningInterval?.invalidate()
             

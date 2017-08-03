@@ -27,13 +27,18 @@ class DashboardController: UIViewController {
     let locationManager = CLLocationManager()
     var lat: Double = 0
     var long: Double = 0
+    let backgroundTask = BackgroundTask()
     var notifications = [Notifications]()
+    
     override func viewDidLoad() {
         UserDefaults.standard.set(true, forKey: "loginBefore")
         //init background task for incoming call
         backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask(expirationHandler: nil)
+        
         loadData()
         UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
+        backgroundTask.startBackgroundTask()
+        
         Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.isKirirom), userInfo: nil, repeats: true)
 //        Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(isConnectedToNetwork), userInfo: nil, repeats: true)
         Slidemenu()
@@ -219,7 +224,6 @@ class DashboardController: UIViewController {
                 UIApplication.shared.open(URL(string:UIApplicationOpenSettingsURLString)!, options: [:], completionHandler:nil)
             } else{
                 UIApplication.shared.open(URL(string:"App-Prefs:root=Privacy")!, options: [:], completionHandler: nil)
-
              }
             
         }))
