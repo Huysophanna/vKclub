@@ -127,7 +127,6 @@ class LinphoneManager {
         theLinphone.lct?.registration_state_changed = registrationStateChanged
         theLinphone.lct?.call_state_changed = callStateChanged
         
-        
         theLinphone.lc = linphone_core_new_with_config(&theLinphone.lct!, lpConfig, nil)
         
         // Set ring asset
@@ -253,8 +252,8 @@ class LinphoneManager {
 //        let password = dict?.object(forKey: "password") as! String
 //        let domain = dict?.object(forKey: "domain") as! String
         
-        let account = "10040"
-        let password = "A2apbx10040"
+        let account = "10100"
+        let password = "A2apbx10100"
         let domain = "192.168.7.251:5060"
         
         let identity = "sip:" + account + "@" + domain;
