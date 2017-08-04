@@ -58,8 +58,27 @@ class DashboardController: UIViewController {
     }
     
     @IBAction func InternalCallBtn(_ sender: Any) {
-        LinphoneManager.register(proxyConfig!)
-        performSegue(withIdentifier: "PushInternalCall", sender: self)
+        
+        
+       
+        switch CheckUserLocation() {
+            case IN_KIRIROM:
+                LinphoneManager.register(proxyConfig!)
+                performSegue(withIdentifier: "PushInternalCall", sender: self)
+            break
+            case OFF_KIRIROM:
+                PresentAlertController(title: "Off-Kirirom Mode", message: "Emergency SOS & Free internal   phone call features are not accessible for Off-Kirirom users.", actionTitle: "Okay")
+            break
+            case UNIDENTIFIED:
+                LocationPermission(INAPP_UNIDENTIFIEDSetting: false)
+            
+            break
+            case INAPP_UNIDENTIFIED:
+                LocationPermission(INAPP_UNIDENTIFIEDSetting: true)
+            break
+            default: break
+        }
+
     }
    
     @IBAction func BtnMap(_ sender: Any) {
@@ -216,7 +235,7 @@ class DashboardController: UIViewController {
     }
     
     func LocationPermission(INAPP_UNIDENTIFIEDSetting : Bool){
-        let LocationPermissionAlert = UIAlertController(title: "Location disabled for vKclub App", message: "Please enable Location by Clicking Okay", preferredStyle: UIAlertControllerStyle.alert)
+        let LocationPermissionAlert = UIAlertController(title: "Location Permission Denied.", message: "Turn on Location Service to Determine your current location for App Mode", preferredStyle: UIAlertControllerStyle.alert)
         
         LocationPermissionAlert.addAction(UIAlertAction(title: "Okay", style: .default, handler: { (action: UIAlertAction!) in
             if INAPP_UNIDENTIFIEDSetting {

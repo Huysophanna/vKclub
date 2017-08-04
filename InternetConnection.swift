@@ -45,7 +45,7 @@ public class InternetConnection {
             second = 0
             self.countTimer.invalidate()
             UIComponentHelper.PresentActivityIndicator(view: UIApplication.topViewController()?.view, option: false)
-            UIApplication.topViewController()?.PresentAlertController(title: "Warning", message: "Because your internet conntion was too slow", actionTitle: "Okay")
+            UIApplication.topViewController()?.PresentAlertController(title: "Warning", message: "There is a problem with network connection. Please try again later.", actionTitle: "Okay")
             return
         }
     }
