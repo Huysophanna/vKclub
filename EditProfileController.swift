@@ -71,6 +71,13 @@ class EditProfileController: UIViewController {
             
 
         }
+        let length_password : Int = (currentpass.text!.characters.count)
+        if length_password < 6 {
+            UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: false)
+            PresentAlertController(title: "Warning", message: "Pleaes enter your password more then 6 characters", actionTitle: "Got it")
+            
+            return
+        }
         
         if (currentpass.text?.isEmpty)!{
             UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: false)
@@ -147,8 +154,11 @@ class EditProfileController: UIViewController {
                                     UserDefaults.standard.set(false, forKey: "loginBefore")
                                     self.currentuser?.sendEmailVerification(completion: { (error) in
                                         
+                                        if error != nil{
+                                           self.PresentAlertController(title: "Something went wrong", message: (error?.localizedDescription)!, actionTitle: "Okay")}
+                                        
                                     })
-                                    self.PresentAlertController(title: "Warning", message: "Your new Email  "+(self.currentuser?.email)!+"  need to verified. Please verify your email address with a link that we have already sent you to proceed login in", actionTitle: "Okay")
+                                    self.PresentAlertController(title: "Warning", message: "Your new Email  \n"+(self.currentuser?.email)!+"  need to verified.\n Please verify your email address with a link that we have already sent you to proceed login in", actionTitle: "Okay")
                                     UIApplication.shared.keyWindow?.rootViewController = self.storyboard!.instantiateViewController(withIdentifier: "loginController")
                                 })
                             }))
@@ -212,7 +222,7 @@ class ChangePasswordController :UIViewController {
     
     @IBAction func ChangePasswordBtn(_ sender: Any) {
         
-        if (current_password.text?.isEmpty)! && (new_password.text?.isEmpty)! && (comfire_password.text?.isEmpty)!{
+        if (current_password.text?.isEmpty)! || (new_password.text?.isEmpty)! || (comfire_password.text?.isEmpty)!{
             self.PresentAlertController(title: "Warning", message: "Please properly insert your data", actionTitle: "Ok")
             return
             
