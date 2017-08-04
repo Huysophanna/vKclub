@@ -31,8 +31,6 @@ class EditProfileController: UIViewController {
         UIComponentHelper.MakeCustomPlaceholderTextField(textfield: currentpass, name: "Current Password", color: UIColor(hexString: "#008040", alpha: 1))
         
         UIComponentHelper.MakeBtnWhiteBorder(button: UpdateBtn, color: UIColor(hexString: "#008040", alpha: 1))
-        Username.text = currentuser?.displayName
-        Email.text    = currentuser?.email
         
         // Do any additional setup after loading the view.
     }
@@ -47,6 +45,9 @@ class EditProfileController: UIViewController {
     }
     
     @IBAction func UpdateBtn(_ sender: Any) {
+        Username.text = currentuser?.displayName
+        Email.text    = currentuser?.email
+
         let changeRequest = currentuser?.createProfileChangeRequest()
         UIComponentHelper.PresentActivityIndicator(view: self.view, option: true)
         if InternetConnection.isConnectedToNetwork() {
@@ -126,7 +127,6 @@ class EditProfileController: UIViewController {
     }
 }
     func UpdateUsernameandemail(username:String, email:String){
-        
         let emailProvider = NSPredicate(format: "facebookProvider = 0")
         let email_lgoin = personService.getUserProfile(withPredicate: emailProvider)
         for i in email_lgoin {

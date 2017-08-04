@@ -1,10 +1,12 @@
 import Foundation
+import AVFoundation
 
 var answerCall: Bool = false
 let LINPHONE_CALLSTREAM_RUNNING = "LinphoneCallStreamsRunning"
 let LINPHONE_CALL_ERROR = "LinphoneCallError"
+let LINPHONE_CALL_OUTGOING_RINGING = "LinphoneCallOutgoingRinging"
 
-
+var outGoingCallPlayer = AVAudioPlayer()
 var proxyConfig: OpaquePointer? = nil
 
 struct theLinphone {
@@ -51,7 +53,7 @@ let callStateChanged: LinphoneCoreCallStateChangedCb = {
             //indicate that there is an incoming call to show incomingcall screen
             LinphoneManager.incomingCallFlag = true
        
-            if answerCall{
+            if answerCall {
                 ms_usleep(3 * 1000 * 1000); // Wait 3 seconds to pickup
                 linphone_core_accept_call(lc, call)
             }
@@ -135,6 +137,16 @@ class LinphoneManager {
 
         let localRing = URL(fileURLWithPath: Bundle.main.bundlePath).appendingPathComponent("/toy-mono.wav").absoluteString
         linphone_core_set_ring(theLinphone.lc, localRing)
+        
+        // Set outGoingCall ring asset
+        do {
+            let callToSoundBundle = Bundle.main.path(forResource: "OutGoingCallSound", ofType: "wav")
+            let alertSound = URL(fileURLWithPath: callToSoundBundle!)
+            try outGoingCallPlayer = AVAudioPlayer(contentsOf: alertSound)
+        } catch {
+            print("AVAudioPlayer Interrupted ===")
+        }
+        
     }
     
     fileprivate func bundleFile(_ file: NSString) -> NSString{

@@ -27,20 +27,22 @@ class DashboardController: UIViewController {
     let locationManager = CLLocationManager()
     var lat: Double = 0
     var long: Double = 0
-    let backgroundTask = BackgroundTask()
     var notifications = [Notifications]()
     
     override func viewDidLoad() {
         UserDefaults.standard.set(true, forKey: "loginBefore")
+        
         //init background task for incoming call
         backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask(expirationHandler: nil)
         
         loadData()
         UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
-        backgroundTask.startBackgroundTask()
         
         Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.isKirirom), userInfo: nil, repeats: true)
-//        Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(isConnectedToNetwork), userInfo: nil, repeats: true)
+        
+        //recall backgroundTask since making call interrupt and end our audio backgroundTask
+        BackgroundTask.backgroundTaskInstance.startBackgroundTask()
+
         Slidemenu()
         KiriromScope.setTitle("Identifying", for: .normal)
 
@@ -68,9 +70,8 @@ class DashboardController: UIViewController {
 
     @IBAction func AboutUsBtn(_ sender: Any) {
         performSegue(withIdentifier: "PushAboutUs", sender: nil)
-        
-        
     }
+    
     @IBAction func MembershipBtn(_ sender: Any) {
         PresentAlertController(title: "Coming Soon!", message: "Introducing vKirirom Membership Card with vPoints, will be available soon.", actionTitle: "Okay")
     }
@@ -109,8 +110,6 @@ class DashboardController: UIViewController {
             
         })
     }
-    
-
     
     //Func for show the Slidemenu
     func Slidemenu() {
@@ -151,14 +150,22 @@ class DashboardController: UIViewController {
         } else{
             self.notificationBtn.removeBadge()
         }
-            
-        
-
         
         //Set linphoneCall identity
         LinphoneManager.register(proxyConfig!)
         //Check linphone status
 //        LinphoneManager.linphoneCallStatus = LinphoneManager.CheckLinphoneCallState()
+        
+        print(noSoundBGPlayer.isPlaying, " PLAYINGCHECK")
+        
+        //recall backgroundTask since making call interrupt and end our audio backgroundTask
+//        if !player.isPlaying && LinphoneManager.CheckLinphoneCallState() != LINPHONE_CALLSTREAM_RUNNING {
+//            print(player.isPlaying, " PLAYINGRECALL ============")
+//            player.play()
+//        }
+        
+        
+        
     }
     
     func CheckUserLocation() -> String {
@@ -174,11 +181,11 @@ class DashboardController: UIViewController {
             locationManager.startUpdatingLocation()
             print (locationManager.startUpdatingLocation())
             // if location not null
-            if (locationManager.location?.coordinate.longitude != nil){
+            if (locationManager.location?.coordinate.longitude != nil) {
                 let currentlocation_lat = Double((locationManager.location?.coordinate.latitude)!)
                 let currentlocation_long = Double((locationManager.location?.coordinate.longitude)!)
                 let kiriromscope :Double = Double(distanceCal(lat:currentlocation_lat ,long:currentlocation_long))
-                if(kiriromscope < 17){
+                if (kiriromscope < 17) {
                     lat = currentlocation_lat
                     long = currentlocation_long
                     return IN_KIRIROM
@@ -200,7 +207,7 @@ class DashboardController: UIViewController {
     }
     
     //user scope
-    func distanceCal(lat:Double,long:Double) -> Double   {
+    func distanceCal(lat:Double,long:Double) -> Double {
         let dLat : Double = (KIRIROMLAT-lat)*(Double.pi/180)
         let dLon : Double = (KIRIROMLNG-long)*(Double.pi/180)
         let a : Double = sin(dLat/2) * sin(dLat/2) + cos(lat*(Double.pi/180))*cos(KIRIROMLAT*(Double.pi/180)) * sin(dLon/2) * sin(dLon/2);
@@ -227,7 +234,7 @@ class DashboardController: UIViewController {
              }
             
         }))
-         LocationPermissionAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler:{ (action: UIAlertAction!) in
+         LocationPermissionAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
             
         }))
         self.present( LocationPermissionAlert, animated: true, completion: nil)
@@ -241,9 +248,7 @@ class DashboardController: UIViewController {
                 notification_num = Int(i.notification_num)
             }
             
-            
-            
-        }catch {
+        } catch {
             print("Could not load data from database \(error.localizedDescription)")
         }
         

@@ -87,6 +87,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
             print("First launch, setting UserDefault.")
             
         }
+        
         let loginBefore = UserDefaults.standard.bool(forKey: "loginBefore")
         if loginBefore  {
             self.Dashboard()
