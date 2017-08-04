@@ -268,7 +268,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     
     @IBAction func EmergencySOS(_ sender: Any){
         if (UIDevice.current.userInterfaceIdiom == UIUserInterfaceIdiom.pad) {
-            self.PresentAlertController(title: "Something went wrong", message: "Your device doesn't support with this feature ", actionTitle: "Got it")
+            self.PresentAlertController(title: "Warning", message: "Your device doesn't support with this feature ", actionTitle: "Got it")
             
             return
         }
@@ -277,11 +277,11 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
             self.inKirirom()
             
         } else if (Check == "offKirirom") {
-            PresentAlertController(title: "Something went wrong", message: "You off kirirom,so You can not use EmergencySOS function", actionTitle: "Got it")
+            PresentAlertController(title: "Off-Kirirom mode", message: "Emergency SOS & Free internal   phone call features are not accessible for Off-Kirirom users.", actionTitle: "Got it")
         } else if( Check == "identifying"){
-            PresentAlertController(title: "Something went wrong", message: "Please Allow your location", actionTitle: "Got it")
+            LocationPermission(INAPP_UNIDENTIFIEDSetting: false)
         } else {
-            PresentAlertController(title: "Something went wrong", message: "Please Allow your location", actionTitle: "Got it")
+            LocationPermission(INAPP_UNIDENTIFIEDSetting: true)
         }
         
     }
@@ -436,6 +436,23 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
             
         }
      
+    }
+    func LocationPermission(INAPP_UNIDENTIFIEDSetting : Bool){
+        let LocationPermissionAlert = UIAlertController(title: "Location Permission Denied.", message: "Turn on Location Service to Determine your current location for App Mode", preferredStyle: UIAlertControllerStyle.alert)
+        
+        LocationPermissionAlert.addAction(UIAlertAction(title: "Okay", style: .default, handler: { (action: UIAlertAction!) in
+            if INAPP_UNIDENTIFIEDSetting {
+                
+                UIApplication.shared.open(URL(string:UIApplicationOpenSettingsURLString)!, options: [:], completionHandler:nil)
+            } else{
+                UIApplication.shared.open(URL(string:"App-Prefs:root=Privacy")!, options: [:], completionHandler: nil)
+            }
+            
+        }))
+        LocationPermissionAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler:{ (action: UIAlertAction!) in
+            
+        }))
+        self.present( LocationPermissionAlert, animated: true, completion: nil)
     }
    
 }

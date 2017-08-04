@@ -58,7 +58,7 @@ class SettingController: UIViewController,UNUserNotificationCenterDelegate,UIApp
             }else{
                 // OPEN Nottification user when you not allow notification
                 self.NotificationSetting.isOn = false
-                let notificationPermissionAlert = UIAlertController(title: "Notifications disabled for vKclub App", message: "Please enable Notifications by Clicking Okay", preferredStyle: UIAlertControllerStyle.alert)
+                let notificationPermissionAlert = UIAlertController(title: "Notifications disabled for vKclub App", message: "Please enable Notifications", preferredStyle: UIAlertControllerStyle.alert)
                 
                 notificationPermissionAlert.addAction(UIAlertAction(title: "Okay", style: .default, handler: { (action: UIAlertAction!) in
                    UIApplication.shared.open(URL(string:UIApplicationOpenSettingsURLString)!, options: [:], completionHandler:nil)

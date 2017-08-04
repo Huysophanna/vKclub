@@ -31,7 +31,7 @@ class CreateAccController: ViewController {
     @IBAction func SignUpClicked(_ sender: Any) {
         let length_password : Int = (passwordTextField.text?.characters.count)!
         if (nameTextField.text?.isEmpty)! && (emailTextField.text?.isEmpty)! && (passwordTextField.text?.isEmpty)! && (confirmTextField.text?.isEmpty)! {
-            PresentAlertController(title: "Something went wrong", message: "Please properly insert your data", actionTitle: "Got it")
+            PresentAlertController(title: "Warning", message: "Please properly insert your data", actionTitle: "Got it")
             return
         }
         
@@ -39,10 +39,10 @@ class CreateAccController: ViewController {
             PresentAlertController(title: "Something went wrong", message: "Please properly insert your data", actionTitle: "Got it")
             return
         } else if confirmTextField.text !=  passwordTextField.text {
-            PresentAlertController(title: "Something went wrong", message: "Your password doesn't match with confirm password", actionTitle: "Got it")
+            PresentAlertController(title: "Warning", message: "Your password doesn't match with confirm password", actionTitle: "Got it")
              return
         } else if length_password < 6 {
-            PresentAlertController(title: "Something went wrong", message: "Pleaes enter your password more then 6 characters", actionTitle: "Got it")
+            PresentAlertController(title: "Warning", message: "Pleaes enter your password more then 6 characters", actionTitle: "Got it")
             return
         }
         else {

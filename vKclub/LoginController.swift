@@ -133,7 +133,7 @@ class LoginController: UIViewController {
         if emailTextField.text == "" || pwTextField.text == "" {
             UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
             
-            PresentAlertController(title: "Something went wrong", message: "Please properly insert your data", actionTitle: "Got it")
+            PresentAlertController(title: "Warning", message: "Please properly insert your data", actionTitle: "Got it")
             
         } else {
             //handle firebase sign in
