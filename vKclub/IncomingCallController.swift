@@ -222,12 +222,10 @@ class IncomingCallController: UIViewController {
         }
         
         //LinphoneCallError occurred
-        if LinphoneManager.linphoneCallErrorIndicator {
+        if !LinphoneManager.CheckLinphoneConnectionStatus() {
             waitForStreamRunningInterval?.invalidate()
             
             PresentAlertController(title: "Something went wrong", message: "You are not connected to our server. Please ensure that you are connected to our network and try again later.", actionTitle: "Okay")
-            LinphoneManager.linphoneCallErrorIndicator = false
-            
         }
         
     }

@@ -67,7 +67,6 @@ let callStateChanged: LinphoneCoreCallStateChangedCb = {
         
         case LinphoneCallError: /**<The call encountered an error*/
             print("callStateChanged: LinphoneCallError", "====")
-            LinphoneManager.linphoneCallErrorIndicator = true
         break
         
         case LinphoneCallReleased:
@@ -85,7 +84,6 @@ let callStateChanged: LinphoneCoreCallStateChangedCb = {
 class LinphoneManager {
     static let incomingCallInstance = IncomingCallController()
     static var linphoneCallStatus: String = ""
-    static var linphoneCallErrorIndicator = false
     static var callOpaquePointerData: Optional<OpaquePointer>
     static var lcOpaquePointerData: Optional<OpaquePointer>
     static var incomingCallFlag: Bool = false {
@@ -162,25 +160,11 @@ class LinphoneManager {
 
     static func makeCall(phoneNumber: String) {
         let calleeAccount = phoneNumber
-//
-//        guard let _ = setIdentify() else {
-//            print("no identity")
-//            return;
-//        }
         linphone_core_invite(theLinphone.lc, calleeAccount)
-//        setTimer()
-//        shutdown()
     }
     
     static func receiveCall() {
-//        guard let proxyConfig = setIdentify() else {
-//            print("no identity")
-//            return;
-//        }
-//        register(proxyConfig)
         linphone_core_accept_call(theLinphone.lc, LinphoneManager.callOpaquePointerData)
-//        setTimer()
-//        shutdown()
     }
     
     static func CheckLinphoneCallState() -> String {
@@ -194,6 +178,15 @@ class LinphoneManager {
             return "ERROR"
         }
         
+    }
+    
+    static func CheckLinphoneConnectionStatus() -> Bool {
+        // 1 means registered
+        if linphone_proxy_config_is_registered(proxyConfig) == 1 {
+            return true
+        } else {
+            return false
+        }
     }
     
     static func muteMic() {
@@ -300,6 +293,7 @@ class LinphoneManager {
     
     static func register(_ proxy_cfg: OpaquePointer){
         linphone_proxy_config_enable_register(proxy_cfg, 1); /* activate registration for this proxy config*/
+        
     }
     
     func shutdown(){

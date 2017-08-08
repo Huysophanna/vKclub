@@ -9,6 +9,7 @@
 import UIKit
 import GoogleMaps
 import CoreData
+import UserNotifications
 
 var backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask(expirationHandler: nil)
 
@@ -28,6 +29,12 @@ class DashboardController: UIViewController {
     var lat: Double = 0
     var long: Double = 0
     var notifications = [Notifications]()
+    var linphoneConnectionStatusFlag: Bool = true {
+        didSet {
+            PrepareLocalNotificationForConnectionStatus(isConnected: linphoneConnectionStatusFlag)
+        }
+    }
+    
     
     override func viewDidLoad() {
         UserDefaults.standard.set(true, forKey: "loginBefore")
@@ -60,9 +67,6 @@ class DashboardController: UIViewController {
     }
     
     @IBAction func InternalCallBtn(_ sender: Any) {
-        
-        
-       
         switch CheckUserLocation() {
             case IN_KIRIROM:
                 LinphoneManager.register(proxyConfig!)
@@ -116,7 +120,6 @@ class DashboardController: UIViewController {
     }
     
     //animate button on click
-    
     func AnimateBtn(senderBtn: UIButton) {
         UIView.animate(withDuration: 0.1, animations: {
             self.serviceImg.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
@@ -143,6 +146,8 @@ class DashboardController: UIViewController {
             
         }
     }
+    
+    
     
     func isKirirom() {
         switch CheckUserLocation() {
@@ -172,19 +177,31 @@ class DashboardController: UIViewController {
         
         //Set linphoneCall identity
         LinphoneManager.register(proxyConfig!)
-        //Check linphone status
-//        LinphoneManager.linphoneCallStatus = LinphoneManager.CheckLinphoneCallState()
         
-        print(noSoundBGPlayer.isPlaying, " PLAYINGCHECK")
+        //Push localNotification to show user about linphone connection status
+        if LinphoneManager.CheckLinphoneConnectionStatus() {
+            if !linphoneConnectionStatusFlag {
+                linphoneConnectionStatusFlag = true
+            }
+        } else {
+            if linphoneConnectionStatusFlag {
+                linphoneConnectionStatusFlag = false
+            }
+        }
+    }
+    
+    func PrepareLocalNotificationForConnectionStatus(isConnected: Bool) {
+        var title: String
+        var body: String
+        if isConnected {
+            title = "PhoneCall Registered"
+            body = "You are connected. Available to recieve and make call."
+        } else {
+            title = "PhoneCall Registration Failed"
+            body = "You are not connected. Please connect to our wifi network to recieve and make call."
+        }
         
-        //recall backgroundTask since making call interrupt and end our audio backgroundTask
-//        if !player.isPlaying && LinphoneManager.CheckLinphoneCallState() != LINPHONE_CALLSTREAM_RUNNING {
-//            print(player.isPlaying, " PLAYINGRECALL ============")
-//            player.play()
-//        }
-        
-        
-        
+        UIComponentHelper.scheduleNotification(_title: title, _body: body, _inSeconds: 0.1)
     }
     
     func CheckUserLocation() -> String {
