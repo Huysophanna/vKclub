@@ -49,6 +49,7 @@ class EditProfileController: UIViewController,UITextFieldDelegate {
     
     @IBAction func UpdateBtn(_ sender: Any) {
         UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: true)
+
         if InternetConnection.isConnectedToNetwork() {
             print("have internet")
         } else{
@@ -183,7 +184,6 @@ class EditProfileController: UIViewController,UITextFieldDelegate {
     }
     
     func UpdateUsernameandemail(username:String, email:String){
-        
         let emailProvider = NSPredicate(format: "facebookProvider = 0")
         let email_lgoin = personService.getUserProfile(withPredicate: emailProvider)
         for i in email_lgoin {

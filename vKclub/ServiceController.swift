@@ -10,13 +10,43 @@ import Foundation
 import UIKit
 
 class ServiceController: UIViewController {
-    override func viewDidLoad() {
-        
-    }
+    var incomingCallInstance = IncomingCallController()
+    
     @IBAction func GotoBookpage(_ sender: Any) {
          self.performSegue(withIdentifier: "SgGotoBookpage", sender: self)
     }
+    
+    @IBAction func CallToDepartmentAction(_ sender: Any) {
+        
+        switch (sender as! UIButton).tag {
+            case 1:
+                CallToAction(phoneNumber: "9999")
+                break
+            case 2:
+                CallToAction(phoneNumber: "9999")
+                break
+            case 3:
+                CallToAction(phoneNumber: "9999")
+                break
+            case 4:
+                CallToAction(phoneNumber: "9999")
+                break
+            default:
+                CallToAction(phoneNumber: "9999")
+                break
+        }
+        
+        
+    }
+    
+    func CallToAction(phoneNumber: String) {
+        self.incomingCallInstance.callToFlag = true
+        IncomingCallController.dialPhoneNumber = phoneNumber
+        LinphoneManager.makeCall(phoneNumber: phoneNumber)
+    }
+    
  }
+
 class BookingViewController: UIViewController ,UIWebViewDelegate{
     var propertyData: [String: AnyObject]!
     @IBOutlet weak var webView: UIWebView!
@@ -47,10 +77,9 @@ class BookingViewController: UIViewController ,UIWebViewDelegate{
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
     func webViewDidFinishLoad(_ webView: UIWebView) {
         UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: false)
-        
-        
     }
     
     func webView(_ webView: UIWebView, didFailLoadWithError error: Error) {
@@ -59,8 +88,9 @@ class BookingViewController: UIViewController ,UIWebViewDelegate{
         self.PresentAlertController(title: "Something went wrong", message: "Please Check you internet connection ", actionTitle: "Got it")
         
     }
+    
     @IBAction func CancelBtn(_ sender: Any) {
         dismiss(animated: true, completion: nil)
-        
     }
+    
  }

@@ -55,6 +55,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
         
         // Change navigation title color as default
         UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName:UIColor.white]
+        
+        // request permission for local notification
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound], completionHandler: {(granted, error) in
+            if granted {
+                print("Notification access granted")
+            } else {
+                print("User reject notification access")
+            }
+        })
+        
         if #available(iOS 10.0, *) {
             // For iOS 10 display notification (sent via APNS)
             UNUserNotificationCenter.current().delegate = self
@@ -88,6 +98,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
             print("First launch, setting UserDefault.")
             
         }
+        
         let loginBefore = UserDefaults.standard.bool(forKey: "loginBefore")
         if loginBefore  {
             self.Dashboard()
@@ -97,9 +108,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
         
         return true
     }
+    
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         print("Unable to register for remote notifications: \(error.localizedDescription)")
     }
+    
     func application(_ application: UIApplication,
                               didReceiveRemoteNotification userInfo: [AnyHashable : Any],
                               fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void){
@@ -118,6 +131,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
 
         }
     }
+    
     func application(_ application: UIApplication,
                      didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         var readableToken: String = ""
@@ -128,13 +142,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
         
        
     }
+    
     func application(received remoteMessage: MessagingRemoteMessage) {
         print(remoteMessage.appData)
     }
+    
     @available(iOS 10.0, *)
     func userNotificationCenter(_ center: UNUserNotificationCenter,  willPresent notification: UNNotification, withCompletionHandler   completionHandler: @escaping (_ options:   UNNotificationPresentationOptions) -> Void) {
+        
+        if notification.request.content.userInfo["aps"] == nil {
+            return
+        }
+        
         alert.dismiss(animated: true, completion: nil)
         notification_num += 1
+
         let dict = notification.request.content.userInfo["aps"] as! NSDictionary
         let d : [String : Any] = dict["alert"] as! [String : Any]
         let body : String = d["body"] as! String
@@ -146,8 +168,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
         self.showAlertAppDelegate(title: "Hello "+userName, message: title + ": " + body, buttonTitle:"Okay", window:self.window!)
         
     }
+    
     @available(iOS 10.0, *)
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        
+        if response.notification.request.content.userInfo["aps"] == nil {
+            return
+        }
+        
         // if you set a member variable in didReceiveRemoteNotification, you  will know if this is from closed or background
         notification_num += 1
         let dict = response.notification.request.content.userInfo["aps"] as! NSDictionary
@@ -162,6 +190,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
         
         completionHandler()
     }
+    
     // Alert Controller in AppDelegate
     func showAlertAppDelegate(title: String,message : String,buttonTitle: String,window: UIWindow){
         alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
@@ -178,6 +207,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
         appDelegate.window?.makeKeyAndVisible()
         
     }
+    
     func LogoutController(){
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         appDelegate.window = UIWindow(frame: UIScreen.main.bounds)
@@ -189,7 +219,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
         
     }
    
-    
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
         let handled = FBSDKApplicationDelegate.sharedInstance().application(app, open: url, options: options)
         

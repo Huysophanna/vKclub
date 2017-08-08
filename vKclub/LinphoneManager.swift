@@ -1,10 +1,12 @@
 import Foundation
+import AVFoundation
 
 var answerCall: Bool = false
 let LINPHONE_CALLSTREAM_RUNNING = "LinphoneCallStreamsRunning"
 let LINPHONE_CALL_ERROR = "LinphoneCallError"
+let LINPHONE_CALL_OUTGOING_RINGING = "LinphoneCallOutgoingRinging"
 
-
+var outGoingCallPlayer = AVAudioPlayer()
 var proxyConfig: OpaquePointer? = nil
 
 struct theLinphone {
@@ -51,7 +53,7 @@ let callStateChanged: LinphoneCoreCallStateChangedCb = {
             //indicate that there is an incoming call to show incomingcall screen
             LinphoneManager.incomingCallFlag = true
        
-            if answerCall{
+            if answerCall {
                 ms_usleep(3 * 1000 * 1000); // Wait 3 seconds to pickup
                 linphone_core_accept_call(lc, call)
             }
@@ -65,7 +67,6 @@ let callStateChanged: LinphoneCoreCallStateChangedCb = {
         
         case LinphoneCallError: /**<The call encountered an error*/
             print("callStateChanged: LinphoneCallError", "====")
-            LinphoneManager.linphoneCallErrorIndicator = true
         break
         
         case LinphoneCallReleased:
@@ -83,7 +84,6 @@ let callStateChanged: LinphoneCoreCallStateChangedCb = {
 class LinphoneManager {
     static let incomingCallInstance = IncomingCallController()
     static var linphoneCallStatus: String = ""
-    static var linphoneCallErrorIndicator = false
     static var callOpaquePointerData: Optional<OpaquePointer>
     static var lcOpaquePointerData: Optional<OpaquePointer>
     static var incomingCallFlag: Bool = false {
@@ -135,6 +135,16 @@ class LinphoneManager {
 
         let localRing = URL(fileURLWithPath: Bundle.main.bundlePath).appendingPathComponent("/toy-mono.wav").absoluteString
         linphone_core_set_ring(theLinphone.lc, localRing)
+        
+        // Set outGoingCall ring asset
+        do {
+            let callToSoundBundle = Bundle.main.path(forResource: "OutGoingCallSound", ofType: "wav")
+            let alertSound = URL(fileURLWithPath: callToSoundBundle!)
+            try outGoingCallPlayer = AVAudioPlayer(contentsOf: alertSound)
+        } catch {
+            print("AVAudioPlayer Interrupted ===")
+        }
+        
     }
     
     fileprivate func bundleFile(_ file: NSString) -> NSString{
@@ -150,25 +160,11 @@ class LinphoneManager {
 
     static func makeCall(phoneNumber: String) {
         let calleeAccount = phoneNumber
-//
-//        guard let _ = setIdentify() else {
-//            print("no identity")
-//            return;
-//        }
         linphone_core_invite(theLinphone.lc, calleeAccount)
-//        setTimer()
-//        shutdown()
     }
     
     static func receiveCall() {
-//        guard let proxyConfig = setIdentify() else {
-//            print("no identity")
-//            return;
-//        }
-//        register(proxyConfig)
         linphone_core_accept_call(theLinphone.lc, LinphoneManager.callOpaquePointerData)
-//        setTimer()
-//        shutdown()
     }
     
     static func CheckLinphoneCallState() -> String {
@@ -182,6 +178,15 @@ class LinphoneManager {
             return "ERROR"
         }
         
+    }
+    
+    static func CheckLinphoneConnectionStatus() -> Bool {
+        // 1 means registered
+        if linphone_proxy_config_is_registered(proxyConfig) == 1 {
+            return true
+        } else {
+            return false
+        }
     }
     
     static func muteMic() {
@@ -288,6 +293,7 @@ class LinphoneManager {
     
     static func register(_ proxy_cfg: OpaquePointer){
         linphone_proxy_config_enable_register(proxy_cfg, 1); /* activate registration for this proxy config*/
+        
     }
     
     func shutdown(){

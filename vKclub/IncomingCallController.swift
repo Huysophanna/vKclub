@@ -33,7 +33,6 @@ class IncomingCallController: UIViewController {
     let userCoreDataInstance = UserProfileCoreData()
     var callKitManager: CallKitCallInit?
     let callController = CXCallController()
-    let backgroundTask = BackgroundTask()
     
     static var dialPhoneNumber: String = ""
     var setUpCallInProgressInterval: Timer?
@@ -44,6 +43,9 @@ class IncomingCallController: UIViewController {
             if incomingCallFlags == true {
                 IncomingCallController.CallToAction = false
                 PresentIncomingVC()
+                
+                //stop AVAudioPlayer background task while about to call
+                BackgroundTask.backgroundTaskInstance.stopBackgroundTask()
                 
                 let appState = UIApplication.shared.applicationState
                 if appState == .background {
@@ -76,6 +78,8 @@ class IncomingCallController: UIViewController {
                 IncomingCallController.CallToAction = true
                 PresentIncomingVC()
                 
+                //stop AVAudioPlayer background task while about to call
+                BackgroundTask.backgroundTaskInstance.stopBackgroundTask()
             }
         }
     }
@@ -83,10 +87,12 @@ class IncomingCallController: UIViewController {
     static var CallStreamRunning = false
     var callStreamRunning = false {
         didSet {
-            backgroundTask.stopBackgroundTask()
+            //stop backgroundTask since making call interrupt and end our audio backgroundTask
+//            player.stop()
             
             IncomingCallController.CallStreamRunning = callStreamRunning
             print("callStreamRunning ====YAYY====")
+            
         }
     }
     
@@ -118,17 +124,19 @@ class IncomingCallController: UIViewController {
                 let callTransaction = CXTransaction(action: endCallAction)
                 callController.request(callTransaction, completion: {(data) in })
                 
-                //recall backgroundTask since making call interrupt and end our audio backgroundTask
-                backgroundTask.startBackgroundTask()
-                
                 //set flag back to false when call released
                 acceptCallFlag = false
                 endCallFlag = false
                 
                 print("RELEASE, SET CALL DURATION---")
+                
+                //Linephone call will destory the audio session when the call ends, so wait for 5seconds to restart the AVAudioPlayer background task
+                Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(WaitToStartBackgroundTask), userInfo: nil, repeats: false)
             }
         }
     }
+    
+   
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -136,7 +144,6 @@ class IncomingCallController: UIViewController {
         callKitManager = CallKitCallInit(uuid: UUID(), handle: "")
         
         backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask(expirationHandler: nil)
-        
         callDataRequest = SipCallData.fetchRequest()
         do {
             callLogData = try manageObjectContext.fetch(callDataRequest)
@@ -167,6 +174,10 @@ class IncomingCallController: UIViewController {
         
     }
     
+    func WaitToStartBackgroundTask() {
+        BackgroundTask.backgroundTaskInstance.startBackgroundTask()
+    }
+    
     func SetCallDurationToCoreData() {
         for _callData in callLogData {
             if _callData.callLogTime != nil {
@@ -187,6 +198,12 @@ class IncomingCallController: UIViewController {
     func WaitForStreamRunning() {
         print(LinphoneManager.linphoneCallStatus, "===OKAY===")
         
+        //play outGoingCallSound for callToAction
+        if LinphoneManager.CheckLinphoneCallState() == LINPHONE_CALL_OUTGOING_RINGING {
+            outGoingCallPlayer.prepareToPlay()
+            outGoingCallPlayer.play()
+        }
+        
         if IncomingCallController.AcceptCallFlag == true {
             AcceptCallAction()
         }
@@ -194,18 +211,21 @@ class IncomingCallController: UIViewController {
         if LinphoneManager.CheckLinphoneCallState() == LINPHONE_CALLSTREAM_RUNNING {
             waitForStreamRunningInterval?.invalidate()
             
+            //stop the outGoingCallSound while in call progress
+            if outGoingCallPlayer.isPlaying {
+                outGoingCallPlayer.stop()
+            }
+            
             print("waitForStreamRunningInterval ========")
             
             PrepareInCallProgressUI()
         }
         
         //LinphoneCallError occurred
-        if LinphoneManager.linphoneCallErrorIndicator {
+        if !LinphoneManager.CheckLinphoneConnectionStatus() {
             waitForStreamRunningInterval?.invalidate()
             
             PresentAlertController(title: "Something went wrong", message: "You are not connected to our server. Please ensure that you are connected to our network and try again later.", actionTitle: "Okay")
-            LinphoneManager.linphoneCallErrorIndicator = false
-            
         }
         
     }

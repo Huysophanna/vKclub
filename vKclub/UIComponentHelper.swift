@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import UserNotifications
 
 extension UIViewController {
     func PresentAlertController(title: String, message: String, actionTitle: String) {
@@ -129,6 +130,27 @@ class UIComponentHelper {
             removeOpacityView?.removeFromSuperview()
         }
     }
+    
+    static func scheduleNotification(_title: String, _body: String, _inSeconds: TimeInterval) {
+        let localNotification = UNMutableNotificationContent()
+        
+        localNotification.title = _title
+        localNotification.body = _body
+        
+        let localNotificationTrigger = UNTimeIntervalNotificationTrigger(timeInterval: _inSeconds, repeats: false)
+        
+        let request = UNNotificationRequest(identifier: "localNotification", content: localNotification, trigger: localNotificationTrigger)
+        
+        UNUserNotificationCenter.current().add(request, withCompletionHandler: { error in
+            if error == nil {
+                print("LocalNotificationSuccess =====")
+            } else {
+                print("LocalNotificationError  ===== ", error?.localizedDescription as Any)
+            }
+        })
+        
+    }
+    
     static func PresentActivityIndicatorWebView(view: UIView!, option: Bool) {
         if option {
             //initialize opacity background while showing loading
