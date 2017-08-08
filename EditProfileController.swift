@@ -11,7 +11,7 @@ import Firebase
 import FirebaseInstanceID
 import FirebaseMessaging
 
-class EditProfileController: UIViewController {
+class EditProfileController: UIViewController,UITextFieldDelegate {
     @IBOutlet weak var Username: UITextField!
     @IBOutlet weak var Email: UITextField!
     @IBOutlet weak var currentpass: UITextField!
@@ -30,7 +30,9 @@ class EditProfileController: UIViewController {
         UIComponentHelper.MakeCustomPlaceholderTextField(textfield: Username, name: (currentuser?.displayName)!, color: UIColor(hexString: "#736F6E", alpha: 1))
         UIComponentHelper.MakeCustomPlaceholderTextField(textfield: Email, name: (currentuser?.email)!, color: UIColor(hexString: "#736F6E", alpha: 1))
         UIComponentHelper.MakeCustomPlaceholderTextField(textfield: currentpass, name: "Current Password", color: UIColor(hexString: "#736F6E", alpha: 1))
-        
+        Username.delegate = self
+        Email.delegate = self
+        currentpass.delegate = self
         UIComponentHelper.MakeBtnWhiteBorder(button: UpdateBtn, color: UIColor(hexString: "#008040", alpha: 1))
         
         // Do any additional setup after loading the view.
@@ -195,9 +197,22 @@ class EditProfileController: UIViewController {
     func reNew(){
         UIApplication.shared.keyWindow?.rootViewController = storyboard!.instantiateViewController(withIdentifier: "MainDashboard")
     }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        switch textField {
+        case self.Username:
+            Email.becomeFirstResponder()
+        case self.Email:
+            currentpass.becomeFirstResponder()
+            
+        default:
+            currentpass.resignFirstResponder()
+            UpdateBtn(self)
+        }
+        return true
+    }
     
 }
-class ChangePasswordController :UIViewController {
+class ChangePasswordController :UIViewController,UITextFieldDelegate {
     @IBOutlet weak var current_password: UITextField!
     
     @IBOutlet weak var new_password: UITextField!
@@ -213,7 +228,10 @@ class ChangePasswordController :UIViewController {
         
         UIComponentHelper.MakeCustomPlaceholderTextField(textfield: current_password, name: "Current Password", color: UIColor(hexString: "#736F6E", alpha: 1))
         UIComponentHelper.MakeCustomPlaceholderTextField(textfield: new_password, name: "New Password", color: UIColor(hexString: "#736F6E", alpha: 1))
-        UIComponentHelper.MakeCustomPlaceholderTextField(textfield: comfire_password, name: "Comfire Password", color: UIColor(hexString: "#736F6E", alpha: 1))
+        UIComponentHelper.MakeCustomPlaceholderTextField(textfield: comfire_password, name: "Confirm Password", color: UIColor(hexString: "#736F6E", alpha: 1))
+        current_password.delegate = self
+        new_password.delegate = self
+        comfire_password.delegate = self
         
         UIComponentHelper.MakeBtnWhiteBorder(button: change_password, color: UIColor(hexString: "#008040", alpha: 1))
         
@@ -227,7 +245,7 @@ class ChangePasswordController :UIViewController {
             return
             
         } else if new_password.text != comfire_password.text {
-            PresentAlertController(title: "Warning", message: "Your password doesn't match with comfire password", actionTitle: "Okay")
+            PresentAlertController(title: "Warning", message: "Your password doesn't match with confirm password", actionTitle: "Okay")
             return
         } else {
             UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: true)
@@ -276,6 +294,19 @@ class ChangePasswordController :UIViewController {
     }
     
     
-    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        switch textField {
+        case self.current_password:
+            new_password.becomeFirstResponder()
+        case self.new_password:
+            comfire_password.becomeFirstResponder()
+            
+        default:
+            comfire_password.resignFirstResponder()
+            ChangePasswordBtn(self)
+        }
+        return true
+    }
+
 }
 

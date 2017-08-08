@@ -26,7 +26,7 @@ class BookingViewController: UIViewController ,UIWebViewDelegate{
     override func viewDidLoad() {
         super.viewDidLoad()
         if InternetConnection.isConnectedToNetwork() {
-            noInternet.alpha = 0
+            noInternet.isHidden = true
         } else{
             self.PresentAlertController(title: "Something went wrong", message: "Please Check you internet connection ", actionTitle: "Got it")
             return
@@ -41,10 +41,6 @@ class BookingViewController: UIViewController ,UIWebViewDelegate{
         
         webView.loadRequest(requestObj)
         UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: true)
-        let when = DispatchTime.now() + 3 // change 2 to desired number of seconds
-        DispatchQueue.main.asyncAfter(deadline: when) {
-            UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
-        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -58,9 +54,9 @@ class BookingViewController: UIViewController ,UIWebViewDelegate{
     }
     
     func webView(_ webView: UIWebView, didFailLoadWithError error: Error) {
-        self.PresentAlertController(title: "Something went wrong", message: "Please Check you internet connection ", actionTitle: "Got it")
         UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: false)
-        noInternet.alpha = 1
+        noInternet.isHidden = false
+        self.PresentAlertController(title: "Something went wrong", message: "Please Check you internet connection ", actionTitle: "Got it")
         
     }
     @IBAction func CancelBtn(_ sender: Any) {

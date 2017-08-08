@@ -16,10 +16,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     var loginControllerInstance: LoginController = LoginController()
     var facebookCheck : Bool = false
     @IBOutlet weak var EmergencyBtn: UIButton!
-    @IBOutlet weak var contactBtn: UIButton!
-    @IBOutlet weak var settingBtn: UIButton!
     @IBOutlet weak var imageProfile: UIButton!
-    @IBOutlet weak var urlTextView: UITextField!
     @IBOutlet weak var EmailBtn: UILabel!
     @IBOutlet weak var EditBtn: UIButton!
     @IBOutlet weak var userName: UILabel!
@@ -279,9 +276,9 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         } else if (Check == "offKirirom") {
             PresentAlertController(title: "Off-Kirirom mode", message: "Emergency SOS & Free internal   phone call features are not accessible for Off-Kirirom users.", actionTitle: "Got it")
         } else if( Check == "identifying"){
-            LocationPermission(INAPP_UNIDENTIFIEDSetting: false)
+            UIComponentHelper.LocationPermission(INAPP_UNIDENTIFIEDSetting: false)
         } else {
-            LocationPermission(INAPP_UNIDENTIFIEDSetting: true)
+            UIComponentHelper.LocationPermission(INAPP_UNIDENTIFIEDSetting: true)
         }
         
     }
@@ -437,24 +434,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         }
      
     }
-    func LocationPermission(INAPP_UNIDENTIFIEDSetting : Bool){
-        let LocationPermissionAlert = UIAlertController(title: "Location Permission Denied.", message: "Turn on Location Service to Determine your current location for App Mode", preferredStyle: UIAlertControllerStyle.alert)
-        
-        LocationPermissionAlert.addAction(UIAlertAction(title: "Okay", style: .default, handler: { (action: UIAlertAction!) in
-            if INAPP_UNIDENTIFIEDSetting {
-                
-                UIApplication.shared.open(URL(string:UIApplicationOpenSettingsURLString)!, options: [:], completionHandler:nil)
-            } else{
-                UIApplication.shared.open(URL(string:"App-Prefs:root=Privacy")!, options: [:], completionHandler: nil)
-            }
-            
-        }))
-        LocationPermissionAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler:{ (action: UIAlertAction!) in
-            
-        }))
-        self.present( LocationPermissionAlert, animated: true, completion: nil)
-    }
-   
+    
 }
 
 

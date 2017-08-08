@@ -231,6 +231,21 @@ class UIComponentHelper {
         return emailPredicate.evaluate(with: enteredEmail)
         
     }
+    static func LocationPermission(INAPP_UNIDENTIFIEDSetting : Bool){
+        let LocationPermissionAlert = UIAlertController(title: "Location Permission Denied.", message: "Turn on Location Service to Determine your current location for App Mode", preferredStyle: UIAlertControllerStyle.alert)
+        
+        LocationPermissionAlert.addAction(UIAlertAction(title: "Okay", style: .default, handler: { (action: UIAlertAction!) in
+            if INAPP_UNIDENTIFIEDSetting {
+                
+                UIApplication.shared.open(URL(string:UIApplicationOpenSettingsURLString)!, options: [:], completionHandler:nil)
+            } else{
+                UIApplication.shared.open(URL(string:"App-Prefs:root=Privacy")!, options: [:], completionHandler: nil)
+            }
+            
+        }))
+        LocationPermissionAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        UIApplication.topViewController()?.present( LocationPermissionAlert, animated: true, completion: nil)
+    }
     
         
     

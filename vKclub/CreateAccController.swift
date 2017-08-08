@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 import FirebaseAuth
 
-class CreateAccController: ViewController {
+class CreateAccController: ViewController ,UITextFieldDelegate{
     
     @IBOutlet weak var signUpBtn: UIButton!
     @IBOutlet weak var backBtn: UIButton!
@@ -19,6 +19,7 @@ class CreateAccController: ViewController {
     @IBOutlet weak var confirmTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     let storageRef = Storage.storage().reference()
+    var nameTage = 0;
 
     override func viewDidLoad() {
         UIComponentHelper.MakeBtnWhiteBorder(button: signUpBtn, color: UIColor.white)
@@ -27,16 +28,21 @@ class CreateAccController: ViewController {
         UIComponentHelper.MakeCustomPlaceholderTextField(textfield: emailTextField, name: "Email", color: UIColor.white)
         UIComponentHelper.MakeCustomPlaceholderTextField(textfield: passwordTextField, name: "Password", color: UIColor.white)
         UIComponentHelper.MakeCustomPlaceholderTextField(textfield: confirmTextField, name: "Confirm Password", color: UIColor.white)
+        nameTextField.delegate = self
+        emailTextField.delegate = self
+        passwordTextField.delegate = self
+        confirmTextField.delegate = self
     }
     @IBAction func SignUpClicked(_ sender: Any) {
         let length_password : Int = (passwordTextField.text?.characters.count)!
-        if (nameTextField.text?.isEmpty)! && (emailTextField.text?.isEmpty)! && (passwordTextField.text?.isEmpty)! && (confirmTextField.text?.isEmpty)! {
-            PresentAlertController(title: "Warning", message: "Please properly insert your data", actionTitle: "Got it")
-            return
-        }
+        let validateEmail = UIComponentHelper.validateEmail(enteredEmail: emailTextField.text!)
+      
         
         if (nameTextField.text?.isEmpty)! || (emailTextField.text?.isEmpty)! || (passwordTextField.text?.isEmpty)! || (confirmTextField.text?.isEmpty)! {
-            PresentAlertController(title: "Something went wrong", message: "Please properly insert your data", actionTitle: "Got it")
+            PresentAlertController(title: "Warning", message: "Please properly insert your data", actionTitle: "Got it")
+            return
+        } else if validateEmail == false {
+            self.PresentAlertController(title: "Waring", message: "Your Email in bad format", actionTitle: "Ok")
             return
         } else if confirmTextField.text !=  passwordTextField.text {
             PresentAlertController(title: "Warning", message: "Your password doesn't match with confirm password", actionTitle: "Got it")
@@ -61,9 +67,9 @@ class CreateAccController: ViewController {
                     UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
                     return
                 }
+                InternetConnection.countTimer.invalidate()
+                InternetConnection.second = 0
                 if (error == nil) {
-                    InternetConnection.countTimer.invalidate()
-                    InternetConnection.second = 0
                     let img = UIImage(named: "profile-icon")
                     let newImage = UIComponentHelper.resizeImage(image: img!, targetSize: CGSize(width: 400, height: 400))
                     let imageProfiles = UIImagePNGRepresentation(newImage)
@@ -105,5 +111,20 @@ class CreateAccController: ViewController {
     
     @IBAction func BackBtn(_ sender: Any) {
         dismiss(animated: true, completion: nil)
+    }
+    //handel Keyboard 
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        switch textField {
+        case self.nameTextField:
+            emailTextField.becomeFirstResponder()
+        case self.emailTextField:
+            passwordTextField.becomeFirstResponder()
+        case self.passwordTextField:
+            confirmTextField.becomeFirstResponder()
+            
+        default:
+            confirmTextField.resignFirstResponder()
+            SignUpClicked(self)        }
+        return true
     }
 }

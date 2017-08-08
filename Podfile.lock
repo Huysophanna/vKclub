@@ -69,6 +69,7 @@ PODS:
     - GoogleToolboxForMac/NSString+URLArguments (= 2.1.1)
   - GoogleToolboxForMac/NSString+URLArguments (2.1.1)
   - GTMSessionFetcher/Core (1.1.11)
+  - IQKeyboardManagerSwift (4.0.10)
   - nanopb (0.3.8):
     - nanopb/decode (= 0.3.8)
     - nanopb/encode (= 0.3.8)
@@ -89,6 +90,7 @@ DEPENDENCIES:
   - Firebase/Storage
   - GoogleMaps
   - GooglePlaces
+  - IQKeyboardManagerSwift (= 4.0.10)
   - paper-onboarding (~> 2.0.1)
   - UIImage-ResizeMagick
 
@@ -108,11 +110,12 @@ SPEC CHECKSUMS:
   GooglePlaces: 4a7b22debfa1af65017b82943431822607e45201
   GoogleToolboxForMac: 8e329f1b599f2512c6b10676d45736bcc2cbbeb0
   GTMSessionFetcher: 5ad62e8200fa00ed011fe5e08d27fef72c5b1429
+  IQKeyboardManagerSwift: 75ba21a23794a1e6b6fe6d9a267ea17f80e06771
   nanopb: 22bc080fa3955e2116b6ff3ee6c2cb3c15ab97cb
   paper-onboarding: a8e001214d9ce9decf78e160b3823f396dbd51ac
   Protobuf: d582fecf68201eac3d79ed61369ef45734394b9c
   UIImage-ResizeMagick: f08c2d14d1e8a5f0b402185408785540562f2fe7
 
-PODFILE CHECKSUM: 04ff7c5798f3c861d100b821e7a8857f2724ec50
+PODFILE CHECKSUM: e2c7c7780745c66d71d87941f488a074ca339c5d
 
 COCOAPODS: 1.2.1

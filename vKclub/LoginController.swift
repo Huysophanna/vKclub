@@ -12,7 +12,7 @@ import Firebase
 import FirebaseAuth
 import FBSDKLoginKit
 import CoreData
-class LoginController: UIViewController {
+class LoginController: UIViewController,UITextFieldDelegate {
     let personService = UserProfileCoreData()
     @IBOutlet weak var pwTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
@@ -26,9 +26,10 @@ class LoginController: UIViewController {
         MakeLeftViewIconToTextField(textField: pwTextField, icon: "pw_icon")
         UIComponentHelper.MakeBtnWhiteBorder(button: signInBtn, color: UIColor.white)
         MakeFBBorderBtn(button: signInFBBtn)
-        
         //Btn Call Function FBSignIn
         signInFBBtn.addTarget(self, action: #selector(FBSignIn), for: .touchUpInside)
+        self.emailTextField.delegate = self
+        self.pwTextField.delegate = self
         
     }
     
@@ -136,6 +137,15 @@ class LoginController: UIViewController {
             PresentAlertController(title: "Warning", message: "Please properly insert your data", actionTitle: "Got it")
             
         } else {
+            let validateEmails = UIComponentHelper.validateEmail(enteredEmail: self.emailTextField.text!)
+            if validateEmails{
+                
+            }else{
+                UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: false)
+                self.PresentAlertController(title: "Waring", message: "Your Email in bad format", actionTitle: "Ok")
+                return
+            }
+            
             //handle firebase sign in
             
             //UIComponentHelper.PresentActivityIndicator(view: self.view, option: true)
@@ -144,15 +154,14 @@ class LoginController: UIViewController {
             
             Auth.auth().signIn(withEmail: emailTextField.text!, password: pwTextField.text!) { (user, error) in
                 if InternetConnection.second == 10 {
-                    
                     InternetConnection.countTimer.invalidate()
                     InternetConnection.second = 0
                     UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
                     return
                 }
+                InternetConnection.countTimer.invalidate()
+                InternetConnection.second = 0
                 if error == nil {
-                    InternetConnection.countTimer.invalidate()
-                    InternetConnection.second = 0
                     if (user?.isEmailVerified)!{
                         // if user don't name and imageprofile
                      
@@ -176,7 +185,7 @@ class LoginController: UIViewController {
                         InternetConnection.countTimer.invalidate()
                         InternetConnection.second = 0
                         UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
-                        self.PresentAlertController(title: "Comfirmation", message: "Please verify your email address with a link that we have already sent you to proceed login in", actionTitle: "Okay")
+                        self.PresentAlertController(title: "Confirmation", message: "Please verify your email address with a link that we have already sent you to proceed login in", actionTitle: "Okay")
                     }
                 } else {
                     InternetConnection.countTimer.invalidate()
@@ -228,5 +237,15 @@ class LoginController: UIViewController {
             firstPerson.email     = email
             personService.updateUserProfile(_updatedPerson: firstPerson)
         }
+    }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        switch textField {
+        case self.emailTextField:
+            pwTextField.becomeFirstResponder()
+        default:
+            pwTextField.resignFirstResponder()
+            self.SignInClicked(self)
+        }
+        return true
     }
 }
