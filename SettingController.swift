@@ -22,7 +22,6 @@ class SettingController: UIViewController,UNUserNotificationCenterDelegate,UIApp
     }
     
     func Check(){
-        
         let center = UNUserNotificationCenter.current()
         center.getNotificationSettings { (settings) in
             if(settings.authorizationStatus == .authorized){

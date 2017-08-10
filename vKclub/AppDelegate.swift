@@ -13,6 +13,7 @@ import FBSDKCoreKit
 import UserNotifications
 import FirebaseMessaging
 
+
 let appDelegate = UIApplication.shared.delegate as! AppDelegate
 let manageObjectContext  = appDelegate.persistentContainer.viewContext
 var databaseRef = Database.database().reference()
@@ -115,7 +116,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
     func application(_ application: UIApplication,
                               didReceiveRemoteNotification userInfo: [AnyHashable : Any],
                               fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void){
-        print(userInfo)
+        
+        if #available(iOS 10.0, *) {
+            print(userInfo)
+            return
+        }
+        completionHandler(.noData)
+        
+        if application.applicationState == .active {
+            print(userInfo)
+
+        } else {
+            print(userInfo)
+
+        }
     }
     
     func application(_ application: UIApplication,
@@ -125,6 +139,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
             readableToken += String(format: "%02.2hhx", deviceToken[i] as CVarArg)
         }
         print("Received an APNs device token: \(readableToken)")
+        
        
     }
     

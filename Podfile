@@ -18,6 +18,7 @@ target 'vKclub' do
   pod 'FBSDKCoreKit'
   pod 'FBSDKLoginKit'
   pod 'paper-onboarding', '~> 2.0.1' 
+  
 
 
 end

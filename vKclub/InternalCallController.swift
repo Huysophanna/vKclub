@@ -42,7 +42,6 @@ class InternalCallController: UIViewController {
     @IBAction func CallBtnClicked(_ sender: Any) {
         if dialPhoneNumber.characters.count != 0 {
             LinphoneManager.makeCall(phoneNumber: dialPhoneNumber)
-            
             IncomingCallController.dialPhoneNumber = dialPhoneNumber
             incomingCallInstance?.callToFlag = true
         }

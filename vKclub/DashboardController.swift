@@ -31,7 +31,7 @@ class DashboardController: UIViewController {
     var notifications = [Notifications]()
     var linphoneConnectionStatusFlag: Bool = true {
         didSet {
-            PrepareLocalNotificationForConnectionStatus(isConnected: linphoneConnectionStatusFlag)
+            //PrepareLocalNotificationForConnectionStatus(isConnected: linphoneConnectionStatusFlag)
         }
     }
     
@@ -59,65 +59,60 @@ class DashboardController: UIViewController {
         super.didReceiveMemoryWarning()
         
     }
-    
-    @IBAction func ServiceBtn(_ sender: Any) {
-        performSegue(withIdentifier: "PushService", sender: self)
-        
-//        AnimateBtn(senderBtn: sender as! UIButton)
-    }
-    
-    @IBAction func InternalCallBtn(_ sender: Any) {
-        switch CheckUserLocation() {
-            case IN_KIRIROM:
-                LinphoneManager.register(proxyConfig!)
-                performSegue(withIdentifier: "PushInternalCall", sender: self)
+    @IBAction func BtnTag(_sender:Any){
+        let btntag : Int = (_sender as AnyObject).tag
+        switch  btntag {
+        case 0:
+            performSegue(withIdentifier: "PushService", sender: self)
             break
+        case 1:
+            performSegue(withIdentifier: "PushMap", sender: self)
+            break
+        case 2:
+             performSegue(withIdentifier: "PushAboutUs", sender: nil)
+            break
+        case 3:
+             PresentAlertController(title: "Coming Soon!", message: "Introducing vKirirom Membership Card with vPoints, will be available soon.", actionTitle: "Okay")
+            break
+        case 6:
+            self.notificationBtn.removeBadge()
+            notification_num = 0
+            performSegue(withIdentifier: "GotoNotification", sender: self)
+
+            break
+            
+        default:
+            switch CheckUserLocation() {
+            case IN_KIRIROM:
+                if btntag == 4{
+                    LinphoneManager.register(proxyConfig!)
+                    performSegue(withIdentifier: "PushInternalCall", sender: self)
+
+                }else{
+                  PresentAlertController(title: "In-Kirirom Mode", message: "Welcome to vKirirom. Experience full features of vKclub with In-Kirirom mode including Emergency SOS & Free internal phone call", actionTitle: "Okay")
+                }
+                break
             case OFF_KIRIROM:
                 PresentAlertController(title: "Off-Kirirom Mode", message: "Emergency SOS & Free internal   phone call features are not accessible for Off-Kirirom users.", actionTitle: "Okay")
-            break
+                break
             case UNIDENTIFIED:
-                LocationPermission(INAPP_UNIDENTIFIEDSetting: false)
-            
-            break
+                UIComponentHelper.LocationPermission(INAPP_UNIDENTIFIEDSetting: false)
+                
+                break
             case INAPP_UNIDENTIFIED:
-                LocationPermission(INAPP_UNIDENTIFIEDSetting: true)
-            break
-            default: break
+                UIComponentHelper.LocationPermission(INAPP_UNIDENTIFIEDSetting: true)
+                break
+            default:
+                print("not thing")
+                break
+                
+            }
+            
         }
-
-    }
-   
-    @IBAction func BtnMap(_ sender: Any) {
-        performSegue(withIdentifier: "PushMap", sender: self)
-    }
-
-    @IBAction func AboutUsBtn(_ sender: Any) {
-        performSegue(withIdentifier: "PushAboutUs", sender: nil)
+    
     }
     
-    @IBAction func MembershipBtn(_ sender: Any) {
-        PresentAlertController(title: "Coming Soon!", message: "Introducing vKirirom Membership Card with vPoints, will be available soon.", actionTitle: "Okay")
-    }
     
-    @IBAction func ModeBtn(_ sender: Any) {
-        switch CheckUserLocation() {
-            case IN_KIRIROM:
-                PresentAlertController(title: "In-Kirirom Mode", message: "Welcome to vKirirom. Experience full features of vKclub with In-Kirirom mode including Emergency SOS & Free internal phone call", actionTitle: "Okay")
-            break
-            case OFF_KIRIROM:
-                PresentAlertController(title: "Off-Kirirom Mode", message: "Emergency SOS & Free internal   phone call features are not accessible for Off-Kirirom users.", actionTitle: "Okay")
-            break
-            case UNIDENTIFIED:
-                LocationPermission(INAPP_UNIDENTIFIEDSetting: false)
-            
-            break
-            case INAPP_UNIDENTIFIED:
-                LocationPermission(INAPP_UNIDENTIFIEDSetting: true)
-            break
-            default: break
-        }
-
-    }
     
     //animate button on click
     func AnimateBtn(senderBtn: UIButton) {
@@ -254,12 +249,8 @@ class DashboardController: UIViewController {
         let d :Double = R * c; // Distance in km
         return d
     }
+
     
-    @IBAction func NoticationBtn(_ sender: Any) {
-        self.notificationBtn.removeBadge()
-        notification_num = 0
-        performSegue(withIdentifier: "GotoNotification", sender: self)
-    }
     
     func LocationPermission(INAPP_UNIDENTIFIEDSetting : Bool){
         let LocationPermissionAlert = UIAlertController(title: "Location Permission Denied.", message: "Turn on Location Service to Determine your current location for App Mode", preferredStyle: UIAlertControllerStyle.alert)
