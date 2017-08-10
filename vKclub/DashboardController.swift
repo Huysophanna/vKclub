@@ -35,8 +35,8 @@ class DashboardController: UIViewController {
         }
     }
     
-    
     override func viewDidLoad() {
+        
         UserDefaults.standard.set(true, forKey: "loginBefore")
         
         //init background task for incoming call
@@ -169,25 +169,28 @@ class DashboardController: UIViewController {
             KiriromScope.setTitle("Unidentified Mode", for: .normal)
             KiriromScope.setTitleColor(UIColor.red, for: .normal)
         }
-        if notification_num > 0{
+        if notification_num > 0 {
             self.notificationBtn.addBadge(number: notification_num, withOffset: CGPoint(x: 10, y: 10), andColor: .red, andFilled: true)
         } else{
             self.notificationBtn.removeBadge()
         }
         
-        //Set linphoneCall identity
-        LinphoneManager.register(proxyConfig!)
-        
-        //Push localNotification to show user about linphone connection status
-        if LinphoneManager.CheckLinphoneConnectionStatus() {
-            if !linphoneConnectionStatusFlag {
-                linphoneConnectionStatusFlag = true
-            }
-        } else {
-            if linphoneConnectionStatusFlag {
-                linphoneConnectionStatusFlag = false
+        if CheckUserLocation() == IN_KIRIROM {
+            //Set linphoneCall identity
+            LinphoneManager.register(proxyConfig!)
+            
+            //Push localNotification to show user about linphone connection status
+            if LinphoneManager.CheckLinphoneConnectionStatus() {
+                if !linphoneConnectionStatusFlag {
+                    linphoneConnectionStatusFlag = true
+                }
+            } else {
+                if linphoneConnectionStatusFlag {
+                    linphoneConnectionStatusFlag = false
+                }
             }
         }
+        
     }
     
     func PrepareLocalNotificationForConnectionStatus(isConnected: Bool) {

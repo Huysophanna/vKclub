@@ -20,19 +20,28 @@ class ServiceController: UIViewController {
         
         switch (sender as! UIButton).tag {
             case 1:
-                CallToAction(phoneNumber: "9999")
+                //reception
+                CallToAction(phoneNumber: "235")
                 break
             case 2:
-                CallToAction(phoneNumber: "9999")
+                //housekeeping
+                CallToAction(phoneNumber: "236")
                 break
             case 3:
-                CallToAction(phoneNumber: "9999")
+                //massage
+                CallToAction(phoneNumber: "237")
                 break
             case 4:
-                CallToAction(phoneNumber: "9999")
+                //pineviewkitchen
+                CallToAction(phoneNumber: "238")
+                break
+            case 5:
+                //activity
+                CallToAction(phoneNumber: "239")
                 break
             default:
-                CallToAction(phoneNumber: "9999")
+                //operation
+                CallToAction(phoneNumber: "240")
                 break
         }
         
@@ -40,8 +49,8 @@ class ServiceController: UIViewController {
     }
     
     func CallToAction(phoneNumber: String) {
-        self.incomingCallInstance.callToFlag = true
         IncomingCallController.dialPhoneNumber = phoneNumber
+        self.incomingCallInstance.callToFlag = true
         LinphoneManager.makeCall(phoneNumber: phoneNumber)
     }
     
