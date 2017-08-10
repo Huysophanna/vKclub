@@ -4,11 +4,8 @@ import Firebase
 import Photos
 import MessageUI
 import FBSDKLoginKit
-
-
 class MenuController: UIViewController,UIImagePickerControllerDelegate, UINavigationControllerDelegate,MFMessageComposeViewControllerDelegate {
     var imagePicker : UIImagePickerController = UIImagePickerController()
-    
     let personService = UserProfileCoreData()
     let Checklocation = DashboardController()
     let storageRef = Storage.storage().reference()
@@ -109,6 +106,10 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         EditBtn.setTitle("FBLinked", for: .normal)
         print(fb_lgoin,"++'")
         if fb_lgoin == [] {
+            if currentUser?.email == nil {
+                EmailBtn.text = "someone@gmail.com"
+
+            }
             if currentUser?.photoURL == nil {
             } else {
                 imageProfile.loadingIndicator(true)
@@ -138,6 +139,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
             }
         } else {
             for i in fb_lgoin {
+                EmailBtn.text = i.email
                 // if user no internet still they can get imageProfile from coredata
                 let img = UIImage(data: i.imageData! as Data)
                 let newimag = UIComponentHelper.resizeImage(image: img!, targetSize: CGSize(width: 400, height: 400))
@@ -373,7 +375,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         if let setectImage = selectedImageFromPicker{
             let newImage = UIComponentHelper.resizeImage(image: setectImage, targetSize: CGSize(width: 400, height: 400))
             let imageProfiles = UIImagePNGRepresentation(newImage)
-            let riversRef = storageRef.child("userprofile-photo").child((currentUser?.displayName)!)
+            let riversRef = storageRef.child("userprofile-photo").child((currentUser?.providerID)!)
             riversRef.putData(imageProfiles! , metadata: nil) { (metadata, error) in
                 guard let metadata = metadata else {
                     self.PresentAlertController(title: "Error", message: "please check with your internet connection", actionTitle: "Okay")

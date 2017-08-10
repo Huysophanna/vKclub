@@ -162,7 +162,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
         let body : String = d["body"] as! String
         let title : String = d["title"] as! String
         print("Title:\(title) + body:\(body)")
-        personService.CreatnotificationCoredata(_notification_num: intmax_t(notification_num), _notification_body: body, _notification_title: title)
+        personService.CreatnotificationCoredata(_notification_num: notification_num, _notification_body: body, _notification_title: title)
         // custom code to handle push while app is in the foreground
         print("Handle push from foreground\(notification.request.content.userInfo)")
         self.showAlertAppDelegate(title: "Hello "+userName, message: title + ": " + body, buttonTitle:"Okay", window:self.window!)
@@ -184,7 +184,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
         let body : String = d["body"] as! String
         let title : String = d["title"] as! String
         print("Title:\(title) + body:\(body)")
-        personService.CreatnotificationCoredata(_notification_num: intmax_t(notification_num), _notification_body: body, _notification_title: title)
+        personService.CreatnotificationCoredata(_notification_num: notification_num, _notification_body: body, _notification_title: title)
         print("Handle push from background or closed\(response.notification.request.content.userInfo)")
         self.showAlertAppDelegate(title: "Hello "+userName, message: title + ": " + body, buttonTitle:"Okay", window:self.window!)
         

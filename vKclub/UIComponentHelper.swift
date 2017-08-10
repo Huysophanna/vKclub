@@ -19,6 +19,15 @@ extension UIViewController {
         
         self.present(alertController, animated: true, completion: nil)
     }
+    func hideKeyboardWhenTappedAround() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    func dismissKeyboard() {
+        view.endEditing(true)
+    }
  }
 
 extension UIApplication {
@@ -246,13 +255,6 @@ class UIComponentHelper {
 
         return (String(year!), String(month), String(day), String(hour), String(minute), String(second))
     }
-    static func validateEmail(enteredEmail:String) -> Bool {
-        
-        let emailFormat = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
-        let emailPredicate = NSPredicate(format:"SELF MATCHES %@", emailFormat)
-        return emailPredicate.evaluate(with: enteredEmail)
-        
-    }
     static func LocationPermission(INAPP_UNIDENTIFIEDSetting : Bool){
         let LocationPermissionAlert = UIAlertController(title: "Location Permission Denied.", message: "Turn on Location Service to Determine your current location for App Mode", preferredStyle: UIAlertControllerStyle.alert)
         
@@ -268,8 +270,35 @@ class UIComponentHelper {
         LocationPermissionAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         UIApplication.topViewController()?.present( LocationPermissionAlert, animated: true, completion: nil)
     }
-    
+    static func AvoidSpecialCharaters(specialcharaters : String) -> Bool {
+        let characterset = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ")
+       
+        if specialcharaters.rangeOfCharacter(from: characterset.inverted) != nil {
+            print("string contains special characters")
+            return false
+        }
         
+        return true
+    }
+    static func Countwhitespece(_whitespece : String) -> Int{
+        let regex = try! NSRegularExpression(pattern: "\\s")
+        let numberOfWhitespaceCharacters = regex.numberOfMatches(in: _whitespece , range: NSRange(location: 0, length: _whitespece.utf16.count))
+        return numberOfWhitespaceCharacters
+        
+    }
+    static func Whitespeceatbeginning(_whitespece : String) -> Bool{
+        let i : String = _whitespece
+        let r = i.index(i.startIndex, offsetBy: 1)
+        let url : String = (i.substring(to: r))
+        if url == " " {
+           
+            return true
+        }
+      return false
+    }
+    
+    
+    
     
 
 }

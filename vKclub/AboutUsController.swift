@@ -370,8 +370,6 @@ class PropertyWebViewController: UIViewController ,UIWebViewDelegate{
     }
     func webViewDidFinishLoad(_ webView: UIWebView) {
         UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: false)
-        
-        
     }
     
     func webView(_ webView: UIWebView, didFailLoadWithError error: Error) {

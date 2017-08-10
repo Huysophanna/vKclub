@@ -21,6 +21,7 @@ class LoginController: UIViewController,UITextFieldDelegate {
     let User = UserProfile(context: manageObjectContext)
     override func viewDidLoad() {
         super.viewDidLoad()
+        hideKeyboardWhenTappedAround()
         UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
         MakeLeftViewIconToTextField(textField: emailTextField, icon: "user_left_icon")
         MakeLeftViewIconToTextField(textField: pwTextField, icon: "pw_icon")
@@ -67,11 +68,9 @@ class LoginController: UIViewController,UITextFieldDelegate {
                             InternetConnection.second = 0
                             if let currentUser = Auth.auth().currentUser {
                             var getFBimageUrl  : URL = currentUser.photoURL!
-                            print (getFBimageUrl,"befor++")
                             let str = currentUser.photoURL?.absoluteString
                             let index = str?.index((str?.startIndex)!, offsetBy: 30)
                             let url : String = (str?.substring(to: index!))!
-                            print(url)
                             if url == "https://scontent.xx.fbcdn.net/" {
                                 let FBImageUrl : String = "https://graph.facebook.com/"+FBSDKAccessToken.current().userID+"/picture?width=320&height=320"
                                 getFBimageUrl = URL(string:FBImageUrl)!
@@ -92,9 +91,9 @@ class LoginController: UIViewController,UITextFieldDelegate {
                                 let imageFB = UIImage(data: image! as Data)
                                 let newimag = UIComponentHelper.resizeImage(image: imageFB!, targetSize: CGSize(width: 400, height: 400))
                                 let imageProfiles = UIImagePNGRepresentation(newimag)
-                                if (user?.email == nil){
+                                if (currentUser.email == nil){
                                     UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
-                                    self.create(username: (user?.displayName)!,email: "someone@gamil.com",facebook: true, imagData: imageProfiles! as NSData)
+                                    self.create(username: (currentUser.displayName)!,email: "someone@gamil.com",facebook: true, imagData: imageProfiles! as NSData)
                                 } else {
                                      self.create(username: (user?.displayName)!,email: (user?.email)!,facebook: true, imagData: imageProfiles! as NSData)
                                 } 
@@ -131,20 +130,13 @@ class LoginController: UIViewController,UITextFieldDelegate {
         InternetConnection.second = 0
         InternetConnection.countTimer.invalidate()
         
+        
         if emailTextField.text == "" || pwTextField.text == "" {
             UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
             
             PresentAlertController(title: "Warning", message: "Please properly insert your data", actionTitle: "Got it")
             
         } else {
-            let validateEmails = UIComponentHelper.validateEmail(enteredEmail: self.emailTextField.text!)
-            if validateEmails{
-                
-            }else{
-                UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: false)
-                self.PresentAlertController(title: "Waring", message: "Your Email in bad format", actionTitle: "Ok")
-                return
-            }
             
             //handle firebase sign in
             
