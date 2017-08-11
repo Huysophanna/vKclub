@@ -18,23 +18,23 @@ let registrationStateChanged: LinphoneCoreRegistrationStateChangedCb  = {
     (lc: Optional<OpaquePointer>, proxyConfig: Optional<OpaquePointer>, state: _LinphoneRegistrationState, message: Optional<UnsafePointer<Int8>>) in
     
     switch state{
-    case LinphoneRegistrationNone: /**<Initial state for registrations */
-        NSLog("LinphoneRegistrationNone")
+        case LinphoneRegistrationNone: /**<Initial state for registrations */
+            NSLog("LinphoneRegistrationNone")
         
-    case LinphoneRegistrationProgress:
-        NSLog("LinphoneRegistrationProgress")
+        case LinphoneRegistrationProgress:
+            NSLog("LinphoneRegistrationProgress")
         
-    case LinphoneRegistrationOk:
-        NSLog("LinphoneRegistrationOk")
+        case LinphoneRegistrationOk:
+            NSLog("LinphoneRegistrationOk")
         
-    case LinphoneRegistrationCleared:
-        NSLog("LinphoneRegistrationCleared")
+        case LinphoneRegistrationCleared:
+            NSLog("LinphoneRegistrationCleared")
         
-    case LinphoneRegistrationFailed:
-        NSLog("LinphoneRegistrationFailed")
+        case LinphoneRegistrationFailed:
+            NSLog("LinphoneRegistrationFailed")
         
-    default:
-        NSLog("Unkown registration state")
+        default:
+            NSLog("Unkown registration state")
     }
 } as LinphoneCoreRegistrationStateChangedCb
 
