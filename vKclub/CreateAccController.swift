@@ -124,7 +124,19 @@ class CreateAccController: ViewController ,UITextFieldDelegate{
 
                     
                 } else {
-                    self.PresentAlertController(title: "Something went wrong", message: (error?.localizedDescription)!, actionTitle: "Okay")
+                    let check :String  = (error?.localizedDescription)!
+                    switch check {
+                    case "The email address is badly formatted.":
+                         self.PresentAlertController(title: "Something went wrong", message: "Please provide a valid form of email address.", actionTitle: "Okay")
+                        break
+                    case "The email address is already in use by another account":
+                         self.PresentAlertController(title: "Something went wrong", message: "The email address is already in use by another account", actionTitle: "Okay")
+                        break
+                    default:
+                        self.PresentAlertController(title: "Something went wrong", message: (error?.localizedDescription)!, actionTitle: "Okay")
+                        break
+                        
+                    }
                 }
             }
         }

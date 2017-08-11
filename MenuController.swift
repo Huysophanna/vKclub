@@ -93,7 +93,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     
     @IBAction func AccProviderBtn(_ sender: Any) {
         if EditBtn.tag == 0 {
-            PresentAlertController(title: "FB Linked", message: "Your account link with Facebook", actionTitle: "Okay")
+            PresentAlertController(title: "FB Linked", message: "You are currently linked your profile with Facebook account.", actionTitle: "Okay")
         } else {
             performSegue(withIdentifier:"GotoEditProfile", sender: self)        }
     }

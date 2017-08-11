@@ -50,9 +50,13 @@ class EditProfileController: UIViewController,UITextFieldDelegate {
     
     @IBAction func UpdateBtn(_ sender: Any) {
         let length_password : Int = (currentpass.text!.characters.count)
-        let lenth_username : Int = (Username.text?.characters.count)!
+        var lenth_username : Int = (Username.text?.characters.count)!
         let specialcharaters = UIComponentHelper.AvoidSpecialCharaters(specialcharaters: Username.text!)
         let conutwhitespece : Int = UIComponentHelper.Countwhitespece(_whitespece:Username.text!)
+        if (Username.text?.isEmpty)!{
+            lenth_username  = (currentuser!.displayName!.characters.count)
+            
+        }
 
         if InternetConnection.isConnectedToNetwork() {
             print("have internet")
@@ -73,11 +77,11 @@ class EditProfileController: UIViewController,UITextFieldDelegate {
             PresentAlertController(title: "Warning", message: "Pleaes enter your password less then 20 characters", actionTitle: "Got it")
             return
         } else if lenth_username < 5 {
-            PresentAlertController(title: "Warning", message: "Pleaes enter your password more then 6 characters", actionTitle: "Got it")
+            PresentAlertController(title: "Warning", message: "Pleaes enter your name more then 5 characters", actionTitle: "Got it")
             return
             
         } else if lenth_username > 20 {
-            PresentAlertController(title: "Warning", message: "Pleaes enter your password less then 20 characters", actionTitle: "Got it")
+            PresentAlertController(title: "Warning", message: "Pleaes enter your name less then 20 characters", actionTitle: "Got it")
             return
             
         } else if specialcharaters == false {
@@ -98,6 +102,16 @@ class EditProfileController: UIViewController,UITextFieldDelegate {
                 let credential = EmailAuthProvider.credential(withEmail:(currentuser?.email)!, password: currentpass.text!)
                 self.currentuser?.reauthenticate(with: credential, completion: { (error) in
                     if error != nil{
+                        let check : String = (error?.localizedDescription)!
+                        switch check{
+                            case "The password is invalid or the user does not have a password.":
+                                self.PresentAlertController(title: "Error", message: "Please provide a valid password.", actionTitle: "Okay")
+                                break
+                        default:
+                            self.PresentAlertController(title: "Something went wrong", message: (error?.localizedDescription)!, actionTitle: "Okay")
+                            
+                            break
+                        }
                         UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: false)
                         self.PresentAlertController(title: "Something went wrong", message: (error?.localizedDescription)!, actionTitle: "Okay")
                         return
@@ -114,19 +128,19 @@ class EditProfileController: UIViewController,UITextFieldDelegate {
                             changeRequest?.commitChanges(completion: { (error) in
                             })
                             self.UpdateUsernameandemail(username:self.Username.text!, email:(self.currentuser?.email)!)
-                            self.PresentAlertController(title: "Done", message: "Your profile had been updated", actionTitle: "Ok")
+                            self.PresentAlertController(title: "Done", message: "Your profile had been updated", actionTitle: "Okay")
                             self.reNew()
                             
                         }else{
                             if self.Email.text == self.currentuser?.email {
                                 UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: false)
                                 if (self.Username.text?.isEmpty)!{
-                                    self.PresentAlertController(title: "Waring", message: "If you wish to update your profile please don't input the same data", actionTitle: "Ok")
+                                    self.PresentAlertController(title: "Waring", message: "If you wish to update your profile please don't input the same data", actionTitle: "Okay")
                                     return
                                 } else {
                                     UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: false)
                                     if(self.Username.text == self.currentuser?.displayName){
-                                        self.PresentAlertController(title: "Waring", message: "If you wish to update your profile please don't input the same data", actionTitle: "Ok")
+                                        self.PresentAlertController(title: "Waring", message: "If you wish to update your profile please don't input the same data", actionTitle: "Okay")
                                         return
                                     }
                                     
@@ -136,7 +150,7 @@ class EditProfileController: UIViewController,UITextFieldDelegate {
                                 changeRequest?.commitChanges(completion: { (error) in
                                 })
                                 self.UpdateUsernameandemail(username:self.Username.text!, email:(self.currentuser?.email)!)
-                                self.PresentAlertController(title: "Done", message: "Your profile had been updated", actionTitle: "Ok")
+                                self.PresentAlertController(title: "Done", message: "Your profile had been updated", actionTitle: "Okay")
                                 
                                 self.reNew()
                             } else {
@@ -295,7 +309,16 @@ class ChangePasswordController :UIViewController,UITextFieldDelegate {
 
                     
                 } else {
-                    self.PresentAlertController(title: "Warning", message:(error?.localizedDescription)! , actionTitle: "Okay")
+                    let check : String = (error?.localizedDescription)!
+                    switch check{
+                    case "The password is invalid or the user does not have a password.":
+                        self.PresentAlertController(title: "Error", message: "Please provide a valid password.", actionTitle: "Okay")
+                        break
+                    default:
+                        self.PresentAlertController(title: "Something went wrong", message: (error?.localizedDescription)!, actionTitle: "Okay")
+                        
+                        break
+                    }
                     return
 
                     

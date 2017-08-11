@@ -174,16 +174,28 @@ class LoginController: UIViewController,UITextFieldDelegate {
                     
                         
                     } else {
-                        InternetConnection.countTimer.invalidate()
-                        InternetConnection.second = 0
                         UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
                         self.PresentAlertController(title: "Confirmation", message: "Please verify your email address with a link that we have already sent you to proceed login in", actionTitle: "Okay")
                     }
                 } else {
-                    InternetConnection.countTimer.invalidate()
-                    InternetConnection.second = 0
                     UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
-                    self.PresentAlertController(title: "Error", message: (error?.localizedDescription)!, actionTitle: "Okay")
+                    let check: String = (error?.localizedDescription)!
+                    print(check,"||")
+                    switch check {
+                    case "There is no user record corresponding to this identifier. The user may have been deleted.":
+                        self.PresentAlertController(title: "Error", message: "The username and password you entered did not match our records. Please double-check and try again.", actionTitle: "Okay")
+                        break
+                    case "The password is invalid or the user does not have a password.":
+                        self.PresentAlertController(title: "Error", message: "Please provide a valid password.", actionTitle: "Okay")                        
+                        break
+                    default:
+                        self.PresentAlertController(title: "Error", message: (error?.localizedDescription)!, actionTitle: "Okay")
+                        break
+                        
+                        
+                    }
+                   
+                    
                 }
             }
         }
