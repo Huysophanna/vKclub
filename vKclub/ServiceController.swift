@@ -11,6 +11,21 @@ import UIKit
 
 class ServiceController: UIViewController {
     var incomingCallInstance = IncomingCallController()
+    var dashboardInstance = DashboardController()
+    @IBOutlet weak var inKiriromContent: UIView!
+    @IBOutlet weak var bottomLine: UIView!
+    
+    override func viewDidLoad() {
+        
+        //put proper content based on app mode
+        if dashboardInstance.CheckUserLocation() == dashboardInstance.IN_KIRIROM {
+            inKiriromContent.isHidden = false
+            bottomLine.isHidden = false
+        } else {
+            inKiriromContent.isHidden = true
+            bottomLine.isHidden = true
+        }
+    }
     
     @IBAction func GotoBookpage(_ sender: Any) {
          self.performSegue(withIdentifier: "SgGotoBookpage", sender: self)
@@ -21,7 +36,12 @@ class ServiceController: UIViewController {
         switch (sender as! UIButton).tag {
             case 1:
                 //reception
-                CallToAction(phoneNumber: "235")
+                if dashboardInstance.CheckUserLocation() == dashboardInstance.IN_KIRIROM {
+                    CallToAction(phoneNumber: "235")
+                } else {
+                    //call using carrier phone number
+                    
+                }
                 break
             case 2:
                 //housekeeping
