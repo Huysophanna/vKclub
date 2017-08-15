@@ -186,7 +186,30 @@ class LoginController: UIViewController,UITextFieldDelegate {
                         self.PresentAlertController(title: "Error", message: "The username and password you entered did not match our records. Please double-check and try again.", actionTitle: "Okay")
                         break
                     case "The password is invalid or the user does not have a password.":
-                        self.PresentAlertController(title: "Error", message: "Please provide a valid password.", actionTitle: "Okay")                        
+                        Auth.auth().fetchProviders(forEmail: self.emailTextField.text!, completion: { (accData, error) in
+                            if error == nil{
+                                if accData == nil {
+                                    self.PresentAlertController(title: "Something went wrong", message: "The email you entered did not match our records. Please double-check and try again.", actionTitle: "Got it")
+                                    return
+                                }
+                                for i in accData!{
+                                    if i == "facebook.com"{
+                                        self.PresentAlertController(title: "Something went wrong", message: "Your account is linked with Facebook. Please Sign in with Facebook instead to move on.", actionTitle: "Got it")
+                                        return
+                                        
+                                    } else{
+                                        self.PresentAlertController(title: "Something went wrong", message: "Please provide a valid password.", actionTitle: "Got it")
+                                        return
+                                    }
+                                
+                                }
+                            } else {
+                                self.PresentAlertController(title: "Error", message: (error?.localizedDescription)!, actionTitle: "Okay")
+                                return
+                                
+                            }
+                        })
+                        
                         break
                     default:
                         self.PresentAlertController(title: "Error", message: (error?.localizedDescription)!, actionTitle: "Okay")

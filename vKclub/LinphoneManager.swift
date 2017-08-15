@@ -256,8 +256,8 @@ class LinphoneManager {
 //        let password = dict?.object(forKey: "password") as! String
 //        let domain = dict?.object(forKey: "domain") as! String
         
-        let account = "10024"
-        let password = "A2apbx10024"
+        let account = "10030"
+        let password = "A2apbx10030"
         let domain = "192.168.7.251:5060"
         
         let identity = "sip:" + account + "@" + domain;

@@ -61,7 +61,7 @@ class EditProfileController: UIViewController,UITextFieldDelegate {
         if InternetConnection.isConnectedToNetwork() {
             print("have internet")
         } else{
-            self.PresentAlertController(title: "Warning", message: "Can not update your Profile right now. Please Check you internet connection ", actionTitle: "Got it")
+            self.PresentAlertController(title: "Warning", message: "Cannot update your Profile right now. Please Check you internet connection ", actionTitle: "Got it")
             return
         }
         if ((Username.text?.isEmpty)! && (Email.text?.isEmpty)!){

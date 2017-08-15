@@ -42,7 +42,7 @@ class SettingController: UIViewController,UNUserNotificationCenterDelegate,UIApp
         center.getNotificationSettings { (settings) in
             if(settings.authorizationStatus == .authorized)
             {
-                
+                self.NotificationSetting.isOn = true
                 
                 if sender.isOn{
                     

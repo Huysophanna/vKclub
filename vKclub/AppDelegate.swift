@@ -22,7 +22,7 @@ var alert = UIAlertController(title: "test", message: "test", preferredStyle: UI
 var notification_num = 0 
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterDelegate, MessagingDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterDelegate{
     let callKitManager = CallKitCallInit(uuid: UUID(), handle: "")
     lazy var providerDelegate: ProviderDelegate = ProviderDelegate(callKitManager: self.callKitManager)
     func displayIncomingCall(uuid: UUID, handle: String, completion: ((NSError?) -> Void)?) {
@@ -91,12 +91,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         // autoLogin
         
+        
         let launchedBefore = UserDefaults.standard.bool(forKey: "launchedBefore")
         if launchedBefore  {
             self.LogoutController()
         } else {
             print("First launch, setting UserDefault.")
             
+        }
+        
+        Auth.auth().addStateDidChangeListener { (auth,user) in
+            if auth.currentUser != nil{
+                userName = (auth.currentUser?.displayName)!
+                print("not changed +++")
+                auth.currentUser?.reload(completion: { (error) in
+                    print(error,"++")
+                   if  error?.localizedDescription == "The user's credential is no longer valid. The user must sign in again."{
+                    
+                    self.LogoutController()
+                    
+                    }
+
+                    
+                })
+                
+                
+            }else{
+               self.LogoutController()
+ 
+            }
         }
         
         let loginBefore = UserDefaults.standard.bool(forKey: "loginBefore")
@@ -143,9 +166,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
        
     }
     
-    func application(received remoteMessage: MessagingRemoteMessage) {
-        print(remoteMessage.appData)
-    }
     
     @available(iOS 10.0, *)
     func userNotificationCenter(_ center: UNUserNotificationCenter,  willPresent notification: UNNotification, withCompletionHandler   completionHandler: @escaping (_ options:   UNNotificationPresentationOptions) -> Void) {
@@ -300,4 +320,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
         }
     }
     
+}
+
+extension AppDelegate : MessagingDelegate {
+    internal func application(received remoteMessage: MessagingRemoteMessage) {
+        print(">>>>> %@", remoteMessage.appData)
+        
+    }
 }
