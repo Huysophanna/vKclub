@@ -31,7 +31,7 @@ class DashboardController: UIViewController {
     var notifications = [Notifications]()
     var linphoneConnectionStatusFlag: Bool = true {
         didSet {
-            //PrepareLocalNotificationForConnectionStatus(isConnected: linphoneConnectionStatusFlag)
+            PrepareLocalNotificationForConnectionStatus(isConnected: linphoneConnectionStatusFlag)
         }
     }
     
@@ -141,6 +141,19 @@ class DashboardController: UIViewController {
             
         }
     }
+    func PrepareLocalNotificationForConnectionStatus(isConnected: Bool) {
+        var title: String
+        var body: String
+        if isConnected {
+            title = "PhoneCall Registered"
+            body = "You are connected. Available to recieve and make call."
+        } else {
+            title = "PhoneCall Registration Failed"
+            body = "You are not connected. Please connect to our wifi network to recieve and make call."
+        }
+        
+        UIComponentHelper.scheduleNotification(_title: title, _body: body, _inSeconds: 0.1)
+    }
     
     
     
@@ -188,19 +201,6 @@ class DashboardController: UIViewController {
         
     }
     
-    func PrepareLocalNotificationForConnectionStatus(isConnected: Bool) {
-        var title: String
-        var body: String
-        if isConnected {
-            title = "PhoneCall Registered"
-            body = "You are connected. Available to recieve and make call."
-        } else {
-            title = "PhoneCall Registration Failed"
-            body = "You are not connected. Please connect to our wifi network to recieve and make call."
-        }
-        
-        UIComponentHelper.scheduleNotification(_title: title, _body: body, _inSeconds: 0.1)
-    }
     
     func CheckUserLocation() -> String {
         self.locationManager.requestAlwaysAuthorization()// request user location

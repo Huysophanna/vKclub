@@ -528,8 +528,8 @@
 				A99663791D06FE65003B5EEE /* LinphoneManager.swift */,
 				7F1E245F1F0247250090C7E7 /* CreateAccController.swift */,
 				7F38C32D1F20606100666B36 /* AboutUsController.swift */,
-				7F1E24611F0247250090C7E7 /* LoginController.swift */,
 				7F1E24621F0247250090C7E7 /* ForgotPWController.swift */,
+				7F1E24611F0247250090C7E7 /* LoginController.swift */,
 				7F1E24631F0247250090C7E7 /* DashboardController.swift */,
 				7F3639231F04C54E00716B41 /* InternalCallController.swift */,
 				7F6067BD1F17714900F7CE26 /* RecentCallController.swift */,
@@ -682,6 +682,7 @@
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = 87A3CVP9KW;
 						LastSwiftMigration = 0820;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -900,7 +901,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = vKclub;
@@ -943,7 +944,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = vKclub;
 				SDKROOT = iphoneos;
@@ -961,6 +962,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = vKclub/vKclub.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 87A3CVP9KW;
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -972,6 +974,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = chain.vkirirom;
 				PRODUCT_NAME = vKclub;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "vKclub-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
@@ -987,6 +990,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = vKclub/vKclub.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 87A3CVP9KW;
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -998,6 +1002,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = chain.vkirirom;
 				PRODUCT_NAME = vKclub;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "vKclub-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 				USER_HEADER_SEARCH_PATHS = "$(inherited) $(SRCROOT)/liblinphone-sdk/apple-darwin/include/**";

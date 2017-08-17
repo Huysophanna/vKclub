@@ -22,6 +22,7 @@ class CreateAccController: ViewController ,UITextFieldDelegate{
     var nameTage = 0;
 
     override func viewDidLoad() {
+        hideKeyboardWhenTappedAround()
         UIComponentHelper.MakeBtnWhiteBorder(button: signUpBtn, color: UIColor.white)
         UIComponentHelper.MakeBtnWhiteBorder(button: backBtn, color: UIColor.white)
         UIComponentHelper.MakeCustomPlaceholderTextField(textfield: nameTextField, name: "Name", color: UIColor.white)
@@ -35,23 +36,43 @@ class CreateAccController: ViewController ,UITextFieldDelegate{
     }
     @IBAction func SignUpClicked(_ sender: Any) {
         let length_password : Int = (passwordTextField.text?.characters.count)!
-        let validateEmail = UIComponentHelper.validateEmail(enteredEmail: emailTextField.text!)
-      
-        
+        let length_username : Int = (nameTextField.text?.characters.count)!
+        let specialcharaters = UIComponentHelper.AvoidSpecialCharaters(specialcharaters: nameTextField.text!)
+        let conutwhitespece : Int = UIComponentHelper.Countwhitespece(_whitespece:nameTextField.text!)
         if (nameTextField.text?.isEmpty)! || (emailTextField.text?.isEmpty)! || (passwordTextField.text?.isEmpty)! || (confirmTextField.text?.isEmpty)! {
             PresentAlertController(title: "Warning", message: "Please properly insert your data", actionTitle: "Got it")
             return
-        } else if validateEmail == false {
-            self.PresentAlertController(title: "Waring", message: "Your Email in bad format", actionTitle: "Ok")
-            return
-        } else if confirmTextField.text !=  passwordTextField.text {
+        }  else if confirmTextField.text !=  passwordTextField.text {
             PresentAlertController(title: "Warning", message: "Your password doesn't match with confirm password", actionTitle: "Got it")
              return
         } else if length_password < 6 {
             PresentAlertController(title: "Warning", message: "Pleaes enter your password more then 6 characters", actionTitle: "Got it")
             return
+        } else if length_username < 5 {
+            
+            PresentAlertController(title: "Warning", message: "Pleaes enter your username more then 6 characters", actionTitle: "Got it")
+            return
+        } else if length_username > 20 {
+            PresentAlertController(title: "Warning", message: "Pleaes enter your username less then 20 characters", actionTitle: "Got it")
+            return
+            
+        } else if length_password > 20 {
+            PresentAlertController(title: "Warning", message: "Pleaes enter your password less then 20 characters", actionTitle: "Got it")
+            return
+        } else if specialcharaters == false {
+             PresentAlertController(title: "Warning", message: "Your username should not contant with special charaters or number", actionTitle: "Got it")
+            return
+        } else if conutwhitespece >= 3 {
+            PresentAlertController(title: "Warning", message: "Your username should not contant more then 3 white spece", actionTitle: "Got it")
+            return
         }
         else {
+            let whitespeceatbeginning = UIComponentHelper.Whitespeceatbeginning(_whitespece: nameTextField.text!)
+            if whitespeceatbeginning == true {
+                 PresentAlertController(title: "Warning", message: "Your username should not contant white spece at beginning ", actionTitle: "Got it")
+                return
+            }
+
             InternetConnection.second = 0
             InternetConnection.countTimer.invalidate()
             //show loading activity indicator
@@ -103,7 +124,19 @@ class CreateAccController: ViewController ,UITextFieldDelegate{
 
                     
                 } else {
-                    self.PresentAlertController(title: "Something went wrong", message: (error?.localizedDescription)!, actionTitle: "Okay")
+                    let check :String  = (error?.localizedDescription)!
+                    switch check {
+                    case "The email address is badly formatted.":
+                         self.PresentAlertController(title: "Something went wrong", message: "Please provide a valid form of email address.", actionTitle: "Okay")
+                        break
+                    case "The email address is already in use by another account":
+                         self.PresentAlertController(title: "Something went wrong", message: "The email address is already in use by another account", actionTitle: "Okay")
+                        break
+                    default:
+                        self.PresentAlertController(title: "Something went wrong", message: (error?.localizedDescription)!, actionTitle: "Okay")
+                        break
+                        
+                    }
                 }
             }
         }

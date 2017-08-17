@@ -40,7 +40,8 @@ class ServiceController: UIViewController {
                     CallToAction(phoneNumber: "235")
                 } else {
                     //call using carrier phone number
-                    
+                    guard let number = URL(string: "tel://" + "0962222735" ) else { return }
+                    UIApplication.shared.open(number, options: [:], completionHandler: nil)
                 }
                 break
             case 2:

@@ -4,11 +4,8 @@ import Firebase
 import Photos
 import MessageUI
 import FBSDKLoginKit
-
-
 class MenuController: UIViewController,UIImagePickerControllerDelegate, UINavigationControllerDelegate,MFMessageComposeViewControllerDelegate {
     var imagePicker : UIImagePickerController = UIImagePickerController()
-    
     let personService = UserProfileCoreData()
     let Checklocation = DashboardController()
     let storageRef = Storage.storage().reference()
@@ -81,6 +78,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     
     func Logouts(){
         UserDefaults.standard.set(false, forKey: "loginBefore")
+        UIApplication.shared.unregisterForRemoteNotifications()
         personService.deleteAllData(entity: "UserProfile")
         personService.deleteAllData(entity: "SipCallData")
         try! Auth.auth().signOut()
@@ -96,7 +94,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     
     @IBAction func AccProviderBtn(_ sender: Any) {
         if EditBtn.tag == 0 {
-            PresentAlertController(title: "FB Linked", message: "Your account link with Facebook", actionTitle: "Okay")
+            PresentAlertController(title: "FB Linked", message: "You are currently linked your profile with Facebook account.", actionTitle: "Okay")
         } else {
             performSegue(withIdentifier:"GotoEditProfile", sender: self)        }
     }
@@ -109,6 +107,10 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         EditBtn.setTitle("FBLinked", for: .normal)
         print(fb_lgoin,"++'")
         if fb_lgoin == [] {
+            if currentUser?.email == nil {
+                EmailBtn.text = "someone@gmail.com"
+
+            }
             if currentUser?.photoURL == nil {
             } else {
                 imageProfile.loadingIndicator(true)
@@ -138,6 +140,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
             }
         } else {
             for i in fb_lgoin {
+                EmailBtn.text = i.email
                 // if user no internet still they can get imageProfile from coredata
                 let img = UIImage(data: i.imageData! as Data)
                 let newimag = UIComponentHelper.resizeImage(image: img!, targetSize: CGSize(width: 400, height: 400))
@@ -181,7 +184,12 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         EmailBtn.text = currentUser?.email
         let emailProvider = NSPredicate(format: "facebookProvider = 0")
         let email_lgoin = personService.getUserProfile(withPredicate: emailProvider)
+        
         if email_lgoin == [] {
+            if currentUser?.photoURL == nil{
+                imageProfile.loadingIndicator(true)
+                
+            }
             imageProfile.loadingIndicator(true)
                         userName.text =  currentUser?.displayName
             DispatchQueue.global(qos: .userInitiated).async {
@@ -198,12 +206,13 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
             }
             
         } else {
+            
             for i in email_lgoin {
-                    userName.text = i.username
-                    // if user no internet still they can get imageProfile from coredata
-                    let img = UIImage(data: i.imageData! as Data)
-                    let newimag = UIComponentHelper.resizeImage(image: img!, targetSize: CGSize(width: 400, height: 400))
-                    imageProfile.setImage(newimag, for: .normal)
+                userName.text = i.username
+                // if user no internet still they can get imageProfile from coredata
+                let img = UIImage(data: i.imageData! as Data)
+                let newimag = UIComponentHelper.resizeImage(image: img!, targetSize: CGSize(width: 400, height: 400))
+                imageProfile.setImage(newimag, for: .normal)
             }
             
         }
@@ -373,7 +382,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         if let setectImage = selectedImageFromPicker{
             let newImage = UIComponentHelper.resizeImage(image: setectImage, targetSize: CGSize(width: 400, height: 400))
             let imageProfiles = UIImagePNGRepresentation(newImage)
-            let riversRef = storageRef.child("userprofile-photo").child((currentUser?.displayName)!)
+            let riversRef = storageRef.child("userprofile-photo").child((currentUser?.uid)!)
             riversRef.putData(imageProfiles! , metadata: nil) { (metadata, error) in
                 guard let metadata = metadata else {
                     self.PresentAlertController(title: "Error", message: "please check with your internet connection", actionTitle: "Okay")
@@ -381,6 +390,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
                 }
                 // Metadata contains file metadata such as size, content-type, and download URL.
                 let downloadURL = metadata.downloadURL()!.absoluteString
+                print(downloadURL,"++++")
                 print(downloadURL)
                 let url = NSURL(string: downloadURL) as URL?
                 let chageProfileimage = self.currentUser?.createProfileChangeRequest()
