@@ -94,7 +94,8 @@ class CreateAccController: ViewController ,UITextFieldDelegate{
                     let img = UIImage(named: "profile-icon")
                     let newImage = UIComponentHelper.resizeImage(image: img!, targetSize: CGSize(width: 400, height: 400))
                     let imageProfiles = UIImagePNGRepresentation(newImage)
-                    let riversRef =  self.storageRef.child("userprofile-photo").child((self.nameTextField.text)!)
+                    let riversRef =  self.storageRef.child("userprofile-photo").child((user?.uid)!)
+                    
                     
                     riversRef.putData(imageProfiles! , metadata: nil) { (metadata, error) in
                         guard let metadata = metadata else {

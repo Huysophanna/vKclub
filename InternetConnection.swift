@@ -1,11 +1,13 @@
 import UIKit
 import SystemConfiguration
+import Firebase
 
 // Internet Vaidation Helper...
 public class InternetConnection {
     static var second = 0
     static var countTimer = Timer()
     static var isConnected: Bool = false
+    static let personService = UserProfileCoreData()
     
     static func isConnectedToNetwork() -> Bool {
         
@@ -53,4 +55,21 @@ public class InternetConnection {
         self.countTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.CountSecond), userInfo: nil, repeats: true)
     
     }
+    static func Logouts(){
+        UserDefaults.standard.set(false, forKey: "loginBefore")
+        UIApplication.shared.unregisterForRemoteNotifications()
+        personService.deleteAllData(entity: "UserProfile")
+        personService.deleteAllData(entity: "SipCallData")
+        personService.deleteAllData(entity: "Notifications")
+        notification_num = 0
+        try! Auth.auth().signOut()
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDelegate.window = UIWindow(frame: UIScreen.main.bounds)
+        let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let yourVC = mainStoryboard.instantiateViewController(withIdentifier: "loginController") as!  LoginController
+        appDelegate.window?.rootViewController = yourVC
+        appDelegate.window?.makeKeyAndVisible()
+        
+    }
+
 }

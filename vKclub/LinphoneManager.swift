@@ -290,7 +290,7 @@ class LinphoneManager {
         return proxy_cfg!
     }
     
-    static func register(_ proxy_cfg: OpaquePointer){
+    static func register(_ proxy_cfg: OpaquePointer) {
         linphone_proxy_config_enable_register(proxy_cfg, 1); /* activate registration for this proxy config*/
         
     }

@@ -10,6 +10,7 @@ import UIKit
 import GoogleMaps
 import CoreData
 import UserNotifications
+import  FirebaseAuth
 
 var backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask(expirationHandler: nil)
 
@@ -34,11 +35,35 @@ class DashboardController: UIViewController {
             PrepareLocalNotificationForConnectionStatus(isConnected: linphoneConnectionStatusFlag)
         }
     }
-    
+   
+    let setting = UserDefaults.standard.integer(forKey: "setting")
     override func viewDidLoad() {
+        Auth.auth().addStateDidChangeListener { (auth, user) in
+            
+            user?.reload(completion: { (error) in
+                if error?.localizedDescription ==  "The user's credential is no longer valid. The user must sign in again." {
+                    let LocationPermissionAlert = UIAlertController(title: "Warning", message: "Your account had changed password,inorder to process the vKclub you need to login again.", preferredStyle: UIAlertControllerStyle.alert)
+                    
+                    LocationPermissionAlert.addAction(UIAlertAction(title: "Okay", style: .default, handler: { (action: UIAlertAction!) in
+                        InternetConnection.Logouts()}))
+                    
+                    self.present( LocationPermissionAlert, animated: true, completion: nil)
+                    
+                    
+                }
+                
+                
+            })
+        }
+
         
+       // login for registerForRemoteNotifications
         UserDefaults.standard.set(true, forKey: "loginBefore")
-        
+        if setting == 0 || setting == 1 {
+            UIApplication.shared.registerForRemoteNotifications()
+        }else{
+             UIApplication.shared.unregisterForRemoteNotifications()
+        }
         //init background task for incoming call
         backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask(expirationHandler: nil)
         
@@ -158,6 +183,7 @@ class DashboardController: UIViewController {
     
     
     func isKirirom() {
+
         switch CheckUserLocation() {
         case IN_KIRIROM:
             KiriromScope.setTitle("In-Kirirom Mode", for: .normal)
@@ -184,6 +210,7 @@ class DashboardController: UIViewController {
         }
         
         if CheckUserLocation() == IN_KIRIROM {
+            
             //Set linphoneCall identity
             LinphoneManager.register(proxyConfig!)
             

@@ -375,7 +375,6 @@ class PropertyWebViewController: UIViewController ,UIWebViewDelegate{
     func webView(_ webView: UIWebView, didFailLoadWithError error: Error) {
         noInternet.isHidden = false
         self.PresentAlertController(title: "Something went wrong", message: "Please Check you internet connection ", actionTitle: "Got it")
-        
         UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: false)
         
     }

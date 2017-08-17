@@ -69,28 +69,13 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         let logoutAlert = UIAlertController(title: "Logout", message: "Are your sure to logout?", preferredStyle: UIAlertControllerStyle.alert)
         
         logoutAlert.addAction(UIAlertAction(title: "Okay", style: .default, handler: { (action: UIAlertAction!) in
-            self.Logouts()
-            
+           
+            InternetConnection.Logouts()
         }))
         logoutAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         self.present( logoutAlert, animated: true, completion: nil)
     }
     
-    func Logouts(){
-        UserDefaults.standard.set(false, forKey: "loginBefore")
-        UIApplication.shared.unregisterForRemoteNotifications()
-        personService.deleteAllData(entity: "UserProfile")
-        personService.deleteAllData(entity: "SipCallData")
-        try! Auth.auth().signOut()
-        if self.storyboard != nil {
-            
-            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let newViewController = storyBoard.instantiateViewController(withIdentifier: "loginController") as! LoginController
-            self.present(newViewController, animated: true, completion: nil)
-            
-        }
-
-    }
     
     @IBAction func AccProviderBtn(_ sender: Any) {
         if EditBtn.tag == 0 {
@@ -209,10 +194,17 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
             
             for i in email_lgoin {
                 userName.text = i.username
-                // if user no internet still they can get imageProfile from coredata
                 let img = UIImage(data: i.imageData! as Data)
-                let newimag = UIComponentHelper.resizeImage(image: img!, targetSize: CGSize(width: 400, height: 400))
-                imageProfile.setImage(newimag, for: .normal)
+                // if user no internet still they can get imageProfile from coredata
+                if img == nil {
+                    self.imageProfile.loadingIndicator(false)
+                    
+                }else{
+                   
+                    let newimag = UIComponentHelper.resizeImage(image: img!, targetSize: CGSize(width: 400, height: 400))
+                    imageProfile.setImage(newimag, for: .normal)
+                }
+              
             }
             
         }
@@ -342,26 +334,38 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     
     
     @IBAction func contactusBtn(_ sender: Any) {
-        if (UIDevice.current.userInterfaceIdiom == UIUserInterfaceIdiom.pad) {
-            self.PresentAlertController(title: "Something went wrong", message: "Your device doesn't support with this feature ", actionTitle: "Got it")
-            
-           return
-        }
+        
         let alertController = UIAlertController(title: nil, message: "Contact us", preferredStyle: .actionSheet)
         
         let defaultAction = UIAlertAction(title: "English Speaker: (+855) 78 777 284", style: .default, handler: { (alert: UIAlertAction!) -> Void in
+            if (UIDevice.current.userInterfaceIdiom == UIUserInterfaceIdiom.pad) {
+                self.PresentAlertController(title: "Something went wrong", message: "Your device doesn't support with this feature ", actionTitle: "Got it")
+                
+                return
+            }
             guard let number = URL(string: "tel://" + "078777284" ) else { return }
             UIApplication.shared.open(number, options: [:], completionHandler: nil)
             
         })
         
         let deleteAction = UIAlertAction(title: "Khmer Speaker: (+855) 96 2222 735", style: .default, handler: { (alert: UIAlertAction!) -> Void in
+            if (UIDevice.current.userInterfaceIdiom == UIUserInterfaceIdiom.pad) {
+                self.PresentAlertController(title: "Something went wrong", message: "Your device doesn't support with this feature ", actionTitle: "Got it")
+                
+                return
+            }
             guard let number = URL(string: "tel://" + "0962222735" ) else { return }
             UIApplication.shared.open(number, options: [:], completionHandler: nil)
             
         })
         
+        
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        if let popoverController = alertController.popoverPresentationController {
+            popoverController.sourceView = self.view
+            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+            popoverController.permittedArrowDirections = []
+        }
         alertController.addAction(defaultAction)
         alertController.addAction(deleteAction)
         alertController.addAction(cancelAction)
@@ -380,8 +384,15 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
             selectedImageFromPicker = originalImage
             }
         if let setectImage = selectedImageFromPicker{
+            
             let newImage = UIComponentHelper.resizeImage(image: setectImage, targetSize: CGSize(width: 400, height: 400))
             let imageProfiles = UIImagePNGRepresentation(newImage)
+            var imageData : NSData = NSData(data: imageProfiles!)
+            var imageSize :Int = imageData.length
+            if Double(imageSize) > 5000{
+                self.PresentAlertController(title: "Something went wrong", message: "", actionTitle: "Got it")
+            }
+            print(Double(imageSize) / 1024.0,"++imagesize")
             let riversRef = storageRef.child("userprofile-photo").child((currentUser?.uid)!)
             riversRef.putData(imageProfiles! , metadata: nil) { (metadata, error) in
                 guard let metadata = metadata else {

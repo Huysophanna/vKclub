@@ -42,7 +42,7 @@ class MapController: UIViewController,GMSMapViewDelegate,CLLocationManagerDelega
         kiriromLocation(title: "Moringa", location: CLLocationCoordinate2DMake(11.3154,104.0638),dec: "Khmer style nature fused restaurant which serves Khmer original meals. You can also buy breads and drinks here.", zoom: 14),
         
         
-        kiriromLocation(title: "Villa JasmineVilla Jasmine", location: CLLocationCoordinate2DMake(11.3181,104.0633),dec: "Quite elegant cottage which promises you a lot of pleasant experiences on the cool Kirirom Mountain top for couples and small families.", zoom: 14),
+        kiriromLocation(title: "Villa Jasmine", location: CLLocationCoordinate2DMake(11.3181,104.0633),dec: "Quite elegant cottage which promises you a lot of pleasant experiences on the cool Kirirom Mountain top for couples and small families.", zoom: 14),
         
         kiriromLocation(title: "Villa Suite", location: CLLocationCoordinate2DMake(11.3180,104.0655),dec: "Modern designed luxury room. This two-bedroom villa with a mezzanine level is suitable for big families or groups.", zoom: 14),
         
@@ -61,7 +61,6 @@ class MapController: UIViewController,GMSMapViewDelegate,CLLocationManagerDelega
         kiriromLocation(title: "Village", location: CLLocationCoordinate2DMake( 11.3348, 104.0550  ),dec: "A Village where people enjoy living on Kirirom Mountain with a perfect view.", zoom: 14),
         
         kiriromLocation(title: "Ministry of Environment", location: CLLocationCoordinate2DMake( 11.3330,104.0531   ),dec: "Ministry of Environment that supports the whole Kirirom environment.", zoom: 14),
-        kiriromLocation(title: "", location: CLLocationCoordinate2DMake( 11.3165, 104.0658  ),dec: "Stay in one of our specially designed bungalows and experience the invigorating fresh air and peaceful life in the pine forests of kirirom", zoom: 14),
         
         kiriromLocation(title: "Bungalow", location: CLLocationCoordinate2DMake( 11.3165, 104.0658  ),dec: "Stay in one of our specially designed bungalows and experience the invigorating fresh air and peaceful life in the pine forests of kirirom", zoom: 14),
         kiriromLocation(title: "Swimming Pool", location: CLLocationCoordinate2DMake( 11.3168, 104.0658 ),dec: "Enjoy swimming with your family and friends with the surrounded pine trees and the fresh air.", zoom: 14),

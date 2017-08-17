@@ -361,7 +361,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5 mins ago" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zaa-9X-JGX">
-                                                    <rect key="frame" x="658" y="28" width="102" height="21"/>
+                                                    <rect key="frame" x="304" y="28" width="102" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="102" id="nuF-CD-Tvu"/>
                                                         <constraint firstAttribute="height" constant="21" id="tzL-di-ti3"/>

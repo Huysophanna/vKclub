@@ -41,6 +41,8 @@ class LoginController: UIViewController,UITextFieldDelegate {
         let fbLoginManager = FBSDKLoginManager()
         fbLoginManager.logIn(withReadPermissions: ["public_profile", "email"], from: self) { (result, error) in
             if error != nil {
+                UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
+                self.PresentAlertController(title: "Error", message: (error?.localizedDescription)!, actionTitle: "Okay")
                 print("eroor", error!)
             } else if (result?.isCancelled)! {
                 UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
@@ -57,7 +59,6 @@ class LoginController: UIViewController,UITextFieldDelegate {
                 let credential = FacebookAuthProvider.credential(withAccessToken: accessToken.tokenString)
                 Auth.auth().signIn(with: credential, completion: { (user, error) in
                     if InternetConnection.second == 10 {
-                        
                         InternetConnection.countTimer.invalidate()
                         InternetConnection.second = 0
                         UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
@@ -114,7 +115,8 @@ class LoginController: UIViewController,UITextFieldDelegate {
                         InternetConnection.countTimer.invalidate()
                         InternetConnection.second = 0
                         UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
-                        let alertController = UIAlertController(title: "Login Error", message: error?.localizedDescription, preferredStyle: .alert)
+                        print(error?.localizedDescription,"++")
+                        let alertController = UIAlertController(title: "Login Error", message: "Your account had used with other account with the same email", preferredStyle: .alert)
                         let okayAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
                         alertController.addAction(okayAction)
                         self.present(alertController, animated: true, completion: nil)
@@ -156,16 +158,26 @@ class LoginController: UIViewController,UITextFieldDelegate {
                 if error == nil {
                     if (user?.isEmailVerified)!{
                         // if user don't name and imageprofile
-                     
-                        self.getDataFromUrl(url: (user?.photoURL!)!){
+                        if(user?.photoURL == nil){
+                            let img = UIImage(named: "profile-icon")
+                            let newImage = UIComponentHelper.resizeImage(image: img!, targetSize: CGSize(width: 400, height: 400))
+                            let imageProfiles = UIImagePNGRepresentation(newImage)
+
+                            self.create(username: (user?.displayName)!,email : (user?.email)!,facebook: false, imagData: imageProfiles! as NSData  )
+  
+                            
+                        } else {
+                            self.getDataFromUrl(url: (user?.photoURL!)!){
                                 (data, response, error)  in
                                 guard let data = data, error == nil
-                                    else {    
+                                    else {
                                         return
                                 }
                                 let image = data as NSData?
                                 self.create(username: (user?.displayName)!,email : (user?.email)!,facebook: false, imagData: image!  )
-                                }
+                            }
+ 
+                        }
                         
                         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
                         let newViewController = storyBoard.instantiateViewController(withIdentifier: "MainDashboard") as! SWRevealViewController

@@ -9,7 +9,6 @@
 import Foundation
 import UIKit
 import UserNotifications
-
 extension UIViewController {
     func PresentAlertController(title: String, message: String, actionTitle: String) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
@@ -109,6 +108,7 @@ extension UIButton {
 }
 
 class UIComponentHelper {
+    
     static let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
     
     static func PresentActivityIndicator(view: UIView!, option: Bool) {
@@ -296,6 +296,8 @@ class UIComponentHelper {
         }
       return false
     }
+    
+
     
     
     

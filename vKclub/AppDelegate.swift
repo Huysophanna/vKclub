@@ -18,7 +18,6 @@ let appDelegate = UIApplication.shared.delegate as! AppDelegate
 let manageObjectContext  = appDelegate.persistentContainer.viewContext
 var databaseRef = Database.database().reference()
 var userName : String = "Oudom"
-var alert = UIAlertController(title: "test", message: "test", preferredStyle: UIAlertControllerStyle.alert)
 var notification_num = 0 
 
 @UIApplicationMain
@@ -37,6 +36,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
     /// Firebase project's Sender ID.
     /// You can send this token to your application server to send notifications to this device.
     func messaging(_ messaging: Messaging, didRefreshRegistrationToken fcmToken: String) {
+        
     }
     
     var window: UIWindow?
@@ -64,7 +64,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
                 print("User reject notification access")
             }
         })
-        
         if #available(iOS 10.0, *) {
             // For iOS 10 display notification (sent via APNS)
             UNUserNotificationCenter.current().delegate = self
@@ -75,22 +74,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
                 completionHandler: {_, _ in })
             
             // For iOS 10 data message (sent via FCM)
-             
+            
         } else {
             let settings: UIUserNotificationSettings =
                 UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
             application.registerUserNotificationSettings(settings)
         }
+
         
-        application.registerForRemoteNotifications()
+       
         
+        
+
         
         // Override point for customization after application launch.
         FirebaseApp.configure()
         // FB init
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         // autoLogin
-        
         
         let launchedBefore = UserDefaults.standard.bool(forKey: "launchedBefore")
         if launchedBefore  {
@@ -100,30 +101,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
             
         }
         
-        Auth.auth().addStateDidChangeListener { (auth,user) in
-            if auth.currentUser != nil{
-                userName = (auth.currentUser?.displayName)!
-                print("not changed +++")
-                auth.currentUser?.reload(completion: { (error) in
-                    print(error,"++")
-                   if  error?.localizedDescription == "The user's credential is no longer valid. The user must sign in again."{
-                    
-                    self.LogoutController()
-                    
-                    }
-
-                    
-                })
                 
-                
-            }else{
-               self.LogoutController()
- 
-            }
-        }
-        
         let loginBefore = UserDefaults.standard.bool(forKey: "loginBefore")
         if loginBefore  {
+            
+           
             self.Dashboard()
         } else {
             print("First launch, setting UserDefault.")
@@ -169,12 +151,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
     
     @available(iOS 10.0, *)
     func userNotificationCenter(_ center: UNUserNotificationCenter,  willPresent notification: UNNotification, withCompletionHandler   completionHandler: @escaping (_ options:   UNNotificationPresentationOptions) -> Void) {
-        
+       
         if notification.request.content.userInfo["aps"] == nil {
             return
         }
-        
-        alert.dismiss(animated: true, completion: nil)
         notification_num += 1
 
         let dict = notification.request.content.userInfo["aps"] as! NSDictionary
@@ -213,8 +193,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
     
     // Alert Controller in AppDelegate
     func showAlertAppDelegate(title: String,message : String,buttonTitle: String,window: UIWindow){
-        alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: buttonTitle, style: UIAlertActionStyle.default, handler: nil))
+        alert.dismiss(animated: true, completion: nil)
         window.rootViewController?.present(alert, animated: false, completion: nil)
     }
     
