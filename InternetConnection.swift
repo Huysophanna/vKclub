@@ -61,6 +61,7 @@ public class InternetConnection {
         personService.deleteAllData(entity: "UserProfile")
         personService.deleteAllData(entity: "SipCallData")
         personService.deleteAllData(entity: "Notifications")
+        personService.deleteAllData(entity: "Extension")
         notification_num = 0
         try! Auth.auth().signOut()
         let appDelegate = UIApplication.shared.delegate as! AppDelegate

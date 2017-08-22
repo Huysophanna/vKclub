@@ -245,8 +245,14 @@ class LinphoneManager {
     }
     
     func LinphoneInit() {
-        print(GetAccountExtension(),"--S")
-        proxyConfig = setIdentify(_account: GetAccountExtension())
+        if GetAccountExtension().isEmpty{
+            print(GetAccountExtension(),"--S")
+            proxyConfig = setIdentify(_account: "11111")
+        } else {
+            print(GetAccountExtension(),"--S")
+            proxyConfig = setIdentify(_account: GetAccountExtension())
+        }
+        
         LinphoneManager.register(proxyConfig!)
 //        setTimer()
 //        shutdown()
@@ -260,7 +266,8 @@ class LinphoneManager {
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
             if error != nil {
                 
-                print(error as Any)
+                print(error as Any,"++++")
+                return
             } else {
                 if let data = data{
                     let newextension_id = NSEntityDescription.insertNewObject(forEntityName: "Extension", into: manageObjectContext)
@@ -274,7 +281,8 @@ class LinphoneManager {
                             let extentionid:String = i.key as! String
                             if extentionid == "extension"{
                                 newextension_id.setValue(i.value, forKey: "extension_id")
-                                extensionID = i.value as! String
+                                print(i.value,"++")
+                                extensionID = String(describing: i.value)
                             }
                             if extentionid == "token" {
                                 newextension_id.setValue(i.value, forKey: "token")

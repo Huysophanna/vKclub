@@ -211,8 +211,10 @@ class DashboardController: UIViewController {
         
         if CheckUserLocation() == IN_KIRIROM {
             
-            //Set linphoneCall identity
-            LinphoneManager.register(proxyConfig!)
+            //Set linphoneCall identity\
+            
+            
+            LinphoneManager.register( proxyConfig.unsafelyUnwrapped)
             
             //Push localNotification to show user about linphone connection status
             if LinphoneManager.CheckLinphoneConnectionStatus() {
