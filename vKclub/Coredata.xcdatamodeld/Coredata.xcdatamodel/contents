@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="12141" systemVersion="16A2323a" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Extension" representedClassName="Extension" syncable="YES" codeGenerationType="class">
+        <attribute name="extension_id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="token" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
     <entity name="Notifications" representedClassName="Notifications" syncable="YES" codeGenerationType="class">
         <attribute name="notification_body" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="notification_num" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
@@ -20,8 +24,9 @@
         <attribute name="username" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Notifications" positionX="-27" positionY="45" width="128" height="90"/>
+        <element name="Notifications" positionX="196" positionY="81" width="128" height="90"/>
         <element name="SipCallData" positionX="-27" positionY="45" width="128" height="135"/>
-        <element name="UserProfile" positionX="-27" positionY="18" width="128" height="105"/>
+        <element name="UserProfile" positionX="63" positionY="-108" width="144" height="103"/>
+        <element name="Extension" positionX="259" positionY="-18" width="128" height="73"/>
     </elements>
 </model>

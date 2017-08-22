@@ -18,7 +18,9 @@ let appDelegate = UIApplication.shared.delegate as! AppDelegate
 let manageObjectContext  = appDelegate.persistentContainer.viewContext
 var databaseRef = Database.database().reference()
 var userName : String = "Oudom"
-var notification_num = 0 
+var notification_num = 0
+let launchedBefore = UserDefaults.standard.bool(forKey: "launchedBefore")
+let loginBefore = UserDefaults.standard.bool(forKey: "loginBefore")
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterDelegate{
@@ -45,9 +47,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
     var linphoneManager: LinphoneManager?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        
+       
+        
         //notification
-        self.linphoneManager = LinphoneManager()
-        linphoneManager?.LinphoneInit()
         // Remove border in navigationBar
         UINavigationBar.appearance().shadowImage = UIImage()
         UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
@@ -71,9 +74,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
             let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
             UNUserNotificationCenter.current().requestAuthorization(
                 options: authOptions,
-                completionHandler: {_, _ in })
+                completionHandler: {data, error in
+                    if error != nil{
+                         self.showAlertAppDelegate(title: "Error", message: (error?.localizedDescription)! , buttonTitle:"Okay", window:self.window!)                    }
             
-            // For iOS 10 data message (sent via FCM)
+            })
+            
             
         } else {
             let settings: UIUserNotificationSettings =
@@ -93,7 +99,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         // autoLogin
         
-        let launchedBefore = UserDefaults.standard.bool(forKey: "launchedBefore")
+       
+        
         if launchedBefore  {
             self.LogoutController()
         } else {
@@ -102,10 +109,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
         }
         
                 
-        let loginBefore = UserDefaults.standard.bool(forKey: "loginBefore")
+       
         if loginBefore  {
             
-           
+            //Init linphone sip
+            self.linphoneManager = LinphoneManager()
+            linphoneManager?.LinphoneInit()
             self.Dashboard()
         } else {
             print("First launch, setting UserDefault.")
@@ -113,41 +122,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
         
         return true
     }
-    
-    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        print("Unable to register for remote notifications: \(error.localizedDescription)")
-    }
-    
-    func application(_ application: UIApplication,
-                              didReceiveRemoteNotification userInfo: [AnyHashable : Any],
-                              fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void){
-        
-        if #available(iOS 10.0, *) {
-            print(userInfo)
-            return
-        }
-        completionHandler(.noData)
-        
-        if application.applicationState == .active {
-            print(userInfo)
-
-        } else {
-            print(userInfo)
-
-        }
-    }
-    
-    func application(_ application: UIApplication,
-                     didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        var readableToken: String = ""
-        for i in 0..<deviceToken.count {
-            readableToken += String(format: "%02.2hhx", deviceToken[i] as CVarArg)
-        }
-        print("Received an APNs device token: \(readableToken)")
-        
-       
-    }
-    
     
     @available(iOS 10.0, *)
     func userNotificationCenter(_ center: UNUserNotificationCenter,  willPresent notification: UNNotification, withCompletionHandler   completionHandler: @escaping (_ options:   UNNotificationPresentationOptions) -> Void) {
@@ -238,6 +212,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
     }
     
     func applicationWillEnterForeground(_ application: UIApplication) {
+        if loginBefore  {
+            //Init linphone sip
+            self.linphoneManager = LinphoneManager()
+            linphoneManager?.LinphoneInit()
+            self.Dashboard()
+        } else {
+            print("First launch, setting UserDefault.")
+        }
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
     }
     

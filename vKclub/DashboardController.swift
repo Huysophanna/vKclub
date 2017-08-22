@@ -218,6 +218,9 @@ class DashboardController: UIViewController {
             if LinphoneManager.CheckLinphoneConnectionStatus() {
                 if !linphoneConnectionStatusFlag {
                     linphoneConnectionStatusFlag = true
+                    
+                    //acknowledge post method to server to indicates that user uses the extension 
+                    
                 }
             } else {
                 if linphoneConnectionStatusFlag {
@@ -235,12 +238,9 @@ class DashboardController: UIViewController {
         
         //when user allow location
         if CLLocationManager.locationServicesEnabled() {
-            
             locationManager.delegate = self as? CLLocationManagerDelegate//Check delgate
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters//Check the desiredAccurac
-            
             locationManager.startUpdatingLocation()
-            print (locationManager.startUpdatingLocation())
             // if location not null
             if (locationManager.location?.coordinate.longitude != nil) {
                 let currentlocation_lat = Double((locationManager.location?.coordinate.latitude)!)
@@ -291,9 +291,7 @@ class DashboardController: UIViewController {
              }
             
         }))
-         LocationPermissionAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
-            
-        }))
+         LocationPermissionAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         self.present( LocationPermissionAlert, animated: true, completion: nil)
     }
     func loadData(){

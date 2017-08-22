@@ -72,12 +72,14 @@ class LoginController: UIViewController,UITextFieldDelegate {
                             let str = currentUser.photoURL?.absoluteString
                             let index = str?.index((str?.startIndex)!, offsetBy: 30)
                             let url : String = (str?.substring(to: index!))!
-                            if url == "https://scontent.xx.fbcdn.net/" {
-                                let FBImageUrl : String = "https://graph.facebook.com/"+FBSDKAccessToken.current().userID+"/picture?width=320&height=320"
+                            let fbphotourl:String = "https://scontent.xx.fbcdn.net/"
+                            if url == fbphotourl {
+                                let urlphoto: String = "https://graph.facebook.com/"
+                                let picturelink:String = "/picture?width=320&height=320"
+                                let FBImageUrl : String = urlphoto+FBSDKAccessToken.current().userID+picturelink
                                 getFBimageUrl = URL(string:FBImageUrl)!
                             }
                             let chageProfileuser = currentUser.createProfileChangeRequest()
-                            print(getFBimageUrl,"after++")
                             chageProfileuser.photoURL = getFBimageUrl
                             chageProfileuser.commitChanges { (error) in
                                 
@@ -115,7 +117,6 @@ class LoginController: UIViewController,UITextFieldDelegate {
                         InternetConnection.countTimer.invalidate()
                         InternetConnection.second = 0
                         UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
-                        print(error?.localizedDescription,"++")
                         let alertController = UIAlertController(title: "Login Error", message: "Your account had used with other account with the same email", preferredStyle: .alert)
                         let okayAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
                         alertController.addAction(okayAction)

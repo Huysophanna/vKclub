@@ -8,6 +8,8 @@
 
 import Foundation
 import UIKit
+import CoreData
+
 
 class InternalCallController: UIViewController {
     @IBOutlet weak var numberTextField: UITextField!
@@ -18,6 +20,7 @@ class InternalCallController: UIViewController {
         super.viewDidLoad()
         
     }
+    
     
     @IBAction func NumberBtnClicked(_ sender: Any) {
         if (numberTextField.text == "0") {
@@ -35,7 +38,7 @@ class InternalCallController: UIViewController {
             numberTextField.text = dialPhoneNumber
         }
         if (dialPhoneNumber.characters.count == 0) {
-            numberTextField.placeholder = "Enter phone number"
+            //numberTextField.placeholder = "Enter phone number"
         }
     }
     

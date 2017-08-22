@@ -109,6 +109,9 @@ class CreateAccController: ViewController ,UITextFieldDelegate{
                         chageProfileuser?.photoURL =  url
                         chageProfileuser?.displayName = self.nameTextField.text
                         chageProfileuser?.commitChanges { (error) in
+                            if error != nil {
+                               self.PresentAlertController(title: "Something went wrong", message: (error?.localizedDescription)!, actionTitle: "Okay")
+                            }
                             
                         }
                     }

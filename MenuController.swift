@@ -90,7 +90,6 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         let facebookProvider = NSPredicate(format: "facebookProvider = 1")
         let fb_lgoin = personService.getUserProfile(withPredicate: facebookProvider)
         EditBtn.setTitle("FBLinked", for: .normal)
-        print(fb_lgoin,"++'")
         if fb_lgoin == [] {
             if currentUser?.email == nil {
                 EmailBtn.text = "someone@gmail.com"
@@ -105,11 +104,13 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
                     let str = self.currentUser?.photoURL?.absoluteString
                     let index = str?.index((str?.startIndex)!, offsetBy: 30)
                     let url : String = (str?.substring(to: index!))!
-                    if url == "https://scontent.xx.fbcdn.net/" {
-                        let FBImageUrl : String = "https://graph.facebook.com/"+FBSDKAccessToken.current().userID+"/picture?width=320&height=320"
+                    let fbphotourl:String = "https://scontent.xx.fbcdn.net/"
+                    if url == fbphotourl {
+                        let urlphoto: String = "https://graph.facebook.com/"
+                        let picturelink:String = "/picture?width=320&height=320"
+                        let FBImageUrl : String = urlphoto+FBSDKAccessToken.current().userID+picturelink
                         getFBimageUrl = URL(string:FBImageUrl)!
                     }
-                    
                     let data = try? Data(contentsOf: (getFBimageUrl))
                     
                     // When from background thread, UI needs to be updated on main_queue
@@ -231,9 +232,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
                            
                             UIApplication.shared.open(URL(string:UIApplicationOpenSettingsURLString)!, options: [:], completionHandler:nil)                                
                         }))
-                        LocationPermissionAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler:{ (action: UIAlertAction!) in
-                            
-                        }))
+                        LocationPermissionAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler:nil))
                         self.present( LocationPermissionAlert, animated: true, completion: nil)
                         
                     }
@@ -387,8 +386,8 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
             
             let newImage = UIComponentHelper.resizeImage(image: setectImage, targetSize: CGSize(width: 400, height: 400))
             let imageProfiles = UIImagePNGRepresentation(newImage)
-            var imageData : NSData = NSData(data: imageProfiles!)
-            var imageSize :Int = imageData.length
+            let imageData : NSData = NSData(data: imageProfiles!)
+            let imageSize :Int = imageData.length
             if Double(imageSize) > 5000{
                 self.PresentAlertController(title: "Something went wrong", message: "", actionTitle: "Got it")
             }
@@ -406,7 +405,11 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
                 let url = NSURL(string: downloadURL) as URL?
                 let chageProfileimage = self.currentUser?.createProfileChangeRequest()
                 chageProfileimage?.photoURL =  url
-                chageProfileimage?.commitChanges { (error) in }
+                chageProfileimage?.commitChanges { (error) in
+                    self.PresentAlertController(title: "Error", message: (error?.localizedDescription)!, actionTitle: "Okay")
+                    return
+                
+                }
                 
                 //dismiss image button loading indicator when done
                 self.imageProfile.loadingIndicator(false)
