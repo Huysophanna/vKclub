@@ -439,7 +439,6 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         let emailProvider = NSPredicate(format: "facebookProvider = 0")
         let email_lgoin = personService.getUserProfile(withPredicate: emailProvider)
         for i in email_lgoin {
-            print("Email done")
             i.imageData = image
             personService.updateUserProfile(_updatedPerson: i)
             
@@ -451,7 +450,6 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         let facebookProvider = NSPredicate(format: "facebookProvider = 1")
         let fb_lgoin = personService.getUserProfile(withPredicate: facebookProvider)
         for i in fb_lgoin {
-            print("facebook done")
             i.imageData = image
             personService.updateUserProfile(_updatedPerson: i)
             

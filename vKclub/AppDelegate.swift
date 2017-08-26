@@ -21,6 +21,20 @@ var userName : String = "Oudom"
 var notification_num = 0
 let launchedBefore = UserDefaults.standard.bool(forKey: "launchedBefore")
 let loginBefore = UserDefaults.standard.bool(forKey: "loginBefore")
+var linphoneManager: LinphoneManager? = LinphoneManager()
+var linephoneinit = "" {
+    didSet {
+        if linephoneinit == "logout"{
+        //call when user logout and unregister internal phone call
+            
+        } else {
+              linphoneManager?.LinphoneInit()
+        }
+      
+    }
+}
+var getextsucc : String = "getextsucc"
+
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterDelegate{
@@ -44,14 +58,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
     var window: UIWindow?
     let personService = UserProfileCoreData()
     let gcmMessageIDKey = "gcm.message_id"
-    var linphoneManager: LinphoneManager?
+   
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
-       
         
         //notification
         // Remove border in navigationBar
+        
         UINavigationBar.appearance().shadowImage = UIImage()
         UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
         UINavigationBar.appearance().isTranslucent = false
@@ -111,10 +125,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
                 
        
         if loginBefore  {
-            
-            //Init linphone sip
-            self.linphoneManager = LinphoneManager()
-            linphoneManager?.LinphoneInit()
+           //Init linphone sip
             self.Dashboard()
         } else {
             print("First launch, setting UserDefault.")
@@ -212,13 +223,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
     }
     
     func applicationWillEnterForeground(_ application: UIApplication) {
+        
         if loginBefore  {
-            //Init linphone sip
-            self.linphoneManager = LinphoneManager()
-            linphoneManager?.LinphoneInit()
-            self.Dashboard()
+            linephoneinit = "login"
         } else {
-            print("First launch, setting UserDefault.")
         }
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
     }
@@ -291,3 +299,6 @@ extension AppDelegate : MessagingDelegate {
         
     }
 }
+
+let firebasedatabaseref =  Database.database().reference()
+

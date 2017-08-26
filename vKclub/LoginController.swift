@@ -52,7 +52,7 @@ class LoginController: UIViewController,UITextFieldDelegate {
                     UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
                     print("Failed to get access token")
                     return
-                }
+            }
                 InternetConnection.CountTimer()
                 print(InternetConnection.second,"++")
 

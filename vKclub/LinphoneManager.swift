@@ -1,14 +1,16 @@
 import Foundation
 import AVFoundation
 import CoreData
+import Firebase
 
 var answerCall: Bool = false
 let LINPHONE_CALLSTREAM_RUNNING = "LinphoneCallStreamsRunning"
 let LINPHONE_CALL_ERROR = "LinphoneCallError"
-let LINPHONE_CALL_OUTGOING_RINGING = "LinphoneCallOutgoingRinging"
 
+let LINPHONE_CALL_OUTGOING_RINGING = "LinphoneCallOutgoingRinging"
 var outGoingCallPlayer = AVAudioPlayer()
 var proxyConfig: OpaquePointer? = nil
+
 
 struct theLinphone {
     static var lc: OpaquePointer?
@@ -83,6 +85,8 @@ let callStateChanged: LinphoneCoreCallStateChangedCb = {
 }
 
 class LinphoneManager {
+    
+    var tokenid = ""
     static let incomingCallInstance = IncomingCallController()
     static var linphoneCallStatus: String = ""
     static var callOpaquePointerData: Optional<OpaquePointer>
@@ -219,9 +223,7 @@ class LinphoneManager {
             let remoteAddrStr:String? = String(cString: remoteAddr!)
             let delimiter = "\""
             var dividedRemodeAddrStr = remoteAddrStr?.components(separatedBy: delimiter)
-            
             let contactName = dividedRemodeAddrStr?[1]
-            
             return contactName!
         }
         return ""
@@ -245,135 +247,181 @@ class LinphoneManager {
     }
     
     func LinphoneInit() {
-        if GetAccountExtension().isEmpty{
-            print(GetAccountExtension(),"--S")
-            proxyConfig = setIdentify(_account: "11111")
-        } else {
-            print(GetAccountExtension(),"--S")
-            proxyConfig = setIdentify(_account: GetAccountExtension())
+        switch linephoneinit {
+        case "login":
+            proxyConfig = setIdentify(_account: "0")
+            // if getext = false  means not yet get ext id
+            GetAccountExtension()
+            break
+        default:
+            
+             proxyConfig = setIdentify(_account: linephoneinit)
+            break
+            
         }
-        
         LinphoneManager.register(proxyConfig!)
-//        setTimer()
+        setTimer()
 //        shutdown()
     }
     
-    func GetDataFromServer() -> String{
+    func GetDataFromServer()  {
+        let currentuser = Auth.auth().currentUser
         var extensionID = ""
         var request = URLRequest(url: URL(string:"http://192.168.7.251:8000/api/v.1/get-extension" )!)
-        request.addValue("Content-Type", forHTTPHeaderField: "application/json")
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("wfvUd0d4Bw7RfeCqwEe4F0GWTL3dpzai7f7euYBuI", forHTTPHeaderField: "VKAPP-API-TOKEN")
+        request.addValue((currentuser?.uid)!, forHTTPHeaderField: "VKAPP-USERID")
+        
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
             if error != nil {
+                print(error as Any,"")
                 
-                print(error as Any,"++++")
-                return
             } else {
                 if let data = data{
-                    let newextension_id = NSEntityDescription.insertNewObject(forEntityName: "Extension", into: manageObjectContext)
                     do {
+                        let newextension_id = NSEntityDescription.insertNewObject(forEntityName: "Extension", into: manageObjectContext)
                         let json = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableContainers) as? [String:Any]
-                        
                         let datas = json?["success"]  as! NSDictionary
                         let extensions  = datas["extension"] as! NSDictionary
                         
                         for i in extensions {
                             let extentionid:String = i.key as! String
+                            
                             if extentionid == "extension"{
-                                newextension_id.setValue(i.value, forKey: "extension_id")
-                                print(i.value,"++")
+                                databaseRef.child("users").child((currentuser?.uid)!).child("Extension").setValue(i.value)
                                 extensionID = String(describing: i.value)
+                                newextension_id.setValue(String(describing:i.value), forKey: "extension_id")
                             }
                             if extentionid == "token" {
-                                newextension_id.setValue(i.value, forKey: "token")
+                                 databaseRef.child("users").child((currentuser?.uid)!).child("Token").setValue(i.value)
+                                 newextension_id.setValue(i.value, forKey: "token")
                                 
-                            }
-                            do {
-                                try  manageObjectContext.save()
-                                
-                            } catch {
-                                print("error")
                             }
                         }
-                        
-                        
-                        
+                        do {
+                            try  manageObjectContext.save()
+                            
+                        } catch {
+                            print("error")
+                        }
                     } catch {
                         print("error")
                     }
                 }
             }
+            linephoneinit = extensionID
         }
         task.resume()
-        return extensionID
-
+       
     }
     
     
-    func GetAccountExtension() -> String {
-        var extensionID = ""
-        
+    func GetAccountExtension() {
         let extensionRequest:NSFetchRequest<Extension> = Extension.fetchRequest()
         
         do {
             extension_ids = try manageObjectContext.fetch(extensionRequest)
-            
-            if extension_ids == []{
-                
-                extensionID = GetDataFromServer()
-                
-            } else {
-                for i in extension_ids {
-                    extensionID = String(i.extension_id)
-                    //request token and extension id to the server to see if user can stil use the extension
-                    var request = URLRequest(url: URL(string: "http://192.168.7.251:8000/api/v.1/trigger-extension")!)
-                    request.httpMethod = "POST"
-                    request.addValue("Content-Type", forHTTPHeaderField: "application/json")
-                    request.addValue("wfvUd0d4Bw7RfeCqwEe4F0GWTL3dpzai7f7euYBuI", forHTTPHeaderField: "VKAPP-API-TOKEN")
-                    let postString = i.token
-                    request.httpBody = postString?.data(using: .utf8)
-                    let task = URLSession.shared.dataTask(with: request) { data, response, error in
-                        guard let data = data, error == nil else {
-                            // check for fundamental networking error
-                            print(error,"++++")
-                            return
+            if extension_ids == [] {
+                let currentuser = Auth.auth().currentUser
+                 databaseRef.child("users").child((currentuser?.uid)!).observeSingleEvent(of: .value, with: { (data) in
+                    getextsucc = "ext"
+                    // Get user value
+                    if let datas = data.value as? NSDictionary {
+                        var exts = ""
+                        for i in datas {
+                            let extentionid:String = i.key as! String
+                            if extentionid == "Extension" {
+                               exts = String(describing: i.value)
+                                
+                            } else {
+                                self.tokenid  = i.value as! String
+                            }
+                            
                         }
+                    self.PostData(extensions :  exts  , tokenid:self.tokenid )
+        
+                } else {
+                     self.GetDataFromServer()
                         
-                        if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {
-                            // check for http errors
-                            if httpStatus.statusCode   == 300 {
-                                extensionID = self.GetDataFromServer()
-                            }
-                            
-                            if httpStatus.statusCode == 400 {
-                                
-                             print("Could not load data from database \(error?.localizedDescription)")
-                                
-                            }
-                            
-                            if httpStatus.statusCode == 505{
-                                  print("Could not load data from database \(error?.localizedDescription)")
-                                
-                            }
-                            print("statusCode should be 200, but is \(httpStatus.statusCode)")
-                            
-                        }
-                    }
-                    task.resume()
                 }
+                    // ...
+                }) { (error) in
+                    print(error.localizedDescription)
+                }
+            } else {
+                getextsucc = "ext"
                 
+                for i in extension_ids {
+                    
+                    if let ext =  i.extension_id {
+                        self.PostData(extensions : ext , tokenid: i.token!)
+                    }
+                    
+                }
             }
-            
-            
         } catch {
             print("Could not load data from database \(error.localizedDescription)")
         }
         
-        return extensionID
+        
     }
+    func PostData(extensions : String , tokenid: String) {
+        var request = URLRequest(url: URL(string: "http://192.168.7.251:8000/api/v.1/trigger-extension")!)
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("wfvUd0d4Bw7RfeCqwEe4F0GWTL3dpzai7f7euYBuI", forHTTPHeaderField: "VKAPP-API-TOKEN")
+        //            request.addValue((currentuser?.uid)!, forHTTPHeaderField: "VKAPP-USERID")
+        let parameters = ["ext":extensions , "reserved_token":tokenid ,"action": "register"]
+    
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted) // pass dictionary to nsdata object and set it as request body
+            
+        } catch let error {
+            print(error.localizedDescription)
+        }
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if error != nil {
+                
+                print(error as Any,"")
+                
+            } else {
+                if let data = data{
+                    do {
+                        
+                        let json = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableContainers) as? [String:Any]
+    
+                        if let code = json?["code"] {
+                            let code_check :String =  String(describing:code)
+                            switch code_check{
+                                case "200" :
+                                 linephoneinit = extensions
+                                 break
+                                case "300" :
+                                  //
+                                  self.GetAccountExtension()
+                                 break
+                                case "404" :
+                                // out of scop make variable gobal
+                                  getextsucc = "404"
+                                 
+                                 break
+                                
+                                default :
+                                 break
+                                
+                            }
+                        }
+                    
+                    } catch {
+                        print("error")
+                    }
+                }
+            }
+            
+        }
+        task.resume()
 
-    
-    
+    }
     func setIdentify(_account:String) -> OpaquePointer? {
         // Reference: http://www.linphone.org/docs/liblinphone/group__registration__tutorials.html
         

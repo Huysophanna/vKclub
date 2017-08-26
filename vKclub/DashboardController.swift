@@ -38,6 +38,7 @@ class DashboardController: UIViewController {
    
     let setting = UserDefaults.standard.integer(forKey: "setting")
     override func viewDidLoad() {
+        linephoneinit  = "login"
         Auth.auth().addStateDidChangeListener { (auth, user) in
             
             user?.reload(completion: { (error) in
@@ -110,9 +111,22 @@ class DashboardController: UIViewController {
             switch CheckUserLocation() {
             case IN_KIRIROM:
                 if btntag == 4{
-                    LinphoneManager.register(proxyConfig!)
-                    performSegue(withIdentifier: "PushInternalCall", sender: self)
-
+                
+                    switch getextsucc {
+                    case "ext":
+                        LinphoneManager.register(proxyConfig!)
+                        performSegue(withIdentifier: "PushInternalCall", sender: self)
+                    case "404":
+                        
+                        PresentAlertController(title: "Warning", message: "Our extension limited,so wait amoment ", actionTitle: "Okay")
+                        
+                        break
+                        
+                    default:
+                        PresentAlertController(title: "Warning", message: "Wait amoment", actionTitle: "Okay")
+                        break
+                    }
+                
                 }else{
                   PresentAlertController(title: "In-Kirirom Mode", message: "Welcome to vKirirom. Experience full features of vKclub with In-Kirirom mode including Emergency SOS & Free internal phone call", actionTitle: "Okay")
                 }
@@ -211,14 +225,17 @@ class DashboardController: UIViewController {
         
         if CheckUserLocation() == IN_KIRIROM {
             
-            //Set linphoneCall identity\
+            //Set linphoneCall identity
             
-            
-            LinphoneManager.register( proxyConfig.unsafelyUnwrapped)
+            if let _proxyConfig = proxyConfig {
+                 LinphoneManager.register(_proxyConfig)
+            } 
+
+            print(LinphoneManager.CheckLinphoneConnectionStatus(),  "==STATUS===")
             
             //Push localNotification to show user about linphone connection status
             if LinphoneManager.CheckLinphoneConnectionStatus() {
-                if !linphoneConnectionStatusFlag {
+                if linphoneConnectionStatusFlag == false {
                     linphoneConnectionStatusFlag = true
                     
                     //acknowledge post method to server to indicates that user uses the extension 

@@ -102,6 +102,7 @@
 		A9FACB131D0A7B3700E3C8A5 /* oldphone-mono.wav in Resources */ = {isa = PBXBuildFile; fileRef = A9FACB051D0A7B3700E3C8A5 /* oldphone-mono.wav */; };
 		A9FACB141D0A7B3700E3C8A5 /* soft_as_snow.mkv in Resources */ = {isa = PBXBuildFile; fileRef = A9FACB061D0A7B3700E3C8A5 /* soft_as_snow.mkv */; };
 		A9FACB151D0A7B3700E3C8A5 /* toy-mono.wav in Resources */ = {isa = PBXBuildFile; fileRef = A9FACB071D0A7B3700E3C8A5 /* toy-mono.wav */; };
+		C50BCE921F4EB85300455091 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C50BCE911F4EB85300455091 /* Info.plist */; };
 		C51157D21F0B7A56008BCEC5 /* UserProfileCoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51157D11F0B7A56008BCEC5 /* UserProfileCoreData.swift */; };
 		C515AF161F1F9D0C0054A27D /* paper_onboarding.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C515AF151F1F9D0C0054A27D /* paper_onboarding.framework */; };
 		C515AF191F1FA27C0054A27D /* paper_onboarding.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C515AF151F1F9D0C0054A27D /* paper_onboarding.framework */; };
@@ -159,7 +160,6 @@
 		7F7804371F32EB5C0086A226 /* ringback.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = ringback.wav; path = ../ringback.wav; sourceTree = "<group>"; };
 		7F8A70041F2066EA00B83290 /* CardViewHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardViewHelper.swift; sourceTree = SOURCE_ROOT; };
 		7F8C3C1E1F17CF030060D31B /* vKclub.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = vKclub.entitlements; sourceTree = "<group>"; };
-		7F8E0D0C1F025C4900EE99BF /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../Info.plist; sourceTree = "<group>"; };
 		7FA8F7EC1F226DE700AE3EA2 /* ProviderDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProviderDelegate.swift; sourceTree = SOURCE_ROOT; };
 		7FBF65EC1F0C0A8F00307BF3 /* IncomingCallController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IncomingCallController.swift; path = vKclub/IncomingCallController.swift; sourceTree = "<group>"; };
 		7FE3736F1F25EDDA00051971 /* CallKitCallInit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CallKitCallInit.swift; path = vKclub/CallKitCallInit.swift; sourceTree = "<group>"; };
@@ -261,6 +261,7 @@
 		A9FACB061D0A7B3700E3C8A5 /* soft_as_snow.mkv */ = {isa = PBXFileReference; lastKnownFileType = file; path = soft_as_snow.mkv; sourceTree = "<group>"; };
 		A9FACB071D0A7B3700E3C8A5 /* toy-mono.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "toy-mono.wav"; sourceTree = "<group>"; };
 		BBDBA929F28239775CF624FD /* Pods-vKclub.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-vKclub.debug.xcconfig"; path = "Pods/Target Support Files/Pods-vKclub/Pods-vKclub.debug.xcconfig"; sourceTree = "<group>"; };
+		C50BCE911F4EB85300455091 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C51157D11F0B7A56008BCEC5 /* UserProfileCoreData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileCoreData.swift; sourceTree = "<group>"; };
 		C515AF151F1F9D0C0054A27D /* paper_onboarding.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = paper_onboarding.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/vKclub-fbsofahcoqioppcemquywacdwqid/Build/Products/Debug-iphonesimulator/paper-onboarding/paper_onboarding.framework"; sourceTree = "<group>"; };
 		C515AF1C1F1FAAE40054A27D /* onboardingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = onboardingView.swift; sourceTree = "<group>"; };
@@ -434,8 +435,8 @@
 			children = (
 				7F8C3C1E1F17CF030060D31B /* vKclub.entitlements */,
 				C500A2961F065C20003943BD /* Model */,
-				7F8E0D0C1F025C4900EE99BF /* Info.plist */,
 				C5CC299F1F19D0EA00072F8A /* GoogleService-Info.plist */,
+				C50BCE911F4EB85300455091 /* Info.plist */,
 				7F1E24811F024EF00090C7E7 /* AppDelegate.swift */,
 				A99663661D06F877003B5EEE /* ViewController.swift */,
 				A9FAC4671D07D6F200E3C8A5 /* View */,
@@ -740,6 +741,7 @@
 				A9FACB0C1D0A7B3700E3C8A5 /* ringback.wav in Resources */,
 				A9FACB0E1D0A7B3700E3C8A5 /* house_keeping.mkv in Resources */,
 				A924DEC91D07AC620030A438 /* linphonerc-factory in Resources */,
+				C50BCE921F4EB85300455091 /* Info.plist in Resources */,
 				A9FACB111D0A7B3700E3C8A5 /* notes_of_the_optimistic.mkv in Resources */,
 				A9FACB131D0A7B3700E3C8A5 /* oldphone-mono.wav in Resources */,
 				A9FACB0F1D0A7B3700E3C8A5 /* its_a_game.mkv in Resources */,

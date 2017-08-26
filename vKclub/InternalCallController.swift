@@ -16,15 +16,19 @@ class InternalCallController: UIViewController {
     var incomingCallInstance: IncomingCallController? = IncomingCallController()
     var dialPhoneNumber: String = ""
     
+    @IBOutlet weak var extid: UIBarButtonItem!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        extid.title = "Your Internal Phone Call number is :"+linephoneinit
+        
         
     }
     
     
     @IBAction func NumberBtnClicked(_ sender: Any) {
         if (numberTextField.text == "0") {
-            
+            //numberTextField.placeholder =
         }
         dialPhoneNumber = dialPhoneNumber + ((sender as AnyObject).titleLabel??.text)!
         numberTextField.text = dialPhoneNumber
@@ -38,7 +42,7 @@ class InternalCallController: UIViewController {
             numberTextField.text = dialPhoneNumber
         }
         if (dialPhoneNumber.characters.count == 0) {
-            //numberTextField.placeholder = "Enter phone number"
+            //numberTextField.placeholder = "test"
         }
     }
     
