@@ -108,6 +108,12 @@ extension UIButton {
     
 }
 
+extension Array {
+    subscript (safe index: Int) -> Element? {
+        return indices ~= index ? self[index] : nil
+    }
+}
+
 class UIComponentHelper {
     static let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
     

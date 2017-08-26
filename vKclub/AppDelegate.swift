@@ -48,6 +48,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
         //notification
         self.linphoneManager = LinphoneManager()
         linphoneManager?.LinphoneInit()
+        
         // Remove border in navigationBar
         UINavigationBar.appearance().shadowImage = UIImage()
         UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)

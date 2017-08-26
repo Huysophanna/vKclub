@@ -4,6 +4,8 @@ var answerCall: Bool = false
 let LINPHONE_CALLSTREAM_RUNNING = "LinphoneCallStreamsRunning"
 let LINPHONE_CALL_ERROR = "LinphoneCallError"
 let LINPHONE_CALL_OUTGOING_RINGING = "LinphoneCallOutgoingRinging"
+let LINPHONE_CALL_OUTGOING_EARLY_MEDIA = "LinphoneCallOutgoingEarlyMedia"
+let LINPHONE_CALL_IDLE = "LinphoneCallIdle"
 
 var outGoingCallPlayer = AVAudioPlayer()
 var proxyConfig: OpaquePointer? = nil
@@ -17,7 +19,7 @@ struct theLinphone {
 let registrationStateChanged: LinphoneCoreRegistrationStateChangedCb  = {
     (lc: Optional<OpaquePointer>, proxyConfig: Optional<OpaquePointer>, state: _LinphoneRegistrationState, message: Optional<UnsafePointer<Int8>>) in
     
-    switch state{
+    switch state {
         case LinphoneRegistrationNone: /**<Initial state for registrations */
             NSLog("LinphoneRegistrationNone")
         
@@ -41,17 +43,39 @@ let registrationStateChanged: LinphoneCoreRegistrationStateChangedCb  = {
 let callStateChanged: LinphoneCoreCallStateChangedCb = {
     (lc: Optional<OpaquePointer>, call: Optional<OpaquePointer>, callSate: LinphoneCallState,  message: Optional<UnsafePointer<Int8>>) in
     
-    //store call data as optional value for using in some other classes
-    LinphoneManager.callOpaquePointerData = call
-    LinphoneManager.lcOpaquePointerData = lc
+    print(LinphoneManager.interuptedCallFlag ,"----ACTIVECALLFLAG")
+    
+//    if LinphoneManager.onActiveCallFlag == false {
+        //store call data as optional value for using in some other classes
+        LinphoneManager.callOpaquePointerData = call
+        LinphoneManager.lcOpaquePointerData = lc
+        
+        if LinphoneManager.mainCallOpaquePointerData == nil {
+            LinphoneManager.mainCallOpaquePointerData = call
+            LinphoneManager.mainLcOpaquePointerData = lc
+        }
+//    }
     
     switch callSate {
         case LinphoneCallIncomingReceived: /**<This is a new incoming call */
             print("callStateChanged: LinphoneCallIncomingReceived", "====")
-        
-            //indicate that there is an incoming call to show incomingcall screen
-            LinphoneManager.incomingCallFlag = true
-       
+            
+            if IncomingCallController.CallToAction == false && IncomingCallController.IncomingCallFlag == false && LinphoneManager.interuptedCallFlag == false {
+                print(IncomingCallController.CallToAction, IncomingCallController.IncomingCallFlag, LinphoneManager.interuptedCallFlag, "----3variables----")
+
+                //indicates that there is an incoming call to show incomingcall screen
+                LinphoneManager.incomingCallFlag = true
+                
+                print("-------BEING_FREE_NOT_WITH_SOMEONE_ELSE--------")
+            } else {
+                //if user is already on active call with some other, will decline all incoming call
+                LinphoneManager.interuptedCallFlag = true
+                LinphoneManager.declineCall(_declinedReason: LinphoneReasonBusy)
+
+                //when declined the call, it calls release flag, so have to check on that
+                print("--------BEING_BUSY_WITH_SOMEONE_ELSE--------")
+            }
+            
             if answerCall {
                 ms_usleep(3 * 1000 * 1000); // Wait 3 seconds to pickup
                 linphone_core_accept_call(lc, call)
@@ -69,13 +93,59 @@ let callStateChanged: LinphoneCoreCallStateChangedCb = {
         break
         
         case LinphoneCallReleased:
-            LinphoneManager.releaseCallFlag = true
-            print("callStateChanged: LinphoneCallReleased", "====")
             
+            if LinphoneManager.interuptedCallFlag == false {
+                //if user is onActiveCall, will decline the call and will not release the active call view
+                LinphoneManager.releaseCallFlag = true
+                print("callStateChanged: LinphoneCallReleased", "====")
+                print("------BEING_FREE_NOT_WITH_SOMEONE_ELSE_RELEASE_STATE--------")
+            } else {
+                print("------BEING_BUSY_WITH_SOMEONE_ELSE_RELEASE_STATE--------")
+                
+                //compare current callOpaquePointer with tempCallOpaquePointer
+                //if true means, this release call is fired for the 1st call
+                if LinphoneManager.callOpaquePointerData == LinphoneManager.mainCallOpaquePointerData {
+                    //set onActiveCallFlag back to false
+                    LinphoneManager.interuptedCallFlag = false
+                    //set tempCallOpaquePointerData to nil back, since call is over
+                    LinphoneManager.mainCallOpaquePointerData = nil
+                    LinphoneManager.mainLcOpaquePointerData = nil
+                    
+                    //this is the 1st call, so we can release the call flag
+                    LinphoneManager.releaseCallFlag = true
+                    
+                    print("callOpaquePointer ===== --------")
+                } else {
+                    //this is not the 1st call that we care about, some other is trying to call concurrently
+                    //so do not release the call, and assign the tempCallOpaquePointerCall from the 1st call
+                    //to the current callOpaquePointerData
+                    //assign the first calling tempCallOpaquePointerData to new callOpaquePointerData
+                    LinphoneManager.callOpaquePointerData = LinphoneManager.mainCallOpaquePointerData
+                    LinphoneManager.lcOpaquePointerData = LinphoneManager.mainLcOpaquePointerData
+                    
+                    print("callOpaquePointer !!!!!! --------")
+                }
+                
+            }
+
+        break
+        
+        case LinphoneCallIdle:
+            print("Being idle+++++")
+            LinphoneManager.interuptedCallFlag = false
+            IncomingCallController.IncomingCallFlag = false
+            IncomingCallController.CallToAction = false
         break
         
         default:
             print("callStateChanged: Default", "====")
+            
+            if LinphoneManager.CheckLinphoneCallState() == "undefined" {
+                LinphoneManager.interuptedCallFlag = false
+                IncomingCallController.IncomingCallFlag = false
+                IncomingCallController.CallToAction = false
+            }
+            
         break
     }
 }
@@ -83,10 +153,14 @@ let callStateChanged: LinphoneCoreCallStateChangedCb = {
 class LinphoneManager {
     static let incomingCallInstance = IncomingCallController()
     static var linphoneCallStatus: String = ""
+    static var interuptedCallFlag: Bool = false
     static var callOpaquePointerData: Optional<OpaquePointer>
     static var lcOpaquePointerData: Optional<OpaquePointer>
+    static var mainCallOpaquePointerData: Optional<OpaquePointer>
+    static var mainLcOpaquePointerData: Optional<OpaquePointer>
     static var incomingCallFlag: Bool = false {
         didSet {
+            print(LinphoneManager.callOpaquePointerData ,"----START")
             incomingCallInstance.incomingCallFlags = incomingCallFlag
         }
     }
@@ -158,8 +232,12 @@ class LinphoneManager {
     }
 
     static func makeCall(phoneNumber: String) {
-        let calleeAccount = phoneNumber
-        linphone_core_invite(theLinphone.lc, calleeAccount)
+        if IncomingCallController.IncomingCallFlag == false {
+            let calleeAccount = phoneNumber
+            linphone_core_invite(theLinphone.lc, calleeAccount)
+        } else {
+            print("-------MAKECALL_BEING_BUSY_WITH_SOMEONE_ELSE--------")
+        }
     }
     
     static func receiveCall() {
@@ -202,11 +280,13 @@ class LinphoneManager {
         
         let remoteAddrStr:String? = String(cString: remoteAddr!)
         let delimiter = "\""
-        var dividedRemodeAddrStr = remoteAddrStr?.components(separatedBy: delimiter)
+        let dividedRemodeAddrStr = remoteAddrStr?.components(separatedBy: delimiter)
         
-        let callerID = dividedRemodeAddrStr?[2].substring(to: (dividedRemodeAddrStr?[2].index((dividedRemodeAddrStr?[2].endIndex)!, offsetBy: -15))!).substring(from: (dividedRemodeAddrStr?[2].index((dividedRemodeAddrStr?[2])!.startIndex, offsetBy: 6))!)
-        
-        return callerID!
+        if let callerID = dividedRemodeAddrStr?[safe: 2]?.substring(to: (dividedRemodeAddrStr?[safe: 2]?.index((dividedRemodeAddrStr?[safe: 2]?.endIndex)!, offsetBy: -15))!).substring(from: (dividedRemodeAddrStr?[safe: 2]?.index((dividedRemodeAddrStr?[safe: 2])!.startIndex, offsetBy: 6))!) {
+            return callerID
+        } else {
+            return ""
+        }
     }
     
     static func getContactName() -> String {
@@ -214,11 +294,11 @@ class LinphoneManager {
             let remoteAddr = linphone_address_as_string(linphone_call_get_remote_address(LinphoneManager.callOpaquePointerData))
             let remoteAddrStr:String? = String(cString: remoteAddr!)
             let delimiter = "\""
-            var dividedRemodeAddrStr = remoteAddrStr?.components(separatedBy: delimiter)
+            let dividedRemodeAddrStr = remoteAddrStr?.components(separatedBy: delimiter)
             
-            let contactName = dividedRemodeAddrStr?[1]
-            
-            return contactName!
+            if let contactName = dividedRemodeAddrStr?[safe: 1] {
+               return contactName
+            }
         }
         return ""
     }
@@ -234,10 +314,16 @@ class LinphoneManager {
     
     static func declineCall(_declinedReason: _LinphoneReason) {
         linphone_core_decline_call(theLinphone.lc, LinphoneManager.callOpaquePointerData, _declinedReason)
+        print(LinphoneManager.callOpaquePointerData ,"----DECLINED")
     }
     
     static func endCall() {
-        linphone_core_terminate_call(LinphoneManager.lcOpaquePointerData, LinphoneManager.callOpaquePointerData)
+        print(LinphoneManager.CheckLinphoneCallState(), LinphoneManager.CheckLinphoneCallState() != LINPHONE_CALL_IDLE, LinphoneManager.CheckLinphoneCallState() != "undefined", "===ENDCALL")
+        if LinphoneManager.CheckLinphoneCallState() == LINPHONE_CALLSTREAM_RUNNING || LinphoneManager.CheckLinphoneCallState() == LINPHONE_CALL_OUTGOING_RINGING || LinphoneManager.CheckLinphoneCallState() == LINPHONE_CALL_OUTGOING_EARLY_MEDIA {
+            linphone_core_terminate_call(LinphoneManager.lcOpaquePointerData, LinphoneManager.callOpaquePointerData)
+            print(LinphoneManager.callOpaquePointerData ,"----ENDED")
+        }
+        
     }
     
     func LinphoneInit() {
@@ -256,8 +342,8 @@ class LinphoneManager {
 //        let password = dict?.object(forKey: "password") as! String
 //        let domain = dict?.object(forKey: "domain") as! String
         
-        let account = "10030"
-        let password = "A2apbx10030"
+        let account = "10100"
+        let password = "A2apbx10100"
         let domain = "192.168.7.251:5060"
         
         let identity = "sip:" + account + "@" + domain;

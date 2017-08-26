@@ -29,11 +29,19 @@ class DashboardController: UIViewController {
     var lat: Double = 0
     var long: Double = 0
     var notifications = [Notifications]()
+    let internalCallControllerInstance = InternalCallController()
+    static var LinphoneConnectionStatusFlag: Bool = true
     var linphoneConnectionStatusFlag: Bool = true {
         didSet {
+            DashboardController.LinphoneConnectionStatusFlag = linphoneConnectionStatusFlag
             PrepareLocalNotificationForConnectionStatus(isConnected: linphoneConnectionStatusFlag)
+            
+            //change extension connection status in Internal Phone Call view
+            internalCallControllerInstance.ChangeExtensionActiveStatus(color: DashboardController.LinphoneConnectionStatusFlag == true ? UIColor.green : UIColor.red)
         }
     }
+    
+    
     
     override func viewDidLoad() {
         
@@ -189,7 +197,7 @@ class DashboardController: UIViewController {
             
             //Push localNotification to show user about linphone connection status
             if LinphoneManager.CheckLinphoneConnectionStatus() {
-                if !linphoneConnectionStatusFlag {
+                if linphoneConnectionStatusFlag == false {
                     linphoneConnectionStatusFlag = true
                 }
             } else {
