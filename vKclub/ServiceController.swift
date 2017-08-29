@@ -16,6 +16,7 @@ class ServiceController: UIViewController {
     @IBOutlet weak var bottomLine: UIView!
     
     override func viewDidLoad() {
+        print(dashboardInstance.CheckUserLocation(),"+++")
         
         //put proper content based on app mode
         if dashboardInstance.CheckUserLocation() == dashboardInstance.IN_KIRIROM {
@@ -91,8 +92,8 @@ class BookingViewController: UIViewController ,UIWebViewDelegate{
             self.PresentAlertController(title: "Something went wrong", message: "Please Check you internet connection ", actionTitle: "Got it")
             return
         }
-        
-        let url = NSURL (string: "http://vkirirom.com/en/reservation.php")
+        let vkiriromurl : String = "http://vkirirom.com/en/reservation.php"
+        let url = NSURL (string: vkiriromurl)
         let requestObj = URLRequest(url: url! as URL)
         self.view.addSubview(webView)
         webView.delegate = self as UIWebViewDelegate

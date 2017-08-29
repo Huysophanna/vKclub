@@ -40,7 +40,6 @@ class IncomingCallController: UIViewController {
     static var IncomingCallFlag = false
     var incomingCallFlags = false {
         didSet {
-            
             //listen for incoming call event
             if incomingCallFlags == true {
                 IncomingCallController.IncomingCallFlag = incomingCallFlags
@@ -218,9 +217,10 @@ class IncomingCallController: UIViewController {
         }
     }
     
+    
+    
     func WaitForStreamRunning() {
         print(LinphoneManager.linphoneCallStatus, "===OKAY===")
-        
         //play outGoingCallSound for callToAction
         if LinphoneManager.CheckLinphoneCallState() == LINPHONE_CALL_OUTGOING_RINGING {
             outGoingCallPlayer.prepareToPlay()

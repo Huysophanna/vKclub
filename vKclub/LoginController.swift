@@ -41,6 +41,8 @@ class LoginController: UIViewController,UITextFieldDelegate {
         let fbLoginManager = FBSDKLoginManager()
         fbLoginManager.logIn(withReadPermissions: ["public_profile", "email"], from: self) { (result, error) in
             if error != nil {
+                UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
+                self.PresentAlertController(title: "Error", message: (error?.localizedDescription)!, actionTitle: "Okay")
                 print("eroor", error!)
             } else if (result?.isCancelled)! {
                 UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
@@ -50,14 +52,13 @@ class LoginController: UIViewController,UITextFieldDelegate {
                     UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
                     print("Failed to get access token")
                     return
-                }
+            }
                 InternetConnection.CountTimer()
                 print(InternetConnection.second,"++")
 
                 let credential = FacebookAuthProvider.credential(withAccessToken: accessToken.tokenString)
                 Auth.auth().signIn(with: credential, completion: { (user, error) in
                     if InternetConnection.second == 10 {
-                        
                         InternetConnection.countTimer.invalidate()
                         InternetConnection.second = 0
                         UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
@@ -71,12 +72,14 @@ class LoginController: UIViewController,UITextFieldDelegate {
                             let str = currentUser.photoURL?.absoluteString
                             let index = str?.index((str?.startIndex)!, offsetBy: 30)
                             let url : String = (str?.substring(to: index!))!
-                            if url == "https://scontent.xx.fbcdn.net/" {
-                                let FBImageUrl : String = "https://graph.facebook.com/"+FBSDKAccessToken.current().userID+"/picture?width=320&height=320"
+                            let fbphotourl:String = "https://scontent.xx.fbcdn.net/"
+                            if url == fbphotourl {
+                                let urlphoto: String = "https://graph.facebook.com/"
+                                let picturelink:String = "/picture?width=320&height=320"
+                                let FBImageUrl : String = urlphoto+FBSDKAccessToken.current().userID+picturelink
                                 getFBimageUrl = URL(string:FBImageUrl)!
                             }
                             let chageProfileuser = currentUser.createProfileChangeRequest()
-                            print(getFBimageUrl,"after++")
                             chageProfileuser.photoURL = getFBimageUrl
                             chageProfileuser.commitChanges { (error) in
                                 
@@ -114,7 +117,7 @@ class LoginController: UIViewController,UITextFieldDelegate {
                         InternetConnection.countTimer.invalidate()
                         InternetConnection.second = 0
                         UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
-                        let alertController = UIAlertController(title: "Login Error", message: error?.localizedDescription, preferredStyle: .alert)
+                        let alertController = UIAlertController(title: "Login Error", message: "Your account had used with other account with the same email", preferredStyle: .alert)
                         let okayAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
                         alertController.addAction(okayAction)
                         self.present(alertController, animated: true, completion: nil)
@@ -156,16 +159,26 @@ class LoginController: UIViewController,UITextFieldDelegate {
                 if error == nil {
                     if (user?.isEmailVerified)!{
                         // if user don't name and imageprofile
-                     
-                        self.getDataFromUrl(url: (user?.photoURL!)!){
+                        if(user?.photoURL == nil){
+                            let img = UIImage(named: "profile-icon")
+                            let newImage = UIComponentHelper.resizeImage(image: img!, targetSize: CGSize(width: 400, height: 400))
+                            let imageProfiles = UIImagePNGRepresentation(newImage)
+
+                            self.create(username: (user?.displayName)!,email : (user?.email)!,facebook: false, imagData: imageProfiles! as NSData  )
+  
+                            
+                        } else {
+                            self.getDataFromUrl(url: (user?.photoURL!)!){
                                 (data, response, error)  in
                                 guard let data = data, error == nil
-                                    else {    
+                                    else {
                                         return
                                 }
                                 let image = data as NSData?
                                 self.create(username: (user?.displayName)!,email : (user?.email)!,facebook: false, imagData: image!  )
-                                }
+                            }
+ 
+                        }
                         
                         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
                         let newViewController = storyBoard.instantiateViewController(withIdentifier: "MainDashboard") as! SWRevealViewController

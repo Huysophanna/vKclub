@@ -25,10 +25,13 @@ class SettingController: UIViewController,UNUserNotificationCenterDelegate,UIApp
         let center = UNUserNotificationCenter.current()
         center.getNotificationSettings { (settings) in
             if(settings.authorizationStatus == .authorized){
+                self.NotificationSetting.isOn = true
                 if UIApplication.shared.isRegisteredForRemoteNotifications{
                     self.NotificationSetting.isOn = true
+                     UserDefaults.standard.set(1, forKey: "setting")
                 }else{
                     self.NotificationSetting.isOn = false
+                    UserDefaults.standard.set(2, forKey: "setting")
                 }
                 
             } else{
@@ -42,21 +45,22 @@ class SettingController: UIViewController,UNUserNotificationCenterDelegate,UIApp
         center.getNotificationSettings { (settings) in
             if(settings.authorizationStatus == .authorized)
             {
-                self.NotificationSetting.isOn = true
+              
                 
                 if sender.isOn{
                     
                     self.NotificationSetting.isOn = true
                     UIApplication.shared.registerForRemoteNotifications()
+                    self.Check()
                 } else{
                     self.NotificationSetting.isOn = false
                     UIApplication.shared.unregisterForRemoteNotifications()
+                    self.Check()
                     
                 }
 
             }else{
                 // OPEN Nottification user when you not allow notification
-                self.NotificationSetting.isOn = false
                 let notificationPermissionAlert = UIAlertController(title: "Notifications disabled for vKclub App", message: "Please enable Notifications", preferredStyle: UIAlertControllerStyle.alert)
                 
                 notificationPermissionAlert.addAction(UIAlertAction(title: "Okay", style: .default, handler: { (action: UIAlertAction!) in

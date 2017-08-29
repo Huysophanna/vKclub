@@ -10,6 +10,7 @@ import UIKit
 import GoogleMaps
 import CoreData
 import UserNotifications
+import  FirebaseAuth
 
 var backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask(expirationHandler: nil)
 
@@ -28,6 +29,8 @@ class DashboardController: UIViewController {
     let locationManager = CLLocationManager()
     var lat: Double = 0
     var long: Double = 0
+    
+    
     var notifications = [Notifications]()
     let internalCallControllerInstance = InternalCallController()
     static var LinphoneConnectionStatusFlag: Bool = true
@@ -40,13 +43,36 @@ class DashboardController: UIViewController {
             internalCallControllerInstance.ChangeExtensionActiveStatus(color: DashboardController.LinphoneConnectionStatusFlag == true ? UIColor.green : UIColor.red)
         }
     }
-    
-    
-    
+   
+    let setting = UserDefaults.standard.integer(forKey: "setting")
     override func viewDidLoad() {
+        linephoneinit  = "login"
+        Auth.auth().addStateDidChangeListener { (auth, user) in
+            
+            user?.reload(completion: { (error) in
+                if error?.localizedDescription ==  "The user's credential is no longer valid. The user must sign in again." {
+                    let LocationPermissionAlert = UIAlertController(title: "Warning", message: "Your account had changed password,inorder to process the vKclub you need to login again.", preferredStyle: UIAlertControllerStyle.alert)
+                    
+                    LocationPermissionAlert.addAction(UIAlertAction(title: "Okay", style: .default, handler: { (action: UIAlertAction!) in
+                        InternetConnection.Logouts()}))
+                    
+                    self.present( LocationPermissionAlert, animated: true, completion: nil)
+                    
+                    
+                }
+                
+                
+            })
+        }
+
         
+       // login for registerForRemoteNotifications
         UserDefaults.standard.set(true, forKey: "loginBefore")
-        
+        if setting == 0 || setting == 1 {
+            UIApplication.shared.registerForRemoteNotifications()
+        }else{
+             UIApplication.shared.unregisterForRemoteNotifications()
+        }
         //init background task for incoming call
         backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask(expirationHandler: nil)
         
@@ -83,6 +109,7 @@ class DashboardController: UIViewController {
              PresentAlertController(title: "Coming Soon!", message: "Introducing vKirirom Membership Card with vPoints, will be available soon.", actionTitle: "Okay")
             break
         case 6:
+            linphone_core_set_network_reachable(LinphoneManager.lcOpaquePointerData, 1)
             self.notificationBtn.removeBadge()
             notification_num = 0
             performSegue(withIdentifier: "GotoNotification", sender: self)
@@ -93,10 +120,22 @@ class DashboardController: UIViewController {
             switch CheckUserLocation() {
             case IN_KIRIROM:
                 if btntag == 4{
-                    LinphoneManager.register(proxyConfig!)
-                    performSegue(withIdentifier: "PushInternalCall", sender: self)
-
-                }else{
+                
+                    switch getextsucc {
+                    case "ext":
+                        LinphoneManager.register(proxyConfig!)
+                        performSegue(withIdentifier: "PushInternalCall", sender: self)
+                    case "404":
+                        PresentAlertController(title: "Something went wrong", message: "Sorry, our internal phone call services are currently not available right now. Please try again next time.", actionTitle: "Okay")
+                        
+                        break
+                        
+                    default:
+                        PresentAlertController(title: "Please wait", message: "We are trying to generate and activate your caller ID. Please try again in seconds.", actionTitle: "Okay")
+                        break
+                    }
+                
+                } else {
                   PresentAlertController(title: "In-Kirirom Mode", message: "Welcome to vKirirom. Experience full features of vKclub with In-Kirirom mode including Emergency SOS & Free internal phone call", actionTitle: "Okay")
                 }
                 break
@@ -166,6 +205,7 @@ class DashboardController: UIViewController {
     
     
     func isKirirom() {
+
         switch CheckUserLocation() {
         case IN_KIRIROM:
             KiriromScope.setTitle("In-Kirirom Mode", for: .normal)
@@ -192,13 +232,22 @@ class DashboardController: UIViewController {
         }
         
         if CheckUserLocation() == IN_KIRIROM {
+            
             //Set linphoneCall identity
-            LinphoneManager.register(proxyConfig!)
+            
+            if let _proxyConfig = proxyConfig {
+                 LinphoneManager.register(_proxyConfig)
+            } 
+
+            print(LinphoneManager.CheckLinphoneConnectionStatus(),  "==STATUS===")
             
             //Push localNotification to show user about linphone connection status
             if LinphoneManager.CheckLinphoneConnectionStatus() {
                 if linphoneConnectionStatusFlag == false {
                     linphoneConnectionStatusFlag = true
+                    
+                    //acknowledge post method to server to indicates that user uses the extension 
+                    
                 }
             } else {
                 if linphoneConnectionStatusFlag {
@@ -216,12 +265,9 @@ class DashboardController: UIViewController {
         
         //when user allow location
         if CLLocationManager.locationServicesEnabled() {
-            
             locationManager.delegate = self as? CLLocationManagerDelegate//Check delgate
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters//Check the desiredAccurac
-            
             locationManager.startUpdatingLocation()
-            print (locationManager.startUpdatingLocation())
             // if location not null
             if (locationManager.location?.coordinate.longitude != nil) {
                 let currentlocation_lat = Double((locationManager.location?.coordinate.latitude)!)
@@ -272,9 +318,7 @@ class DashboardController: UIViewController {
              }
             
         }))
-         LocationPermissionAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
-            
-        }))
+         LocationPermissionAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         self.present( LocationPermissionAlert, animated: true, completion: nil)
     }
     func loadData(){

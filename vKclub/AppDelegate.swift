@@ -18,8 +18,25 @@ let appDelegate = UIApplication.shared.delegate as! AppDelegate
 let manageObjectContext  = appDelegate.persistentContainer.viewContext
 var databaseRef = Database.database().reference()
 var userName : String = "Oudom"
-var alert = UIAlertController(title: "test", message: "test", preferredStyle: UIAlertControllerStyle.alert)
-var notification_num = 0 
+var notification_num = 0
+let launchedBefore = UserDefaults.standard.bool(forKey: "launchedBefore")
+let loginBefore = UserDefaults.standard.bool(forKey: "loginBefore")
+var linphoneManager: LinphoneManager? = LinphoneManager()
+var userExtensionID = ""
+var linephoneinit = "" {
+    didSet {
+        userExtensionID = linephoneinit
+        if linephoneinit == "logout"{
+        //call when user logout and unregister internal phone call
+            
+        } else {
+              linphoneManager?.LinphoneInit()
+        }
+      
+    }
+}
+var getextsucc : String = "getextsucc"
+
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterDelegate{
@@ -37,17 +54,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
     /// Firebase project's Sender ID.
     /// You can send this token to your application server to send notifications to this device.
     func messaging(_ messaging: Messaging, didRefreshRegistrationToken fcmToken: String) {
+        
     }
     
     var window: UIWindow?
     let personService = UserProfileCoreData()
     let gcmMessageIDKey = "gcm.message_id"
-    var linphoneManager: LinphoneManager?
+   
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        //notification
-        self.linphoneManager = LinphoneManager()
-        linphoneManager?.LinphoneInit()
+        linephoneinit  = "firstLaunch"
         
         // Remove border in navigationBar
         UINavigationBar.appearance().shadowImage = UIImage()
@@ -65,7 +81,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
                 print("User reject notification access")
             }
         })
-        
         if #available(iOS 10.0, *) {
             // For iOS 10 display notification (sent via APNS)
             UNUserNotificationCenter.current().delegate = self
@@ -73,18 +88,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
             let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
             UNUserNotificationCenter.current().requestAuthorization(
                 options: authOptions,
-                completionHandler: {_, _ in })
+                completionHandler: {data, error in
+                    if error != nil{
+                         self.showAlertAppDelegate(title: "Error", message: (error?.localizedDescription)! , buttonTitle:"Okay", window:self.window!)                    }
             
-            // For iOS 10 data message (sent via FCM)
-             
+            })
+            
+            
         } else {
             let settings: UIUserNotificationSettings =
                 UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
             application.registerUserNotificationSettings(settings)
         }
+
         
-        application.registerForRemoteNotifications()
+       
         
+        
+
         
         // Override point for customization after application launch.
         FirebaseApp.configure()
@@ -92,8 +113,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         // autoLogin
         
+       
         
-        let launchedBefore = UserDefaults.standard.bool(forKey: "launchedBefore")
         if launchedBefore  {
             self.LogoutController()
         } else {
@@ -101,30 +122,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
             
         }
         
-        Auth.auth().addStateDidChangeListener { (auth,user) in
-            if auth.currentUser != nil{
-                userName = (auth.currentUser?.displayName)!
-                print("not changed +++")
-                auth.currentUser?.reload(completion: { (error) in
-                    print(error,"++")
-                   if  error?.localizedDescription == "The user's credential is no longer valid. The user must sign in again."{
-                    
-                    self.LogoutController()
-                    
-                    }
-
-                    
-                })
                 
-                
-            }else{
-               self.LogoutController()
- 
-            }
-        }
-        
-        let loginBefore = UserDefaults.standard.bool(forKey: "loginBefore")
+       
         if loginBefore  {
+           //Init linphone sip
             self.Dashboard()
         } else {
             print("First launch, setting UserDefault.")
@@ -133,49 +134,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
         return true
     }
     
-    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        print("Unable to register for remote notifications: \(error.localizedDescription)")
-    }
-    
-    func application(_ application: UIApplication,
-                              didReceiveRemoteNotification userInfo: [AnyHashable : Any],
-                              fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void){
-        
-        if #available(iOS 10.0, *) {
-            print(userInfo)
-            return
-        }
-        completionHandler(.noData)
-        
-        if application.applicationState == .active {
-            print(userInfo)
-
-        } else {
-            print(userInfo)
-
-        }
-    }
-    
-    func application(_ application: UIApplication,
-                     didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        var readableToken: String = ""
-        for i in 0..<deviceToken.count {
-            readableToken += String(format: "%02.2hhx", deviceToken[i] as CVarArg)
-        }
-        print("Received an APNs device token: \(readableToken)")
-        
-       
-    }
-    
-    
     @available(iOS 10.0, *)
     func userNotificationCenter(_ center: UNUserNotificationCenter,  willPresent notification: UNNotification, withCompletionHandler   completionHandler: @escaping (_ options:   UNNotificationPresentationOptions) -> Void) {
-        
+       
         if notification.request.content.userInfo["aps"] == nil {
             return
         }
-        
-        alert.dismiss(animated: true, completion: nil)
         notification_num += 1
 
         let dict = notification.request.content.userInfo["aps"] as! NSDictionary
@@ -214,8 +178,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
     
     // Alert Controller in AppDelegate
     func showAlertAppDelegate(title: String,message : String,buttonTitle: String,window: UIWindow){
-        alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: buttonTitle, style: UIAlertActionStyle.default, handler: nil))
+        alert.dismiss(animated: true, completion: nil)
         window.rootViewController?.present(alert, animated: false, completion: nil)
     }
     
@@ -258,6 +223,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
     }
     
     func applicationWillEnterForeground(_ application: UIApplication) {
+        
+        if loginBefore  {
+            linephoneinit = "login"
+        } else {
+        }
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
     }
     
@@ -329,3 +299,6 @@ extension AppDelegate : MessagingDelegate {
         
     }
 }
+
+let firebasedatabaseref =  Database.database().reference()
+

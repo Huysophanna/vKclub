@@ -126,6 +126,10 @@ class EditProfileController: UIViewController,UITextFieldDelegate {
                             UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: false)
                             changeRequest?.displayName = self.Username.text
                             changeRequest?.commitChanges(completion: { (error) in
+                                if error != nil {
+                                    self.PresentAlertController(title: "Something went wrong", message: (error?.localizedDescription)!, actionTitle: "Okay")
+                                }
+
                             })
                             self.UpdateUsernameandemail(username:self.Username.text!, email:(self.currentuser?.email)!)
                             self.PresentAlertController(title: "Done", message: "Your profile had been updated", actionTitle: "Okay")
@@ -148,6 +152,10 @@ class EditProfileController: UIViewController,UITextFieldDelegate {
                                 
                                 changeRequest?.displayName = self.Username.text
                                 changeRequest?.commitChanges(completion: { (error) in
+                                    if error != nil {
+                                        self.PresentAlertController(title: "Something went wrong", message: (error?.localizedDescription)!, actionTitle: "Okay")
+                                    }
+
                                 })
                                 self.UpdateUsernameandemail(username:self.Username.text!, email:(self.currentuser?.email)!)
                                 self.PresentAlertController(title: "Done", message: "Your profile had been updated", actionTitle: "Okay")
@@ -164,10 +172,17 @@ class EditProfileController: UIViewController,UITextFieldDelegate {
                                             if (self.Username.text?.isEmpty)!{
                                                 changeRequest?.displayName = self.currentuser?.displayName
                                                 changeRequest?.commitChanges(completion: { (error) in
+                                                    if error != nil {
+                                                        self.PresentAlertController(title: "Something went wrong", message: (error?.localizedDescription)!, actionTitle: "Okay")
+                                                    }
+
                                                 })
                                             } else {
                                                 changeRequest?.displayName = self.Username.text
                                                 changeRequest?.commitChanges(completion: { (error) in
+                                                    if error != nil {
+                                                        self.PresentAlertController(title: "Something went wrong", message: (error?.localizedDescription)!, actionTitle: "Okay")
+                                                    }
                                                 })
                                             }
                                         } else {

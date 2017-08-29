@@ -42,7 +42,7 @@ class MapController: UIViewController,GMSMapViewDelegate,CLLocationManagerDelega
         kiriromLocation(title: "Moringa", location: CLLocationCoordinate2DMake(11.3154,104.0638),dec: "Khmer style nature fused restaurant which serves Khmer original meals. You can also buy breads and drinks here.", zoom: 14),
         
         
-        kiriromLocation(title: "Villa JasmineVilla Jasmine", location: CLLocationCoordinate2DMake(11.3181,104.0633),dec: "Quite elegant cottage which promises you a lot of pleasant experiences on the cool Kirirom Mountain top for couples and small families.", zoom: 14),
+        kiriromLocation(title: "Villa Jasmine", location: CLLocationCoordinate2DMake(11.3181,104.0633),dec: "Quite elegant cottage which promises you a lot of pleasant experiences on the cool Kirirom Mountain top for couples and small families.", zoom: 14),
         
         kiriromLocation(title: "Villa Suite", location: CLLocationCoordinate2DMake(11.3180,104.0655),dec: "Modern designed luxury room. This two-bedroom villa with a mezzanine level is suitable for big families or groups.", zoom: 14),
         
@@ -56,12 +56,11 @@ class MapController: UIViewController,GMSMapViewDelegate,CLLocationManagerDelega
         
         kiriromLocation(title: "Camping Area", location: CLLocationCoordinate2DMake( 11.3134,  104.0648),dec: "Enjoy camping with camp fire in a large area space with high level of security provided.", zoom: 14),
         
-        kiriromLocation(title: "Kirirom Lake", location: CLLocationCoordinate2DMake( 11.3344,104.0516  ),dec: "A beautiful lake, provides enough water supply for all the villager", zoom: 14),
+        kiriromLocation(title: "Kirirom Lake", location: CLLocationCoordinate2DMake( 11.3344,104.0516  ),dec: "A beautiful lake,  which provides enough water supply for all the villagers", zoom: 14),
         
         kiriromLocation(title: "Village", location: CLLocationCoordinate2DMake( 11.3348, 104.0550  ),dec: "A Village where people enjoy living on Kirirom Mountain with a perfect view.", zoom: 14),
         
-        kiriromLocation(title: "Ministry of Environment", location: CLLocationCoordinate2DMake( 11.3330,104.0531   ),dec: "Ministry of Environment that supports the whole Kirirom environment.", zoom: 14),
-        kiriromLocation(title: "", location: CLLocationCoordinate2DMake( 11.3165, 104.0658  ),dec: "Stay in one of our specially designed bungalows and experience the invigorating fresh air and peaceful life in the pine forests of kirirom", zoom: 14),
+        kiriromLocation(title: "Ministry of Environment", location: CLLocationCoordinate2DMake( 11.3330,104.0531   ),dec: "Ministry of Environment that supports the whole Kirirom environment", zoom: 14),
         
         kiriromLocation(title: "Bungalow", location: CLLocationCoordinate2DMake( 11.3165, 104.0658  ),dec: "Stay in one of our specially designed bungalows and experience the invigorating fresh air and peaceful life in the pine forests of kirirom", zoom: 14),
         kiriromLocation(title: "Swimming Pool", location: CLLocationCoordinate2DMake( 11.3168, 104.0658 ),dec: "Enjoy swimming with your family and friends with the surrounded pine trees and the fresh air.", zoom: 14),
@@ -78,16 +77,15 @@ class MapController: UIViewController,GMSMapViewDelegate,CLLocationManagerDelega
         
         kiriromLocation(title: "Dragon Statue", location: CLLocationCoordinate2DMake(  11.3409,104.0597),dec: "Dragon Statues (snake God) whose four heads are landmark, is situated in the center of the center of the intersection.", zoom: 14),
         
-        kiriromLocation(title: "Old Kirirom Pagoda", location: CLLocationCoordinate2DMake(  11.3201,104.0362),dec: "It is a Buddhist temple with the longest histroy in Kirirom.It makes you back to the good days in Cambodia.Please follow this good manners when worship ping the temple.", zoom: 14),
+        kiriromLocation(title: "Old Kirirom Pagoda", location: CLLocationCoordinate2DMake(  11.3201,104.0362),dec: "It is a Buddhist temple with the longest history in Kirirom. It reminds the old good days in Cambodia. Please follow the appropriate pattern of worship there.", zoom: 14),
         
-        kiriromLocation(title: "New Kirirom Pagoda", location: CLLocationCoordinate2DMake( 11.3304,104.0769),dec: "On the top of the stairs of gentle slope. A mural paining drawn Buddha's life inside of the building is also an sightseeing spot.", zoom: 14),
         kiriromLocation(title: "New Kirirom Pagoda", location: CLLocationCoordinate2DMake( 11.3304,104.0769),dec: "On the top of the stairs of gentle slope. A mural paining drawn Buddha's life inside of the building is also an sightseeing spot.", zoom: 14),
         kiriromLocation(title: "Otrosek Waterfall", location: CLLocationCoordinate2DMake( 11.3111,104.0784),dec: "This place us know to those in the know, and it is loved by locals. We recommend you to visit there during the rainy season.", zoom: 14),
         
         kiriromLocation(title: "Srash Srang Lake", location: CLLocationCoordinate2DMake( 11.3291,104.0379),dec: "The landscape is almost as if it is a framed picture. You can feel the magnificence of the nature while being away from the hustle and bustle of the city.", zoom: 14),
         kiriromLocation(title: "King's Residence", location: CLLocationCoordinate2DMake( 11.3309,104.0606),dec: "The residence,which quietly stands among a pine grove,was a old fashioned cottage built of bricks.", zoom: 14),
         
-        kiriromLocation(title: "Visitor Center", location: CLLocationCoordinate2DMake( 11.3351, 104.0407),dec: "A visitor center which introduce the history of Kirirom. It is a wonderful photogenic spot.", zoom: 14),
+        kiriromLocation(title: "Visitor Center", location: CLLocationCoordinate2DMake( 11.3351, 104.0407),dec: "A visitor center, which introduces the history of Kirirom. It is a wonderful photogenic spot.", zoom: 14),
         
         kiriromLocation(title: "Football Court", location: CLLocationCoordinate2DMake( 11.3133, 104.0657),dec: "Customers can also enjoy playing football with their friends together in the resort.", zoom: 14),
         

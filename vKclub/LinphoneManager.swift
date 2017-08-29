@@ -1,5 +1,8 @@
 import Foundation
 import AVFoundation
+import CoreData
+import Firebase
+
 var answerCall: Bool = false
 let LINPHONE_CALLSTREAM_RUNNING = "LinphoneCallStreamsRunning"
 let LINPHONE_CALL_ERROR = "LinphoneCallError"
@@ -56,6 +59,8 @@ let callStateChanged: LinphoneCoreCallStateChangedCb = {
         }
 //    }
     
+
+   
     switch callSate {
         case LinphoneCallIncomingReceived: /**<This is a new incoming call */
             print("callStateChanged: LinphoneCallIncomingReceived", "====")
@@ -93,7 +98,6 @@ let callStateChanged: LinphoneCoreCallStateChangedCb = {
         break
         
         case LinphoneCallReleased:
-            
             if LinphoneManager.interuptedCallFlag == false {
                 //if user is onActiveCall, will decline the call and will not release the active call view
                 LinphoneManager.releaseCallFlag = true
@@ -151,6 +155,8 @@ let callStateChanged: LinphoneCoreCallStateChangedCb = {
 }
 
 class LinphoneManager {
+    
+    var tokenid = ""
     static let incomingCallInstance = IncomingCallController()
     static var linphoneCallStatus: String = ""
     static var interuptedCallFlag: Bool = false
@@ -160,7 +166,7 @@ class LinphoneManager {
     static var mainLcOpaquePointerData: Optional<OpaquePointer>
     static var incomingCallFlag: Bool = false {
         didSet {
-            print(LinphoneManager.callOpaquePointerData ,"----START")
+            print(LinphoneManager.callOpaquePointerData as Any ,"----START")
             incomingCallInstance.incomingCallFlags = incomingCallFlag
         }
     }
@@ -180,6 +186,8 @@ class LinphoneManager {
     }
     
     static var iterateTimer: Timer?
+    
+    var extension_ids = [Extension]()
     
     init() {
         theLinphone.lct = LinphoneCoreVTable()
@@ -314,26 +322,202 @@ class LinphoneManager {
     
     static func declineCall(_declinedReason: _LinphoneReason) {
         linphone_core_decline_call(theLinphone.lc, LinphoneManager.callOpaquePointerData, _declinedReason)
-        print(LinphoneManager.callOpaquePointerData ,"----DECLINED")
+        print(LinphoneManager.callOpaquePointerData as Any ,"----DECLINED")
     }
     
     static func endCall() {
         print(LinphoneManager.CheckLinphoneCallState(), LinphoneManager.CheckLinphoneCallState() != LINPHONE_CALL_IDLE, LinphoneManager.CheckLinphoneCallState() != "undefined", "===ENDCALL")
         if LinphoneManager.CheckLinphoneCallState() == LINPHONE_CALLSTREAM_RUNNING || LinphoneManager.CheckLinphoneCallState() == LINPHONE_CALL_OUTGOING_RINGING || LinphoneManager.CheckLinphoneCallState() == LINPHONE_CALL_OUTGOING_EARLY_MEDIA {
             linphone_core_terminate_call(LinphoneManager.lcOpaquePointerData, LinphoneManager.callOpaquePointerData)
-            print(LinphoneManager.callOpaquePointerData ,"----ENDED")
+            print(LinphoneManager.callOpaquePointerData as Any ,"----ENDED")
         }
-        
+
     }
     
     func LinphoneInit() {
-        proxyConfig = setIdentify()
+        switch linephoneinit {
+        case "login":
+            proxyConfig = setIdentify(_account: "0")
+            // if getext = false  means not yet get ext id
+            GetAccountExtension()
+            break
+        case "firstLaunch":
+            proxyConfig = setIdentify(_account: "0")
+            print("firstLaunch++")
+            break
+        default:
+            print(linephoneinit,"++init")
+            
+            proxyConfig = setIdentify(_account: linephoneinit)
+            break
+            
+        }
         LinphoneManager.register(proxyConfig!)
         setTimer()
 //        shutdown()
     }
     
-    func setIdentify() -> OpaquePointer? {
+    func GetDataFromServer()  {
+        let currentuser = Auth.auth().currentUser
+        var extensionID = ""
+        var request = URLRequest(url: URL(string:"http://192.168.7.251:8000/api/v.1/get-extension" )!)
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("wfvUd0d4Bw7RfeCqwEe4F0GWTL3dpzai7f7euYBuI", forHTTPHeaderField: "VKAPP-API-TOKEN")
+        request.addValue((currentuser?.uid)!, forHTTPHeaderField: "VKAPP-USERID")
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            if error != nil {
+                print(error as Any,"")
+                
+            } else {
+                if let data = data{
+                    do {
+                        let newextension_id = NSEntityDescription.insertNewObject(forEntityName: "Extension", into: manageObjectContext)
+                        let json = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableContainers) as? [String:Any]
+                        let datas = json?["success"]  as! NSDictionary
+                        let extensions  = datas["extension"] as! NSDictionary
+                        
+                        for i in extensions {
+                            let extentionid:String = i.key as! String
+                            
+                            if extentionid == "extension"{
+                                databaseRef.child("users").child((currentuser?.uid)!).child("Extension").setValue(i.value)
+                                extensionID = String(describing: i.value)
+                                newextension_id.setValue(String(describing:i.value), forKey: "extension_id")
+                            }
+                            if extentionid == "token" {
+                                 databaseRef.child("users").child((currentuser?.uid)!).child("Token").setValue(i.value)
+                                 newextension_id.setValue(i.value, forKey: "token")
+                                
+                            }
+                        }
+                        do {
+                            try  manageObjectContext.save()
+                            
+                        } catch {
+                            print("error")
+                        }
+                    } catch {
+                        print("error")
+                    }
+                }
+            }
+            linephoneinit = extensionID
+        }
+        task.resume()
+       
+    }
+    
+    
+    func GetAccountExtension() {
+        let extensionRequest:NSFetchRequest<Extension> = Extension.fetchRequest()
+        
+        do {
+            extension_ids = try manageObjectContext.fetch(extensionRequest)
+            if extension_ids == [] {
+                let currentuser = Auth.auth().currentUser
+                 databaseRef.child("users").child((currentuser?.uid)!).observeSingleEvent(of: .value, with: { (data) in
+                    getextsucc = "ext"
+                    
+                    // Get user value
+                    if let datas = data.value as? NSDictionary {
+                        var exts = ""
+                        for i in datas {
+                            let extentionid:String = i.key as! String
+                            if extentionid == "Extension" {
+                               exts = String(describing: i.value)
+                                
+                            } else {
+                                self.tokenid  = i.value as! String
+                            }
+                            
+                        }
+                    self.PostData(extensions :  exts  , tokenid:self.tokenid )
+        
+                } else {
+                     self.GetDataFromServer()
+                        
+                }
+                    // ...
+                }) { (error) in
+                    print(error.localizedDescription)
+                }
+            } else {
+                getextsucc = "ext"
+                
+                
+                for i in extension_ids {
+                    
+                    if let ext =  i.extension_id {
+                        self.PostData(extensions : ext , tokenid: i.token!)
+                    }
+                    
+                }
+            }
+        } catch {
+            print("Could not load data from database \(error.localizedDescription)")
+        }
+        
+        
+    }
+    func PostData(extensions : String , tokenid: String) {
+        var request = URLRequest(url: URL(string: "http://192.168.7.251:8000/api/v.1/trigger-extension")!)
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("wfvUd0d4Bw7RfeCqwEe4F0GWTL3dpzai7f7euYBuI", forHTTPHeaderField: "VKAPP-API-TOKEN")
+        //            request.addValue((currentuser?.uid)!, forHTTPHeaderField: "VKAPP-USERID")
+        let parameters = ["ext":extensions , "reserved_token":tokenid ,"action": "register"]
+    
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted) // pass dictionary to nsdata object and set it as request body
+            
+        } catch let error {
+            print(error.localizedDescription)
+        }
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if error != nil {
+                
+                print(error as Any,"")
+                
+            } else {
+                if let data = data{
+                    do {
+                        
+                        let json = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableContainers) as? [String:Any]
+    
+                        if let code = json?["code"] {
+                            let code_check :String =  String(describing:code)
+                            switch code_check{
+                                case "200" :
+                                 linephoneinit = extensions
+                                 break
+                                case "300" :
+                                  //
+                                  self.GetAccountExtension()
+                                 break
+                                case "404" :
+                                // out of scop make variable gobal
+                                  getextsucc = "404"
+                                 
+                                 break
+                                
+                                default :
+                                 break
+                                
+                            }
+                        }
+                    
+                    } catch {
+                        print("error")
+                    }
+                }
+            }
+            
+        }
+        task.resume()
+
+    }
+    func setIdentify(_account: String) -> OpaquePointer? {
         // Reference: http://www.linphone.org/docs/liblinphone/group__registration__tutorials.html
         
 //        let path = Bundle.main.path(forResource: "Secret", ofType: "plist")
@@ -342,11 +526,10 @@ class LinphoneManager {
 //        let password = dict?.object(forKey: "password") as! String
 //        let domain = dict?.object(forKey: "domain") as! String
         
-        let account = "10100"
-        let password = "A2apbx10100"
+        let password = "A2apbx"+_account
         let domain = "192.168.7.251:5060"
         
-        let identity = "sip:" + account + "@" + domain;
+        let identity = "sip:" + _account + "@" + domain;
 
         /*create proxy config*/
         let proxy_cfg = linphone_proxy_config_new();
@@ -376,13 +559,14 @@ class LinphoneManager {
         return proxy_cfg!
     }
     
-    static func register(_ proxy_cfg: OpaquePointer){
+    static func register(_ proxy_cfg: OpaquePointer) {
         linphone_proxy_config_enable_register(proxy_cfg, 1); /* activate registration for this proxy config*/
         
     }
     
-    func shutdown(){
+    static func shutdown(){
         NSLog("Shutdown..")
+        iterateTimer?.invalidate()
         
         let proxy_cfg = linphone_core_get_default_proxy_config(theLinphone.lc); /* get default proxy config*/
         linphone_proxy_config_edit(proxy_cfg); /*start editing proxy configuration*/
@@ -406,5 +590,6 @@ class LinphoneManager {
         LinphoneManager.iterateTimer = Timer.scheduledTimer(
             timeInterval: 0.02, target: self, selector: #selector(iterate), userInfo: nil, repeats: true)
     }
+    
 }
 

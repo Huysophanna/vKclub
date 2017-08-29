@@ -69,28 +69,13 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         let logoutAlert = UIAlertController(title: "Logout", message: "Are your sure to logout?", preferredStyle: UIAlertControllerStyle.alert)
         
         logoutAlert.addAction(UIAlertAction(title: "Okay", style: .default, handler: { (action: UIAlertAction!) in
-            self.Logouts()
-            
+           
+            InternetConnection.Logouts()
         }))
         logoutAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         self.present( logoutAlert, animated: true, completion: nil)
     }
     
-    func Logouts(){
-        UserDefaults.standard.set(false, forKey: "loginBefore")
-        UIApplication.shared.unregisterForRemoteNotifications()
-        personService.deleteAllData(entity: "UserProfile")
-        personService.deleteAllData(entity: "SipCallData")
-        try! Auth.auth().signOut()
-        if self.storyboard != nil {
-            
-            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let newViewController = storyBoard.instantiateViewController(withIdentifier: "loginController") as! LoginController
-            self.present(newViewController, animated: true, completion: nil)
-            
-        }
-
-    }
     
     @IBAction func AccProviderBtn(_ sender: Any) {
         if EditBtn.tag == 0 {
@@ -105,7 +90,6 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         let facebookProvider = NSPredicate(format: "facebookProvider = 1")
         let fb_lgoin = personService.getUserProfile(withPredicate: facebookProvider)
         EditBtn.setTitle("FBLinked", for: .normal)
-        print(fb_lgoin,"++'")
         if fb_lgoin == [] {
             if currentUser?.email == nil {
                 EmailBtn.text = "someone@gmail.com"
@@ -120,11 +104,13 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
                     let str = self.currentUser?.photoURL?.absoluteString
                     let index = str?.index((str?.startIndex)!, offsetBy: 30)
                     let url : String = (str?.substring(to: index!))!
-                    if url == "https://scontent.xx.fbcdn.net/" {
-                        let FBImageUrl : String = "https://graph.facebook.com/"+FBSDKAccessToken.current().userID+"/picture?width=320&height=320"
+                    let fbphotourl:String = "https://scontent.xx.fbcdn.net/"
+                    if url == fbphotourl {
+                        let urlphoto: String = "https://graph.facebook.com/"
+                        let picturelink:String = "/picture?width=320&height=320"
+                        let FBImageUrl : String = urlphoto+FBSDKAccessToken.current().userID+picturelink
                         getFBimageUrl = URL(string:FBImageUrl)!
                     }
-                    
                     let data = try? Data(contentsOf: (getFBimageUrl))
                     
                     // When from background thread, UI needs to be updated on main_queue
@@ -209,10 +195,17 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
             
             for i in email_lgoin {
                 userName.text = i.username
-                // if user no internet still they can get imageProfile from coredata
                 let img = UIImage(data: i.imageData! as Data)
-                let newimag = UIComponentHelper.resizeImage(image: img!, targetSize: CGSize(width: 400, height: 400))
-                imageProfile.setImage(newimag, for: .normal)
+                // if user no internet still they can get imageProfile from coredata
+                if img == nil {
+                    self.imageProfile.loadingIndicator(false)
+                    
+                }else{
+                   
+                    let newimag = UIComponentHelper.resizeImage(image: img!, targetSize: CGSize(width: 400, height: 400))
+                    imageProfile.setImage(newimag, for: .normal)
+                }
+              
             }
             
         }
@@ -239,9 +232,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
                            
                             UIApplication.shared.open(URL(string:UIApplicationOpenSettingsURLString)!, options: [:], completionHandler:nil)                                
                         }))
-                        LocationPermissionAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler:{ (action: UIAlertAction!) in
-                            
-                        }))
+                        LocationPermissionAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler:nil))
                         self.present( LocationPermissionAlert, animated: true, completion: nil)
                         
                     }
@@ -342,26 +333,38 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     
     
     @IBAction func contactusBtn(_ sender: Any) {
-        if (UIDevice.current.userInterfaceIdiom == UIUserInterfaceIdiom.pad) {
-            self.PresentAlertController(title: "Something went wrong", message: "Your device doesn't support with this feature ", actionTitle: "Got it")
-            
-           return
-        }
+        
         let alertController = UIAlertController(title: nil, message: "Contact us", preferredStyle: .actionSheet)
         
         let defaultAction = UIAlertAction(title: "English Speaker: (+855) 78 777 284", style: .default, handler: { (alert: UIAlertAction!) -> Void in
+            if (UIDevice.current.userInterfaceIdiom == UIUserInterfaceIdiom.pad) {
+                self.PresentAlertController(title: "Something went wrong", message: "Your device doesn't support with this feature ", actionTitle: "Got it")
+                
+                return
+            }
             guard let number = URL(string: "tel://" + "078777284" ) else { return }
             UIApplication.shared.open(number, options: [:], completionHandler: nil)
             
         })
         
         let deleteAction = UIAlertAction(title: "Khmer Speaker: (+855) 96 2222 735", style: .default, handler: { (alert: UIAlertAction!) -> Void in
+            if (UIDevice.current.userInterfaceIdiom == UIUserInterfaceIdiom.pad) {
+                self.PresentAlertController(title: "Something went wrong", message: "Your device doesn't support with this feature ", actionTitle: "Got it")
+                
+                return
+            }
             guard let number = URL(string: "tel://" + "0962222735" ) else { return }
             UIApplication.shared.open(number, options: [:], completionHandler: nil)
             
         })
         
+        
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        if let popoverController = alertController.popoverPresentationController {
+            popoverController.sourceView = self.view
+            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+            popoverController.permittedArrowDirections = []
+        }
         alertController.addAction(defaultAction)
         alertController.addAction(deleteAction)
         alertController.addAction(cancelAction)
@@ -380,8 +383,15 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
             selectedImageFromPicker = originalImage
             }
         if let setectImage = selectedImageFromPicker{
+            
             let newImage = UIComponentHelper.resizeImage(image: setectImage, targetSize: CGSize(width: 400, height: 400))
             let imageProfiles = UIImagePNGRepresentation(newImage)
+            let imageData : NSData = NSData(data: imageProfiles!)
+            let imageSize :Int = imageData.length
+            if Double(imageSize) > 5000{
+                self.PresentAlertController(title: "Something went wrong", message: "", actionTitle: "Got it")
+            }
+            print(Double(imageSize) / 1024.0,"++imagesize")
             let riversRef = storageRef.child("userprofile-photo").child((currentUser?.uid)!)
             riversRef.putData(imageProfiles! , metadata: nil) { (metadata, error) in
                 guard let metadata = metadata else {
@@ -395,7 +405,11 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
                 let url = NSURL(string: downloadURL) as URL?
                 let chageProfileimage = self.currentUser?.createProfileChangeRequest()
                 chageProfileimage?.photoURL =  url
-                chageProfileimage?.commitChanges { (error) in }
+                chageProfileimage?.commitChanges { (error) in
+                    self.PresentAlertController(title: "Error", message: (error?.localizedDescription)!, actionTitle: "Okay")
+                    return
+                
+                }
                 
                 //dismiss image button loading indicator when done
                 self.imageProfile.loadingIndicator(false)
@@ -425,7 +439,6 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         let emailProvider = NSPredicate(format: "facebookProvider = 0")
         let email_lgoin = personService.getUserProfile(withPredicate: emailProvider)
         for i in email_lgoin {
-            print("Email done")
             i.imageData = image
             personService.updateUserProfile(_updatedPerson: i)
             
@@ -437,7 +450,6 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         let facebookProvider = NSPredicate(format: "facebookProvider = 1")
         let fb_lgoin = personService.getUserProfile(withPredicate: facebookProvider)
         for i in fb_lgoin {
-            print("facebook done")
             i.imageData = image
             personService.updateUserProfile(_updatedPerson: i)
             

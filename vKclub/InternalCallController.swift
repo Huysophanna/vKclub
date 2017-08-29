@@ -8,6 +8,8 @@
 
 import Foundation
 import UIKit
+import CoreData
+
 
 class InternalCallController: UIViewController {
     @IBOutlet weak var numberTextField: UITextField!
@@ -19,7 +21,6 @@ class InternalCallController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         //make extension button with connection status
         MakeExtensionButton(color: DashboardController.LinphoneConnectionStatusFlag == true ? UIColor.green : UIColor.red)
         
@@ -37,11 +38,12 @@ class InternalCallController: UIViewController {
         InternalCallController.extensionBtn.setTitleColor(UIColor.white, for: .normal)
         
         InternalCallController.extensionBtn.frame = CGRect(x: 0, y: 0, width: 70, height: 10)
-        InternalCallController.extensionBtn.setTitle("10100", for: .normal)
+        InternalCallController.extensionBtn.setTitle(userExtensionID, for: .normal)
         InternalCallController.extensionBtn.contentHorizontalAlignment = .center
         
         self.navigationController?.topViewController?.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: InternalCallController.extensionBtn)
     }
+    
     
     @IBAction func NumberBtnClicked(_ sender: Any) {
         dialPhoneNumber = dialPhoneNumber + ((sender as AnyObject).titleLabel??.text)!
@@ -56,7 +58,7 @@ class InternalCallController: UIViewController {
             numberTextField.text = dialPhoneNumber
         }
         if (dialPhoneNumber.characters.count == 0) {
-            numberTextField.placeholder = "Enter phone number"
+            //numberTextField.placeholder = "test"
         }
     }
     
@@ -66,7 +68,7 @@ class InternalCallController: UIViewController {
                 IncomingCallController.dialPhoneNumber = dialPhoneNumber
                 
                 //prevent calling to their own number
-                if "10100" == IncomingCallController.dialPhoneNumber {
+                if userExtensionID == IncomingCallController.dialPhoneNumber {
                     PresentAlertController(title: "Something went wrong", message: "You are about to call to your own ID. Please choose another ID and try again.", actionTitle: "Got it")
                     return
                 }

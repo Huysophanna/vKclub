@@ -10,7 +10,7 @@ import UIKit
 import Foundation
 
 class AboutUsTableCell: UITableViewCell{
-    @IBOutlet weak var Imageitem: UIImageView!
+    @IBOutlet weak var imageitem: UIImageView!
     @IBOutlet weak var titleItem: UILabel!
     @IBOutlet weak var decriptionItem: UITextView!
     
@@ -18,9 +18,9 @@ class AboutUsTableCell: UITableViewCell{
     
     func changeImageContentMode() {
         if UI_USER_INTERFACE_IDIOM() == .pad {
-            Imageitem.contentMode = .scaleAspectFit
+            imageitem.contentMode = .scaleAspectFit
         } else if UI_USER_INTERFACE_IDIOM() == .phone {
-            Imageitem.contentMode = .scaleToFill
+            imageitem.contentMode = .scaleToFill
         }
     }
     
@@ -70,7 +70,7 @@ class AccommodationController:  UITableViewController {
         let intro = accommodation["Intro"] as! String
         let image = UIImage(named:photoURL)
         let newimag = UIComponentHelper.resizeImage(image: image!, targetSize: CGSize(width: 400, height: 400))
-        cell.Imageitem.image = newimag
+        cell.imageitem.image = newimag
         cell.titleItem.text = title
         cell.decriptionItem.text = intro
         return cell
@@ -78,7 +78,7 @@ class AccommodationController:  UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedArticle = accommodationData[indexPath.row]
         let cell = tableView.cellForRow(at: indexPath) as! AboutUsTableCell
-        selectedArticleImage = cell.Imageitem.image
+        selectedArticleImage = cell.imageitem.image
         self.performSegue(withIdentifier: "SgaccommodationusWebView", sender: self)
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -126,17 +126,7 @@ class ActivityController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return ativityData.count
-    }
-    
-    //    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-    //        return UITableViewAutomaticDimension
-    //    }
-    //
-    //    override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-    //        return UITableViewAutomaticDimension
-    //    }
-    //
-    //
+    }   
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "activityTableView", for: indexPath) as! AboutUsTableCell
         
@@ -148,7 +138,7 @@ class ActivityController: UITableViewController {
         let intro = ativity["Intro"] as! String
         let image = UIImage(named:photoURL)
         let newimag = UIComponentHelper.resizeImage(image: image!, targetSize: CGSize(width: 400, height: 400))
-        cell.Imageitem.image = newimag
+        cell.imageitem.image = newimag
         cell.titleItem.text = title
         cell.decriptionItem.text = intro
         return cell
@@ -156,7 +146,7 @@ class ActivityController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedArticle = ativityData[indexPath.row]
         let cell = tableView.cellForRow(at: indexPath) as! AboutUsTableCell
-        selectedArticleImage = cell.Imageitem.image
+        selectedArticleImage = cell.imageitem.image
         self.performSegue(withIdentifier: "SgativityWebview", sender: self)
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -227,7 +217,7 @@ class  PropertyController: UITableViewController {
         let intro = property["Intro"] as! String
         let image = UIImage(named:photoURL)
         let newimag = UIComponentHelper.resizeImage(image: image!, targetSize: CGSize(width: 400, height: 400))
-        cell.Imageitem.image = newimag
+        cell.imageitem.image = newimag
         cell.titleItem.text = title
         cell.decriptionItem.text = intro
         return cell
@@ -235,7 +225,7 @@ class  PropertyController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedArticle = propertyData[indexPath.row]
         let cell = tableView.cellForRow(at: indexPath) as! AboutUsTableCell
-        selectedArticleImage = cell.Imageitem.image
+        selectedArticleImage = cell.imageitem.image
         self.performSegue(withIdentifier: "SgpropertyWebView", sender: self)
         
         
@@ -375,7 +365,6 @@ class PropertyWebViewController: UIViewController ,UIWebViewDelegate{
     func webView(_ webView: UIWebView, didFailLoadWithError error: Error) {
         noInternet.isHidden = false
         self.PresentAlertController(title: "Something went wrong", message: "Please Check you internet connection ", actionTitle: "Got it")
-        
         UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: false)
         
     }

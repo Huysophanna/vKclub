@@ -41,7 +41,7 @@ class ViewController: UIViewController, PaperOnboardingDataSource, PaperOnboardi
                 
                  ("map-intro", "Map", "Digitalized map designed \nto help user get In-Touch \nwith our vKirirom Pine Resort \nServices and Facilities", "", greenBackgroundColor, UIColor.white, UIColor.white, titleFont, descirptionFont),
                 
-                 ("voip-intro", "Voip", "No Restriction and Free Call", "", greenBackgroundColor , UIColor.white, UIColor.white, titleFont, descirptionFont),
+                 ("voip-intro", "Internal Phone Call", "No Restriction and Free Call", "", greenBackgroundColor , UIColor.white, UIColor.white, titleFont, descirptionFont),
                 
                  ("sos-intro", "Emergency SOS", "Emergency SOS button \nguarantees users safety and \nhelp when lost in the forest \nor in dangerous situation", "", greenBackgroundColor , UIColor.white, UIColor.white, titleFont, descirptionFont),
                  ("mode-intro", "Onsite / Off-site Mode", "Experience all function of \nthe app within On-site mode, \nwhile some including SOS, \nVoip are restricted for Off-site user.", "", greenBackgroundColor, UIColor.white, UIColor.white, titleFont, descirptionFont),
