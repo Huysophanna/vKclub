@@ -91,8 +91,12 @@ class LoginController: UIViewController,UITextFieldDelegate {
                                         return
                                 }
                                 let image = data as NSData?
-                                let imageFB = UIImage(data: image! as Data)
-                                let newimag = UIComponentHelper.resizeImage(image: imageFB!, targetSize: CGSize(width: 400, height: 400))
+                                    
+                                
+                                guard let imageFB = UIImage(data: image! as Data) else {
+                                    return
+                                }
+                                let newimag = UIComponentHelper.resizeImage(image: imageFB, targetSize: CGSize(width: 400, height: 400))
                                 let imageProfiles = UIImagePNGRepresentation(newimag)
                                 if (currentUser.email == nil){
                                     UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)

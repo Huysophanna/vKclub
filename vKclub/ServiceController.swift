@@ -16,7 +16,7 @@ class ServiceController: UIViewController {
     @IBOutlet weak var bottomLine: UIView!
     
     override func viewDidLoad() {
-        print(dashboardInstance.CheckUserLocation(),"+++")
+        self.dismiss(animated: false, completion: nil)
         
         //put proper content based on app mode
         if dashboardInstance.CheckUserLocation() == dashboardInstance.IN_KIRIROM {

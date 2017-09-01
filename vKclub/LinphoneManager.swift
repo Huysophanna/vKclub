@@ -347,7 +347,7 @@ class LinphoneManager {
     }
     
     func LinphoneInit() {
-        switch linephoneinit {
+        switch linphoneInit {
         case "login":
             GetAccountExtension()
             break
@@ -356,9 +356,9 @@ class LinphoneManager {
             print("firstLaunch++")
             break
         default:
-            print(linephoneinit,"++init")
+            print(linphoneInit,"++init")
             
-            proxyConfig = setIdentify(_account: linephoneinit)
+            proxyConfig = setIdentify(_account: linphoneInit)
             break
             
         }
@@ -383,39 +383,66 @@ class LinphoneManager {
                     do {
                         let newextension_id = NSEntityDescription.insertNewObject(forEntityName: "Extension", into: manageObjectContext)
                         let json = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableContainers) as? [String:Any]
-                        let datas = json?["success"]  as! NSDictionary
-                        let extensions  = datas["extension"] as! NSDictionary
-                        
-                        for i in extensions {
-                            let extentionid:String = i.key as! String
+                        let code = json?["code"]
+                        let code_check :Int =  code as! Int
+                        switch code_check{
+                        case 200 :
                             
-                            if extentionid == "extension"{
-                                databaseRef.child("users").child((currentuser?.uid)!).child("Extension").setValue(i.value)
-                                extensionID = String(describing: i.value)
-                                newextension_id.setValue(String(describing:i.value), forKey: "extension_id")
-                            }
-                            if extentionid == "token" {
-                                 databaseRef.child("users").child((currentuser?.uid)!).child("Token").setValue(i.value)
-                                 newextension_id.setValue(i.value, forKey: "token")
+                            let datas = json?["success"]  as! NSDictionary
+                            let extensions  = datas["extension"] as! NSDictionary
+                            
+                            
+                            for i in extensions {
+                                let extentionid:String = i.key as! String
                                 
+                                if extentionid == "extension"{
+                                    databaseRef.child("users").child((currentuser?.uid)!).child("Extension").setValue(i.value)
+                                    extensionID = String(describing: i.value)
+                                    newextension_id.setValue(String(describing:i.value), forKey: "extension_id")
+                                }
+                                if extentionid == "token" {
+                                    databaseRef.child("users").child((currentuser?.uid)!).child("Token").setValue(i.value)
+                                    newextension_id.setValue(i.value, forKey: "token")
+                                    
+                                }
                             }
-                        }
-                        do {
-                            try  manageObjectContext.save()
+                            do {
+                                
+                                try  manageObjectContext.save()
+                                
+                            } catch {
+                                print("error")
+                            }
+                            getExtensionSucc = "Extension"
+                            linphoneInit = extensionID
+                        break
+                        case 300 :
+                            //already user
+                            self.GetAccountExtension()
+                        break
+                        case 400 :
+                            // out of scop make variable gobal
+                            getExtensionSucc = "400"
+                        break
                             
-                        } catch {
-                            print("error")
+                        default :
+                            getExtensionSucc = "400"
+                        break
+                            
                         }
+                        
                     } catch {
                         print("error")
                     }
+                    
                 }
             }
-            linephoneinit = extensionID
+            
         }
         task.resume()
-       
+        
     }
+
     
     
     func GetAccountExtension() {
@@ -425,36 +452,31 @@ class LinphoneManager {
             extension_ids = try manageObjectContext.fetch(extensionRequest)
             if extension_ids == [] {
                 let currentuser = Auth.auth().currentUser
-                 databaseRef.child("users").child((currentuser?.uid)!).observeSingleEvent(of: .value, with: { (data) in
-                    getextsucc = "ext"
-                    
+                databaseRef.child("users").child((currentuser?.uid)!).observeSingleEvent(of: .value, with: { (data) in
                     // Get user value
                     if let datas = data.value as? NSDictionary {
                         var exts = ""
                         for i in datas {
                             let extentionid:String = i.key as! String
                             if extentionid == "Extension" {
-                               exts = String(describing: i.value)
+                                exts = String(describing: i.value)
                                 
                             } else {
                                 self.tokenid  = i.value as! String
                             }
                             
                         }
-                    self.PostData(extensions :  exts  , tokenid:self.tokenid )
-        
-                } else {
-                     self.GetDataFromServer()
+                        self.PostData(extensions :  exts  , tokenid:self.tokenid )
                         
-                }
+                    } else {
+                        self.GetDataFromServer()
+                        
+                    }
                     // ...
                 }) { (error) in
                     print(error.localizedDescription)
                 }
             } else {
-                getextsucc = "ext"
-                
-                
                 for i in extension_ids {
                     
                     if let ext =  i.extension_id {
@@ -475,9 +497,9 @@ class LinphoneManager {
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("wfvUd0d4Bw7RfeCqwEe4F0GWTL3dpzai7f7euYBuI", forHTTPHeaderField: "VKAPP-API-TOKEN")
-        //            request.addValue((currentuser?.uid)!, forHTTPHeaderField: "VKAPP-USERID")
+        //request.addValue((currentuser?.uid)!, forHTTPHeaderField: "VKAPP-USERID")
         let parameters = ["ext":extensions , "reserved_token":tokenid ,"action": "register"]
-    
+        
         do {
             request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted) // pass dictionary to nsdata object and set it as request body
             
@@ -486,37 +508,34 @@ class LinphoneManager {
         }
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             if error != nil {
-                
                 print(error as Any,"")
-                
             } else {
                 if let data = data{
                     do {
                         
                         let json = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableContainers) as? [String:Any]
-    
+                        
                         if let code = json?["code"] {
-                            let code_check :String =  String(describing:code)
+                            let code_check = code as! Int
                             switch code_check{
-                                case "200" :
-                                 linephoneinit = extensions
-                                 break
-                                case "300" :
-                                  //
-                                  self.GetAccountExtension()
-                                 break
-                                case "404" :
+                            case 200 :
+                                linphoneInit = extensions
+                                getExtensionSucc = "Extension"
+                                break
+                            case 300 :
+                                //
+                                self.GetAccountExtension()
+                                break
+                            case 400 :
                                 // out of scop make variable gobal
-                                  getextsucc = "404"
-                                 
-                                 break
-                                
-                                default :
-                                 break
+                                getExtensionSucc = "400"
+                            default :
+                                getExtensionSucc = "400"
+                                break
                                 
                             }
                         }
-                    
+                        
                     } catch {
                         print("error")
                     }
@@ -525,7 +544,7 @@ class LinphoneManager {
             
         }
         task.resume()
-
+        
     }
     
     func setIdentify(_account: String) -> OpaquePointer? {

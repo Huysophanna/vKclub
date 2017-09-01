@@ -1418,7 +1418,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Reset Password " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="az9-Wv-0ra">
-                                <rect key="frame" x="133" y="245" width="148" height="24"/>
+                                <rect key="frame" x="123" y="245" width="192" height="24"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <color key="textColor" red="1" green="0.99997591969999999" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -1453,7 +1453,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xVd-YM-mov" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="133.125" y="-686.61971830985919"/>
+            <point key="canvasLocation" x="131.8840579710145" y="-687.22826086956525"/>
         </scene>
         <!--Reveal View Controller-->
         <scene sceneID="hpX-DK-4Yl">
