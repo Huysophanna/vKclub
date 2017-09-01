@@ -23,19 +23,19 @@ let launchedBefore = UserDefaults.standard.bool(forKey: "launchedBefore")
 let loginBefore = UserDefaults.standard.bool(forKey: "loginBefore")
 var linphoneManager: LinphoneManager? = LinphoneManager()
 var userExtensionID = ""
-var linephoneinit = "" {
+var linphoneinit = "" {
     didSet {
-        userExtensionID = linephoneinit
-        if linephoneinit == "logout"{
-        //call when user logout and unregister internal phone call
+        userExtensionID = linphoneinit
+        if linphoneinit == "logout"{
+            //call when user logout and unregister internal phone call
             
         } else {
-              linphoneManager?.LinphoneInit()
+            linphoneManager?.LinphoneInit()
         }
-      
+        
     }
 }
-var getextsucc : String = "getextsucc"
+var getExtensionSucc : String = "getExtensionSucc"
 
 
 @UIApplicationMain
@@ -60,10 +60,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
     var window: UIWindow?
     let personService = UserProfileCoreData()
     let gcmMessageIDKey = "gcm.message_id"
-   
+    
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        linephoneinit  = "firstLaunch"
+        linphoneinit  = "firstLaunch"
+        
         
         // Remove border in navigationBar
         UINavigationBar.appearance().shadowImage = UIImage()
@@ -90,8 +91,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
                 options: authOptions,
                 completionHandler: {data, error in
                     if error != nil{
-                         self.showAlertAppDelegate(title: "Error", message: (error?.localizedDescription)! , buttonTitle:"Okay", window:self.window!)                    }
-            
+                        self.showAlertAppDelegate(title: "Error", message: (error?.localizedDescription)! , buttonTitle:"Okay", window:self.window!)                    }
+                    
             })
             
             
@@ -100,12 +101,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
                 UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
             application.registerUserNotificationSettings(settings)
         }
-
-        
-       
         
         
-
+        
+        
+        
+        
         
         // Override point for customization after application launch.
         FirebaseApp.configure()
@@ -113,7 +114,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         // autoLogin
         
-       
+        
         
         if launchedBefore  {
             self.LogoutController()
@@ -122,10 +123,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
             
         }
         
-                
-       
+        
+        
         if loginBefore  {
-           //Init linphone sip
+            //Init linphone sip
             self.Dashboard()
         } else {
             print("First launch, setting UserDefault.")
@@ -136,12 +137,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
     
     @available(iOS 10.0, *)
     func userNotificationCenter(_ center: UNUserNotificationCenter,  willPresent notification: UNNotification, withCompletionHandler   completionHandler: @escaping (_ options:   UNNotificationPresentationOptions) -> Void) {
-       
+        
         if notification.request.content.userInfo["aps"] == nil {
             return
         }
         notification_num += 1
-
+        
         let dict = notification.request.content.userInfo["aps"] as! NSDictionary
         let d : [String : Any] = dict["alert"] as! [String : Any]
         let body : String = d["body"] as! String
@@ -201,10 +202,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
         let yourVC = mainStoryboard.instantiateViewController(withIdentifier: "loginController") as!  LoginController
         appDelegate.window?.rootViewController = yourVC
         appDelegate.window?.makeKeyAndVisible()
-
+        
         
     }
-   
+    
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
         let handled = FBSDKApplicationDelegate.sharedInstance().application(app, open: url, options: options)
         
@@ -223,11 +224,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
     }
     
     func applicationWillEnterForeground(_ application: UIApplication) {
-        
-        if loginBefore  {
-            linephoneinit = "login"
-        } else {
-        }
+        linphoneinit  = "firstLaunch"
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
     }
     

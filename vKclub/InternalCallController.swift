@@ -11,22 +11,23 @@ import UIKit
 import CoreData
 
 
-class InternalCallController: UIViewController {
+class InternalCallController: UIViewController{
     @IBOutlet weak var numberTextField: UITextField!
     static let extensionBtn = UIButton(type: .system)
     var incomingCallInstance: IncomingCallController? = IncomingCallController()
     var dialPhoneNumber: String = ""
     
+    
 //    var linphoneConnectionStatusFlag: Bool = true
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.dismiss(animated: false, completion: nil)
         //make extension button with connection status
         MakeExtensionButton(color: DashboardController.LinphoneConnectionStatusFlag == true ? UIColor.green : UIColor.red)
         
     }
-    
-    func ChangeExtensionActiveStatus(color: UIColor) {
+      func ChangeExtensionActiveStatus(color: UIColor) {
         InternalCallController.extensionBtn.tintColor = color
     }
     

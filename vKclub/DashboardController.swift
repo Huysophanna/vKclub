@@ -46,7 +46,7 @@ class DashboardController: UIViewController {
    
     let setting = UserDefaults.standard.integer(forKey: "setting")
     override func viewDidLoad() {
-        linephoneinit  = "login"
+        linphoneinit  = "login"
         Auth.auth().addStateDidChangeListener { (auth, user) in
             
             user?.reload(completion: { (error) in
@@ -120,17 +120,21 @@ class DashboardController: UIViewController {
             switch CheckUserLocation() {
             case IN_KIRIROM:
                 if btntag == 4{
-                
-                    switch getextsucc {
-                    case "ext":
+                    print(getExtensionSucc,"+++")
+                    switch getExtensionSucc {
+                        
+                        case "Extension":
                         LinphoneManager.register(proxyConfig!)
                         performSegue(withIdentifier: "PushInternalCall", sender: self)
-                    case "404":
+                        
+                        break
+                        
+                        case "400":
                         PresentAlertController(title: "Something went wrong", message: "Sorry, our internal phone call services are currently not available right now. Please try again next time.", actionTitle: "Okay")
                         
                         break
                         
-                    default:
+                        default:
                         PresentAlertController(title: "Please wait", message: "We are trying to generate and activate your caller ID. Please try again in seconds.", actionTitle: "Okay")
                         break
                     }

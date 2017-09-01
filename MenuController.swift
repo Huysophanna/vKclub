@@ -179,15 +179,16 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
             imageProfile.loadingIndicator(true)
                         userName.text =  currentUser?.displayName
             DispatchQueue.global(qos: .userInitiated).async {
-                let data = try? Data(contentsOf: (self.currentUser?.photoURL)!)
+                guard let data = try? Data(contentsOf: (self.currentUser?.photoURL)!) else{
+                    return
+                }
                         // When from background thread, UI needs to be updated on main_queue
                 DispatchQueue.main.async {
-                    if data != nil {
                         self.imageProfile.loadingIndicator(false)
-                        let image = UIImage(data: data!)
+                        let image = UIImage(data: data)
                         
                         self.imageProfile.setImage(image, for: .normal)
-                    }
+                    
                 }
             }
             
@@ -195,16 +196,12 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
             
             for i in email_lgoin {
                 userName.text = i.username
-                let img = UIImage(data: i.imageData! as Data)
-                // if user no internet still they can get imageProfile from coredata
-                if img == nil {
-                    self.imageProfile.loadingIndicator(false)
-                    
-                }else{
-                   
-                    let newimag = UIComponentHelper.resizeImage(image: img!, targetSize: CGSize(width: 400, height: 400))
-                    imageProfile.setImage(newimag, for: .normal)
+                guard  let img = UIImage(data: i.imageData! as Data) else {
+                    return
                 }
+                let newimag = UIComponentHelper.resizeImage(image: img, targetSize: CGSize(width: 400, height: 400))
+                imageProfile.setImage(newimag, for: .normal)
+                // if user no internet still they can get imageProfile from coredata
               
             }
             
@@ -385,15 +382,17 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         if let setectImage = selectedImageFromPicker{
             
             let newImage = UIComponentHelper.resizeImage(image: setectImage, targetSize: CGSize(width: 400, height: 400))
-            let imageProfiles = UIImagePNGRepresentation(newImage)
-            let imageData : NSData = NSData(data: imageProfiles!)
+            guard  let imageProfiles = UIImagePNGRepresentation(newImage) else {
+                return
+            }
+            let imageData : NSData = NSData(data: imageProfiles)
             let imageSize :Int = imageData.length
             if Double(imageSize) > 5000{
                 self.PresentAlertController(title: "Something went wrong", message: "", actionTitle: "Got it")
             }
             print(Double(imageSize) / 1024.0,"++imagesize")
             let riversRef = storageRef.child("userprofile-photo").child((currentUser?.uid)!)
-            riversRef.putData(imageProfiles! , metadata: nil) { (metadata, error) in
+            riversRef.putData(imageProfiles , metadata: nil) { (metadata, error) in
                 guard let metadata = metadata else {
                     self.PresentAlertController(title: "Error", message: "please check with your internet connection", actionTitle: "Okay")
                         return
@@ -406,8 +405,12 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
                 let chageProfileimage = self.currentUser?.createProfileChangeRequest()
                 chageProfileimage?.photoURL =  url
                 chageProfileimage?.commitChanges { (error) in
-                    self.PresentAlertController(title: "Error", message: (error?.localizedDescription)!, actionTitle: "Okay")
-                    return
+                    
+                    if error != nil {
+                        self.PresentAlertController(title: "Error", message: (error?.localizedDescription)!, actionTitle: "Okay")
+                        return
+                    }
+                    
                 
                 }
                 
@@ -417,10 +420,10 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
                 self.imageProfile.setImage(setectImage, for: .normal)
                 // if Facebook login Update Image
                 if self.facebookCheck {
-                    self.FBProviderUpdateImage(image: imageProfiles! as NSData)
+                    self.FBProviderUpdateImage(image: imageProfiles as NSData)
                     
                 } else {
-                    self.EmailProviderUpdateImage(image: imageProfiles! as NSData)
+                    self.EmailProviderUpdateImage(image: imageProfiles as NSData)
                 }
                 
             }

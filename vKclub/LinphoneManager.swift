@@ -1,4 +1,4 @@
-import Foundation
+  import Foundation
 import AVFoundation
 import CoreData
 import Firebase
@@ -23,133 +23,133 @@ let registrationStateChanged: LinphoneCoreRegistrationStateChangedCb  = {
     (lc: Optional<OpaquePointer>, proxyConfig: Optional<OpaquePointer>, state: _LinphoneRegistrationState, message: Optional<UnsafePointer<Int8>>) in
     
     switch state {
-        case LinphoneRegistrationNone: /**<Initial state for registrations */
-            NSLog("LinphoneRegistrationNone")
+    case LinphoneRegistrationNone: /**<Initial state for registrations */
+        NSLog("LinphoneRegistrationNone")
         
-        case LinphoneRegistrationProgress:
-            NSLog("LinphoneRegistrationProgress")
+    case LinphoneRegistrationProgress:
+        NSLog("LinphoneRegistrationProgress")
         
-        case LinphoneRegistrationOk:
-            NSLog("LinphoneRegistrationOk")
+    case LinphoneRegistrationOk:
+        NSLog("LinphoneRegistrationOk")
         
-        case LinphoneRegistrationCleared:
-            NSLog("LinphoneRegistrationCleared")
+    case LinphoneRegistrationCleared:
+        NSLog("LinphoneRegistrationCleared")
         
-        case LinphoneRegistrationFailed:
-            NSLog("LinphoneRegistrationFailed")
+    case LinphoneRegistrationFailed:
+        NSLog("LinphoneRegistrationFailed")
         
-        default:
-            NSLog("Unkown registration state")
+    default:
+        NSLog("Unkown registration state")
     }
-} as LinphoneCoreRegistrationStateChangedCb
+    } as LinphoneCoreRegistrationStateChangedCb
 
 let callStateChanged: LinphoneCoreCallStateChangedCb = {
     (lc: Optional<OpaquePointer>, call: Optional<OpaquePointer>, callSate: LinphoneCallState,  message: Optional<UnsafePointer<Int8>>) in
     
     print(LinphoneManager.interuptedCallFlag ,"----ACTIVECALLFLAG")
     
-//    if LinphoneManager.onActiveCallFlag == false {
-        //store call data as optional value for using in some other classes
-        LinphoneManager.callOpaquePointerData = call
-        LinphoneManager.lcOpaquePointerData = lc
-        
-        if LinphoneManager.mainCallOpaquePointerData == nil {
-            LinphoneManager.mainCallOpaquePointerData = call
-            LinphoneManager.mainLcOpaquePointerData = lc
-        }
-//    }
+    //    if LinphoneManager.onActiveCallFlag == false {
+    //store call data as optional value for using in some other classes
+    LinphoneManager.callOpaquePointerData = call
+    LinphoneManager.lcOpaquePointerData = lc
     
-
-   
+    if LinphoneManager.mainCallOpaquePointerData == nil {
+        LinphoneManager.mainCallOpaquePointerData = call
+        LinphoneManager.mainLcOpaquePointerData = lc
+    }
+    //    }
+    
+    
+    
     switch callSate {
-        case LinphoneCallIncomingReceived: /**<This is a new incoming call */
-            print("callStateChanged: LinphoneCallIncomingReceived", "====")
+    case LinphoneCallIncomingReceived: /**<This is a new incoming call */
+        print("callStateChanged: LinphoneCallIncomingReceived", "====")
+        
+        if IncomingCallController.CallToAction == false && IncomingCallController.IncomingCallFlag == false && LinphoneManager.interuptedCallFlag == false {
+            print(IncomingCallController.CallToAction, IncomingCallController.IncomingCallFlag, LinphoneManager.interuptedCallFlag, "----3variables----")
             
-            if IncomingCallController.CallToAction == false && IncomingCallController.IncomingCallFlag == false && LinphoneManager.interuptedCallFlag == false {
-                print(IncomingCallController.CallToAction, IncomingCallController.IncomingCallFlag, LinphoneManager.interuptedCallFlag, "----3variables----")
-
-                //indicates that there is an incoming call to show incomingcall screen
-                LinphoneManager.incomingCallFlag = true
+            //indicates that there is an incoming call to show incomingcall screen
+            LinphoneManager.incomingCallFlag = true
+            
+            print("-------BEING_FREE_NOT_WITH_SOMEONE_ELSE--------")
+        } else {
+            //if user is already on active call with some other, will decline all incoming call
+            LinphoneManager.interuptedCallFlag = true
+            LinphoneManager.declineCall(_declinedReason: LinphoneReasonBusy)
+            
+            //when declined the call, it calls release flag, so have to check on that
+            print("--------BEING_BUSY_WITH_SOMEONE_ELSE--------")
+        }
+        
+        if answerCall {
+            ms_usleep(3 * 1000 * 1000); // Wait 3 seconds to pickup
+            linphone_core_accept_call(lc, call)
+        }
+        break
+        
+    case LinphoneCallStreamsRunning: /**<The media streams are established and running*/
+        print("callStateChanged: LinphoneCallStreamsRunning", "====")
+        LinphoneManager.callStreamRunning = true
+        
+        break
+        
+    case LinphoneCallError: /**<The call encountered an error*/
+        print("callStateChanged: LinphoneCallError", "====")
+        break
+        
+    case LinphoneCallReleased:
+        if LinphoneManager.interuptedCallFlag == false {
+            //if user is onActiveCall, will decline the call and will not release the active call view
+            LinphoneManager.releaseCallFlag = true
+            print("callStateChanged: LinphoneCallReleased", "====")
+            print("------BEING_FREE_NOT_WITH_SOMEONE_ELSE_RELEASE_STATE--------")
+        } else {
+            print("------BEING_BUSY_WITH_SOMEONE_ELSE_RELEASE_STATE--------")
+            
+            //compare current callOpaquePointer with tempCallOpaquePointer
+            //if true means, this release call is fired for the 1st call
+            if LinphoneManager.callOpaquePointerData == LinphoneManager.mainCallOpaquePointerData {
+                //set onActiveCallFlag back to false
+                LinphoneManager.interuptedCallFlag = false
+                //set tempCallOpaquePointerData to nil back, since call is over
+                LinphoneManager.mainCallOpaquePointerData = nil
+                LinphoneManager.mainLcOpaquePointerData = nil
                 
-                print("-------BEING_FREE_NOT_WITH_SOMEONE_ELSE--------")
-            } else {
-                //if user is already on active call with some other, will decline all incoming call
-                LinphoneManager.interuptedCallFlag = true
-                LinphoneManager.declineCall(_declinedReason: LinphoneReasonBusy)
-
-                //when declined the call, it calls release flag, so have to check on that
-                print("--------BEING_BUSY_WITH_SOMEONE_ELSE--------")
-            }
-            
-            if answerCall {
-                ms_usleep(3 * 1000 * 1000); // Wait 3 seconds to pickup
-                linphone_core_accept_call(lc, call)
-            }
-        break
-        
-        case LinphoneCallStreamsRunning: /**<The media streams are established and running*/
-            print("callStateChanged: LinphoneCallStreamsRunning", "====")
-            LinphoneManager.callStreamRunning = true
-            
-        break
-        
-        case LinphoneCallError: /**<The call encountered an error*/
-            print("callStateChanged: LinphoneCallError", "====")
-        break
-        
-        case LinphoneCallReleased:
-            if LinphoneManager.interuptedCallFlag == false {
-                //if user is onActiveCall, will decline the call and will not release the active call view
+                //this is the 1st call, so we can release the call flag
                 LinphoneManager.releaseCallFlag = true
-                print("callStateChanged: LinphoneCallReleased", "====")
-                print("------BEING_FREE_NOT_WITH_SOMEONE_ELSE_RELEASE_STATE--------")
+                
+                print("callOpaquePointer ===== --------")
             } else {
-                print("------BEING_BUSY_WITH_SOMEONE_ELSE_RELEASE_STATE--------")
+                //this is not the 1st call that we care about, some other is trying to call concurrently
+                //so do not release the call, and assign the tempCallOpaquePointerCall from the 1st call
+                //to the current callOpaquePointerData
+                //assign the first calling tempCallOpaquePointerData to new callOpaquePointerData
+                LinphoneManager.callOpaquePointerData = LinphoneManager.mainCallOpaquePointerData
+                LinphoneManager.lcOpaquePointerData = LinphoneManager.mainLcOpaquePointerData
                 
-                //compare current callOpaquePointer with tempCallOpaquePointer
-                //if true means, this release call is fired for the 1st call
-                if LinphoneManager.callOpaquePointerData == LinphoneManager.mainCallOpaquePointerData {
-                    //set onActiveCallFlag back to false
-                    LinphoneManager.interuptedCallFlag = false
-                    //set tempCallOpaquePointerData to nil back, since call is over
-                    LinphoneManager.mainCallOpaquePointerData = nil
-                    LinphoneManager.mainLcOpaquePointerData = nil
-                    
-                    //this is the 1st call, so we can release the call flag
-                    LinphoneManager.releaseCallFlag = true
-                    
-                    print("callOpaquePointer ===== --------")
-                } else {
-                    //this is not the 1st call that we care about, some other is trying to call concurrently
-                    //so do not release the call, and assign the tempCallOpaquePointerCall from the 1st call
-                    //to the current callOpaquePointerData
-                    //assign the first calling tempCallOpaquePointerData to new callOpaquePointerData
-                    LinphoneManager.callOpaquePointerData = LinphoneManager.mainCallOpaquePointerData
-                    LinphoneManager.lcOpaquePointerData = LinphoneManager.mainLcOpaquePointerData
-                    
-                    print("callOpaquePointer !!!!!! --------")
-                }
-                
+                print("callOpaquePointer !!!!!! --------")
             }
-
+            
+        }
+        
         break
         
-        case LinphoneCallIdle:
-            print("Being idle+++++")
+    case LinphoneCallIdle:
+        print("Being idle+++++")
+        LinphoneManager.interuptedCallFlag = false
+        IncomingCallController.IncomingCallFlag = false
+        IncomingCallController.CallToAction = false
+        break
+        
+    default:
+        print("callStateChanged: Default", "====")
+        
+        if LinphoneManager.CheckLinphoneCallState() == "undefined" {
             LinphoneManager.interuptedCallFlag = false
             IncomingCallController.IncomingCallFlag = false
             IncomingCallController.CallToAction = false
-        break
+        }
         
-        default:
-            print("callStateChanged: Default", "====")
-            
-            if LinphoneManager.CheckLinphoneCallState() == "undefined" {
-                LinphoneManager.interuptedCallFlag = false
-                IncomingCallController.IncomingCallFlag = false
-                IncomingCallController.CallToAction = false
-            }
-            
         break
     }
 }
@@ -213,7 +213,7 @@ class LinphoneManager {
         // Set ring asset
         let ringbackPath = URL(fileURLWithPath: Bundle.main.bundlePath).appendingPathComponent("/ringback.wav").absoluteString
         linphone_core_set_ringback(theLinphone.lc, ringbackPath)
-
+        
         let localRing = URL(fileURLWithPath: Bundle.main.bundlePath).appendingPathComponent("/toy-mono.wav").absoluteString
         linphone_core_set_ring(theLinphone.lc, localRing)
         
@@ -238,7 +238,7 @@ class LinphoneManager {
         let documentsPath: NSString = paths[0] as NSString
         return documentsPath.appendingPathComponent(file as String) as NSString
     }
-
+    
     static func makeCall(phoneNumber: String) {
         if IncomingCallController.IncomingCallFlag == false {
             let calleeAccount = phoneNumber
@@ -282,7 +282,7 @@ class LinphoneManager {
     static func unmuteMic() {
         linphone_core_enable_mic(LinphoneManager.lcOpaquePointerData, 255)
     }
-
+    
     static func getCallerNb() -> String {
         let remoteAddr = linphone_address_as_string(linphone_call_get_remote_address(LinphoneManager.callOpaquePointerData))
         
@@ -305,7 +305,7 @@ class LinphoneManager {
             let dividedRemodeAddrStr = remoteAddrStr?.components(separatedBy: delimiter)
             
             if let contactName = dividedRemodeAddrStr?[safe: 1] {
-               return contactName
+                return contactName
             }
         }
         return ""
@@ -316,7 +316,6 @@ class LinphoneManager {
         let hour = duration / 3600
         let minute = (duration % 3600) / 60
         let second = (duration % 3600) % 60
-        
         return (hour, minute, second)
     }
     
@@ -331,30 +330,26 @@ class LinphoneManager {
             linphone_core_terminate_call(LinphoneManager.lcOpaquePointerData, LinphoneManager.callOpaquePointerData)
             print(LinphoneManager.callOpaquePointerData as Any ,"----ENDED")
         }
-
+        
     }
     
     func LinphoneInit() {
-        switch linephoneinit {
+        switch linphoneinit{
         case "login":
-            proxyConfig = setIdentify(_account: "0")
-            // if getext = false  means not yet get ext id
             GetAccountExtension()
-            break
+        break
         case "firstLaunch":
             proxyConfig = setIdentify(_account: "0")
             print("firstLaunch++")
-            break
+        break
         default:
-            print(linephoneinit,"++init")
-            
-            proxyConfig = setIdentify(_account: linephoneinit)
-            break
+            proxyConfig = setIdentify(_account: linphoneinit)
+        break
             
         }
         LinphoneManager.register(proxyConfig!)
         setTimer()
-//        shutdown()
+        //        shutdown()
     }
     
     func GetDataFromServer()  {
@@ -374,38 +369,64 @@ class LinphoneManager {
                     do {
                         let newextension_id = NSEntityDescription.insertNewObject(forEntityName: "Extension", into: manageObjectContext)
                         let json = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableContainers) as? [String:Any]
-                        let datas = json?["success"]  as! NSDictionary
-                        let extensions  = datas["extension"] as! NSDictionary
-                        
-                        for i in extensions {
-                            let extentionid:String = i.key as! String
+                        let code = json?["code"]
+                        let code_check :Int =  code as! Int
+                        switch code_check{
+                        case 200 :
                             
-                            if extentionid == "extension"{
-                                databaseRef.child("users").child((currentuser?.uid)!).child("Extension").setValue(i.value)
-                                extensionID = String(describing: i.value)
-                                newextension_id.setValue(String(describing:i.value), forKey: "extension_id")
-                            }
-                            if extentionid == "token" {
-                                 databaseRef.child("users").child((currentuser?.uid)!).child("Token").setValue(i.value)
-                                 newextension_id.setValue(i.value, forKey: "token")
+                            let datas = json?["success"]  as! NSDictionary
+                            let extensions  = datas["extension"] as! NSDictionary
+                            
+                            
+                            for i in extensions {
+                                let extentionid:String = i.key as! String
                                 
+                                if extentionid == "extension"{
+                                    databaseRef.child("users").child((currentuser?.uid)!).child("Extension").setValue(i.value)
+                                    extensionID = String(describing: i.value)
+                                    newextension_id.setValue(String(describing:i.value), forKey: "extension_id")
+                                }
+                                if extentionid == "token" {
+                                    databaseRef.child("users").child((currentuser?.uid)!).child("Token").setValue(i.value)
+                                    newextension_id.setValue(i.value, forKey: "token")
+                                    
+                                }
                             }
-                        }
-                        do {
-                            try  manageObjectContext.save()
+                            do {
+                                
+                                try  manageObjectContext.save()
+                                
+                            } catch {
+                                print("error")
+                            }
+                            getExtensionSucc = "Extension"
+                            linphoneinit = extensionID
+                        break
+                        case 300 :
+                            //already user
+                            self.GetAccountExtension()
+                        break
+                        case 400 :
+                            // out of scop make variable gobal
+                            getExtensionSucc = "400"
+                        break
                             
-                        } catch {
-                            print("error")
+                        default :
+                            getExtensionSucc = "400"
+                        break
+                            
                         }
+                        
                     } catch {
                         print("error")
                     }
+                    
                 }
             }
-            linephoneinit = extensionID
+            
         }
         task.resume()
-       
+        
     }
     
     
@@ -416,36 +437,31 @@ class LinphoneManager {
             extension_ids = try manageObjectContext.fetch(extensionRequest)
             if extension_ids == [] {
                 let currentuser = Auth.auth().currentUser
-                 databaseRef.child("users").child((currentuser?.uid)!).observeSingleEvent(of: .value, with: { (data) in
-                    getextsucc = "ext"
-                    
+                databaseRef.child("users").child((currentuser?.uid)!).observeSingleEvent(of: .value, with: { (data) in
                     // Get user value
                     if let datas = data.value as? NSDictionary {
                         var exts = ""
                         for i in datas {
                             let extentionid:String = i.key as! String
                             if extentionid == "Extension" {
-                               exts = String(describing: i.value)
+                                exts = String(describing: i.value)
                                 
                             } else {
                                 self.tokenid  = i.value as! String
                             }
                             
                         }
-                    self.PostData(extensions :  exts  , tokenid:self.tokenid )
-        
-                } else {
-                     self.GetDataFromServer()
+                        self.PostData(extensions :  exts  , tokenid:self.tokenid )
                         
-                }
+                    } else {
+                        self.GetDataFromServer()
+                        
+                    }
                     // ...
                 }) { (error) in
                     print(error.localizedDescription)
                 }
             } else {
-                getextsucc = "ext"
-                
-                
                 for i in extension_ids {
                     
                     if let ext =  i.extension_id {
@@ -465,9 +481,9 @@ class LinphoneManager {
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("wfvUd0d4Bw7RfeCqwEe4F0GWTL3dpzai7f7euYBuI", forHTTPHeaderField: "VKAPP-API-TOKEN")
-        //            request.addValue((currentuser?.uid)!, forHTTPHeaderField: "VKAPP-USERID")
+        //request.addValue((currentuser?.uid)!, forHTTPHeaderField: "VKAPP-USERID")
         let parameters = ["ext":extensions , "reserved_token":tokenid ,"action": "register"]
-    
+        
         do {
             request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted) // pass dictionary to nsdata object and set it as request body
             
@@ -476,37 +492,35 @@ class LinphoneManager {
         }
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             if error != nil {
-                
                 print(error as Any,"")
-                
             } else {
                 if let data = data{
                     do {
                         
                         let json = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableContainers) as? [String:Any]
-    
+                        
                         if let code = json?["code"] {
-                            let code_check :String =  String(describing:code)
+                            let code_check = code as! Int
                             switch code_check{
-                                case "200" :
-                                 linephoneinit = extensions
-                                 break
-                                case "300" :
-                                  //
-                                  self.GetAccountExtension()
-                                 break
-                                case "404" :
+                            case 200 :
+                               
+                                linphoneinit = extensions
+                                getExtensionSucc = "Extension"
+                                break
+                            case 300 :
+                                //
+                                self.GetAccountExtension()
+                                break
+                            case 400 :
                                 // out of scop make variable gobal
-                                  getextsucc = "404"
-                                 
-                                 break
-                                
-                                default :
-                                 break
+                                getExtensionSucc = "400"
+                            default :
+                                getExtensionSucc = "400"
+                                break
                                 
                             }
                         }
-                    
+                        
                     } catch {
                         print("error")
                     }
@@ -515,22 +529,22 @@ class LinphoneManager {
             
         }
         task.resume()
-
+        
     }
     func setIdentify(_account: String) -> OpaquePointer? {
         // Reference: http://www.linphone.org/docs/liblinphone/group__registration__tutorials.html
         
-//        let path = Bundle.main.path(forResource: "Secret", ofType: "plist")
-//        let dict = NSDictionary(contentsOfFile: path!)
-//        let account = dict?.object(forKey: "account") as! String
-//        let password = dict?.object(forKey: "password") as! String
-//        let domain = dict?.object(forKey: "domain") as! String
+        //        let path = Bundle.main.path(forResource: "Secret", ofType: "plist")
+        //        let dict = NSDictionary(contentsOfFile: path!)
+        //        let account = dict?.object(forKey: "account") as! String
+        //        let password = dict?.object(forKey: "password") as! String
+        //        let domain = dict?.object(forKey: "domain") as! String
         
         let password = "A2apbx"+_account
         let domain = "192.168.7.251:5060"
         
         let identity = "sip:" + _account + "@" + domain;
-
+        
         /*create proxy config*/
         let proxy_cfg = linphone_proxy_config_new();
         
