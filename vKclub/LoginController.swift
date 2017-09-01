@@ -184,7 +184,7 @@ class LoginController: UIViewController,UITextFieldDelegate {
                         let newViewController = storyBoard.instantiateViewController(withIdentifier: "MainDashboard") as! SWRevealViewController
                         self.present(newViewController, animated: true, completion: nil)
                             
-                    
+//                        LinphoneManager.enableRegistration()
                         
                     } else {
                         UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
@@ -205,12 +205,13 @@ class LoginController: UIViewController,UITextFieldDelegate {
                                     self.PresentAlertController(title: "Something went wrong", message: "The email you entered did not match our records. Please double-check and try again.", actionTitle: "Got it")
                                     return
                                 }
-                                for i in accData!{
+                                
+                                for i in accData! {
                                     if i == "facebook.com"{
                                         self.PresentAlertController(title: "Something went wrong", message: "Your account is linked with Facebook. Please Sign in with Facebook instead to move on.", actionTitle: "Got it")
                                         return
                                         
-                                    } else{
+                                    } else {
                                         self.PresentAlertController(title: "Something went wrong", message: "Please provide a valid password.", actionTitle: "Got it")
                                         return
                                     }

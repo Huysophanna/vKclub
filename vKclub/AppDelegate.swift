@@ -13,10 +13,10 @@ import FBSDKCoreKit
 import UserNotifications
 import FirebaseMessaging
 
-
 let appDelegate = UIApplication.shared.delegate as! AppDelegate
 let manageObjectContext  = appDelegate.persistentContainer.viewContext
 var databaseRef = Database.database().reference()
+let firebasedatabaseref =  Database.database().reference()
 var userName : String = "Oudom"
 var notification_num = 0
 let launchedBefore = UserDefaults.standard.bool(forKey: "launchedBefore")
@@ -28,18 +28,19 @@ var linephoneinit = "" {
         userExtensionID = linephoneinit
         if linephoneinit == "logout"{
         //call when user logout and unregister internal phone call
-            
+
         } else {
-              linphoneManager?.LinphoneInit()
+            linphoneManager?.LinphoneInit()
         }
       
     }
 }
+
 var getextsucc : String = "getextsucc"
 
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterDelegate{
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
     let callKitManager = CallKitCallInit(uuid: UUID(), handle: "")
     lazy var providerDelegate: ProviderDelegate = ProviderDelegate(callKitManager: self.callKitManager)
     func displayIncomingCall(uuid: UUID, handle: String, completion: ((NSError?) -> Void)?) {
@@ -94,26 +95,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
             
             })
             
-            
         } else {
             let settings: UIUserNotificationSettings =
                 UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
             application.registerUserNotificationSettings(settings)
         }
 
-        
-       
-        
-        
-
-        
         // Override point for customization after application launch.
         FirebaseApp.configure()
         // FB init
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         // autoLogin
-        
-       
         
         if launchedBefore  {
             self.LogoutController()
@@ -122,8 +114,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
             
         }
         
-                
-       
         if loginBefore  {
            //Init linphone sip
             self.Dashboard()
@@ -137,6 +127,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
     @available(iOS 10.0, *)
     func userNotificationCenter(_ center: UNUserNotificationCenter,  willPresent notification: UNNotification, withCompletionHandler   completionHandler: @escaping (_ options:   UNNotificationPresentationOptions) -> Void) {
        
+        completionHandler(.alert)
+        
         if notification.request.content.userInfo["aps"] == nil {
             return
         }
@@ -225,7 +217,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
     func applicationWillEnterForeground(_ application: UIApplication) {
         
         if loginBefore  {
-            linephoneinit = "login"
+//            linephoneinit = "login"
         } else {
         }
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
@@ -299,6 +291,3 @@ extension AppDelegate : MessagingDelegate {
         
     }
 }
-
-let firebasedatabaseref =  Database.database().reference()
-

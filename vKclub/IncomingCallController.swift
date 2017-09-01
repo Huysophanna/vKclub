@@ -12,8 +12,6 @@ import AVFoundation
 import CoreData
 import CallKit
 
-var waitForStreamRunningInterval: Timer?
-
 class IncomingCallController: UIViewController {
     @IBOutlet weak var callerNameLabel: UILabel!
     @IBOutlet weak var callerIDLabel: UILabel!
@@ -35,14 +33,16 @@ class IncomingCallController: UIViewController {
     let callController = CXCallController()
     
     static var dialPhoneNumber: String = ""
-    var setUpCallInProgressInterval: Timer?
+    
+    static var waitForStreamRunningInterval: Timer?
+    static var setUpCallInProgressInterval: Timer?
     
     static var IncomingCallFlag = false
     var incomingCallFlags = false {
         didSet {
             //listen for incoming call event
+            IncomingCallController.IncomingCallFlag = incomingCallFlags
             if incomingCallFlags == true {
-                IncomingCallController.IncomingCallFlag = incomingCallFlags
                 print(IncomingCallController.IncomingCallFlag, "----1variable")
                 
                 IncomingCallController.CallToAction = false
@@ -80,11 +80,10 @@ class IncomingCallController: UIViewController {
     var callToFlag = false {
         didSet {
             print(callToFlag ,"+++++")
-            
+            IncomingCallController.CallToAction = callToFlag
             if callToFlag == true {
                 print("-----", IncomingCallController.IncomingCallFlag ,"+++++")
                 if IncomingCallController.IncomingCallFlag == false {
-                    IncomingCallController.CallToAction = true
                     
                     PresentIncomingVC()
                     
@@ -104,10 +103,9 @@ class IncomingCallController: UIViewController {
         didSet {
             //stop backgroundTask since making call interrupt and end our audio backgroundTask
 //            player.stop()
-            
             IncomingCallController.CallStreamRunning = callStreamRunning
-            print("callStreamRunning ====YAYY====")
             
+            print("callStreamRunning ====YAYY====", IncomingCallController.CallStreamRunning)
         }
     }
     
@@ -116,6 +114,10 @@ class IncomingCallController: UIViewController {
         didSet {
             IncomingCallController.AcceptCallFlag = acceptCallFlag
             print("AcceptedCallStream ====YAYY====")
+            
+            if IncomingCallController.AcceptCallFlag {
+                AcceptCallAction()
+            }
         }
     }
     
@@ -134,30 +136,30 @@ class IncomingCallController: UIViewController {
                 IncomingCallController.CallStreamRunning = false
                 UIApplication.topViewController()?.dismiss(animated: true, completion: nil)
                 
-                //reset all flag
-                ResetAllFlagVariable()
-                
                 //report to CallKit that call is ended
                 let endCallAction = CXEndCallAction(call: lastCallUUID)
                 let callTransaction = CXTransaction(action: endCallAction)
                 callController.request(callTransaction, completion: {(data) in })
-
+                
                 print("RELEASE, SET CALL DURATION---")
+                
+                //set flag back to false when call released
+                incomingCallFlags = false
+                acceptCallFlag = false
+                callToFlag = false
+                endCallFlag = false
+                callStreamRunning = false
+                
+                //invalidate wait for stream running interval
+                IncomingCallController.InvalidateWaitForStreamRunningInterval()
+                
+                //invalidate set up call in progress interval
+                IncomingCallController.InvalidateSetUpCallInProgressInterval()
                 
                 //Linephone call will destory the audio session when the call ends, so wait for 5seconds to restart the AVAudioPlayer background task
                 Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(WaitToStartBackgroundTask), userInfo: nil, repeats: false)
             }
         }
-    }
-    
-    init() {
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        
-        super.init(coder: aDecoder)
-        
     }
     
     override func viewDidLoad() {
@@ -181,7 +183,9 @@ class IncomingCallController: UIViewController {
         SetImageBtn(button: endCallBtn, imageName: "reject-phone-icon", imgEdgeInsets: 5)
         
         //Interval waiting for callstream running, invalidate while call is in progress
-        waitForStreamRunningInterval = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(IncomingCallController.WaitForStreamRunning), userInfo: nil, repeats: true)
+        if IncomingCallController.waitForStreamRunningInterval == nil {
+            IncomingCallController.waitForStreamRunningInterval = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(IncomingCallController.WaitForStreamRunning), userInfo: nil, repeats: true)
+        }
         
         if IncomingCallController.CallToAction {
             //User makes call to other person
@@ -217,10 +221,9 @@ class IncomingCallController: UIViewController {
         }
     }
     
-    
-    
     func WaitForStreamRunning() {
         print(LinphoneManager.linphoneCallStatus, "===OKAY===")
+        
         //play outGoingCallSound for callToAction
         if LinphoneManager.CheckLinphoneCallState() == LINPHONE_CALL_OUTGOING_RINGING {
             outGoingCallPlayer.prepareToPlay()
@@ -233,7 +236,9 @@ class IncomingCallController: UIViewController {
         
         if LinphoneManager.CheckLinphoneCallState() == LINPHONE_CALLSTREAM_RUNNING {
             print("LINPHONE_CALLSTREAM_RUNNING -------- ", LinphoneManager.interuptedCallFlag)
-            waitForStreamRunningInterval?.invalidate()
+            
+            //invalidate wait for stream running interval
+            IncomingCallController.InvalidateWaitForStreamRunningInterval()
             
             //stop the outGoingCallSound while in call progress
             if outGoingCallPlayer.isPlaying {
@@ -247,7 +252,10 @@ class IncomingCallController: UIViewController {
         
         //LinphoneCallError occurred
         if LinphoneManager.CheckLinphoneConnectionStatus() == false {
-            waitForStreamRunningInterval?.invalidate()
+            
+            //invalidate wait for stream running interval
+            IncomingCallController.InvalidateWaitForStreamRunningInterval()
+            
             ResetAllFlagVariable()
             
             PresentAlertController(title: "Something went wrong", message: "You are not connected to our server. Please ensure that you are connected to our network and try again later.", actionTitle: "Okay")
@@ -273,12 +281,15 @@ class IncomingCallController: UIViewController {
         if LinphoneManager.CheckLinphoneCallState() != LINPHONE_CALLSTREAM_RUNNING {
             //decline call
             LinphoneManager.endCall()
-            incomingCallFlags = false
             releaseCallFlag = true
             print(LinphoneManager.CheckLinphoneCallState(), "JONGMER==")
-            waitForStreamRunningInterval?.invalidate()
+            
+            //invalidate wait for stream running interval
+            IncomingCallController.InvalidateWaitForStreamRunningInterval()
+            
         } else if LinphoneManager.CheckLinphoneCallState() == LINPHONE_CALLSTREAM_RUNNING {
             IncomingCallController.EndCallFlag = true
+            linphone_core_terminate_all_calls(LinphoneManager.lcOpaquePointerData)
         }
     }
     
@@ -291,10 +302,10 @@ class IncomingCallController: UIViewController {
         print("STH")
         incomingCallFlags = false
         releaseCallFlag = true
-        waitForStreamRunningInterval?.invalidate()
         
-        //reset all flag
-        ResetAllFlagVariable()
+        //invalidate wait for stream running interval
+        IncomingCallController.InvalidateWaitForStreamRunningInterval()
+
     }
     
     func ResetAllFlagVariable() {
@@ -304,32 +315,43 @@ class IncomingCallController: UIViewController {
         incomingCallFlags = false
         IncomingCallController.IncomingCallFlag = false
         IncomingCallController.CallToAction = false
-        callStreamRunning = false
+//        callStreamRunning = false
+        
+        //invalidate set up call in progress interval
+        IncomingCallController.InvalidateSetUpCallInProgressInterval()
+        
+        //invalidate wait for stream running interval
+        IncomingCallController.InvalidateWaitForStreamRunningInterval()
     }
     
     @IBAction func AcceptCallBtnClicked(_ sender: Any) {
-        IncomingCallController.AcceptCallFlag = true
+        acceptCallFlag = true
     }
     
     func AcceptCallAction() {
         LinphoneManager.receiveCall()
-        incomingCallFlags = false
+//        incomingCallFlags = false
     }
     
     func EndCallAction() {
         LinphoneManager.endCall()
-        incomingCallFlags = false
+//        incomingCallFlags = false
         releaseCallFlag = true
         
         //Report to end the last call for CallKit
         callKitManager?.end(uuid: lastCallUUID)
         
         //reset all flag
-        ResetAllFlagVariable()
+//        ResetAllFlagVariable()
     }
     
     func PrepareInCallProgressUI() {
-        callStreamRunning = false
+//        callStreamRunning = false
+        
+        //stop the outGoingCallSound while in call progress
+        if outGoingCallPlayer.isPlaying {
+            outGoingCallPlayer.stop()
+        }
         
         answerCallBtn.isHidden = true
         rejectCallBtn.isHidden = true
@@ -340,8 +362,12 @@ class IncomingCallController: UIViewController {
         muteLabel.isHidden = false
         
         callingDurationLabel.text = "00:00"
+        
         //set interval to update call duration label
-        setUpCallInProgressInterval = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(IncomingCallController.SetUpCallInProgress), userInfo: nil, repeats: true)
+        if IncomingCallController.setUpCallInProgressInterval == nil {
+            IncomingCallController.setUpCallInProgressInterval = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(IncomingCallController.SetUpCallInProgress), userInfo: nil, repeats: true)
+        }
+        
         
         print("PrepareInCallProgressUI ========")
     }
@@ -429,13 +455,30 @@ class IncomingCallController: UIViewController {
             //Set call duration when call is dropped
             SetCallDurationToCoreData()
             
-            setUpCallInProgressInterval?.invalidate()
+            //invalidate set up call in progress interval
+            IncomingCallController.InvalidateSetUpCallInProgressInterval()
             
         }
 
         print(LinphoneManager.CheckLinphoneCallState(), "===OKAY===")
     }
     
+    static func InvalidateWaitForStreamRunningInterval() {
+        //invalidate wait for stream running interval
+        if IncomingCallController.waitForStreamRunningInterval != nil {
+            IncomingCallController.waitForStreamRunningInterval?.invalidate()
+            IncomingCallController.waitForStreamRunningInterval = nil
+        }
+    }
+    
+    static func InvalidateSetUpCallInProgressInterval() {
+        //invalidate set up call in progress interval
+        if IncomingCallController.setUpCallInProgressInterval != nil {
+            IncomingCallController.setUpCallInProgressInterval?.invalidate()
+            IncomingCallController.setUpCallInProgressInterval = nil
+        }
+    }
+
     func PresentIncomingVC() {
         userCoreDataInstance.StoreCallDataLog(_callerID: IncomingCallController.CallToAction == true ? IncomingCallController.dialPhoneNumber : LinphoneManager.getCallerNb(), _callerName: IncomingCallController.CallToAction == true ? "" : LinphoneManager.getContactName(), _callDuration: callDuration, _callIndicatorIcon: IncomingCallController.CallToAction == true ? "outgoing-call-icon" : "incoming-call-icon")
         

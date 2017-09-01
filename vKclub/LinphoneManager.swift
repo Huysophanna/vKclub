@@ -12,6 +12,7 @@ let LINPHONE_CALL_IDLE = "LinphoneCallIdle"
 
 var outGoingCallPlayer = AVAudioPlayer()
 var proxyConfig: OpaquePointer? = nil
+var userAuthInfo: OpaquePointer? = nil
 
 struct theLinphone {
     static var lc: OpaquePointer?
@@ -73,6 +74,7 @@ let callStateChanged: LinphoneCoreCallStateChangedCb = {
                 
                 print("-------BEING_FREE_NOT_WITH_SOMEONE_ELSE--------")
             } else {
+                print(IncomingCallController.CallToAction, IncomingCallController.IncomingCallFlag, LinphoneManager.interuptedCallFlag, "----3variables----")
                 //if user is already on active call with some other, will decline all incoming call
                 LinphoneManager.interuptedCallFlag = true
                 LinphoneManager.declineCall(_declinedReason: LinphoneReasonBusy)
@@ -101,6 +103,10 @@ let callStateChanged: LinphoneCoreCallStateChangedCb = {
             if LinphoneManager.interuptedCallFlag == false {
                 //if user is onActiveCall, will decline the call and will not release the active call view
                 LinphoneManager.releaseCallFlag = true
+                //set tempCallOpaquePointerData to nil back, since call is over
+                LinphoneManager.mainCallOpaquePointerData = nil
+                LinphoneManager.mainLcOpaquePointerData = nil
+                
                 print("callStateChanged: LinphoneCallReleased", "====")
                 print("------BEING_FREE_NOT_WITH_SOMEONE_ELSE_RELEASE_STATE--------")
             } else {
@@ -134,15 +140,14 @@ let callStateChanged: LinphoneCoreCallStateChangedCb = {
 
         break
         
-        case LinphoneCallIdle:
-            print("Being idle+++++")
-            LinphoneManager.interuptedCallFlag = false
-            IncomingCallController.IncomingCallFlag = false
-            IncomingCallController.CallToAction = false
+        case LinphoneCallOutgoingRinging:
+            //play outGoingCallSound for callToAction
+            outGoingCallPlayer.prepareToPlay()
+            outGoingCallPlayer.play()
         break
         
         default:
-            print("callStateChanged: Default", "====")
+            print(LinphoneManager.CheckLinphoneCallState(), "callStateChanged: Default", "====")
             
             if LinphoneManager.CheckLinphoneCallState() == "undefined" {
                 LinphoneManager.interuptedCallFlag = false
@@ -186,10 +191,14 @@ class LinphoneManager {
     }
     
     static var iterateTimer: Timer?
+    static var shutDownFlag = false
     
     var extension_ids = [Extension]()
     
+    static var userAuthInfoAddedFlag = UserDefaults.standard.bool(forKey: "userAuthInfoAddedFlag")
+    
     init() {
+        
         theLinphone.lct = LinphoneCoreVTable()
         
         // Enable debug log to stdout
@@ -213,7 +222,7 @@ class LinphoneManager {
         // Set ring asset
         let ringbackPath = URL(fileURLWithPath: Bundle.main.bundlePath).appendingPathComponent("/ringback.wav").absoluteString
         linphone_core_set_ringback(theLinphone.lc, ringbackPath)
-
+        
         let localRing = URL(fileURLWithPath: Bundle.main.bundlePath).appendingPathComponent("/toy-mono.wav").absoluteString
         linphone_core_set_ring(theLinphone.lc, localRing)
         
@@ -225,6 +234,8 @@ class LinphoneManager {
         } catch {
             print("AVAudioPlayer Interrupted ===")
         }
+            
+    
         
     }
     
@@ -329,6 +340,7 @@ class LinphoneManager {
         print(LinphoneManager.CheckLinphoneCallState(), LinphoneManager.CheckLinphoneCallState() != LINPHONE_CALL_IDLE, LinphoneManager.CheckLinphoneCallState() != "undefined", "===ENDCALL")
         if LinphoneManager.CheckLinphoneCallState() == LINPHONE_CALLSTREAM_RUNNING || LinphoneManager.CheckLinphoneCallState() == LINPHONE_CALL_OUTGOING_RINGING || LinphoneManager.CheckLinphoneCallState() == LINPHONE_CALL_OUTGOING_EARLY_MEDIA {
             linphone_core_terminate_call(LinphoneManager.lcOpaquePointerData, LinphoneManager.callOpaquePointerData)
+            linphone_core_terminate_all_calls(LinphoneManager.lcOpaquePointerData)
             print(LinphoneManager.callOpaquePointerData as Any ,"----ENDED")
         }
 
@@ -337,8 +349,6 @@ class LinphoneManager {
     func LinphoneInit() {
         switch linephoneinit {
         case "login":
-            proxyConfig = setIdentify(_account: "0")
-            // if getext = false  means not yet get ext id
             GetAccountExtension()
             break
         case "firstLaunch":
@@ -354,7 +364,6 @@ class LinphoneManager {
         }
         LinphoneManager.register(proxyConfig!)
         setTimer()
-//        shutdown()
     }
     
     func GetDataFromServer()  {
@@ -460,6 +469,7 @@ class LinphoneManager {
         
         
     }
+    
     func PostData(extensions : String , tokenid: String) {
         var request = URLRequest(url: URL(string: "http://192.168.7.251:8000/api/v.1/trigger-extension")!)
         request.httpMethod = "POST"
@@ -517,6 +527,7 @@ class LinphoneManager {
         task.resume()
 
     }
+    
     func setIdentify(_account: String) -> OpaquePointer? {
         // Reference: http://www.linphone.org/docs/liblinphone/group__registration__tutorials.html
         
@@ -542,8 +553,15 @@ class LinphoneManager {
             return nil
         }
         
-        let info=linphone_auth_info_new(linphone_address_get_username(from), nil, password, nil, nil, nil); /*create authentication structure from identity*/
-        linphone_core_add_auth_info(theLinphone.lc, info); /*add authentication info to LinphoneCore*/
+        userAuthInfo = linphone_auth_info_new(linphone_address_get_username(from), nil, password, nil, nil, nil); /*create authentication structure from identity*/
+        
+        //if user auth info is already added, will not add again
+        if !LinphoneManager.userAuthInfoAddedFlag {
+            linphone_core_add_auth_info(theLinphone.lc, userAuthInfo); /*add authentication info to LinphoneCore*/
+            UserDefaults.standard.set(true, forKey: "userAuthInfoAddedFlag")
+            print("ADD AUTH INFO +=+")
+        }
+        
         
         // configure proxy entries
         linphone_proxy_config_set_identity(proxy_cfg, identity); /*set identity with user name and domain*/
@@ -554,7 +572,11 @@ class LinphoneManager {
         linphone_proxy_config_set_server_addr(proxy_cfg, server_addr); /* we assume domain = proxy server address*/
         linphone_proxy_config_enable_register(proxy_cfg, 0); /* activate registration for this proxy config*/
         linphone_core_add_proxy_config(theLinphone.lc, proxy_cfg); /*add proxy config to linphone core*/
+        
         linphone_core_set_default_proxy_config(theLinphone.lc, proxy_cfg); /*set to default proxy*/
+        
+        LinphoneManager.enableRegistration()
+        
         
         return proxy_cfg!
     }
@@ -562,27 +584,65 @@ class LinphoneManager {
     static func register(_ proxy_cfg: OpaquePointer) {
         linphone_proxy_config_enable_register(proxy_cfg, 1); /* activate registration for this proxy config*/
         
+        
+                print("==LIST", linphone_proxy_config_find_auth_info(proxyConfig))
+        
     }
     
+
     static func shutdown(){
-        NSLog("Shutdown..")
-        iterateTimer?.invalidate()
+        NSLog("Shutdown ---")
+        LinphoneManager.iterateTimer?.invalidate()
+        
+        //set shutdown flag
+        LinphoneManager.shutDownFlag = true
+        
         
         let proxy_cfg = linphone_core_get_default_proxy_config(theLinphone.lc); /* get default proxy config*/
         linphone_proxy_config_edit(proxy_cfg); /*start editing proxy configuration*/
+        linphone_proxy_config_enable_publish(proxy_cfg, 1);
+        linphone_proxy_config_set_publish_expires(proxy_cfg, 0);
+//        linphone_core_set_network_reachable(proxy_cfg, 0)
         linphone_proxy_config_enable_register(proxy_cfg, 0); /*de-activate registration for this proxy config*/
+
         linphone_proxy_config_done(proxy_cfg); /*initiate REGISTER with expire = 0*/
-        while(linphone_proxy_config_get_state(proxy_cfg) !=  LinphoneRegistrationCleared){
+        while(linphone_proxy_config_get_state(proxy_cfg) !=  LinphoneRegistrationCleared) {
             linphone_core_iterate(theLinphone.lc); /*to make sure we receive call backs before shutting down*/
             ms_usleep(50000);
         }
         
-        linphone_core_destroy(theLinphone.lc);
+//        linphone_proxy_config_destroy(proxyConfig)
+        LinphoneManager.removeUserAuthInfo()
+//        linphone_core_destroy(theLinphone.lc);
+        
+        linphone_core_remove_proxy_config(theLinphone.lc, proxyConfig)
+        
+    }
+    
+    static func enableRegistration(){
+        NSLog("enableRegistration ---")
+        LinphoneManager.shutDownFlag = false
+        
+        let proxy_cfg = linphone_core_get_default_proxy_config(theLinphone.lc); /* get default proxy config*/
+        linphone_proxy_config_edit(proxy_cfg); /*start editing proxy configuration*/
+//        linphone_core_set_network_reachable(proxy_cfg, 1)
+        linphone_proxy_config_enable_register(proxy_cfg, 1); /*activate registration for this proxy config*/
+        
+        linphone_proxy_config_done(proxy_cfg); /*initiate REGISTER with expire = 0*/
+        
+    }
+    
+    static func removeUserAuthInfo() {
+        linphone_core_remove_auth_info(theLinphone.lc, userAuthInfo)
+        linphone_auth_info_destroy(userAuthInfo)
     }
     
     @objc func iterate(){
-        if let lc = theLinphone.lc {
-            linphone_core_iterate(lc); /* first iterate initiates registration */
+        if LinphoneManager.shutDownFlag == false {
+            if let lc = theLinphone.lc {
+//                print(LinphoneManager.shutDownFlag ,"+++")
+                linphone_core_iterate(lc); /* first iterate initiates registration */
+            }
         }
     }
     
@@ -590,6 +650,7 @@ class LinphoneManager {
         LinphoneManager.iterateTimer = Timer.scheduledTimer(
             timeInterval: 0.02, target: self, selector: #selector(iterate), userInfo: nil, repeats: true)
     }
+    
     
 }
 

@@ -55,8 +55,11 @@ public class InternetConnection {
         self.countTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.CountSecond), userInfo: nil, repeats: true)
     
     }
+    
     static func Logouts(){
         UserDefaults.standard.set(false, forKey: "loginBefore")
+        UserDefaults.standard.set(false, forKey: "userAuthInfoAddedFlag")
+        LinphoneManager.userAuthInfoAddedFlag = false
         UIApplication.shared.unregisterForRemoteNotifications()
         personService.deleteAllData(entity: "UserProfile")
         personService.deleteAllData(entity: "SipCallData")

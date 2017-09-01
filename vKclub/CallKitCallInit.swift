@@ -81,7 +81,12 @@ class CallKitCallInit {
             LinphoneManager.declineCall(_declinedReason: LinphoneReasonBusy)
             incomingCallInstance.incomingCallFlags = false
             incomingCallInstance.releaseCallFlag = true
-            waitForStreamRunningInterval?.invalidate()
+            
+            //invalidate wait for stream running interval
+            IncomingCallController.InvalidateWaitForStreamRunningInterval()
+            
+            
+            
         } else if LinphoneManager.CheckLinphoneCallState() == LINPHONE_CALLSTREAM_RUNNING {
             //end in progress call
             incomingCallInstance.endCallFlag = true

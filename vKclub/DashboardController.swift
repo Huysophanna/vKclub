@@ -30,7 +30,6 @@ class DashboardController: UIViewController {
     var lat: Double = 0
     var long: Double = 0
     
-    
     var notifications = [Notifications]()
     let internalCallControllerInstance = InternalCallController()
     static var LinphoneConnectionStatusFlag: Bool = true
@@ -57,11 +56,7 @@ class DashboardController: UIViewController {
                         InternetConnection.Logouts()}))
                     
                     self.present( LocationPermissionAlert, animated: true, completion: nil)
-                    
-                    
                 }
-                
-                
             })
         }
 
@@ -93,6 +88,7 @@ class DashboardController: UIViewController {
         super.didReceiveMemoryWarning()
         
     }
+    
     @IBAction func BtnTag(_sender:Any){
         let btntag : Int = (_sender as AnyObject).tag
         switch  btntag {
@@ -122,16 +118,17 @@ class DashboardController: UIViewController {
                 if btntag == 4{
                 
                     switch getextsucc {
-                    case "ext":
-                        LinphoneManager.register(proxyConfig!)
-                        performSegue(withIdentifier: "PushInternalCall", sender: self)
-                    case "404":
-                        PresentAlertController(title: "Something went wrong", message: "Sorry, our internal phone call services are currently not available right now. Please try again next time.", actionTitle: "Okay")
-                        
+                        case "ext":
+    //                        LinphoneManager.register(proxyConfig!)
+                            performSegue(withIdentifier: "PushInternalCall", sender: self)
                         break
-                        
-                    default:
-                        PresentAlertController(title: "Please wait", message: "We are trying to generate and activate your caller ID. Please try again in seconds.", actionTitle: "Okay")
+                        case "404":
+                            PresentAlertController(title: "Something went wrong", message: "Sorry, our internal phone call services are currently not available right now. Please try again next time.", actionTitle: "Okay")
+                            
+                        break
+                            
+                        default:
+                            PresentAlertController(title: "Please wait", message: "We are trying to generate and activate your caller ID. Please try again in seconds.", actionTitle: "Okay")
                         break
                     }
                 
@@ -233,24 +230,31 @@ class DashboardController: UIViewController {
         
         if CheckUserLocation() == IN_KIRIROM {
             
-            //Set linphoneCall identity
-            
-            if let _proxyConfig = proxyConfig {
-                 LinphoneManager.register(_proxyConfig)
-            } 
-
             print(LinphoneManager.CheckLinphoneConnectionStatus(),  "==STATUS===")
             
+            if LinphoneManager.CheckLinphoneCallState() == LINPHONE_CALL_IDLE {
+                print("Being idle+++++")
+                
+                //invalidate set up call in progress interval
+                IncomingCallController.InvalidateSetUpCallInProgressInterval()
+                
+                //invalidate wait for stream running interval
+                IncomingCallController.InvalidateWaitForStreamRunningInterval()
+                
+                
+                LinphoneManager.interuptedCallFlag = false
+                IncomingCallController.IncomingCallFlag = false
+                IncomingCallController.CallToAction = false
+            }
+
             //Push localNotification to show user about linphone connection status
             if LinphoneManager.CheckLinphoneConnectionStatus() {
-                if linphoneConnectionStatusFlag == false {
+                if DashboardController.LinphoneConnectionStatusFlag == false {
                     linphoneConnectionStatusFlag = true
-                    
-                    //acknowledge post method to server to indicates that user uses the extension 
                     
                 }
             } else {
-                if linphoneConnectionStatusFlag {
+                if DashboardController.LinphoneConnectionStatusFlag {
                     linphoneConnectionStatusFlag = false
                 }
             }

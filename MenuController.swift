@@ -23,24 +23,26 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         self.imagePicker.allowsEditing = true
         UserDefaults.standard.set(true, forKey: "loginBefore")
         
-        let provider = currentUser?.providerData
-        
-        for i in provider! {
-            let providerfb = i.providerID
-            switch providerfb {
-            case "facebook.com":
-                facebookCheck = true
+        if let provider = currentUser?.providerData {
+            for i in provider {
+                let providerfb = i.providerID
+                switch providerfb {
+                case "facebook.com":
+                    facebookCheck = true
+                    
+                    FBProvider()
+                case "password"    :
+                    facebookCheck = false
+                    EmailProvider()
+                default:
+                    print("Unknown provider ID: \(provider)")
+                    return
+                }
                 
-                FBProvider()
-            case "password"    :
-                facebookCheck = false
-                EmailProvider()
-            default:
-                print("Unknown provider ID: \(provider!)")
-                return
             }
-            
         }
+        
+        
         
         //make responsive rounded user profile picture
         let checkDevice = UI_USER_INTERFACE_IDIOM()
@@ -66,10 +68,10 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     }
     
     @IBAction func Logout(_ sender: Any) {
-        let logoutAlert = UIAlertController(title: "Logout", message: "Are your sure to logout?", preferredStyle: UIAlertControllerStyle.alert)
+        let logoutAlert = UIAlertController(title: "Logout", message: "Are you sure to logout?", preferredStyle: UIAlertControllerStyle.alert)
         
         logoutAlert.addAction(UIAlertAction(title: "Okay", style: .default, handler: { (action: UIAlertAction!) in
-           
+            LinphoneManager.shutdown()
             InternetConnection.Logouts()
         }))
         logoutAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))

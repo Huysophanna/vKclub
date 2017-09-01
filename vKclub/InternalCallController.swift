@@ -16,8 +16,6 @@ class InternalCallController: UIViewController {
     static let extensionBtn = UIButton(type: .system)
     var incomingCallInstance: IncomingCallController? = IncomingCallController()
     var dialPhoneNumber: String = ""
-    
-//    var linphoneConnectionStatusFlag: Bool = true
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,10 +73,13 @@ class InternalCallController: UIViewController {
                 
                 incomingCallInstance?.callToFlag = true
                 LinphoneManager.makeCall(phoneNumber: dialPhoneNumber)
+                
+                
             } else {
                 //LinphoneCallError occurred
                 PresentAlertController(title: "Something went wrong", message: "You are not connected to our server. Please ensure that you are connected to our network and try again later.", actionTitle: "Okay")
             }
         }
     }
+
 }
