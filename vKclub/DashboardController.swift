@@ -45,7 +45,7 @@ class DashboardController: UIViewController {
    
     let setting = UserDefaults.standard.integer(forKey: "setting")
     override func viewDidLoad() {
-        linphoneinit  = "login"
+        linphoneInit  = "login"
         Auth.auth().addStateDidChangeListener { (auth, user) in
             
             user?.reload(completion: { (error) in
