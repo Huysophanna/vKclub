@@ -47,7 +47,6 @@ class DashboardController: UIViewController {
     override func viewDidLoad() {
         linphoneInit  = "login"
         Auth.auth().addStateDidChangeListener { (auth, user) in
-            
             user?.reload(completion: { (error) in
                 if error?.localizedDescription ==  "The user's credential is no longer valid. The user must sign in again." {
                     let LocationPermissionAlert = UIAlertController(title: "Warning", message: "Your account had changed password,inorder to process the vKclub you need to login again.", preferredStyle: UIAlertControllerStyle.alert)
