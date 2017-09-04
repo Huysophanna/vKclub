@@ -57,6 +57,7 @@ public class InternetConnection {
     }
     
     static func Logouts(){
+        
         UserDefaults.standard.set(false, forKey: "loginBefore")
         UserDefaults.standard.set(false, forKey: "userAuthInfoAddedFlag")
         LinphoneManager.userAuthInfoAddedFlag = false
@@ -65,8 +66,9 @@ public class InternetConnection {
         personService.deleteAllData(entity: "SipCallData")
         personService.deleteAllData(entity: "Notifications")
         personService.deleteAllData(entity: "Extension")
-        linphoneInit = "logout"
         notification_num = 0
+        linphoneInit = "logout"
+        LinphoneManager.shutdown()
         try! Auth.auth().signOut()
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         appDelegate.window = UIWindow(frame: UIScreen.main.bounds)

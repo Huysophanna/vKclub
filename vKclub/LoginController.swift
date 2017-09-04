@@ -110,9 +110,7 @@ class LoginController: UIViewController,UITextFieldDelegate {
                         
                             
                             UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
-                            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                            let newViewController = storyBoard.instantiateViewController(withIdentifier: "MainDashboard") as! SWRevealViewController
-                            self.present(newViewController, animated: true, completion: nil)
+                            self.performSegue(withIdentifier: "SegueToDashboard", sender: self)
                         
                             
                         
@@ -184,9 +182,7 @@ class LoginController: UIViewController,UITextFieldDelegate {
  
                         }
                         
-                        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                        let newViewController = storyBoard.instantiateViewController(withIdentifier: "MainDashboard") as! SWRevealViewController
-                        self.present(newViewController, animated: true, completion: nil)
+                       self.performSegue(withIdentifier: "SegueToDashboard", sender: self)
                             
 //                        LinphoneManager.enableRegistration()
                         

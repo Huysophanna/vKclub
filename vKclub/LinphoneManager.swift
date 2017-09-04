@@ -376,7 +376,7 @@ class LinphoneManager {
         
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
             if error != nil {
-                print(error as Any,"")
+                getExtensionSucc = "error"
                 
             } else {
                 if let data = data{
@@ -418,7 +418,7 @@ class LinphoneManager {
                         break
                         case 300 :
                             //already user
-                            self.GetAccountExtension()
+                            self.GetDataFromServer()
                         break
                         case 400 :
                             // out of scop make variable gobal
@@ -474,7 +474,7 @@ class LinphoneManager {
                     }
                     // ...
                 }) { (error) in
-                    print(error.localizedDescription)
+                    getExtensionSucc = "error"
                 }
             } else {
                 for i in extension_ids {
@@ -508,7 +508,8 @@ class LinphoneManager {
         }
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             if error != nil {
-                print(error as Any,"")
+                getExtensionSucc = "error"
+                print(error as Any,"+++eror serevr")
             } else {
                 if let data = data{
                     do {
@@ -524,7 +525,7 @@ class LinphoneManager {
                                 break
                             case 300 :
                                 //
-                                self.GetAccountExtension()
+                                self.GetDataFromServer()
                                 break
                             case 400 :
                                 // out of scop make variable gobal
@@ -625,10 +626,12 @@ class LinphoneManager {
         linphone_proxy_config_enable_register(proxy_cfg, 0); /*de-activate registration for this proxy config*/
 
         linphone_proxy_config_done(proxy_cfg); /*initiate REGISTER with expire = 0*/
+        
         while(linphone_proxy_config_get_state(proxy_cfg) !=  LinphoneRegistrationCleared) {
-            linphone_core_iterate(theLinphone.lc); /*to make sure we receive call backs before shutting down*/
-            ms_usleep(50000);
+                linphone_core_iterate(theLinphone.lc); /*to make sure we receive call backs before shutting down*/
+                ms_usleep(50000);
         }
+        
         
 //        linphone_proxy_config_destroy(proxyConfig)
         LinphoneManager.removeUserAuthInfo()

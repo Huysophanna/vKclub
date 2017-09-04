@@ -71,9 +71,8 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         let logoutAlert = UIAlertController(title: "Logout", message: "Are you sure to logout?", preferredStyle: UIAlertControllerStyle.alert)
         
         logoutAlert.addAction(UIAlertAction(title: "Okay", style: .default, handler: { (action: UIAlertAction!) in
-            LinphoneManager.shutdown()
             InternetConnection.Logouts()
-        }))
+            }))
         logoutAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         self.present( logoutAlert, animated: true, completion: nil)
     }
