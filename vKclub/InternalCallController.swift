@@ -19,7 +19,7 @@ class InternalCallController: UIViewController{
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         //make extension button with connection status
         MakeExtensionButton(color: DashboardController.LinphoneConnectionStatusFlag == true ? UIColor.green : UIColor.red)
         

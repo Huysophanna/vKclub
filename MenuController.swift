@@ -72,7 +72,16 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         
         logoutAlert.addAction(UIAlertAction(title: "Okay", style: .default, handler: { (action: UIAlertAction!) in
             InternetConnection.Logouts()
-            }))
+            
+            if LinphoneManager.CheckLinphoneConnectionStatus() {
+                LinphoneManager.shutdown()
+            } else {
+                //in case connection is false, then set these flags to false
+                UserDefaults.standard.set(false, forKey: "userAuthInfoAddedFlag")
+                LinphoneManager.userAuthInfoAddedFlag = false
+            }
+            
+        }))
         logoutAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         self.present( logoutAlert, animated: true, completion: nil)
     }
@@ -331,7 +340,6 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     
     
     @IBAction func contactusBtn(_ sender: Any) {
-        
         let alertController = UIAlertController(title: nil, message: "Contact us", preferredStyle: .actionSheet)
         
         let defaultAction = UIAlertAction(title: "English Speaker: (+855) 78 777 284", style: .default, handler: { (alert: UIAlertAction!) -> Void in
