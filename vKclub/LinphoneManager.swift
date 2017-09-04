@@ -175,6 +175,7 @@ class LinphoneManager {
             incomingCallInstance.incomingCallFlags = incomingCallFlag
         }
     }
+    
     static var callStreamRunning: Bool = false {
         didSet {
             incomingCallInstance.callStreamRunning = callStreamRunning
@@ -376,7 +377,7 @@ class LinphoneManager {
         
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
             if error != nil {
-                print(error as Any,"")
+                getExtensionSucc = "error"
                 
             } else {
                 if let data = data{
@@ -416,17 +417,14 @@ class LinphoneManager {
                             getExtensionSucc = "Extension"
                             linphoneInit = extensionID
                         break
-                        case 300 :
-                            //already user
-                            self.GetAccountExtension()
-                        break
                         case 400 :
-                            // out of scop make variable gobal
+                            // out of scope make variable global
                             getExtensionSucc = "400"
                         break
                             
                         default :
-                            getExtensionSucc = "400"
+                            self.GetDataFromServer()
+                            getExtensionSucc = String(code_check)
                         break
                             
                         }
@@ -474,7 +472,7 @@ class LinphoneManager {
                     }
                     // ...
                 }) { (error) in
-                    print(error.localizedDescription)
+                    getExtensionSucc = "error"
                 }
             } else {
                 for i in extension_ids {
@@ -508,7 +506,8 @@ class LinphoneManager {
         }
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             if error != nil {
-                print(error as Any,"")
+                getExtensionSucc = "error"
+                print(error as Any,"+++eror serevr")
             } else {
                 if let data = data{
                     do {
@@ -517,20 +516,17 @@ class LinphoneManager {
                         
                         if let code = json?["code"] {
                             let code_check = code as! Int
-                            switch code_check{
+                            switch code_check {
                             case 200 :
                                 linphoneInit = extensions
                                 getExtensionSucc = "Extension"
                                 break
-                            case 300 :
-                                //
-                                self.GetAccountExtension()
-                                break
                             case 400 :
-                                // out of scop make variable gobal
+                                // out of scope make variable global
                                 getExtensionSucc = "400"
                             default :
-                                getExtensionSucc = "400"
+                                getExtensionSucc = String(code_check)
+                                self.GetDataFromServer()
                                 break
                                 
                             }
@@ -556,8 +552,10 @@ class LinphoneManager {
 //        let password = dict?.object(forKey: "password") as! String
 //        let domain = dict?.object(forKey: "domain") as! String
         
-        let password = "A2apbx"+_account
+        let password = "A2apbx" + _account
         let domain = "192.168.7.251:5060"
+        
+        print(_account, password, "--++")
         
         let identity = "sip:" + _account + "@" + domain;
 
@@ -575,11 +573,11 @@ class LinphoneManager {
         userAuthInfo = linphone_auth_info_new(linphone_address_get_username(from), nil, password, nil, nil, nil); /*create authentication structure from identity*/
         
         //if user auth info is already added, will not add again
-        if !LinphoneManager.userAuthInfoAddedFlag {
+//        if !LinphoneManager.userAuthInfoAddedFlag {
             linphone_core_add_auth_info(theLinphone.lc, userAuthInfo); /*add authentication info to LinphoneCore*/
             UserDefaults.standard.set(true, forKey: "userAuthInfoAddedFlag")
             print("ADD AUTH INFO +=+")
-        }
+//        }
         
         
         // configure proxy entries
@@ -625,10 +623,12 @@ class LinphoneManager {
         linphone_proxy_config_enable_register(proxy_cfg, 0); /*de-activate registration for this proxy config*/
 
         linphone_proxy_config_done(proxy_cfg); /*initiate REGISTER with expire = 0*/
+        
         while(linphone_proxy_config_get_state(proxy_cfg) !=  LinphoneRegistrationCleared) {
-            linphone_core_iterate(theLinphone.lc); /*to make sure we receive call backs before shutting down*/
-            ms_usleep(50000);
+                linphone_core_iterate(theLinphone.lc); /*to make sure we receive call backs before shutting down*/
+                ms_usleep(50000);
         }
+        
         
 //        linphone_proxy_config_destroy(proxyConfig)
         LinphoneManager.removeUserAuthInfo()

@@ -260,6 +260,9 @@ class DashboardController: UIViewController {
                     linphoneConnectionStatusFlag = false
                 }
             }
+            
+            LinphoneManager.register(proxyConfig!)
+            print("registering --++")
         }
         
     }

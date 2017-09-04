@@ -45,7 +45,7 @@ class EditProfileController: UIViewController,UITextFieldDelegate {
     }
     
     @IBAction func CancelBtn(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
+        CheckBeforeLeave()
     }
     
     @IBAction func UpdateBtn(_ sender: Any) {
@@ -250,6 +250,21 @@ class EditProfileController: UIViewController,UITextFieldDelegate {
         }
         return true
     }
+    func CheckBeforeLeave(){
+        if (Username.text?.isEmpty == false) || (Email.text?.isEmpty == false) || (currentpass.text?.isEmpty == false) {
+            let logoutAlert = UIAlertController(title: "Go back", message: "Are you sure to go back?", preferredStyle: UIAlertControllerStyle.alert)
+            
+            logoutAlert.addAction(UIAlertAction(title: "Okay", style: .default, handler: { (action: UIAlertAction!) in
+                self.dismiss(animated: true, completion: nil)
+            }))
+            logoutAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            self.present( logoutAlert, animated: true, completion: nil)
+            
+            
+        } else{
+             self.dismiss(animated: true, completion: nil)
+        }
+    }
     
 }
 class ChangePasswordController :UIViewController,UITextFieldDelegate {
@@ -345,7 +360,7 @@ class ChangePasswordController :UIViewController,UITextFieldDelegate {
     }
     
     @IBAction func CancelBtn(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
+        CheckBeforeLeave()
         
     }
     
@@ -364,5 +379,21 @@ class ChangePasswordController :UIViewController,UITextFieldDelegate {
         return true
     }
 
+    
+    func CheckBeforeLeave(){
+        if (current_password.text?.isEmpty == false) || (new_password.text?.isEmpty == false) || (comfire_password.text?.isEmpty == false) {
+            let logoutAlert = UIAlertController(title: "Go back", message: "Are you sure to go back?", preferredStyle: UIAlertControllerStyle.alert)
+            
+            logoutAlert.addAction(UIAlertAction(title: "Okay", style: .default, handler: { (action: UIAlertAction!) in
+                self.dismiss(animated: true, completion: nil)
+            }))
+            logoutAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            self.present( logoutAlert, animated: true, completion: nil)
+            
+            
+        } else{
+             self.dismiss(animated: true, completion: nil)
+        }
+    }
 }
 

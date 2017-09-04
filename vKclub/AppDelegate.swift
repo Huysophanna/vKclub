@@ -183,6 +183,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         appDelegate.window?.makeKeyAndVisible()
         
     }
+    func test(){
+    
+    }
     
     func LogoutController(){
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -210,10 +213,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+
     }
     
     func applicationWillEnterForeground(_ application: UIApplication) {
-//        linphoneInit  = "firstLaunch"
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
     }
     
