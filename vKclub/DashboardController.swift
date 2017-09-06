@@ -19,17 +19,12 @@ class DashboardController: UIViewController {
     @IBOutlet weak var menuBtn: UIBarButtonItem!
     @IBOutlet weak var KiriromScope: UIButton!
     @IBOutlet weak var notificationBtn: UIBarButtonItem!
-    let IN_KIRIROM = "inKirirom"
-    let OFF_KIRIROM = "offKirirom"
-    let UNIDENTIFIED = "unidentified"
-    let INAPP_UNIDENTIFIED = "inApp_unidentified"
     let KIRIROMLAT: Double = 11.316541;
     let KIRIROMLNG: Double = 104.065818;
     let R: Double = 6371; // Radius of the earth in km
     let locationManager = CLLocationManager()
     var lat: Double = 0
     var long: Double = 0
-    
     var notifications = [Notifications]()
     let internalCallControllerInstance = InternalCallController()
     static var LinphoneConnectionStatusFlag: Bool = true
@@ -46,6 +41,7 @@ class DashboardController: UIViewController {
     let setting = UserDefaults.standard.integer(forKey: "setting")
     override func viewDidLoad() {
         linphoneInit  = "login"
+        print(CheckUserLocation(),"_++mode")
         Auth.auth().addStateDidChangeListener { (auth, user) in
             user?.reload(completion: { (error) in
                 if error?.localizedDescription ==  "The user's credential is no longer valid. The user must sign in again." {
@@ -89,9 +85,11 @@ class DashboardController: UIViewController {
     }
     
     @IBAction func BtnTag(_sender:Any){
+      
         let btntag : Int = (_sender as AnyObject).tag
         switch  btntag {
         case 0:
+            print(CheckUserLocation(),"_++mode")
             performSegue(withIdentifier: "PushService", sender: self)
             break
         case 1:
@@ -126,11 +124,12 @@ class DashboardController: UIViewController {
                         
                         case "400":
                         PresentAlertController(title: "Something went wrong", message: "Sorry, our internal phone call services are currently not available right now. Please try again next time.", actionTitle: "Okay")
-                        
+                        linphoneInit = "login"
                         break
                         
                         default:
                         PresentAlertController(title: "Please wait", message: "We are trying to generate and activate your caller ID. Please try again in seconds.", actionTitle: "Okay")
+                        linphoneInit = "login"
                         break
                     }
                 
@@ -204,8 +203,10 @@ class DashboardController: UIViewController {
     
     
     func isKirirom() {
-
-        switch CheckUserLocation() {
+        
+        CHCK_USER_LOCATION = CheckUserLocation()
+        switch CHCK_USER_LOCATION {
+            
         case IN_KIRIROM:
             KiriromScope.setTitle("In-Kirirom Mode", for: .normal)
             let mainGreen = UIColor(hexString: "#008040", alpha: 1)

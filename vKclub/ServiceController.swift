@@ -11,14 +11,15 @@ import UIKit
 
 class ServiceController: UIViewController {
     var incomingCallInstance = IncomingCallController()
-    var dashboardInstance = DashboardController()
+//    var dashboardInstance = DashboardController()
     @IBOutlet weak var inKiriromContent: UIView!
     @IBOutlet weak var bottomLine: UIView!
     
     override func viewDidLoad() {
         
         //put proper content based on app mode
-        if dashboardInstance.CheckUserLocation() == dashboardInstance.IN_KIRIROM {
+        print(CHCK_USER_LOCATION,"_+++mode1")
+        if CHCK_USER_LOCATION == IN_KIRIROM {
             inKiriromContent.isHidden = false
             bottomLine.isHidden = false
         } else {
@@ -32,11 +33,16 @@ class ServiceController: UIViewController {
     }
     
     @IBAction func CallToDepartmentAction(_ sender: Any) {
+        if LinphoneManager.CheckLinphoneConnectionStatus() == false {
+             PresentAlertController(title: "Something went wrong", message: "You are not connected to our server. Please ensure that you are connected to our network and try again later.", actionTitle: "Okay")
+            return
+            
+        }
         
         switch (sender as! UIButton).tag {
             case 1:
                 //reception
-                if dashboardInstance.CheckUserLocation() == dashboardInstance.IN_KIRIROM {
+                if CHCK_USER_LOCATION == IN_KIRIROM {
                     CallToAction(phoneNumber: "235")
                 } else {
                     //call using carrier phone number
@@ -113,9 +119,11 @@ class BookingViewController: UIViewController ,UIWebViewDelegate{
     }
     
     func webView(_ webView: UIWebView, didFailLoadWithError error: Error) {
-        UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: false)
-        noInternet.isHidden = false
-        self.PresentAlertController(title: "Something went wrong", message: "Please Check you internet connection ", actionTitle: "Got it")
+        if(error.localizedDescription == "The Internet connection appears to be offline."){
+            noInternet.isHidden = false
+            self.PresentAlertController(title: "Something went wrong", message: "Please Check you internet connection ", actionTitle: "Got it")
+            UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: false)
+        }
         
     }
     

@@ -34,7 +34,7 @@ class ViewController: UIViewController, PaperOnboardingDataSource, PaperOnboardi
         let greenBackgroundColor = UIColor(hexString: "#008040", alpha: 1)
        
         
-        let titleFont = UIFont(name: "AvenirNext-Bold", size: 24)!
+        let titleFont = UIFont(name: "AvenirNext-Bold", size: 22)!
         let descirptionFont = UIFont(name: "AvenirNext-Regular", size: 18)!
         
         return [ ("welcome-intro", "Welcome to vKclub", "Maximize your experience in \nvKirirom Pine Resort Discover, \nExplore, and Meet people \nwith vKclub", "", greenBackgroundColor, UIColor.white, UIColor.white, titleFont, descirptionFont),

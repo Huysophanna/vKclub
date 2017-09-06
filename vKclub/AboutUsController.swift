@@ -272,9 +272,12 @@ class AccommodationWebViewController: UIViewController,UIWebViewDelegate{
     }
     
     func webView(_ webView: UIWebView, didFailLoadWithError error: Error){
-        noInternet.isHidden = true
-        self.PresentAlertController(title: "Something went wrong", message: "Please Check you internet connection ", actionTitle: "Got it")
-        UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: false)
+        
+        if(error.localizedDescription == "The Internet connection appears to be offline.") {
+            noInternet.isHidden = false
+            self.PresentAlertController(title: "Something went wrong", message: "Please Check you internet connection ", actionTitle: "Got it")
+            UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: false)
+        }
         
         
     }
@@ -317,10 +320,11 @@ class AtivityWebViewController: UIViewController,UIWebViewDelegate{
     }
     
     func webView(_ webView: UIWebView, didFailLoadWithError error: Error) {
-        noInternet.isHidden = false
-        self.PresentAlertController(title: "Something went wrong", message: "Please Check you internet connection ", actionTitle: "Got it")
-        noInternet.alpha = 1
-        UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: false)
+        if(error.localizedDescription == "The Internet connection appears to be offline."){
+            noInternet.isHidden = false
+            self.PresentAlertController(title: "Something went wrong", message: "Please Check you internet connection ", actionTitle: "Got it")
+            UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: false)
+        }
         
         
     }}
@@ -363,9 +367,13 @@ class PropertyWebViewController: UIViewController ,UIWebViewDelegate{
     }
     
     func webView(_ webView: UIWebView, didFailLoadWithError error: Error) {
-        noInternet.isHidden = false
-        self.PresentAlertController(title: "Something went wrong", message: "Please Check you internet connection ", actionTitle: "Got it")
-        UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: false)
+
+        if(error.localizedDescription == "The Internet connection appears to be offline."){
+            noInternet.isHidden = false
+            self.PresentAlertController(title: "Something went wrong", message: "Please Check you internet connection ", actionTitle: "Got it")
+            UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: false)
+        }
+       
         
     }
 

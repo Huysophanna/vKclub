@@ -397,9 +397,10 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
             let imageData : NSData = NSData(data: imageProfiles)
             let imageSize :Int = imageData.length
             if Double(imageSize) > 5000{
-                self.PresentAlertController(title: "Something went wrong", message: "", actionTitle: "Got it")
+                self.PresentAlertController(title: "Something went wrong", message: "You can not upload image more then 5 MB", actionTitle: "Got it")
+                return
             }
-            print(Double(imageSize) / 1024.0,"++imagesize")
+            
             let riversRef = storageRef.child("userprofile-photo").child((currentUser?.uid)!)
             riversRef.putData(imageProfiles , metadata: nil) { (metadata, error) in
                 guard let metadata = metadata else {

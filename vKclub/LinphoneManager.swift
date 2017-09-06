@@ -507,7 +507,7 @@ class LinphoneManager {
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             if error != nil {
                 getExtensionSucc = "error"
-                print(error as Any,"+++eror serevr")
+                
             } else {
                 if let data = data{
                     do {

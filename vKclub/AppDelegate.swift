@@ -23,6 +23,11 @@ let launchedBefore = UserDefaults.standard.bool(forKey: "launchedBefore")
 let loginBefore = UserDefaults.standard.bool(forKey: "loginBefore")
 var linphoneManager: LinphoneManager? = LinphoneManager()
 var userExtensionID = ""
+var CHCK_USER_LOCATION = ""
+let IN_KIRIROM = "inKirirom"
+let OFF_KIRIROM = "offKirirom"
+let UNIDENTIFIED = "unidentified"
+let INAPP_UNIDENTIFIED = "inApp_unidentified"
 var linphoneInit = "" {
     didSet {
         userExtensionID = linphoneInit
