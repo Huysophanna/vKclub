@@ -34,18 +34,18 @@ class ViewController: UIViewController, PaperOnboardingDataSource, PaperOnboardi
         let greenBackgroundColor = UIColor(hexString: "#008040", alpha: 1)
        
         
-        let titleFont = UIFont(name: "AvenirNext-Bold", size: 22)!
+        let titleFont = UIFont(name: "AvenirNext-Bold", size: 24)!
         let descirptionFont = UIFont(name: "AvenirNext-Regular", size: 18)!
         
-        return [ ("welcome-intro", "Welcome to vKclub", "Maximize your experience in \nvKirirom Pine Resort Discover, \nExplore, and Meet people \nwith vKclub", "", greenBackgroundColor, UIColor.white, UIColor.white, titleFont, descirptionFont),
+        return [ ("welcome-intro", "Welcome to vKclub", "Maximize your vKirirom Pine Resort experience.Explore,\n Discover and Meet new people with vKclub", "", greenBackgroundColor, UIColor.white, UIColor.white, titleFont, descirptionFont),
                 
-                 ("map-intro", "Map", "Digitalized Map designed\nto help user to get In-Touch \nwith our vKirirom Pine Resort \nFacilities and Services", "", greenBackgroundColor, UIColor.white, UIColor.white, titleFont, descirptionFont),
+                 ("map-intro", "Map", "Digitalized Map designed to\n help users to get in touch with\n our vKirirom Pine Resort\n Facilities and Services", "", greenBackgroundColor, UIColor.white, UIColor.white, titleFont, descirptionFont),
                 
-                 ("voip-intro", "Internal Phone Call", "No Restriction and Free Call", "", greenBackgroundColor , UIColor.white, UIColor.white, titleFont, descirptionFont),
+                 ("voip-intro", "Internal Phone Call", "Free Call and No Restrictions", "", greenBackgroundColor , UIColor.white, UIColor.white, titleFont, descirptionFont),
                 
-                 ("sos-intro", "Emergency SOS", "\tEmergency SOS button\nguarantees users safety.\nHelp during emergency or \nin dangerous situation", "", greenBackgroundColor , UIColor.white, UIColor.white, titleFont, descirptionFont),
-                 ("mode-intro", "On-site / Off-site Mode", "Experience all functions of \nthe app in on-site mode and also in off-site \nmode, except SOS and Internal Phone Call", "", greenBackgroundColor, UIColor.white, UIColor.white, titleFont, descirptionFont),
-                 ("ready-intro", "You are all set to Enjoy vKclub", "", "", greenBackgroundColor , UIColor.white, UIColor.white, titleFont, descirptionFont)][index]
+                 ("sos-intro", "Emergency SOS", "Emergency SOS button guarantees \nusers safety.Help during emergency or \n  in dangerous situation", "", greenBackgroundColor , UIColor.white, UIColor.white, titleFont, descirptionFont),
+                 ("mode-intro", "On-site / Off-site Mode", "Experience all functions of the app in on-site \nmode and also in off-site mode, except \nSOS and Internal Phone Call", "", greenBackgroundColor, UIColor.white, UIColor.white, titleFont, descirptionFont),
+                 ("ready-intro", "You are all set Enjoy vKclub", "", "", greenBackgroundColor , UIColor.white, UIColor.white, titleFont, descirptionFont)][index]
         
     }
     

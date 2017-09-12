@@ -76,5 +76,6 @@ public class InternetConnection {
         appDelegate.window?.makeKeyAndVisible()
         
     }
+    
 
 }

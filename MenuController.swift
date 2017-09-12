@@ -222,7 +222,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         if InternetConnection.isConnectedToNetwork() {
             print("have internet")
         } else{
-            self.PresentAlertController(title: "Something went wrong", message: "Can not upload to server. Please Check you internet connection ", actionTitle: "Got it")
+            self.PresentAlertController(title: "Something went wrong", message: "Can not upload to server. Please Check your internet connection ", actionTitle: "Got it")
             return
         }
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera) == true {
@@ -258,7 +258,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         if InternetConnection.isConnectedToNetwork() {
             print("have internet")
         } else {
-            self.PresentAlertController(title: "Something went wrong", message: "Can not upload to server. Please Check you internet connection ", actionTitle: "Got it")
+            self.PresentAlertController(title: "Something went wrong", message: "Can not upload to server. Please Check your internet connection ", actionTitle: "Got it")
             return
         }
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.photoLibrary) == true {
@@ -385,9 +385,10 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         var selectedImageFromPicker : UIImage?
         if let editedImage = info["UIImagePickerControllerEditedImage"] as? UIImage {
             selectedImageFromPicker = editedImage
-        } else if let originalImage = info["UIImagePickerControllerOriginalImage"] as? UIImage{
+        }
+        if let originalImage = info["UIImagePickerControllerOriginalImage"] as? UIImage{
             selectedImageFromPicker = originalImage
-            }
+        }
         if let setectImage = selectedImageFromPicker{
             
             let newImage = UIComponentHelper.resizeImage(image: setectImage, targetSize: CGSize(width: 400, height: 400))
@@ -396,13 +397,15 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
             }
             let imageData : NSData = NSData(data: imageProfiles)
             let imageSize :Int = imageData.length
-            if Double(imageSize) > 5000{
-                self.PresentAlertController(title: "Something went wrong", message: "You can not upload image more then 5 MB", actionTitle: "Got it")
-                return
-            }
-            
+           
             let riversRef = storageRef.child("userprofile-photo").child((currentUser?.uid)!)
             riversRef.putData(imageProfiles , metadata: nil) { (metadata, error) in
+                print(Double(imageSize),"+++image")
+                if Double(imageSize) > 500000 {
+                    self.PresentAlertController(title: "Something went wrong", message: "You can not upload image more then 5 MB", actionTitle: "Got it")
+                    return
+                }
+                
                 guard let metadata = metadata else {
                     self.PresentAlertController(title: "Error", message: "please check with your internet connection", actionTitle: "Okay")
                         return

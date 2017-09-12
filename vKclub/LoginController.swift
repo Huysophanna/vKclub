@@ -208,7 +208,7 @@ class LoginController: UIViewController,UITextFieldDelegate {
                                 
                                 for i in accData! {
                                     if i == "facebook.com"{
-                                        self.PresentAlertController(title: "Something went wrong", message: "Your account is linked with Facebook. Please Sign in with Facebook instead to move on.", actionTitle: "Got it")
+                                        self.PresentAlertController(title: "Something went wrong", message: "Your account is linked with Facebook. Please Sign in with Facebook Instead.", actionTitle: "Got it")
                                         return
                                         
                                     } else {

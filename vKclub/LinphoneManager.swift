@@ -374,6 +374,7 @@ class LinphoneManager {
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("wfvUd0d4Bw7RfeCqwEe4F0GWTL3dpzai7f7euYBuI", forHTTPHeaderField: "VKAPP-API-TOKEN")
         request.addValue((currentuser?.uid)!, forHTTPHeaderField: "VKAPP-USERID")
+        request.addValue((currentuser?.displayName)!, forHTTPHeaderField: "VKAPP-USERNAME")
         
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
             if error != nil {
@@ -407,6 +408,8 @@ class LinphoneManager {
                                     
                                 }
                             }
+                            databaseRef.child("users").child((currentuser?.uid)!).child("Username").setValue(currentuser?.displayName)
+
                             do {
                                 
                                 try  manageObjectContext.save()
@@ -452,21 +455,30 @@ class LinphoneManager {
                 let currentuser = Auth.auth().currentUser
                 databaseRef.child("users").child((currentuser?.uid)!).observeSingleEvent(of: .value, with: { (data) in
                     // Get user value
-                    if let datas = data.value as? NSDictionary {
-                        var exts = ""
+                    if let datas = data.value as? NSDictionary  {
+                                               var exts = ""
                         for i in datas {
-                            let extentionid:String = i.key as! String
-                            if extentionid == "Extension" {
-                                exts = String(describing: i.value)
-                                
-                            } else {
-                                self.tokenid  = i.value as! String
-                            }
                             
+                            
+                            let extentionid:String = i.key as! String
+                            switch extentionid {
+                            case "Extension":
+                                exts = String(describing: i.value)
+                                if exts.isEmpty {
+                                    self.GetDataFromServer()
+                                }
+                            break
+                            case "Token":
+                                 self.tokenid  = i.value as! String
+                            break
+                            default:
+                            break
+                            }
                         }
                         self.PostData(extensions :  exts  , tokenid:self.tokenid )
                         
                     } else {
+                        
                         self.GetDataFromServer()
                         
                     }
@@ -491,11 +503,13 @@ class LinphoneManager {
     }
     
     func PostData(extensions : String , tokenid: String) {
+        let currentuser = Auth.auth().currentUser
         var request = URLRequest(url: URL(string: "http://192.168.7.251:8000/api/v.1/trigger-extension")!)
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("wfvUd0d4Bw7RfeCqwEe4F0GWTL3dpzai7f7euYBuI", forHTTPHeaderField: "VKAPP-API-TOKEN")
-        //request.addValue((currentuser?.uid)!, forHTTPHeaderField: "VKAPP-USERID")
+        request.addValue((currentuser?.uid)!, forHTTPHeaderField: "VKAPP-USERID")
+        request.addValue((currentuser?.displayName)!, forHTTPHeaderField: "VKAPP-USERNAME")
         let parameters = ["ext":extensions , "reserved_token":tokenid ,"action": "register"]
         
         do {
@@ -573,11 +587,11 @@ class LinphoneManager {
         userAuthInfo = linphone_auth_info_new(linphone_address_get_username(from), nil, password, nil, nil, nil); /*create authentication structure from identity*/
         
         //if user auth info is already added, will not add again
-//        if !LinphoneManager.userAuthInfoAddedFlag {
+        if !LinphoneManager.userAuthInfoAddedFlag {
             linphone_core_add_auth_info(theLinphone.lc, userAuthInfo); /*add authentication info to LinphoneCore*/
             UserDefaults.standard.set(true, forKey: "userAuthInfoAddedFlag")
             print("ADD AUTH INFO +=+")
-//        }
+        }
         
         
         // configure proxy entries

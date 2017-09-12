@@ -94,7 +94,7 @@ class BookingViewController: UIViewController ,UIWebViewDelegate{
         if InternetConnection.isConnectedToNetwork() {
             noInternet.isHidden = true
         } else{
-            self.PresentAlertController(title: "Something went wrong", message: "Please Check you internet connection ", actionTitle: "Got it")
+            self.PresentAlertController(title: "Something went wrong", message: "Please Check your internet connection ", actionTitle: "Got it")
             return
         }
         let vkiriromurl : String = "http://vkirirom.com/en/reservation.php"
@@ -121,7 +121,7 @@ class BookingViewController: UIViewController ,UIWebViewDelegate{
     func webView(_ webView: UIWebView, didFailLoadWithError error: Error) {
         if(error.localizedDescription == "The Internet connection appears to be offline."){
             noInternet.isHidden = false
-            self.PresentAlertController(title: "Something went wrong", message: "Please Check you internet connection ", actionTitle: "Got it")
+            self.PresentAlertController(title: "Something went wrong", message: "Please Check your internet connection ", actionTitle: "Got it")
             UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: false)
         }
         

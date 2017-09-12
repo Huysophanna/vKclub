@@ -248,7 +248,7 @@ class AccommodationWebViewController: UIViewController,UIWebViewDelegate{
             
         } else{
             noInternet.isHidden = false
-            self.PresentAlertController(title: "Something went wrong", message: "Please Check you internet connection ", actionTitle: "Got it")
+            self.PresentAlertController(title: "Something went wrong", message: "Please Check your internet connection ", actionTitle: "Got it")
             return
         }
        
@@ -275,7 +275,7 @@ class AccommodationWebViewController: UIViewController,UIWebViewDelegate{
         
         if(error.localizedDescription == "The Internet connection appears to be offline.") {
             noInternet.isHidden = false
-            self.PresentAlertController(title: "Something went wrong", message: "Please Check you internet connection ", actionTitle: "Got it")
+            self.PresentAlertController(title: "Something went wrong", message: "Please Check your internet connection", actionTitle: "Got it")
             UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: false)
         }
         
@@ -295,7 +295,7 @@ class AtivityWebViewController: UIViewController,UIWebViewDelegate{
             print("have internet")
         } else{
             noInternet.isHidden = false
-            self.PresentAlertController(title: "Something went wrong", message: "Please Check you internet connection ", actionTitle: "Got it")
+            self.PresentAlertController(title: "Something went wrong", message: "Please Check your internet connection ", actionTitle: "Got it")
             return
         }
 
@@ -322,7 +322,7 @@ class AtivityWebViewController: UIViewController,UIWebViewDelegate{
     func webView(_ webView: UIWebView, didFailLoadWithError error: Error) {
         if(error.localizedDescription == "The Internet connection appears to be offline."){
             noInternet.isHidden = false
-            self.PresentAlertController(title: "Something went wrong", message: "Please Check you internet connection ", actionTitle: "Got it")
+            self.PresentAlertController(title: "Something went wrong", message: "Please Check your internet connection ", actionTitle: "Got it")
             UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: false)
         }
         
@@ -342,7 +342,7 @@ class PropertyWebViewController: UIViewController ,UIWebViewDelegate{
             noInternet.isHidden = true
         } else{
              noInternet.isHidden = false
-            self.PresentAlertController(title: "Something went wrong", message: "Please Check you internet connection ", actionTitle: "Got it")
+            self.PresentAlertController(title: "Something went wrong", message: "Please Check your internet connection ", actionTitle: "Got it")
             return
         }
 
@@ -370,7 +370,7 @@ class PropertyWebViewController: UIViewController ,UIWebViewDelegate{
 
         if(error.localizedDescription == "The Internet connection appears to be offline."){
             noInternet.isHidden = false
-            self.PresentAlertController(title: "Something went wrong", message: "Please Check you internet connection ", actionTitle: "Got it")
+            self.PresentAlertController(title: "Something went wrong", message: "Please Check your internet connection ", actionTitle: "Got it")
             UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: false)
         }
        

@@ -19,12 +19,15 @@ class DashboardController: UIViewController {
     @IBOutlet weak var menuBtn: UIBarButtonItem!
     @IBOutlet weak var KiriromScope: UIButton!
     @IBOutlet weak var notificationBtn: UIBarButtonItem!
+    
+    @IBOutlet weak var coverView: UIButton!
     let KIRIROMLAT: Double = 11.316541;
     let KIRIROMLNG: Double = 104.065818;
     let R: Double = 6371; // Radius of the earth in km
     let locationManager = CLLocationManager()
     var lat: Double = 0
     var long: Double = 0
+    var clickMenu  : Bool  = false
     var notifications = [Notifications]()
     let internalCallControllerInstance = InternalCallController()
     static var LinphoneConnectionStatusFlag: Bool = true
@@ -42,21 +45,8 @@ class DashboardController: UIViewController {
     override func viewDidLoad() {
         linphoneInit  = "login"
         print(CheckUserLocation(),"_++mode")
-        Auth.auth().addStateDidChangeListener { (auth, user) in
-            user?.reload(completion: { (error) in
-                if error?.localizedDescription ==  "The user's credential is no longer valid. The user must sign in again." {
-                    let LocationPermissionAlert = UIAlertController(title: "Warning", message: "Your account had changed password,inorder to process the vKclub you need to login again.", preferredStyle: UIAlertControllerStyle.alert)
-                    
-                    LocationPermissionAlert.addAction(UIAlertAction(title: "Okay", style: .default, handler: { (action: UIAlertAction!) in
-                        InternetConnection.Logouts()}))
-                    
-                    self.present( LocationPermissionAlert, animated: true, completion: nil)
-                }
-            })
-        }
-
-        
-       // login for registerForRemoteNotifications
+       
+        CheckWhenUserChangePassword ()       // login for registerForRemoteNotifications
         UserDefaults.standard.set(true, forKey: "loginBefore")
         if setting == 0 || setting == 1 {
             UIApplication.shared.registerForRemoteNotifications()
@@ -74,9 +64,12 @@ class DashboardController: UIViewController {
         //recall backgroundTask since making call interrupt and end our audio backgroundTask
         BackgroundTask.backgroundTaskInstance.startBackgroundTask()
 
-        Slidemenu()
+//        Slidemenu()
         KiriromScope.setTitle("Identifying", for: .normal)
+        coverView.isHidden = true
+        coverView.isUserInteractionEnabled = false
 
+       
     }
     
     override func didReceiveMemoryWarning() {
@@ -85,7 +78,8 @@ class DashboardController: UIViewController {
     }
     
     @IBAction func BtnTag(_sender:Any){
-      
+        
+        CheckWhenUserChangePassword ()
         let btntag : Int = (_sender as AnyObject).tag
         switch  btntag {
         case 0:
@@ -106,14 +100,14 @@ class DashboardController: UIViewController {
             self.notificationBtn.removeBadge()
             notification_num = 0
             performSegue(withIdentifier: "GotoNotification", sender: self)
-
             break
             
         default:
             switch CheckUserLocation() {
             case IN_KIRIROM:
                 if btntag == 4{
-                    print(getExtensionSucc,"+++")
+                    print(getExtensionSucc,"E+++")
+                    CheckWhenUserChangePassword ()
                     switch getExtensionSucc {
                         
                         case "Extension":
@@ -124,12 +118,14 @@ class DashboardController: UIViewController {
                         
                         case "400":
                         PresentAlertController(title: "Something went wrong", message: "Sorry, our internal phone call services are currently not available right now. Please try again next time.", actionTitle: "Okay")
-                        linphoneInit = "login"
+                      
+                        break
+                        case "getExtensionSucc":
+                        PresentAlertController(title: "Something went wrong", message: "You are not connected to our server. Please ensure that you are connected to our network and try again later.", actionTitle: "Okay")
                         break
                         
                         default:
                         PresentAlertController(title: "Please wait", message: "We are trying to generate and activate your caller ID. Please try again in seconds.", actionTitle: "Okay")
-                        linphoneInit = "login"
                         break
                     }
                 
@@ -175,17 +171,27 @@ class DashboardController: UIViewController {
     
     //Func for show the Slidemenu
     func Slidemenu() {
+        CheckWhenUserChangePassword ()
         if revealViewController() != nil {
-            menuBtn.target = self.revealViewController()
-            menuBtn.action = #selector(SWRevealViewController.revealToggle(_:))
+            self.revealViewController().revealToggle(animated: true)
             
+            if  clickMenu {
+                coverView.isHidden = true
+                coverView.isUserInteractionEnabled = false
+                clickMenu = false
+                
+            } else {
+                coverView.isHidden = false
+                coverView.isUserInteractionEnabled = true
+                clickMenu = true
+            }
             revealViewController().rearViewRevealWidth = (view.bounds.width * 80) / 100
             
-            print(view.bounds.width, "======width====")
-            view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
             
         }
     }
+    
+    
     func PrepareLocalNotificationForConnectionStatus(isConnected: Bool) {
         var title: String
         var body: String
@@ -202,8 +208,8 @@ class DashboardController: UIViewController {
     
     
     
+    
     func isKirirom() {
-        
         CHCK_USER_LOCATION = CheckUserLocation()
         switch CHCK_USER_LOCATION {
             
@@ -268,6 +274,11 @@ class DashboardController: UIViewController {
         
     }
     
+    @IBAction func MenuClick(_ sender: Any) {
+        Slidemenu()
+        
+    }
+    
     
     func CheckUserLocation() -> String {
         self.locationManager.requestAlwaysAuthorization()// request user location
@@ -303,6 +314,10 @@ class DashboardController: UIViewController {
         }
         
     }
+    
+   
+    
+    
     
     //user scope
     func distanceCal(lat:Double,long:Double) -> Double {
@@ -345,6 +360,21 @@ class DashboardController: UIViewController {
         }
         
         
+    }
+    func CheckWhenUserChangePassword (){
+        Auth.auth().addStateDidChangeListener { (auth, user) in
+            user?.reload(completion: { (error) in
+                if error?.localizedDescription ==  "The user's credential is no longer valid. The user must sign in again." {
+                    let LocationPermissionAlert = UIAlertController(title: "Warning", message: "Your account had changed password,inorder to process the vKclub you need to login again.", preferredStyle: UIAlertControllerStyle.alert)
+                    
+                    LocationPermissionAlert.addAction(UIAlertAction(title: "Okay", style: .default, handler: { (action: UIAlertAction!) in
+                        InternetConnection.Logouts()}))
+                    
+                    self.present( LocationPermissionAlert, animated: true, completion: nil)
+                }
+            })
+        }
+
     }
 
 }

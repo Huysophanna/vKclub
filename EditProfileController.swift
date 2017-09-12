@@ -61,7 +61,7 @@ class EditProfileController: UIViewController,UITextFieldDelegate {
         if InternetConnection.isConnectedToNetwork() {
             print("have internet")
         } else{
-            self.PresentAlertController(title: "Warning", message: "Cannot update your Profile right now. Please Check you internet connection ", actionTitle: "Got it")
+            self.PresentAlertController(title: "Warning", message: "Cannot update your Profile right now. Please Check your internet connection ", actionTitle: "Got it")
             return
         }
         if ((Username.text?.isEmpty)! && (Email.text?.isEmpty)!){
@@ -252,7 +252,7 @@ class EditProfileController: UIViewController,UITextFieldDelegate {
     }
     func CheckBeforeLeave(){
         if (Username.text?.isEmpty == false) || (Email.text?.isEmpty == false) || (currentpass.text?.isEmpty == false) {
-            let logoutAlert = UIAlertController(title: "Go back", message: "Are you sure to go back?", preferredStyle: UIAlertControllerStyle.alert)
+            let logoutAlert = UIAlertController(title: "Warning", message: "Are you sure you want to go back?", preferredStyle: UIAlertControllerStyle.alert)
             
             logoutAlert.addAction(UIAlertAction(title: "Okay", style: .default, handler: { (action: UIAlertAction!) in
                 self.dismiss(animated: true, completion: nil)
@@ -382,7 +382,7 @@ class ChangePasswordController :UIViewController,UITextFieldDelegate {
     
     func CheckBeforeLeave(){
         if (current_password.text?.isEmpty == false) || (new_password.text?.isEmpty == false) || (comfire_password.text?.isEmpty == false) {
-            let logoutAlert = UIAlertController(title: "Go back", message: "Are you sure to go back?", preferredStyle: UIAlertControllerStyle.alert)
+            let logoutAlert = UIAlertController(title: "Warning", message: "Are you sure you want to go back?", preferredStyle: UIAlertControllerStyle.alert)
             
             logoutAlert.addAction(UIAlertAction(title: "Okay", style: .default, handler: { (action: UIAlertAction!) in
                 self.dismiss(animated: true, completion: nil)

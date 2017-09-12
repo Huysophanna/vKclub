@@ -29,6 +29,7 @@
 #import "SWRevealViewController.h"
 
 
+
 #pragma mark - StatusBar Helper Function
 
 // computes the required offset adjustment due to the status bar for the passed in view,
@@ -843,7 +844,6 @@ const int FrontViewPositionNone = 0xff;
     FrontViewPosition toggledFrontViewPosition = FrontViewPositionLeft;
     if (_frontViewPosition <= FrontViewPositionLeft)
         toggledFrontViewPosition = FrontViewPositionRight;
-    
     [self setFrontViewPosition:toggledFrontViewPosition animated:animated];
 }
 
@@ -1327,6 +1327,7 @@ const int FrontViewPositionNone = 0xff;
                     frontViewPosition = FrontViewPositionLeft;
 
                 else if (stableDrag && xLocation > revealWidth+revealOverdraw*0.5f)
+                
                     frontViewPosition = FrontViewPositionRightMost;
             }
         }

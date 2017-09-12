@@ -99,7 +99,7 @@ class MapController: UIViewController,GMSMapViewDelegate,CLLocationManagerDelega
         kiriromLocation(title: "Bell tent", location: CLLocationCoordinate2DMake( 11.3126,104.0646 ),dec: "Glamping, glamourous camping provides you a good sleep on a fluffy bed.", zoom: 14),
         
         kiriromLocation(title: "Climbing Theater", location: CLLocationCoordinate2DMake( 11.3158,104.0649 ),dec: "A multipurpose building which is used for wall climbing during the day and as a movie screen night time at night.", zoom: 14),
-        kiriromLocation(title: "Waterfall One", location: CLLocationCoordinate2DMake( 11.3438,104.0348 ),dec: "The most beautiful waterfall in Kirirom mountain which attracts lots of tourists who comes to visit.", zoom: 14),
+        kiriromLocation(title: "First Waterfall", location: CLLocationCoordinate2DMake( 11.3438,104.0348 ),dec: "The most beautiful waterfall in Kirirom mountain which attracts lots of tourists who comes to visit.", zoom: 14),
 
         ]
     

@@ -148,7 +148,7 @@ class CreateAccController: ViewController ,UITextFieldDelegate{
     
     @IBAction func BackBtn(_ sender: Any) {
         if (nameTextField.text?.isEmpty == false) || (emailTextField.text?.isEmpty == false) || (passwordTextField.text?.isEmpty == false) || (confirmTextField.text?.isEmpty == false) {
-            let logoutAlert = UIAlertController(title: "Go back", message: "Are you sure to go back?", preferredStyle: UIAlertControllerStyle.alert)
+            let logoutAlert = UIAlertController(title: "Warning", message: "Are you sure you want to go back?", preferredStyle: UIAlertControllerStyle.alert)
             
             logoutAlert.addAction(UIAlertAction(title: "Okay", style: .default, handler: { (action: UIAlertAction!) in
                  self.dismiss(animated: true, completion: nil)
