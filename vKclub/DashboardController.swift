@@ -123,6 +123,10 @@ class DashboardController: UIViewController {
                         case "getExtensionSucc":
                         PresentAlertController(title: "Something went wrong", message: "You are not connected to our server. Please ensure that you are connected to our network and try again later.", actionTitle: "Okay")
                         break
+                        case "login":
+                        PresentAlertController(title: "Please wait", message: "We are trying to generate and activate your caller ID. Please try again in seconds.", actionTitle: "Okay")
+                            
+                        break
                         
                         default:
                         PresentAlertController(title: "Please wait", message: "We are trying to generate and activate your caller ID. Please try again in seconds.", actionTitle: "Okay")
@@ -327,6 +331,11 @@ class DashboardController: UIViewController {
         let c :Double = 2 * atan2(sqrt(a), sqrt(1-a));
         let d :Double = R * c; // Distance in km
         return d
+    }
+    
+    @IBAction func SwipeMenu(_ sender: Any) {
+        
+        Slidemenu()
     }
 
     
