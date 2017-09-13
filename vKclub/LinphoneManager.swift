@@ -280,9 +280,11 @@ class LinphoneManager {
     static func CheckLinphoneConnectionStatus() -> Bool {
         // 1 means registered
         if linphone_proxy_config_is_registered(proxyConfig) == 1 {
+             getExtensionSucc = "Extension"
 
             return true
         } else {
+            getExtensionSucc = "getExtensionSucc"
             return false
         }
     }
@@ -378,7 +380,7 @@ class LinphoneManager {
         
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
             if error != nil {
-                getExtensionSucc = "error"
+    
                 
             } else {
                 if let data = data{
@@ -533,7 +535,7 @@ class LinphoneManager {
         }
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             if error != nil {
-                getExtensionSucc = "error"
+
                 
             } else {
                 if let data = data{
