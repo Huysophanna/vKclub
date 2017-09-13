@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="kyH-gu-ETi">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="kyH-gu-ETi">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -161,7 +161,15 @@
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="hxI-Is-PIR" userLabel="MapIcon">
+                            <button opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ISP-M1-Nxc" userLabel="MapBtn">
+                                <rect key="frame" x="207" y="198" width="207" height="227"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.12941176470588234" green="0.50588235294117645" blue="0.32941176470588235" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <connections>
+                                    <action selector="BtnTagWith_sender:" destination="KXb-Gj-HWw" eventType="touchUpInside" id="oRj-cL-bHW"/>
+                                </connections>
+                            </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="placeholder" highlightedImage="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="hxI-Is-PIR" userLabel="MapIcon">
                                 <rect key="frame" x="280" y="259" width="65" height="65"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             </imageView>
@@ -231,19 +239,15 @@
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7k6-xD-1AI">
-                                <rect key="frame" x="0.0" y="0.0" width="94" height="736"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7k6-xD-1AI">
+                                <rect key="frame" x="0.0" y="0.0" width="104" height="736"/>
                                 <gestureRecognizers/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="104" id="C4r-WJ-jT1"/>
+                                    <constraint firstAttribute="height" constant="736" id="NrK-Qk-GKc"/>
+                                </constraints>
                                 <connections>
                                     <action selector="MenuClick:" destination="KXb-Gj-HWw" eventType="touchUpInside" id="aAM-BS-bFN"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ISP-M1-Nxc" userLabel="MapBtn">
-                                <rect key="frame" x="207" y="198" width="207" height="227"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.12941176470588234" green="0.50588235294117645" blue="0.32941176470588235" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <connections>
-                                    <action selector="BtnTagWith_sender:" destination="KXb-Gj-HWw" eventType="touchUpInside" id="oRj-cL-bHW"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -254,6 +258,9 @@
                             <constraint firstItem="7k6-xD-1AI" firstAttribute="leading" secondItem="Bos-fc-yhp" secondAttribute="leading" id="ami-c8-aBr"/>
                             <constraint firstItem="jfq-AK-oe1" firstAttribute="top" secondItem="7k6-xD-1AI" secondAttribute="bottom" id="taa-4V-2pr"/>
                         </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="D0h-YD-8lP" appends="YES" id="JiL-N6-b3N"/>
+                        </connections>
                     </view>
                     <navigationItem key="navigationItem" id="3ZZ-Ep-TOM">
                         <nil key="title"/>
@@ -312,6 +319,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7L7-RI-YHP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <swipeGestureRecognizer direction="right" id="D0h-YD-8lP">
+                    <connections>
+                        <action selector="SwipeMenu:" destination="KXb-Gj-HWw" id="5v5-5V-pj1"/>
+                    </connections>
+                </swipeGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="2982.608695652174" y="297.554347826087"/>
         </scene>
