@@ -106,27 +106,25 @@ class DashboardController: UIViewController {
             switch CheckUserLocation() {
             case IN_KIRIROM:
                 if btntag == 4{
-                    print(getExtensionSucc,"E+++")
                     CheckWhenUserChangePassword ()
                     switch getExtensionSucc {
-                        
                         case "Extension":
                         LinphoneManager.register(proxyConfig!)
                         performSegue(withIdentifier: "PushInternalCall", sender: self)
                         
-                        break
+                            break
                         
                         case "400":
-                        PresentAlertController(title: "Something went wrong", message: "Sorry, our internal phone call services are currently not available right now. Please try again next time.", actionTitle: "Okay")
+                            PresentAlertController(title: "Something went wrong", message: "Sorry, our internal phone call services are currently not available right now. Please try again next time.", actionTitle: "Okay")
                       
-                        break
+                            break
                         case "getExtensionSucc":
-                        PresentAlertController(title: "Something went wrong", message: "You are not connected to our server. Please ensure that you are connected to our network and try again later.", actionTitle: "Okay")
-                        break
+                            PresentAlertController(title: "Something went wrong", message: "You are not connected to our server. Please ensure that you are connected to our network and try again later.", actionTitle: "Okay")
+                            break
                         
                         default:
-                        PresentAlertController(title: "Please wait", message: "We are trying to generate and activate your caller ID. Please try again in seconds.", actionTitle: "Okay")
-                        break
+                            PresentAlertController(title: "Please wait", message: "We are trying to generate and activate   your caller ID. Please try again in seconds.", actionTitle: "Okay")
+                            break
                     }
                 
                 } else {
@@ -340,6 +338,11 @@ class DashboardController: UIViewController {
         let c :Double = 2 * atan2(sqrt(a), sqrt(1-a));
         let d :Double = R * c; // Distance in km
         return d
+    }
+    
+    
+    @IBAction func SwipeMenu(_ sender: UISwipeGestureRecognizer) {
+        Slidemenu()
     }
 
     

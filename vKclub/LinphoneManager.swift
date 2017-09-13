@@ -161,7 +161,7 @@ let callStateChanged: LinphoneCoreCallStateChangedCb = {
 
 class LinphoneManager {
     
-    var tokenid = ""
+    
     static let incomingCallInstance = IncomingCallController()
     static var linphoneCallStatus: String = ""
     static var interuptedCallFlag: Bool = false
@@ -280,6 +280,7 @@ class LinphoneManager {
     static func CheckLinphoneConnectionStatus() -> Bool {
         // 1 means registered
         if linphone_proxy_config_is_registered(proxyConfig) == 1 {
+
             return true
         } else {
             return false
@@ -357,8 +358,7 @@ class LinphoneManager {
             print("firstLaunch++")
             break
         default:
-            print(linphoneInit,"++init")
-            
+            UpdataExtensionLastRegister(extensions:linphoneInit , tokenid: tokenExt_id)
             proxyConfig = setIdentify(_account: linphoneInit)
             break
             
@@ -368,8 +368,8 @@ class LinphoneManager {
     }
     
     func GetDataFromServer()  {
+        var extentionids = ""
         let currentuser = Auth.auth().currentUser
-        var extensionID = ""
         var request = URLRequest(url: URL(string:"http://192.168.7.251:8000/api/v.1/get-extension" )!)
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("wfvUd0d4Bw7RfeCqwEe4F0GWTL3dpzai7f7euYBuI", forHTTPHeaderField: "VKAPP-API-TOKEN")
@@ -387,48 +387,39 @@ class LinphoneManager {
                         let json = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableContainers) as? [String:Any]
                         let code = json?["code"]
                         let code_check :Int =  code as! Int
-                        switch code_check{
+                        switch code_check {
                         case 200 :
-                            
                             let datas = json?["success"]  as! NSDictionary
                             let extensions  = datas["extension"] as! NSDictionary
-                            
-                            
-                            for i in extensions {
-                                let extentionid:String = i.key as! String
-                                
-                                if extentionid == "extension"{
-                                    databaseRef.child("users").child((currentuser?.uid)!).child("Extension").setValue(i.value)
-                                    extensionID = String(describing: i.value)
-                                    newextension_id.setValue(String(describing:i.value), forKey: "extension_id")
-                                }
-                                if extentionid == "token" {
-                                    databaseRef.child("users").child((currentuser?.uid)!).child("Token").setValue(i.value)
-                                    newextension_id.setValue(i.value, forKey: "token")
-                                    
-                                }
+                            if let extentionid = extensions.value(forKey: "extension"){
+                                extentionids = String(describing: extentionid)
+                                let token       = extensions.value(forKey: "token")
+                                tokenExt_id  = token as! String
+                                newextension_id.setValue(extentionids, forKey: "extension_id")
+                                newextension_id.setValue(token , forKey: "token")
+                                databaseRef.child("users").child((currentuser?.uid)!).child("Extension").setValue(extentionid)
+                                databaseRef.child("users").child((currentuser?.uid)!).child("Token").setValue(token)
+                                databaseRef.child("users").child((currentuser?.uid)!).child("Username").setValue(currentuser?.displayName)
                             }
-                            databaseRef.child("users").child((currentuser?.uid)!).child("Username").setValue(currentuser?.displayName)
-
                             do {
-                                
                                 try  manageObjectContext.save()
-                                
                             } catch {
                                 print("error")
                             }
+                           
                             getExtensionSucc = "Extension"
-                            linphoneInit = extensionID
-                        break
+                            linphoneInit = String(describing: extentionids)
+                            
+                            break
                         case 400 :
                             // out of scope make variable global
+                            self.GetDataFromServer()
                             getExtensionSucc = "400"
-                        break
+                            break
                             
                         default :
-                            self.GetDataFromServer()
                             getExtensionSucc = String(code_check)
-                        break
+                            break
                             
                         }
                         
@@ -456,39 +447,33 @@ class LinphoneManager {
                 databaseRef.child("users").child((currentuser?.uid)!).observeSingleEvent(of: .value, with: { (data) in
                     // Get user value
                     if let datas = data.value as? NSDictionary  {
-                                               var exts = ""
-                        for i in datas {
-                            
-                            
-                            let extentionid:String = i.key as! String
-                            switch extentionid {
-                            case "Extension":
-                                exts = String(describing: i.value)
-                                if exts.isEmpty {
-                                    self.GetDataFromServer()
-                                }
-                            break
-                            case "Token":
-                                 self.tokenid  = i.value as! String
-                            break
-                            default:
-                            break
-                            }
+                        var extid = ""
+                        var token = ""
+                        if let exts = datas.value(forKey: "Extension") {
+                            extid = String(describing: exts)
+                            token = datas.value(forKey: "Token") as! String
                         }
-                        self.PostData(extensions :  exts  , tokenid:self.tokenid )
+                        
+                        if extid.isEmpty || token.isEmpty {
+                            self.GetDataFromServer()
+                        }
+                        else {
+                            print (extid,token,"+++token")
+                            self.PostData(extensions : extid , tokenid:token )
+                        }
+                       
                         
                     } else {
-                        
                         self.GetDataFromServer()
-                        
                     }
                     // ...
                 }) { (error) in
                     getExtensionSucc = "error"
                 }
             } else {
+                
+                
                 for i in extension_ids {
-                    
                     if let ext =  i.extension_id {
                         self.PostData(extensions : ext , tokenid: i.token!)
                     }
@@ -501,6 +486,32 @@ class LinphoneManager {
         
         
     }
+    func UpdataExtensionLastRegister(extensions : String , tokenid: String){
+        let currentuser = Auth.auth().currentUser
+        var request = URLRequest(url: URL(string: "http://192.168.7.251:8000/api/v.1/trigger-extension")!)
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("wfvUd0d4Bw7RfeCqwEe4F0GWTL3dpzai7f7euYBuI", forHTTPHeaderField: "VKAPP-API-TOKEN")
+        request.addValue((currentuser?.uid)!, forHTTPHeaderField: "VKAPP-USERID")
+        request.addValue((currentuser?.displayName)!, forHTTPHeaderField: "VKAPP-USERNAME")
+        let parameters = ["ext":extensions , "reserved_token":tokenid ,"action": "register"]
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted) // pass dictionary to nsdata object and set it as request body
+            
+        } catch let error {
+            print(error.localizedDescription)
+        }
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if error != nil {
+                getExtensionSucc = "error"
+                
+            }
+        }
+        
+        task.resume()
+        
+
+    }
     
     func PostData(extensions : String , tokenid: String) {
         let currentuser = Auth.auth().currentUser
@@ -511,6 +522,8 @@ class LinphoneManager {
         request.addValue((currentuser?.uid)!, forHTTPHeaderField: "VKAPP-USERID")
         request.addValue((currentuser?.displayName)!, forHTTPHeaderField: "VKAPP-USERNAME")
         let parameters = ["ext":extensions , "reserved_token":tokenid ,"action": "register"]
+        
+        print(extensions)
         
         do {
             request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted) // pass dictionary to nsdata object and set it as request body
@@ -533,14 +546,17 @@ class LinphoneManager {
                             switch code_check {
                             case 200 :
                                 linphoneInit = extensions
+                                tokenExt_id  = tokenid
                                 getExtensionSucc = "Extension"
                                 break
                             case 400 :
                                 // out of scope make variable global
+                                self.GetDataFromServer()
                                 getExtensionSucc = "400"
                             default :
-                                getExtensionSucc = String(code_check)
                                 self.GetDataFromServer()
+                                print(code_check,"+++code")
+                                getExtensionSucc = String(code_check)
                                 break
                                 
                             }

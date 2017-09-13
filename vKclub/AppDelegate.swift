@@ -41,7 +41,7 @@ var linphoneInit = "" {
     }
 }
 var getExtensionSucc : String = "getExtensionSucc"
-
+var tokenExt_id = ""
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
