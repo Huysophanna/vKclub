@@ -275,8 +275,21 @@ class DashboardController: UIViewController {
     }
     
     @IBAction func MenuClick(_ sender: Any) {
+     
         Slidemenu()
         
+    }
+    
+    
+
+    @IBAction func SwipeMenuRight(_ sender: UISwipeGestureRecognizer) {
+       Slidemenu()
+    }
+    
+    @IBAction func SwipeMenuLeft(_ sender: UISwipeGestureRecognizer) {
+        if clickMenu {
+            Slidemenu()
+        }
     }
     
     
