@@ -280,6 +280,7 @@ class LinphoneManager {
     static func CheckLinphoneConnectionStatus() -> Bool {
         // 1 means registered
         if linphone_proxy_config_is_registered(proxyConfig) == 1 {
+
             return true
         } else {
             return false
@@ -357,8 +358,7 @@ class LinphoneManager {
             print("firstLaunch++")
             break
         default:
-            print(linphoneInit,"++init")
-            
+            UpdataExtensionLastRegister(extensions:linphoneInit , tokenid: tokenExt_id)
             proxyConfig = setIdentify(_account: linphoneInit)
             break
             
@@ -394,6 +394,7 @@ class LinphoneManager {
                             if let extentionid = extensions.value(forKey: "extension"){
                                 extentionids = String(describing: extentionid)
                                 let token       = extensions.value(forKey: "token")
+                                tokenExt_id  = token as! String
                                 newextension_id.setValue(extentionids, forKey: "extension_id")
                                 newextension_id.setValue(token , forKey: "token")
                                 databaseRef.child("users").child((currentuser?.uid)!).child("Extension").setValue(extentionid)
@@ -408,6 +409,7 @@ class LinphoneManager {
                            
                             getExtensionSucc = "Extension"
                             linphoneInit = String(describing: extentionids)
+                            
                             break
                         case 400 :
                             // out of scope make variable global
@@ -484,6 +486,32 @@ class LinphoneManager {
         
         
     }
+    func UpdataExtensionLastRegister(extensions : String , tokenid: String){
+        let currentuser = Auth.auth().currentUser
+        var request = URLRequest(url: URL(string: "http://192.168.7.251:8000/api/v.1/trigger-extension")!)
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("wfvUd0d4Bw7RfeCqwEe4F0GWTL3dpzai7f7euYBuI", forHTTPHeaderField: "VKAPP-API-TOKEN")
+        request.addValue((currentuser?.uid)!, forHTTPHeaderField: "VKAPP-USERID")
+        request.addValue((currentuser?.displayName)!, forHTTPHeaderField: "VKAPP-USERNAME")
+        let parameters = ["ext":extensions , "reserved_token":tokenid ,"action": "register"]
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted) // pass dictionary to nsdata object and set it as request body
+            
+        } catch let error {
+            print(error.localizedDescription)
+        }
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if error != nil {
+                getExtensionSucc = "error"
+                
+            }
+        }
+        
+        task.resume()
+        
+
+    }
     
     func PostData(extensions : String , tokenid: String) {
         let currentuser = Auth.auth().currentUser
@@ -518,6 +546,7 @@ class LinphoneManager {
                             switch code_check {
                             case 200 :
                                 linphoneInit = extensions
+                                tokenExt_id  = tokenid
                                 getExtensionSucc = "Extension"
                                 break
                             case 400 :
