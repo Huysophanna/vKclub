@@ -161,7 +161,6 @@ let callStateChanged: LinphoneCoreCallStateChangedCb = {
 
 class LinphoneManager {
     
-    
     static let incomingCallInstance = IncomingCallController()
     static var linphoneCallStatus: String = ""
     static var interuptedCallFlag: Bool = false
@@ -193,7 +192,6 @@ class LinphoneManager {
     
     static var iterateTimer: Timer?
     static var shutDownFlag = false
-    
     var extension_ids = [Extension]()
     
     static var userAuthInfoAddedFlag = UserDefaults.standard.bool(forKey: "userAuthInfoAddedFlag")
@@ -285,6 +283,7 @@ class LinphoneManager {
             return true
         } else {
             getExtensionSucc = "getExtensionSucc"
+            
             return false
         }
     }
@@ -357,7 +356,6 @@ class LinphoneManager {
             break
         case "firstLaunch":
             proxyConfig = setIdentify(_account: "0")
-            print("firstLaunch++")
             break
         default:
             UpdataExtensionLastRegister(extensions:linphoneInit , tokenid: tokenExt_id)
@@ -385,12 +383,12 @@ class LinphoneManager {
             } else {
                 if let data = data{
                     do {
-                        let newextension_id = NSEntityDescription.insertNewObject(forEntityName: "Extension", into: manageObjectContext)
                         let json = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableContainers) as? [String:Any]
                         let code = json?["code"]
                         let code_check :Int =  code as! Int
                         switch code_check {
                         case 200 :
+                            let newextension_id = NSEntityDescription.insertNewObject(forEntityName: "Extension", into: manageObjectContext)
                             let datas = json?["success"]  as! NSDictionary
                             let extensions  = datas["extension"] as! NSDictionary
                             if let extentionid = extensions.value(forKey: "extension"){
@@ -441,12 +439,12 @@ class LinphoneManager {
     
     func GetAccountExtension() {
         let extensionRequest:NSFetchRequest<Extension> = Extension.fetchRequest()
-        
         do {
             extension_ids = try manageObjectContext.fetch(extensionRequest)
             if extension_ids == [] {
                 let currentuser = Auth.auth().currentUser
                 databaseRef.child("users").child((currentuser?.uid)!).observeSingleEvent(of: .value, with: { (data) in
+                    getExtensionSucc = "error"
                     // Get user value
                     if let datas = data.value as? NSDictionary  {
                         var extid = ""
@@ -460,20 +458,25 @@ class LinphoneManager {
                             self.GetDataFromServer()
                         }
                         else {
-                            print (extid,token,"+++token")
+                            let newextension_id = NSEntityDescription.insertNewObject(forEntityName: "Extension", into: manageObjectContext)
+                            newextension_id.setValue(extid, forKey: "extension_id")
+                            newextension_id.setValue(token , forKey: "token")
+                            do {
+                                try  manageObjectContext.save()
+                            } catch {
+                                print("error")
+                            }
+                            
                             self.PostData(extensions : extid , tokenid:token )
                         }
                        
                         
                     } else {
                         self.GetDataFromServer()
-                    }
-                    // ...
-                }) { (error) in
+                }}) { (error) in
                     getExtensionSucc = "error"
                 }
             } else {
-                
                 
                 for i in extension_ids {
                     if let ext =  i.extension_id {
@@ -524,9 +527,6 @@ class LinphoneManager {
         request.addValue((currentuser?.uid)!, forHTTPHeaderField: "VKAPP-USERID")
         request.addValue((currentuser?.displayName)!, forHTTPHeaderField: "VKAPP-USERNAME")
         let parameters = ["ext":extensions , "reserved_token":tokenid ,"action": "register"]
-        
-        print(extensions)
-        
         do {
             request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted) // pass dictionary to nsdata object and set it as request body
             
@@ -538,11 +538,10 @@ class LinphoneManager {
 
                 
             } else {
-                if let data = data{
+                if let data = data {
                     do {
                         
                         let json = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableContainers) as? [String:Any]
-                        
                         if let code = json?["code"] {
                             let code_check = code as! Int
                             switch code_check {
@@ -553,11 +552,14 @@ class LinphoneManager {
                                 break
                             case 400 :
                                 // out of scope make variable global
+                                checkwhenappclose = "Logout"
+                                InternetConnection.ShutdownPBXServer()
                                 self.GetDataFromServer()
                                 getExtensionSucc = "400"
                             default :
+                                checkwhenappclose = "Logout"
+                                InternetConnection.ShutdownPBXServer()
                                 self.GetDataFromServer()
-                                print(code_check,"+++code")
                                 getExtensionSucc = String(code_check)
                                 break
                                 
@@ -603,12 +605,10 @@ class LinphoneManager {
         }
         
         userAuthInfo = linphone_auth_info_new(linphone_address_get_username(from), nil, password, nil, nil, nil); /*create authentication structure from identity*/
-        
         //if user auth info is already added, will not add again
-        if !LinphoneManager.userAuthInfoAddedFlag {
+        if !LinphoneManager.userAuthInfoAddedFlag  {
             linphone_core_add_auth_info(theLinphone.lc, userAuthInfo); /*add authentication info to LinphoneCore*/
             UserDefaults.standard.set(true, forKey: "userAuthInfoAddedFlag")
-            print("ADD AUTH INFO +=+")
         }
         
         
@@ -643,30 +643,37 @@ class LinphoneManager {
         NSLog("Shutdown ---")
         LinphoneManager.iterateTimer?.invalidate()
         
+        
         //set shutdown flag
         LinphoneManager.shutDownFlag = true
         
         
         let proxy_cfg = linphone_core_get_default_proxy_config(theLinphone.lc); /* get default proxy config*/
-        linphone_proxy_config_edit(proxy_cfg); /*start editing proxy configuration*/
-        linphone_proxy_config_enable_publish(proxy_cfg, 1);
-        linphone_proxy_config_set_publish_expires(proxy_cfg, 0);
-//        linphone_core_set_network_reachable(proxy_cfg, 0)
-        linphone_proxy_config_enable_register(proxy_cfg, 0); /*de-activate registration for this proxy config*/
-
-        linphone_proxy_config_done(proxy_cfg); /*initiate REGISTER with expire = 0*/
         
-        while(linphone_proxy_config_get_state(proxy_cfg) !=  LinphoneRegistrationCleared) {
+            linphone_proxy_config_edit(proxy_cfg); /*start editing proxy configuration*/
+            linphone_proxy_config_enable_publish(proxy_cfg, 1);
+            linphone_proxy_config_set_publish_expires(proxy_cfg, 0);
+            //        linphone_core_set_network_reachable(proxy_cfg, 0)
+            linphone_proxy_config_enable_register(proxy_cfg, 0); /*de-activate registration for this proxy config*/
+            
+            linphone_proxy_config_done(proxy_cfg); /*initiate REGISTER with expire = 0*/
+            print(linphone_proxy_config_get_state(proxy_cfg),"+++proxy_cfg")
+            print(LinphoneRegistrationCleared,"+++Cleared")
+            
+            while(linphone_proxy_config_get_state(proxy_cfg) !=  LinphoneRegistrationCleared) {
                 linphone_core_iterate(theLinphone.lc); /*to make sure we receive call backs before shutting down*/
-                ms_usleep(50000);
-        }
+                            ms_usleep(50000);
+            }
+        
+            
+            //        linphone_proxy_config_destroy(proxyConfig)
+            LinphoneManager.removeUserAuthInfo()
+            //        linphone_core_destroy(theLinphone.lc);
+            
+            linphone_core_remove_proxy_config(theLinphone.lc, proxyConfig)
+            
         
         
-//        linphone_proxy_config_destroy(proxyConfig)
-        LinphoneManager.removeUserAuthInfo()
-//        linphone_core_destroy(theLinphone.lc);
-        
-        linphone_core_remove_proxy_config(theLinphone.lc, proxyConfig)
         
     }
     

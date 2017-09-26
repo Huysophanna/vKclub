@@ -14,12 +14,13 @@ import  FirebaseAuth
 
 var backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask(expirationHandler: nil)
 
-class DashboardController: UIViewController {
+class DashboardController:
+UIViewController {
+    
     @IBOutlet weak var serviceImg: UIImageView!
     @IBOutlet weak var menuBtn: UIBarButtonItem!
     @IBOutlet weak var KiriromScope: UIButton!
     @IBOutlet weak var notificationBtn: UIBarButtonItem!
-    
     @IBOutlet weak var coverView: UIButton!
     let KIRIROMLAT: Double = 11.316541;
     let KIRIROMLNG: Double = 104.065818;
@@ -40,12 +41,12 @@ class DashboardController: UIViewController {
             internalCallControllerInstance.ChangeExtensionActiveStatus(color: DashboardController.LinphoneConnectionStatusFlag == true ? UIColor.green : UIColor.red)
         }
     }
-   
+    
+    
     let setting = UserDefaults.standard.integer(forKey: "setting")
     override func viewDidLoad() {
+        super.viewDidLoad()
         linphoneInit  = "login"
-        print(CheckUserLocation(),"_++mode")
-       
         CheckWhenUserChangePassword ()       // login for registerForRemoteNotifications
         UserDefaults.standard.set(true, forKey: "loginBefore")
         if setting == 0 || setting == 1 {
@@ -59,7 +60,7 @@ class DashboardController: UIViewController {
         loadData()
         UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
         
-        Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.isKirirom), userInfo: nil, repeats: true)
+        TimeModCheck  = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.isKirirom), userInfo: nil, repeats: true)
         
         //recall backgroundTask since making call interrupt and end our audio backgroundTask
         BackgroundTask.backgroundTaskInstance.startBackgroundTask()
@@ -68,14 +69,37 @@ class DashboardController: UIViewController {
         KiriromScope.setTitle("Identifying", for: .normal)
         coverView.isHidden = true
         coverView.isUserInteractionEnabled = false
-
+        navigationController?.hidesBarsOnSwipe = false
+       
        
     }
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         
     }
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.isNavigationBarHidden = false
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+    
+    //*** This is required to fix navigation bar forever disappear on fast backswipe bug.
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
+    }
+
+   
+
     
     @IBAction func BtnTag(_sender:Any){
         
@@ -83,7 +107,6 @@ class DashboardController: UIViewController {
         let btntag : Int = (_sender as AnyObject).tag
         switch  btntag {
         case 0:
-            print(CheckUserLocation(),"_++mode")
             performSegue(withIdentifier: "PushService", sender: self)
             break
         case 1:
@@ -103,7 +126,7 @@ class DashboardController: UIViewController {
             break
             
         default:
-            switch CheckUserLocation() {
+            switch CHCK_USER_LOCATION {
             case IN_KIRIROM:
                 if btntag == 4{
                     CheckWhenUserChangePassword ()
@@ -120,6 +143,7 @@ class DashboardController: UIViewController {
                             break
                         case "getExtensionSucc":
                             PresentAlertController(title: "Something went wrong", message: "You are not connected to our server. Please ensure that you are connected to our network and try again later.", actionTitle: "Okay")
+                    
                             break
                         
                         default:
@@ -150,9 +174,6 @@ class DashboardController: UIViewController {
         }
     
     }
-    
-    
-    
     //animate button on click
     func AnimateBtn(senderBtn: UIButton) {
         UIView.animate(withDuration: 0.1, animations: {
@@ -183,7 +204,12 @@ class DashboardController: UIViewController {
                 coverView.isUserInteractionEnabled = true
                 clickMenu = true
             }
-            revealViewController().rearViewRevealWidth = (view.bounds.width * 80) / 100
+            if UIDevice.current.orientation.isLandscape {
+                revealViewController().rearViewRevealWidth = (view.bounds.width * 50) / 100
+            } else {
+                revealViewController().rearViewRevealWidth = (view.bounds.width * 80 ) / 100
+            }
+            
             
             
         }
@@ -308,6 +334,7 @@ class DashboardController: UIViewController {
                 if (kiriromscope < 17) {
                     lat = currentlocation_lat
                     long = currentlocation_long
+                    
                     return IN_KIRIROM
                 } else {
                     return OFF_KIRIROM
@@ -394,3 +421,6 @@ class DashboardController: UIViewController {
     }
 
 }
+
+
+

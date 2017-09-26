@@ -43,7 +43,7 @@ public class InternetConnection {
     }
     @objc static func CountSecond(){
         second += 1
-        if self.second == 10 {
+        if self.second == 15 {
             second = 0
             self.countTimer.invalidate()
             UIComponentHelper.PresentActivityIndicator(view: UIApplication.topViewController()?.view, option: false)
@@ -57,16 +57,16 @@ public class InternetConnection {
     }
     
     static func Logouts(){
+        TimeModCheck.invalidate()
         UserDefaults.standard.set(false, forKey: "loginBefore")
-        UserDefaults.standard.set(false, forKey: "userAuthInfoAddedFlag")
-        LinphoneManager.userAuthInfoAddedFlag = false
+//        UserDefaults.standard.set(false, forKey: "userAuthInfoAddedFlag")
+//        LinphoneManager.userAuthInfoAddedFlag = false
         UIApplication.shared.unregisterForRemoteNotifications()
-        personService.deleteAllData(entity: "UserProfile")
-        personService.deleteAllData(entity: "SipCallData")
-        personService.deleteAllData(entity: "Notifications")
-        personService.deleteAllData(entity: "Extension")
-//        linphoneInit = "logout"
+        linphoneInit = "logout"
         notification_num = 0
+        personService.deleteAllData(entity: "SipCallData")
+        personService.deleteAllData(entity: "UserProfile")
+        personService.deleteAllData(entity: "Notifications")
         try! Auth.auth().signOut()
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         appDelegate.window = UIWindow(frame: UIScreen.main.bounds)
@@ -74,6 +74,20 @@ public class InternetConnection {
         let yourVC = mainStoryboard.instantiateViewController(withIdentifier: "loginController") as!  LoginController
         appDelegate.window?.rootViewController = yourVC
         appDelegate.window?.makeKeyAndVisible()
+        
+    }
+    static func ShutdownPBXServer(){
+        if checkwhenappclose == "Logout" {
+            personService.deleteAllData(entity: "Extension")
+        }
+       
+        if LinphoneManager.CheckLinphoneConnectionStatus() {
+            LinphoneManager.shutdown()
+        } else {
+            //in case connection is false, then set these flags to false
+            UserDefaults.standard.set(false, forKey: "userAuthInfoAddedFlag")
+            LinphoneManager.userAuthInfoAddedFlag = false
+        }
         
     }
     

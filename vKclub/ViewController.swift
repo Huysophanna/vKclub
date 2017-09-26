@@ -37,14 +37,14 @@ class ViewController: UIViewController, PaperOnboardingDataSource, PaperOnboardi
         let titleFont = UIFont(name: "AvenirNext-Bold", size: 24)!
         let descirptionFont = UIFont(name: "AvenirNext-Regular", size: 18)!
         
-        return [ ("welcome-intro", "Welcome to vKclub", "Maximize your vKirirom Pine Resort experience.Explore,\n Discover and Meet new people with vKclub", "", greenBackgroundColor, UIColor.white, UIColor.white, titleFont, descirptionFont),
+        return [ ("welcome-intro", "Welcome to vKclub", "Maximize your vKirirom Pine Resort \nexperience.Explore, Discover and Meet new people with vKclub", "", greenBackgroundColor, UIColor.white, UIColor.white, titleFont, descirptionFont),
                 
                  ("map-intro", "Map", "Digitalized Map designed to\n help users to get in touch with\n our vKirirom Pine Resort\n Facilities and Services", "", greenBackgroundColor, UIColor.white, UIColor.white, titleFont, descirptionFont),
                 
                  ("voip-intro", "Internal Phone Call", "Free Call and No Restrictions", "", greenBackgroundColor , UIColor.white, UIColor.white, titleFont, descirptionFont),
                 
                  ("sos-intro", "Emergency SOS", "Emergency SOS button guarantees \nusers safety.Help during emergency or \n  in dangerous situation", "", greenBackgroundColor , UIColor.white, UIColor.white, titleFont, descirptionFont),
-                 ("mode-intro", "On-site / Off-site Mode", "Experience all functions of the app in on-site \nmode and also in off-site mode, except \nSOS and Internal Phone Call", "", greenBackgroundColor, UIColor.white, UIColor.white, titleFont, descirptionFont),
+                 ("mode-intro", "On-site / Off-site Mode", "Experience all functions of the app in \non-site mode and also in off-site mode, \nexcept SOS and Internal Phone Call", "", greenBackgroundColor, UIColor.white, UIColor.white, titleFont, descirptionFont),
                  ("ready-intro", "You are all set Enjoy vKclub", "", "", greenBackgroundColor , UIColor.white, UIColor.white, titleFont, descirptionFont)][index]
         
     }

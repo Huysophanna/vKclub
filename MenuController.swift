@@ -19,6 +19,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     @IBOutlet weak var userName: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
+        super.viewDidLoad()
         imagePicker.delegate = self
         self.imagePicker.allowsEditing = true
         UserDefaults.standard.set(true, forKey: "loginBefore")
@@ -41,9 +42,6 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
                 
             }
         }
-        
-        
-        
         //make responsive rounded user profile picture
         let checkDevice = UI_USER_INTERFACE_IDIOM()
         if checkDevice == .phone {
@@ -59,6 +57,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
             imageProfile.contentHorizontalAlignment = .fill
             imageProfile.contentVerticalAlignment = .fill
         }
+         
         
     }
     override func didReceiveMemoryWarning() {
@@ -66,20 +65,29 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         
         // Dispose of any resources that can be recreated.
     }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+    
+    //*** This is required to fix navigation bar forever disappear on fast backswipe bug.
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
+    }
     
     @IBAction func Logout(_ sender: Any) {
         let logoutAlert = UIAlertController(title: "Logout", message: "Are you sure to logout?", preferredStyle: UIAlertControllerStyle.alert)
         
         logoutAlert.addAction(UIAlertAction(title: "Okay", style: .default, handler: { (action: UIAlertAction!) in
+            checkwhenappclose = "Logout"
+            InternetConnection.ShutdownPBXServer()
             InternetConnection.Logouts()
-            
-            if LinphoneManager.CheckLinphoneConnectionStatus() {
-                LinphoneManager.shutdown()
-            } else {
-                //in case connection is false, then set these flags to false
-                UserDefaults.standard.set(false, forKey: "userAuthInfoAddedFlag")
-                LinphoneManager.userAuthInfoAddedFlag = false
-            }
             
         }))
         logoutAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
@@ -305,29 +313,25 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     func SMS(){
         let currentLocaltion_lat = String(Checklocation.lat)
         let currentLocation_long = String(Checklocation.long)
-        print(currentLocaltion_lat)
         if (MFMessageComposeViewController.canSendText()) {
             let phone = "+13343758067"
             let message = "Please help! I'm currently facing an emergency problem. Here is my Location: http://maps.google.com/?q="+currentLocaltion_lat+","+currentLocation_long+""
             let controller = MFMessageComposeViewController()
             controller.body = message
             controller.recipients = [phone]
-            controller.messageComposeDelegate = self as MFMessageComposeViewControllerDelegate
-            self.present(controller, animated: true, completion: nil)
+            controller.messageComposeDelegate = self
+            self.present(controller, animated: false, completion: nil)
         }
     }
     
     func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
         switch (result.rawValue) {
         case MessageComposeResult.cancelled.rawValue:
-            print("Message was cancelled")
-            self.dismiss(animated: true, completion: nil)
+            controller.dismiss(animated: false, completion: nil)
         case MessageComposeResult.failed.rawValue:
-            print("Message failed")
-            self.dismiss(animated: true, completion: nil)
+            controller.dismiss(animated: false, completion: nil)
         case MessageComposeResult.sent.rawValue:
-            print("Message was sent")
-            self.dismiss(animated: true, completion: nil)
+            controller.dismiss(animated: false, completion: nil)
         default:
             break;
         }
@@ -412,8 +416,6 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
                 }
                 // Metadata contains file metadata such as size, content-type, and download URL.
                 let downloadURL = metadata.downloadURL()!.absoluteString
-                print(downloadURL,"++++")
-                print(downloadURL)
                 let url = NSURL(string: downloadURL) as URL?
                 let chageProfileimage = self.currentUser?.createProfileChangeRequest()
                 chageProfileimage?.photoURL =  url
@@ -449,7 +451,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         dismiss(animated: true, completion: nil)
     }
     
-    // update image to Core
+    // update image to Core Data
     func EmailProviderUpdateImage(image: NSData){
         
         let emailProvider = NSPredicate(format: "facebookProvider = 0")
@@ -461,7 +463,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         }
     }
     
-    // update image to Core
+    // update image to Core Data
     func FBProviderUpdateImage(image : NSData){
         let facebookProvider = NSPredicate(format: "facebookProvider = 1")
         let fb_lgoin = personService.getUserProfile(withPredicate: facebookProvider)

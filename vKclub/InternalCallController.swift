@@ -24,6 +24,15 @@ class InternalCallController: UIViewController{
         MakeExtensionButton(color: DashboardController.LinphoneConnectionStatusFlag == true ? UIColor.green : UIColor.red)
         
     }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.isNavigationBarHidden = false
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
       func ChangeExtensionActiveStatus(color: UIColor) {
         InternalCallController.extensionBtn.tintColor = color
     }

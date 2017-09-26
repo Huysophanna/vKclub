@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 import FirebaseAuth
 
+
 class CreateAccController: ViewController ,UITextFieldDelegate{
     
     @IBOutlet weak var signUpBtn: UIButton!

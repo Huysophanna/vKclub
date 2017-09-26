@@ -144,11 +144,7 @@ class LoginController: UIViewController,UITextFieldDelegate {
         } else {
             
             //handle firebase sign in
-            
-            //UIComponentHelper.PresentActivityIndicator(view: self.view, option: true)
-
             InternetConnection.CountTimer()
-            
             Auth.auth().signIn(withEmail: emailTextField.text!, password: pwTextField.text!) { (user, error) in
                 if InternetConnection.second == 10 {
                     InternetConnection.countTimer.invalidate()
@@ -160,7 +156,7 @@ class LoginController: UIViewController,UITextFieldDelegate {
                 InternetConnection.second = 0
                 if error == nil {
                     if (user?.isEmailVerified)!{
-                        // if user don't name and imageprofile
+                        // if user don't have name and imageprofile
                         if(user?.photoURL == nil){
                             let img = UIImage(named: "profile-icon")
                             let newImage = UIComponentHelper.resizeImage(image: img!, targetSize: CGSize(width: 400, height: 400))

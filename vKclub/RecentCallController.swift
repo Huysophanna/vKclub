@@ -200,7 +200,6 @@ class RecentCallController: UIViewController, UITableViewDelegate, UITableViewDa
             LinphoneManager.makeCall(phoneNumber: callLogDataItem.callerID!)
         })
         let cancelBtnHandler = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        
         actionSheet.addAction(dialBtnHandler)
         actionSheet.addAction(cancelBtnHandler)
         actionSheet.addAction(UIAlertAction(title: "Clear all", style: .default, handler: {test in

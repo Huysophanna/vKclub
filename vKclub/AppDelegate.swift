@@ -17,7 +17,7 @@ let appDelegate = UIApplication.shared.delegate as! AppDelegate
 let manageObjectContext  = appDelegate.persistentContainer.viewContext
 var databaseRef = Database.database().reference()
 let firebasedatabaseref =  Database.database().reference()
-var userName : String = "Oudom"
+let userName = Auth.auth().currentUser
 var notification_num = 0
 let launchedBefore = UserDefaults.standard.bool(forKey: "launchedBefore")
 let loginBefore = UserDefaults.standard.bool(forKey: "loginBefore")
@@ -28,6 +28,10 @@ let IN_KIRIROM = "inKirirom"
 let OFF_KIRIROM = "offKirirom"
 let UNIDENTIFIED = "unidentified"
 let INAPP_UNIDENTIFIED = "inApp_unidentified"
+var checkwhenappclose  = ""
+var orientationLock = UIInterfaceOrientationMask.all
+
+
 var linphoneInit = "" {
     didSet {
         userExtensionID = linphoneInit
@@ -42,7 +46,7 @@ var linphoneInit = "" {
 }
 var getExtensionSucc : String = "getExtensionSucc"
 var tokenExt_id = ""
-
+var TimeModCheck = Timer()
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
     let callKitManager = CallKitCallInit(uuid: UUID(), handle: "")
@@ -70,12 +74,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         linphoneInit  = "firstLaunch"
         
-        
         // Remove border in navigationBar
         UINavigationBar.appearance().shadowImage = UIImage()
         UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
         UINavigationBar.appearance().isTranslucent = false
-        
         // Change navigation title color as default
         UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName:UIColor.white]
         
@@ -113,16 +115,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         if launchedBefore  {
             self.LogoutController()
-        } else {
-            print("First launch, setting UserDefault.")
-            
         }
-        
         if loginBefore  {
             //Init linphone sip
+            InternetConnection.ShutdownPBXServer()
             self.Dashboard()
-        } else {
-            print("First launch, setting UserDefault.")
         }
         
         return true
@@ -144,8 +141,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         print("Title:\(title) + body:\(body)")
         personService.CreatnotificationCoredata(_notification_num: notification_num, _notification_body: body, _notification_title: title)
         // custom code to handle push while app is in the foreground
-        print("Handle push from foreground\(notification.request.content.userInfo)")
-        self.showAlertAppDelegate(title: "Hello "+userName, message: title + ": " + body, buttonTitle:"Okay", window:self.window!)
+        if let username = userName?.displayName {
+            self.showAlertAppDelegate(title: "Hello "+username, message: title + ": " + body, buttonTitle:"Okay", window:self.window!)
+        } else {
+            self.showAlertAppDelegate(title: "Hello There ", message: title + ": " + body, buttonTitle:"Okay", window:self.window!)
+        }
         
     }
     
@@ -165,8 +165,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let title : String = d["title"] as! String
         print("Title:\(title) + body:\(body)")
         personService.CreatnotificationCoredata(_notification_num: notification_num, _notification_body: body, _notification_title: title)
-        print("Handle push from background or closed\(response.notification.request.content.userInfo)")
-        self.showAlertAppDelegate(title: "Hello "+userName, message: title + ": " + body, buttonTitle:"Okay", window:self.window!)
+        if let username = userName?.displayName {
+              self.showAlertAppDelegate(title: "Hello "+username, message: title + ": " + body, buttonTitle:"Okay", window:self.window!)
+        } else {
+            self.showAlertAppDelegate(title: "Hello There", message: title + ": " + body, buttonTitle:"Okay", window:self.window!)
+        }
+      
         
         completionHandler()
     }
@@ -188,9 +192,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         appDelegate.window?.makeKeyAndVisible()
         
     }
-    func test(){
-    
-    }
     
     func LogoutController(){
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -199,9 +200,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let yourVC = mainStoryboard.instantiateViewController(withIdentifier: "loginController") as!  LoginController
         appDelegate.window?.rootViewController = yourVC
         appDelegate.window?.makeKeyAndVisible()
-        
-        
     }
+    
+    
+   
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
         let handled = FBSDKApplicationDelegate.sharedInstance().application(app, open: url, options: options)
@@ -221,8 +223,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     }
     
+    
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
+        switch linphoneInit  {
+        case "logout":
+            print("shutdow voip")
+        case "firstLaunch":
+             linphoneInit = "firstLaunch"
+             break
+        case "login":
+            InternetConnection.ShutdownPBXServer()
+            linphoneInit = "login"
+            break
+            
+        default:
+            InternetConnection.ShutdownPBXServer()
+            linphoneInit = "login"
+            break
+            
+            
+        }
     }
     
     func applicationDidBecomeActive(_ application: UIApplication) {

@@ -18,7 +18,6 @@ class ServiceController: UIViewController {
     override func viewDidLoad() {
         
         //put proper content based on app mode
-        print(CHCK_USER_LOCATION,"_+++mode1")
         if CHCK_USER_LOCATION == IN_KIRIROM {
             inKiriromContent.isHidden = false
             bottomLine.isHidden = false
@@ -113,6 +112,16 @@ class BookingViewController: UIViewController ,UIWebViewDelegate{
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.isNavigationBarHidden = false
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+
     
     func webViewDidFinishLoad(_ webView: UIWebView) {
         UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: false)

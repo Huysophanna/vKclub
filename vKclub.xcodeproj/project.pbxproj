@@ -30,7 +30,7 @@
 		7FBF65ED1F0C0A8F00307BF3 /* IncomingCallController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FBF65EC1F0C0A8F00307BF3 /* IncomingCallController.swift */; };
 		7FE373701F25EDDA00051971 /* CallKitCallInit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FE3736F1F25EDDA00051971 /* CallKitCallInit.swift */; };
 		7FEE899B1F34721C0054281C /* OutGoingCallSound.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7FEE899A1F34721C0054281C /* OutGoingCallSound.wav */; };
-		8F43A0EA78F773EEA1DEDAD0 /* Pods_vKclub.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CE35CA16D2A204E204DA562 /* Pods_vKclub.framework */; };
+		8AAAAF8ED8F5F138D5E0DA9A /* Pods_vKclub.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18F6FBC35AE0F93AB727B22C /* Pods_vKclub.framework */; };
 		A924DEC21D07A5F80030A438 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = A99663E91D070507003B5EEE /* libz.tbd */; };
 		A924DEC81D07AC620030A438 /* linphonerc in Resources */ = {isa = PBXBuildFile; fileRef = A924DEC41D07AC620030A438 /* linphonerc */; };
 		A924DEC91D07AC620030A438 /* linphonerc-factory in Resources */ = {isa = PBXBuildFile; fileRef = A924DEC51D07AC620030A438 /* linphonerc-factory */; };
@@ -105,9 +105,6 @@
 		A9FACB151D0A7B3700E3C8A5 /* toy-mono.wav in Resources */ = {isa = PBXBuildFile; fileRef = A9FACB071D0A7B3700E3C8A5 /* toy-mono.wav */; };
 		C50BCE921F4EB85300455091 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C50BCE911F4EB85300455091 /* Info.plist */; };
 		C51157D21F0B7A56008BCEC5 /* UserProfileCoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51157D11F0B7A56008BCEC5 /* UserProfileCoreData.swift */; };
-		C515AF161F1F9D0C0054A27D /* paper_onboarding.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C515AF151F1F9D0C0054A27D /* paper_onboarding.framework */; };
-		C515AF191F1FA27C0054A27D /* paper_onboarding.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C515AF151F1F9D0C0054A27D /* paper_onboarding.framework */; };
-		C515AF1A1F1FA27C0054A27D /* paper_onboarding.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C515AF151F1F9D0C0054A27D /* paper_onboarding.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C515AF1D1F1FAAE40054A27D /* onboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C515AF1C1F1FAAE40054A27D /* onboardingView.swift */; };
 		C52C21C21F03DBE100B546E1 /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C52C21C11F03DBE100B546E1 /* MenuController.swift */; };
 		C576988B1F1F3D9300556D38 /* InternetConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C576988A1F1F3D9300556D38 /* InternetConnection.swift */; };
@@ -119,6 +116,7 @@
 		C5AAE0F11F19324D002AEA8C /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5AAE0F01F19324D002AEA8C /* NotificationViewController.swift */; };
 		C5AB9B541F1862E600ED4282 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C5AB9B531F1862E600ED4282 /* GoogleService-Info.plist */; };
 		C5CC29A01F19D0EA00072F8A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C5CC299F1F19D0EA00072F8A /* GoogleService-Info.plist */; };
+		C5F0782F1F793A160037FBAA /* NavButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5F0782E1F793A160037FBAA /* NavButton.swift */; };
 		C5F5A81E1F279DD300190CDF /* AboutUs.json in Resources */ = {isa = PBXBuildFile; fileRef = C5F5A81D1F279DD300190CDF /* AboutUs.json */; };
 		C5F5A8201F279DF900190CDF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C5F5A81F1F279DF900190CDF /* Main.storyboard */; };
 /* End PBXBuildFile section */
@@ -130,7 +128,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				C515AF1A1F1FA27C0054A27D /* paper_onboarding.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 1;
@@ -138,7 +135,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		4CE35CA16D2A204E204DA562 /* Pods_vKclub.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_vKclub.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		18F6FBC35AE0F93AB727B22C /* Pods_vKclub.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_vKclub.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5690BC05728159C16A8F60B0 /* Pods-vKclub.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-vKclub.release.xcconfig"; path = "Pods/Target Support Files/Pods-vKclub/Pods-vKclub.release.xcconfig"; sourceTree = "<group>"; };
 		7F1984651F0E478B0063660B /* RoundButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RoundButton.swift; path = vKclub/RoundButton.swift; sourceTree = "<group>"; };
 		7F1E245F1F0247250090C7E7 /* CreateAccController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateAccController.swift; path = vKclub/CreateAccController.swift; sourceTree = "<group>"; };
@@ -264,7 +261,6 @@
 		BBDBA929F28239775CF624FD /* Pods-vKclub.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-vKclub.debug.xcconfig"; path = "Pods/Target Support Files/Pods-vKclub/Pods-vKclub.debug.xcconfig"; sourceTree = "<group>"; };
 		C50BCE911F4EB85300455091 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C51157D11F0B7A56008BCEC5 /* UserProfileCoreData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileCoreData.swift; sourceTree = "<group>"; };
-		C515AF151F1F9D0C0054A27D /* paper_onboarding.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = paper_onboarding.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/vKclub-fbsofahcoqioppcemquywacdwqid/Build/Products/Debug-iphonesimulator/paper-onboarding/paper_onboarding.framework"; sourceTree = "<group>"; };
 		C515AF1C1F1FAAE40054A27D /* onboardingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = onboardingView.swift; sourceTree = "<group>"; };
 		C52C21C11F03DBE100B546E1 /* MenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
 		C53D8E7B1F16659400E047A8 /* RoundButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundButton.swift; sourceTree = "<group>"; };
@@ -277,8 +273,9 @@
 		C5AAE0F01F19324D002AEA8C /* NotificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
 		C5AB9B531F1862E600ED4282 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C5CC299F1F19D0EA00072F8A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		C5F0782E1F793A160037FBAA /* NavButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavButton.swift; sourceTree = "<group>"; };
 		C5F5A81D1F279DD300190CDF /* AboutUs.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = AboutUs.json; path = Assets.xcassets/AboutUs.json; sourceTree = "<group>"; };
-		C5F5A81F1F279DF900190CDF /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		C5F5A81F1F279DF900190CDF /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = "/Users/machintos-hd/KIT/Second Year/Internship/Chain/vKclub-iOS copy 18/vKclub/Base.lproj/Main.storyboard"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -286,7 +283,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C515AF161F1F9D0C0054A27D /* paper_onboarding.framework in Frameworks */,
 				A924DEC21D07A5F80030A438 /* libz.tbd in Frameworks */,
 				A99663E81D070500003B5EEE /* libsqlite3.tbd in Frameworks */,
 				A99663E61D0704F8003B5EEE /* libresolv.tbd in Frameworks */,
@@ -332,14 +328,13 @@
 				A99663B81D0700A5003B5EEE /* libspeex.a in Frameworks */,
 				A99663B91D0700A5003B5EEE /* libspeexdsp.a in Frameworks */,
 				A99663BA1D0700A5003B5EEE /* libsrtp.a in Frameworks */,
-				C515AF191F1FA27C0054A27D /* paper_onboarding.framework in Frameworks */,
 				A99663BB1D0700A5003B5EEE /* libswresample.a in Frameworks */,
 				A99663BC1D0700A5003B5EEE /* libswscale.a in Frameworks */,
 				A99663BD1D0700A5003B5EEE /* libtunnel.a in Frameworks */,
 				A99663BE1D0700A5003B5EEE /* libvo-amrwbenc.a in Frameworks */,
 				A99663BF1D0700A5003B5EEE /* libvpx.a in Frameworks */,
 				A99663C01D0700A5003B5EEE /* libx264.a in Frameworks */,
-				8F43A0EA78F773EEA1DEDAD0 /* Pods_vKclub.framework in Frameworks */,
+				8AAAAF8ED8F5F138D5E0DA9A /* Pods_vKclub.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -358,8 +353,7 @@
 		4435982B6B91B963B30FCC80 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C515AF151F1F9D0C0054A27D /* paper_onboarding.framework */,
-				4CE35CA16D2A204E204DA562 /* Pods_vKclub.framework */,
+				18F6FBC35AE0F93AB727B22C /* Pods_vKclub.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -384,6 +378,7 @@
 				C51157D11F0B7A56008BCEC5 /* UserProfileCoreData.swift */,
 				C576988A1F1F3D9300556D38 /* InternetConnection.swift */,
 				C58C18561F30D4CB00CAA663 /* ICONBadgeHelper.swift */,
+				C5F0782E1F793A160037FBAA /* NavButton.swift */,
 			);
 			name = HelperClass;
 			sourceTree = "<group>";
@@ -419,6 +414,7 @@
 				A99663761D06F942003B5EEE /* vKclub-Bridging-Header.h */,
 				0161C96B9E3861BAB9A6DA78 /* Pods */,
 				4435982B6B91B963B30FCC80 /* Frameworks */,
+				C5134C361F78D407004F2B47 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -645,6 +641,16 @@
 			name = Model;
 			sourceTree = "<group>";
 		};
+		C5134C361F78D407004F2B47 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				7FA8F7EC1F226DE700AE3EA2 /* ProviderDelegate.swift */,
+				7F1984651F0E478B0063660B /* RoundButton.swift */,
+				C5AB9B531F1862E600ED4282 /* GoogleService-Info.plist */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -815,6 +821,7 @@
 				7F1E24661F0247250090C7E7 /* CreateAccController.swift in Sources */,
 				C51157D21F0B7A56008BCEC5 /* UserProfileCoreData.swift in Sources */,
 				C515AF1D1F1FAAE40054A27D /* onboardingView.swift in Sources */,
+				C5F0782F1F793A160037FBAA /* NavButton.swift in Sources */,
 				7FA8F7ED1F226DE700AE3EA2 /* ProviderDelegate.swift in Sources */,
 				C5A7BAB31F166F2E00744979 /* SettingController.swift in Sources */,
 				7F1E24671F0247250090C7E7 /* UIComponentHelper.swift in Sources */,
@@ -903,7 +910,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = vKclub;
@@ -946,7 +953,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = vKclub;
 				SDKROOT = iphoneos;
@@ -980,6 +987,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "vKclub-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "$(inherited) $(SRCROOT)/liblinphone-sdk/apple-darwin/include/**";
 			};
 			name = Debug;
@@ -1007,6 +1015,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "vKclub-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "$(inherited) $(SRCROOT)/liblinphone-sdk/apple-darwin/include/**";
 			};
 			name = Release;

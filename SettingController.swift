@@ -24,20 +24,25 @@ class SettingController: UIViewController,UNUserNotificationCenterDelegate,UIApp
     func Check(){
         let center = UNUserNotificationCenter.current()
         center.getNotificationSettings { (settings) in
-            if(settings.authorizationStatus == .authorized){
-                self.NotificationSetting.isOn = true
-                if UIApplication.shared.isRegisteredForRemoteNotifications{
+            
+            DispatchQueue.main.async(execute: {
+                if(settings.authorizationStatus == .authorized){
                     self.NotificationSetting.isOn = true
-                     UserDefaults.standard.set(1, forKey: "setting")
-                }else{
+                    if UIApplication.shared.isRegisteredForRemoteNotifications{
+                        self.NotificationSetting.isOn = true
+                        UserDefaults.standard.set(1, forKey: "setting")
+                    }else{
+                        self.NotificationSetting.isOn = false
+                        UserDefaults.standard.set(2, forKey: "setting")
+                    }
+                    
+                } else{
+                    
                     self.NotificationSetting.isOn = false
-                    UserDefaults.standard.set(2, forKey: "setting")
                 }
-                
-            } else{
-                
-               self.NotificationSetting.isOn = false
-           }
+               
+            })
+            
         }
     }
    @IBAction func OnofOffNotification(_ sender: UISwitch) {
@@ -50,11 +55,16 @@ class SettingController: UIViewController,UNUserNotificationCenterDelegate,UIApp
                 if sender.isOn{
                     
                     self.NotificationSetting.isOn = true
-                    UIApplication.shared.registerForRemoteNotifications()
+                    DispatchQueue.main.async(execute: {
+                        UIApplication.shared.registerForRemoteNotifications()
+                    })
                     self.Check()
                 } else{
                     self.NotificationSetting.isOn = false
-                    UIApplication.shared.unregisterForRemoteNotifications()
+                    DispatchQueue.main.async(execute: {
+                       UIApplication.shared.unregisterForRemoteNotifications()
+                    })
+                    
                     self.Check()
                     
                 }
