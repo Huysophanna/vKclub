@@ -12,6 +12,7 @@ import Firebase
 import FBSDKCoreKit
 import UserNotifications
 import FirebaseMessaging
+import AVFoundation
 
 let appDelegate = UIApplication.shared.delegate as! AppDelegate
 let manageObjectContext  = appDelegate.persistentContainer.viewContext
@@ -29,9 +30,10 @@ let OFF_KIRIROM = "offKirirom"
 let UNIDENTIFIED = "unidentified"
 let INAPP_UNIDENTIFIED = "inApp_unidentified"
 var checkwhenappclose  = ""
+var checkCallKit = ""
 var orientationLock = UIInterfaceOrientationMask.all
-
-
+var iflogOut : Bool = false
+var backgroundTask: UIBackgroundTaskIdentifier = UIBackgroundTaskInvalid
 var linphoneInit = "" {
     didSet {
         userExtensionID = linphoneInit
@@ -44,7 +46,7 @@ var linphoneInit = "" {
         
     }
 }
-var getExtensionSucc : String = "getExtensionSucc"
+var getExtensionSucc : String = ""
 var tokenExt_id = ""
 var TimeModCheck = Timer()
 @UIApplicationMain
@@ -62,10 +64,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     /// This method will be called whenever FCM receives a new, default FCM token for your
     /// Firebase project's Sender ID.
     /// You can send this token to your application server to send notifications to this device.
-    func messaging(_ messaging: Messaging, didRefreshRegistrationToken fcmToken: String) {
-        
-    }
-    
     var window: UIWindow?
     let personService = UserProfileCoreData()
     let gcmMessageIDKey = "gcm.message_id"
@@ -73,13 +71,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         linphoneInit  = "firstLaunch"
-        
         // Remove border in navigationBar
         UINavigationBar.appearance().shadowImage = UIImage()
         UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
         UINavigationBar.appearance().isTranslucent = false
         // Change navigation title color as default
         UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName:UIColor.white]
+        UINavigationBar.appearance()
         
         // request permission for local notification
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound], completionHandler: {(granted, error) in
@@ -112,13 +110,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // FB init
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         // autoLogin
-        
         if launchedBefore  {
             self.LogoutController()
         }
         if loginBefore  {
             //Init linphone sip
-            InternetConnection.ShutdownPBXServer()
             self.Dashboard()
         }
         
@@ -166,11 +162,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         print("Title:\(title) + body:\(body)")
         personService.CreatnotificationCoredata(_notification_num: notification_num, _notification_body: body, _notification_title: title)
         if let username = userName?.displayName {
-              self.showAlertAppDelegate(title: "Hello "+username, message: title + ": " + body, buttonTitle:"Okay", window:self.window!)
+            self.showAlertAppDelegate(title: "Hello "+username, message: title + ": " + body, buttonTitle:"Okay", window:self.window!)
         } else {
             self.showAlertAppDelegate(title: "Hello There", message: title + ": " + body, buttonTitle:"Okay", window:self.window!)
         }
-      
+        
         
         completionHandler()
     }
@@ -203,7 +199,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     
-   
+    
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
         let handled = FBSDKApplicationDelegate.sharedInstance().application(app, open: url, options: options)
@@ -220,35 +216,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-
+        application.applicationIconBadgeNumber = notification_num
+        
     }
     
     
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
-        switch linphoneInit  {
-        case "logout":
-            print("shutdow voip")
-        case "firstLaunch":
-             linphoneInit = "firstLaunch"
-             break
-        case "login":
-            InternetConnection.ShutdownPBXServer()
-            linphoneInit = "login"
-            break
-            
-        default:
-            InternetConnection.ShutdownPBXServer()
-            linphoneInit = "login"
-            break
-            
+        //        endBackgroundTask()
+        if  checkCallKit.isEmpty {
+            switch linphoneInit  {
+            case "logout":
+                print("shutdow voip")
+            case "firstLaunch":
+                linphoneInit = "firstLaunch"
+                break
+            case "login":
+                linphoneInit = "login"
+                break
+            default:
+                break
+            }
             
         }
+        
     }
     
     func applicationDidBecomeActive(_ application: UIApplication) {
-        application.applicationIconBadgeNumber = 0
-        
         FBSDKAppEvents.activateApp()
         
         // RestaFrt any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
@@ -258,6 +252,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
+        InternetConnection.ShutdownPBXServer()
         self.saveContext()
     }
     
@@ -308,9 +303,4 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
 }
 
-extension AppDelegate : MessagingDelegate {
-    internal func application(received remoteMessage: MessagingRemoteMessage) {
-        print(">>>>> %@", remoteMessage.appData)
-        
-    }
-}
+
