@@ -235,6 +235,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 linphoneInit = "login"
                 break
             default:
+                linphoneInit = "login"
                 break
             }
             
@@ -252,7 +253,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
-        InternetConnection.ShutdownPBXServer()
         self.saveContext()
     }
     

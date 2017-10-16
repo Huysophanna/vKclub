@@ -53,6 +53,7 @@ public class InternetConnection {
     }
     
     static func Logouts(){
+        
         UserDefaults.standard.set(false, forKey: "loginBefore")
         UIApplication.shared.unregisterForRemoteNotifications()
         linphoneInit = "logout"
@@ -74,15 +75,16 @@ public class InternetConnection {
         }
         let when = DispatchTime.now() + 4 // change 2 to desired number of seconds
         DispatchQueue.main.asyncAfter(deadline: when) {
+            TimeModCheck.invalidate()
             if LinphoneManager.CheckLinphoneConnectionStatus() {
                 LinphoneManager.shutdown()
+                
             } else {
                 // user to check if user logout when no connection to PBX server.
                 //in case connection is false, then set these flags to false
                 UserDefaults.standard.set(false, forKey: "userAuthInfoAddedFlag")
                 LinphoneManager.shutDownFlag = false
                 if checkwhenappclose == "Logout" {
-                    iflogOut = true
                     if let timer = LinphoneManager.iterateTimer {
                         timer.invalidate()
                     }

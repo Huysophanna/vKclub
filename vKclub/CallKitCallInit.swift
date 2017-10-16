@@ -58,6 +58,7 @@ class CallKitCallInit {
     
     func answer() {
         print("CALL ACCEPTED ======")
+        checkCallKit = "checkCallkit"
         CallKitCallInit.state = .active
         
         //accept the call

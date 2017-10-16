@@ -359,7 +359,6 @@ class LinphoneManager {
             UpdataExtensionLastRegister(extensions:linphoneInit , tokenid: tokenExt_id)
             proxyConfig = setIdentify(_account: linphoneInit)
             break
-            
         }
      LinphoneManager.register(proxyConfig!)
      setTimer()

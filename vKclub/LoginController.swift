@@ -106,13 +106,9 @@ class LoginController: UIViewController,UITextFieldDelegate {
                                 } 
                             }
                         }
-
-                        
-                            
                             UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
                             self.performSegue(withIdentifier: "SegueToDashboard", sender: self)
-                        
-                            
+                             LinphoneManager.enableRegistration()
                         
                         
                     } else {
@@ -177,10 +173,10 @@ class LoginController: UIViewController,UITextFieldDelegate {
                             }
  
                         }
-                        
+                       UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
                        self.performSegue(withIdentifier: "SegueToDashboard", sender: self)
                             
-//                        LinphoneManager.enableRegistration()
+                        LinphoneManager.enableRegistration()
                         
                     } else {
                         UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
