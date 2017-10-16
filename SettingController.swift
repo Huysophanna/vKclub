@@ -4,15 +4,29 @@ import UserNotifications
 class SettingController: UIViewController,UNUserNotificationCenterDelegate,UIApplicationDelegate {
     
     
+    
     @IBOutlet weak var NotificationSetting: UISwitch!
    
     override func viewDidLoad() {
         super.viewDidLoad()
           Check()
+        let cancelBtn: UIButton = UIButton (type: UIButtonType.custom)
+        cancelBtn.setImage(UIImage(named: "Cancel"), for: UIControlState.normal)
+        cancelBtn.addTarget(self, action: #selector(SettingController.cancelBtn), for: .touchUpInside)
+        cancelBtn.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
+        let barButton = UIBarButtonItem(customView: cancelBtn)
+        let width = barButton.customView?.widthAnchor.constraint(equalToConstant: 20)
+        width?.isActive = true
+        let height = barButton.customView?.heightAnchor.constraint(equalToConstant: 20)
+        height?.isActive = true
+        self.navigationItem.leftBarButtonItem = barButton
+       
+        
+        
        
         
     }
-    @IBAction func cancelBtn(_ sender: Any) {
+    func cancelBtn(_ sender: Any) {
         dismiss(animated: true, completion: nil)   
     }
     
@@ -53,18 +67,12 @@ class SettingController: UIViewController,UNUserNotificationCenterDelegate,UIApp
               
                 
                 if sender.isOn{
-                    
                     self.NotificationSetting.isOn = true
-                    DispatchQueue.main.async(execute: {
-                        UIApplication.shared.registerForRemoteNotifications()
-                    })
+                    UIApplication.shared.registerForRemoteNotifications()
                     self.Check()
                 } else{
                     self.NotificationSetting.isOn = false
-                    DispatchQueue.main.async(execute: {
-                       UIApplication.shared.unregisterForRemoteNotifications()
-                    })
-                    
+                    UIApplication.shared.unregisterForRemoteNotifications()
                     self.Check()
                     
                 }

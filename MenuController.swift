@@ -86,8 +86,8 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         
         logoutAlert.addAction(UIAlertAction(title: "Okay", style: .default, handler: { (action: UIAlertAction!) in
             checkwhenappclose = "Logout"
-            InternetConnection.ShutdownPBXServer()
             InternetConnection.Logouts()
+            InternetConnection.ShutdownPBXServer()
             
         }))
         logoutAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
@@ -197,17 +197,19 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
             imageProfile.loadingIndicator(true)
                         userName.text =  currentUser?.displayName
             DispatchQueue.global(qos: .userInitiated).async {
-                guard let data = try? Data(contentsOf: (self.currentUser?.photoURL)!) else{
-                    return
-                }
-                        // When from background thread, UI needs to be updated on main_queue
-                DispatchQueue.main.async {
+                if self.currentUser?.photoURL != nil {
+                    guard let data = try? Data(contentsOf: (self.currentUser?.photoURL)!) else{
+                        return
+                    }
+                    // When from background thread, UI needs to be updated on main_queue
+                    DispatchQueue.main.async {
                         self.imageProfile.loadingIndicator(false)
                         let image = UIImage(data: data)
-                        
                         self.imageProfile.setImage(image, for: .normal)
-                    
+                        
+                    }
                 }
+                
             }
             
         } else {
@@ -314,7 +316,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         let currentLocaltion_lat = String(Checklocation.lat)
         let currentLocation_long = String(Checklocation.long)
         if (MFMessageComposeViewController.canSendText()) {
-            let phone = "+13343758067"
+            let phone  = "+18557414949"
             let message = "Please help! I'm currently facing an emergency problem. Here is my Location: http://maps.google.com/?q="+currentLocaltion_lat+","+currentLocation_long+""
             let controller = MFMessageComposeViewController()
             controller.body = message

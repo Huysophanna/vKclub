@@ -15,7 +15,6 @@ class UserProfileCoreData {
     }
     
     func StoreCallDataLog(_callerID: String , _callerName: String, _callDuration : String, _callIndicatorIcon: String) {
-        
         let (year, month, date, hour, min, sec) = UIComponentHelper.GetTodayString()
         let timeStamp = "\(hour):\(min)"
         let callLogTime = "\(year)-\(month)-\(date)-\(hour)-\(min)-\(sec)"
@@ -99,9 +98,7 @@ class UserProfileCoreData {
     
     func getSipCallDataFetchResult(withPredicate queryPredicate: NSPredicate) -> [SipCallData] {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "SipCallData")
-        
         fetchRequest.predicate = queryPredicate
-        
         do {
             let response = try manageObjectContext.fetch(fetchRequest)
             return response as! [SipCallData]

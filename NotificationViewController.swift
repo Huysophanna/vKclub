@@ -14,8 +14,9 @@ class NotificationTableViewCell: UITableViewCell {
     @IBOutlet weak var notitfication_body: UILabel!
     @IBOutlet weak var viewNotifictionBtn: UIButton!
     @IBOutlet weak var notification_title: UILabel!
+    let personService = UserProfileCoreData()
     override func awakeFromNib() {
-        notification_num = 0
+        
         super.awakeFromNib()
         // Initialization code
     }
@@ -58,7 +59,7 @@ class NotificationViewController: UITableViewController {
         do {
             notifications = try manageObjectContext.fetch(notificationRequest)
             for i in notifications{
-                i.notification_num = Int16(notification_num)
+                i.notification_num = 0
             }
             
             

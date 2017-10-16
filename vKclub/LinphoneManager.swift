@@ -24,6 +24,7 @@ let registrationStateChanged: LinphoneCoreRegistrationStateChangedCb  = {
     (lc: Optional<OpaquePointer>, proxyConfig: Optional<OpaquePointer>, state: _LinphoneRegistrationState, message: Optional<UnsafePointer<Int8>>) in
     
     switch state {
+        
         case LinphoneRegistrationNone: /**<Initial state for registrations */
             NSLog("LinphoneRegistrationNone")
         
@@ -32,7 +33,6 @@ let registrationStateChanged: LinphoneCoreRegistrationStateChangedCb  = {
         
         case LinphoneRegistrationOk:
             NSLog("LinphoneRegistrationOk")
-        
         case LinphoneRegistrationCleared:
             NSLog("LinphoneRegistrationCleared")
         
@@ -40,13 +40,13 @@ let registrationStateChanged: LinphoneCoreRegistrationStateChangedCb  = {
             NSLog("LinphoneRegistrationFailed")
         
         default:
+            print(state,"state++++")
             NSLog("Unkown registration state")
     }
 } as LinphoneCoreRegistrationStateChangedCb
 
 let callStateChanged: LinphoneCoreCallStateChangedCb = {
-    (lc: Optional<OpaquePointer>, call: Optional<OpaquePointer>, callSate: LinphoneCallState,  message: Optional<UnsafePointer<Int8>>) in
-    
+    (lc: Optional<OpaquePointer>, call: Optional<OpaquePointer>, callSate: LinphoneCallState,  message:     Optional<UnsafePointer<Int8>>) in
     print(LinphoneManager.interuptedCallFlag ,"----ACTIVECALLFLAG")
     
 //    if LinphoneManager.onActiveCallFlag == false {
@@ -59,19 +59,18 @@ let callStateChanged: LinphoneCoreCallStateChangedCb = {
             LinphoneManager.mainLcOpaquePointerData = lc
         }
 //    }
-    
-
-   
     switch callSate {
+        
         case LinphoneCallIncomingReceived: /**<This is a new incoming call */
             print("callStateChanged: LinphoneCallIncomingReceived", "====")
-            
+            if iflogOut {
+                LinphoneManager.declineCall(_declinedReason: LinphoneReasonBusy)
+                return
+            }
             if IncomingCallController.CallToAction == false && IncomingCallController.IncomingCallFlag == false && LinphoneManager.interuptedCallFlag == false {
                 print(IncomingCallController.CallToAction, IncomingCallController.IncomingCallFlag, LinphoneManager.interuptedCallFlag, "----3variables----")
-
                 //indicates that there is an incoming call to show incomingcall screen
                 LinphoneManager.incomingCallFlag = true
-                
                 print("-------BEING_FREE_NOT_WITH_SOMEONE_ELSE--------")
             } else {
                 print(IncomingCallController.CallToAction, IncomingCallController.IncomingCallFlag, LinphoneManager.interuptedCallFlag, "----3variables----")
@@ -88,7 +87,6 @@ let callStateChanged: LinphoneCoreCallStateChangedCb = {
                 linphone_core_accept_call(lc, call)
             }
         break
-        
         case LinphoneCallStreamsRunning: /**<The media streams are established and running*/
             print("callStateChanged: LinphoneCallStreamsRunning", "====")
             LinphoneManager.callStreamRunning = true
@@ -160,7 +158,6 @@ let callStateChanged: LinphoneCoreCallStateChangedCb = {
 }
 
 class LinphoneManager {
-    
     static let incomingCallInstance = IncomingCallController()
     static var linphoneCallStatus: String = ""
     static var interuptedCallFlag: Bool = false
@@ -197,7 +194,6 @@ class LinphoneManager {
     static var userAuthInfoAddedFlag = UserDefaults.standard.bool(forKey: "userAuthInfoAddedFlag")
     
     init() {
-        
         theLinphone.lct = LinphoneCoreVTable()
         
         // Enable debug log to stdout
@@ -250,6 +246,7 @@ class LinphoneManager {
     }
 
     static func makeCall(phoneNumber: String) {
+        
         if IncomingCallController.IncomingCallFlag == false {
             let calleeAccount = phoneNumber
             linphone_core_invite(theLinphone.lc, calleeAccount)
@@ -259,7 +256,7 @@ class LinphoneManager {
     }
     
     static func receiveCall() {
-        linphone_core_accept_call(theLinphone.lc, LinphoneManager.callOpaquePointerData)
+          linphone_core_accept_call(theLinphone.lc, LinphoneManager.callOpaquePointerData)        
     }
     
     static func CheckLinphoneCallState() -> String {
@@ -282,8 +279,6 @@ class LinphoneManager {
 
             return true
         } else {
-            getExtensionSucc = "getExtensionSucc"
-            
             return false
         }
     }
@@ -350,7 +345,9 @@ class LinphoneManager {
     }
     
     func LinphoneInit() {
-        switch linphoneInit {
+     switch linphoneInit {
+        case "logout":
+            break
         case "login":
             GetAccountExtension()
             break
@@ -358,13 +355,14 @@ class LinphoneManager {
             proxyConfig = setIdentify(_account: "0")
             break
         default:
+            getExtensionSucc = "Extension"
             UpdataExtensionLastRegister(extensions:linphoneInit , tokenid: tokenExt_id)
             proxyConfig = setIdentify(_account: linphoneInit)
             break
             
         }
-        LinphoneManager.register(proxyConfig!)
-        setTimer()
+     LinphoneManager.register(proxyConfig!)
+     setTimer()
     }
     
     func GetDataFromServer()  {
@@ -378,7 +376,7 @@ class LinphoneManager {
         
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
             if error != nil {
-    
+                getExtensionSucc = "getExtensionSucc"
                 
             } else {
                 if let data = data{
@@ -407,17 +405,21 @@ class LinphoneManager {
                                 print("error")
                             }
                            
-                            getExtensionSucc = "Extension"
                             linphoneInit = String(describing: extentionids)
-                            
                             break
                         case 400 :
                             // out of scope make variable global
-                            self.GetDataFromServer()
                             getExtensionSucc = "400"
+                            self.GetDataFromServer()
+                            
+                            break
+                        case 404 :
+                            getExtensionSucc = "getExtensionSucc"
+                            self.GetDataFromServer()
                             break
                             
                         default :
+                            self.GetDataFromServer()
                             getExtensionSucc = String(code_check)
                             break
                             
@@ -434,8 +436,6 @@ class LinphoneManager {
         task.resume()
         
     }
-
-    
     
     func GetAccountExtension() {
         let extensionRequest:NSFetchRequest<Extension> = Extension.fetchRequest()
@@ -444,7 +444,6 @@ class LinphoneManager {
             if extension_ids == [] {
                 let currentuser = Auth.auth().currentUser
                 databaseRef.child("users").child((currentuser?.uid)!).observeSingleEvent(of: .value, with: { (data) in
-                    getExtensionSucc = "error"
                     // Get user value
                     if let datas = data.value as? NSDictionary  {
                         var extid = ""
@@ -474,7 +473,7 @@ class LinphoneManager {
                     } else {
                         self.GetDataFromServer()
                 }}) { (error) in
-                    getExtensionSucc = "error"
+                    getExtensionSucc = "getExtensionSucc"
                 }
             } else {
                 
@@ -508,8 +507,7 @@ class LinphoneManager {
         }
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             if error != nil {
-                getExtensionSucc = "error"
-                
+                getExtensionSucc = "getExtensionSucc"
             }
         }
         
@@ -517,7 +515,6 @@ class LinphoneManager {
         
 
     }
-    
     func PostData(extensions : String , tokenid: String) {
         let currentuser = Auth.auth().currentUser
         var request = URLRequest(url: URL(string: "http://192.168.7.251:8000/api/v.1/trigger-extension")!)
@@ -535,12 +532,10 @@ class LinphoneManager {
         }
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             if error != nil {
-
-                
-            } else {
+               getExtensionSucc = "getExtensionSucc"
+             } else {
                 if let data = data {
                     do {
-                        
                         let json = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableContainers) as? [String:Any]
                         if let code = json?["code"] {
                             let code_check = code as! Int
@@ -548,17 +543,16 @@ class LinphoneManager {
                             case 200 :
                                 linphoneInit = extensions
                                 tokenExt_id  = tokenid
-                                getExtensionSucc = "Extension"
                                 break
                             case 400 :
                                 // out of scope make variable global
-                                checkwhenappclose = "Logout"
-                                InternetConnection.ShutdownPBXServer()
                                 self.GetDataFromServer()
                                 getExtensionSucc = "400"
+                            case 404 :
+                                getExtensionSucc = "getExtensionSucc"
+                                self.GetDataFromServer()
+                                break
                             default :
-                                checkwhenappclose = "Logout"
-                                InternetConnection.ShutdownPBXServer()
                                 self.GetDataFromServer()
                                 getExtensionSucc = String(code_check)
                                 break
@@ -567,13 +561,15 @@ class LinphoneManager {
                         }
                         
                     } catch {
-                        print("error")
+                        self.GetAccountExtension()
                     }
                 }
             }
             
         }
         task.resume()
+        
+       
         
     }
     
@@ -611,70 +607,50 @@ class LinphoneManager {
             UserDefaults.standard.set(true, forKey: "userAuthInfoAddedFlag")
         }
         
-        
         // configure proxy entries
         linphone_proxy_config_set_identity(proxy_cfg, identity); /*set identity with user name and domain*/
         let server_addr = String(cString: linphone_address_get_domain(from)); /*extract domain address from identity*/
-        
         linphone_address_destroy(from); /*release resource*/
-        
         linphone_proxy_config_set_server_addr(proxy_cfg, server_addr); /* we assume domain = proxy server address*/
         linphone_proxy_config_enable_register(proxy_cfg, 0); /* activate registration for this proxy config*/
         linphone_core_add_proxy_config(theLinphone.lc, proxy_cfg); /*add proxy config to linphone core*/
-        
         linphone_core_set_default_proxy_config(theLinphone.lc, proxy_cfg); /*set to default proxy*/
-        
         LinphoneManager.enableRegistration()
-        
-        
         return proxy_cfg!
     }
     
     static func register(_ proxy_cfg: OpaquePointer) {
         linphone_proxy_config_enable_register(proxy_cfg, 1); /* activate registration for this proxy config*/
-        
-        
-                print("==LIST", linphone_proxy_config_find_auth_info(proxyConfig))
-        
     }
     
 
     static func shutdown(){
         NSLog("Shutdown ---")
-        LinphoneManager.iterateTimer?.invalidate()
-        
-        
+        if let timer = LinphoneManager.iterateTimer {
+            timer.invalidate()
+        }
         //set shutdown flag
         LinphoneManager.shutDownFlag = true
-        
-        
         let proxy_cfg = linphone_core_get_default_proxy_config(theLinphone.lc); /* get default proxy config*/
-        
+        if linphone_proxy_config_get_state(proxy_cfg) !=  LinphoneRegistrationFailed {
             linphone_proxy_config_edit(proxy_cfg); /*start editing proxy configuration*/
             linphone_proxy_config_enable_publish(proxy_cfg, 1);
             linphone_proxy_config_set_publish_expires(proxy_cfg, 0);
-            //        linphone_core_set_network_reachable(proxy_cfg, 0)
+            //linphone_core_set_network_reachable(proxy_cfg, 0)
             linphone_proxy_config_enable_register(proxy_cfg, 0); /*de-activate registration for this proxy config*/
-            
             linphone_proxy_config_done(proxy_cfg); /*initiate REGISTER with expire = 0*/
             print(linphone_proxy_config_get_state(proxy_cfg),"+++proxy_cfg")
             print(LinphoneRegistrationCleared,"+++Cleared")
-            
             while(linphone_proxy_config_get_state(proxy_cfg) !=  LinphoneRegistrationCleared) {
                 linphone_core_iterate(theLinphone.lc); /*to make sure we receive call backs before shutting down*/
-                            ms_usleep(50000);
+                ms_usleep(50000);
             }
-        
             
             //        linphone_proxy_config_destroy(proxyConfig)
             LinphoneManager.removeUserAuthInfo()
             //        linphone_core_destroy(theLinphone.lc);
-            
             linphone_core_remove_proxy_config(theLinphone.lc, proxyConfig)
-            
-        
-        
-        
+        }
     }
     
     static func enableRegistration(){
@@ -685,7 +661,6 @@ class LinphoneManager {
         linphone_proxy_config_edit(proxy_cfg); /*start editing proxy configuration*/
 //        linphone_core_set_network_reachable(proxy_cfg, 1)
         linphone_proxy_config_enable_register(proxy_cfg, 1); /*activate registration for this proxy config*/
-        
         linphone_proxy_config_done(proxy_cfg); /*initiate REGISTER with expire = 0*/
         
     }
@@ -699,14 +674,15 @@ class LinphoneManager {
         if LinphoneManager.shutDownFlag == false {
             if let lc = theLinphone.lc {
 //                print(LinphoneManager.shutDownFlag ,"+++")
-                linphone_core_iterate(lc); /* first iterate initiates registration */
+                  linphone_core_iterate(lc); /* first iterate initiates registration */
+                
             }
         }
     }
     
     fileprivate func setTimer(){
         LinphoneManager.iterateTimer = Timer.scheduledTimer(
-            timeInterval: 0.02, target: self, selector: #selector(iterate), userInfo: nil, repeats: true)
+            timeInterval: 0.1, target: self, selector: #selector(iterate), userInfo: nil, repeats: true)
     }
     
     

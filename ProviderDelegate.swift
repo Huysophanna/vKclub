@@ -32,7 +32,12 @@ extension ProviderDelegate: CXProviderDelegate {
         // 3.
         call.answer()
         // 4.
-        action.fulfill()
+        if #available(iOS 11, *) {
+            print ("vKclub")
+        } else {
+           
+            action.fulfill()
+        }
         
     }
     
@@ -45,10 +50,15 @@ extension ProviderDelegate: CXProviderDelegate {
         
         // 2.
         print("Stop audio ==STOP-AUDIO==")
+        configureAudioSession()
         // 3.
         call.end(uuid: action.callUUID)
         // 4.
-        action.fulfill()
+        if #available(iOS 11, *) {
+            print ("vKclub")
+        } else {
+            action.fulfill()
+        }
         // 5.
         callKitManager.remove(call: call)
     }
@@ -89,7 +99,7 @@ class ProviderDelegate: NSObject {
     static var providerConfiguration: CXProviderConfiguration {
         let providerConfiguration = CXProviderConfiguration(localizedName: "vKclub")
         
-        providerConfiguration.supportsVideo = true
+        providerConfiguration.supportsVideo = false
         providerConfiguration.maximumCallsPerCallGroup = 1
         providerConfiguration.supportedHandleTypes = [.phoneNumber]
         
@@ -120,3 +130,4 @@ class ProviderDelegate: NSObject {
     
     
 }
+

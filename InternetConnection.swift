@@ -1,6 +1,7 @@
 import UIKit
 import SystemConfiguration
 import Firebase
+import AVFoundation
 
 // Internet Vaidation Helper...
 public class InternetConnection {
@@ -25,21 +26,16 @@ public class InternetConnection {
         if SCNetworkReachabilityGetFlags(defaultRouteReachability!, &flags) == false {
             return false
         }
-        
         /* Only Working for WIFI
          let isReachable = flags == .reachable
          let needsConnection = flags == .connectionRequired
-         
          return isReachable && !needsConnection
          */
-        
         // Working for Cellular and WIFI
         let isReachable = (flags.rawValue & UInt32(kSCNetworkFlagsReachable)) != 0
         let needsConnection = (flags.rawValue & UInt32(kSCNetworkFlagsConnectionRequired)) != 0
         let ret = (isReachable && !needsConnection)
-        
         return ret
-        
     }
     @objc static func CountSecond(){
         second += 1
@@ -57,10 +53,7 @@ public class InternetConnection {
     }
     
     static func Logouts(){
-        TimeModCheck.invalidate()
         UserDefaults.standard.set(false, forKey: "loginBefore")
-//        UserDefaults.standard.set(false, forKey: "userAuthInfoAddedFlag")
-//        LinphoneManager.userAuthInfoAddedFlag = false
         UIApplication.shared.unregisterForRemoteNotifications()
         linphoneInit = "logout"
         notification_num = 0
@@ -74,22 +67,47 @@ public class InternetConnection {
         let yourVC = mainStoryboard.instantiateViewController(withIdentifier: "loginController") as!  LoginController
         appDelegate.window?.rootViewController = yourVC
         appDelegate.window?.makeKeyAndVisible()
-        
     }
     static func ShutdownPBXServer(){
         if checkwhenappclose == "Logout" {
             personService.deleteAllData(entity: "Extension")
         }
-       
-        if LinphoneManager.CheckLinphoneConnectionStatus() {
-            LinphoneManager.shutdown()
-        } else {
-            //in case connection is false, then set these flags to false
-            UserDefaults.standard.set(false, forKey: "userAuthInfoAddedFlag")
-            LinphoneManager.userAuthInfoAddedFlag = false
+        let when = DispatchTime.now() + 4 // change 2 to desired number of seconds
+        DispatchQueue.main.asyncAfter(deadline: when) {
+            if LinphoneManager.CheckLinphoneConnectionStatus() {
+                LinphoneManager.shutdown()
+            } else {
+                // user to check if user logout when no connection to PBX server.
+                //in case connection is false, then set these flags to false
+                UserDefaults.standard.set(false, forKey: "userAuthInfoAddedFlag")
+                LinphoneManager.shutDownFlag = false
+                if checkwhenappclose == "Logout" {
+                    iflogOut = true
+                    if let timer = LinphoneManager.iterateTimer {
+                        timer.invalidate()
+                    }
+                    
+                }
+            }
         }
+       
+        
         
     }
+    static  func AudioPermissiom() -> Bool {
+    var audioPermission : Bool
+    switch AVAudioSession.sharedInstance().recordPermission() {
+         case AVAudioSessionRecordPermission.granted:
+            audioPermission  = true
+            break
+         default:
+            audioPermission  = false
+     
+            break
+    }
+      return  audioPermission
+    }
+    
     
 
 }

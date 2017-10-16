@@ -27,6 +27,16 @@ class EditProfileController: UIViewController,UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         hideKeyboardWhenTappedAround()
+        let cancelBtn: UIButton = UIButton (type: UIButtonType.custom)
+        cancelBtn.setImage(UIImage(named: "Cancel"), for: UIControlState.normal)
+        cancelBtn.addTarget(self, action: #selector(EditProfileController.CancelBtn), for: .touchUpInside)
+        cancelBtn.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
+        let barButton = UIBarButtonItem(customView: cancelBtn)
+        let width = barButton.customView?.widthAnchor.constraint(equalToConstant: 20)
+        width?.isActive = true
+        let height = barButton.customView?.heightAnchor.constraint(equalToConstant: 20)
+        height?.isActive = true
+        self.navigationItem.leftBarButtonItem = barButton
         
         UIComponentHelper.MakeCustomPlaceholderTextField(textfield: Username, name: (currentuser?.displayName)!, color: UIColor(hexString: "#736F6E", alpha: 1))
         UIComponentHelper.MakeCustomPlaceholderTextField(textfield: Email, name: (currentuser?.email)!, color: UIColor(hexString: "#736F6E", alpha: 1))
@@ -44,9 +54,10 @@ class EditProfileController: UIViewController,UITextFieldDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func CancelBtn(_ sender: Any) {
-        CheckBeforeLeave()
+     func CancelBtn(_ sender: Any) {
+         CheckBeforeLeave()
     }
+    
     
     @IBAction func UpdateBtn(_ sender: Any) {
         let length_password : Int = (currentpass.text!.characters.count)
@@ -281,6 +292,16 @@ class ChangePasswordController :UIViewController,UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         hideKeyboardWhenTappedAround()
+        let cancelBtn: UIButton = UIButton (type: UIButtonType.custom)
+        cancelBtn.setImage(UIImage(named: "Cancel"), for: UIControlState.normal)
+        cancelBtn.addTarget(self, action: #selector(ChangePasswordController.CancelBtn), for: .touchUpInside)
+        cancelBtn.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
+        let barButton = UIBarButtonItem(customView: cancelBtn)
+        let width = barButton.customView?.widthAnchor.constraint(equalToConstant: 20)
+        width?.isActive = true
+        let height = barButton.customView?.heightAnchor.constraint(equalToConstant: 20)
+        height?.isActive = true
+        self.navigationItem.leftBarButtonItem = barButton
         
         UIComponentHelper.MakeCustomPlaceholderTextField(textfield: current_password, name: "Current Password", color: UIColor(hexString: "#736F6E", alpha: 1))
         UIComponentHelper.MakeCustomPlaceholderTextField(textfield: new_password, name: "New Password", color: UIColor(hexString: "#736F6E", alpha: 1))
@@ -359,7 +380,7 @@ class ChangePasswordController :UIViewController,UITextFieldDelegate {
         
     }
     
-    @IBAction func CancelBtn(_ sender: Any) {
+    func CancelBtn(_ sender: Any) {
         CheckBeforeLeave()
         
     }

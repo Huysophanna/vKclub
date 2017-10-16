@@ -9,9 +9,7 @@ class BackgroundTask {
     
     func startBackgroundTask() {
         NotificationCenter.default.addObserver(self, selector: #selector(interuptedAudio), name: NSNotification.Name.AVAudioSessionInterruption, object: AVAudioSession.sharedInstance())
-        
         self.playAudio()
-        
         print("==STARTAUDIOPLAYING==")
     }
     

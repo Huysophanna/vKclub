@@ -11,22 +11,21 @@ import GoogleMaps
 import CoreData
 import UserNotifications
 import  FirebaseAuth
+import AVFoundation
 
 var backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask(expirationHandler: nil)
 
-class DashboardController:
-UIViewController {
+class DashboardController: UIViewController {
     
     @IBOutlet weak var serviceImg: UIImageView!
-    @IBOutlet weak var menuBtn: UIBarButtonItem!
     @IBOutlet weak var KiriromScope: UIButton!
-    @IBOutlet weak var notificationBtn: UIBarButtonItem!
     @IBOutlet weak var coverView: UIButton!
     let KIRIROMLAT: Double = 11.316541;
     let KIRIROMLNG: Double = 104.065818;
     let R: Double = 6371; // Radius of the earth in km
     let locationManager = CLLocationManager()
     var lat: Double = 0
+    let notificationBtn: UIButton = UIButton (type: UIButtonType.custom)
     var long: Double = 0
     var clickMenu  : Bool  = false
     var notifications = [Notifications]()
@@ -46,6 +45,19 @@ UIViewController {
     let setting = UserDefaults.standard.integer(forKey: "setting")
     override func viewDidLoad() {
         super.viewDidLoad()
+        notificationBtn.tag = 6
+        notificationBtn.setImage(UIImage(named: "Notification"), for: UIControlState.normal)
+        notificationBtn.addTarget(self, action: #selector(self.BtnTag), for: .touchUpInside)
+        notificationBtn.frame = CGRect(x: 0, y: 0, width: 25, height: 25)
+        let barButton = UIBarButtonItem(customView: notificationBtn)
+        let width = barButton.customView?.widthAnchor.constraint(equalToConstant: 25)
+        width?.isActive = true
+        let height = barButton.customView?.heightAnchor.constraint(equalToConstant: 25)
+        height?.isActive = true
+        self.navigationItem.rightBarButtonItem = barButton
+        if iflogOut {
+            iflogOut = false
+        }
         linphoneInit  = "login"
         CheckWhenUserChangePassword ()       // login for registerForRemoteNotifications
         UserDefaults.standard.set(true, forKey: "loginBefore")
@@ -54,24 +66,37 @@ UIViewController {
         }else{
              UIApplication.shared.unregisterForRemoteNotifications()
         }
+       
         //init background task for incoming call
         backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask(expirationHandler: nil)
-        
         loadData()
         UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
-        
         TimeModCheck  = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.isKirirom), userInfo: nil, repeats: true)
-        
         //recall backgroundTask since making call interrupt and end our audio backgroundTask
         BackgroundTask.backgroundTaskInstance.startBackgroundTask()
-
-//        Slidemenu()
         KiriromScope.setTitle("Identifying", for: .normal)
         coverView.isHidden = true
         coverView.isUserInteractionEnabled = false
         navigationController?.hidesBarsOnSwipe = false
-       
-       
+        let session = AVAudioSession.sharedInstance()
+        
+        if (session.responds(to: #selector(AVAudioSession.requestRecordPermission(_:)))) {
+            AVAudioSession.sharedInstance().requestRecordPermission({(granted: Bool)-> Void in
+                if granted {
+                    
+                    do {
+                        try session.setCategory(AVAudioSessionCategoryPlayAndRecord)
+                        try session.setActive(true)
+                    }
+                    catch {
+                        print("Couldn't set Audio session category")
+                    }
+                } else{
+                    print("not granted")
+                }
+            })
+        }
+        
     }
     
     
@@ -119,22 +144,23 @@ UIViewController {
              PresentAlertController(title: "Coming Soon!", message: "Introducing vKirirom Membership Card with vPoints, will be available soon.", actionTitle: "Okay")
             break
         case 6:
-            linphone_core_set_network_reachable(LinphoneManager.lcOpaquePointerData, 1)
-            self.notificationBtn.removeBadge()
-            notification_num = 0
+            //linphone_core_set_network_reachable(LinphoneManager.lcOpaquePointerData, 1)
+            self.navigationItem.rightBarButtonItem?.removeBadge()
             performSegue(withIdentifier: "GotoNotification", sender: self)
             break
             
         default:
             switch CHCK_USER_LOCATION {
             case IN_KIRIROM:
-                if btntag == 4{
+                if btntag == 4 {
                     CheckWhenUserChangePassword ()
                     switch getExtensionSucc {
                         case "Extension":
-                        LinphoneManager.register(proxyConfig!)
-                        performSegue(withIdentifier: "PushInternalCall", sender: self)
-                        
+                            if linphoneInit == "login"{
+                                 PresentAlertController(title: "Please wait", message: "We are trying to generate and activate   your caller ID. Please try again in seconds.", actionTitle: "Okay")
+                            } else {
+                               performSegue(withIdentifier: "PushInternalCall", sender: self)
+                            }
                             break
                         
                         case "400":
@@ -204,17 +230,12 @@ UIViewController {
                 coverView.isUserInteractionEnabled = true
                 clickMenu = true
             }
-            if UIDevice.current.orientation.isLandscape {
-                revealViewController().rearViewRevealWidth = (view.bounds.width * 50) / 100
-            } else {
-                revealViewController().rearViewRevealWidth = (view.bounds.width * 80 ) / 100
-            }
+           revealViewController().rearViewRevealWidth = (view.bounds.width * 80 ) / 100
             
             
             
         }
     }
-    
     
     func PrepareLocalNotificationForConnectionStatus(isConnected: Bool) {
         var title: String
@@ -226,7 +247,6 @@ UIViewController {
             title = "PhoneCall Registration Failed"
             body = "You are not connected. Please connect to our wifi network to recieve and make call."
         }
-        
         UIComponentHelper.scheduleNotification(_title: title, _body: body, _inSeconds: 0.1)
     }
     
@@ -256,25 +276,20 @@ UIViewController {
             KiriromScope.setTitleColor(UIColor.red, for: .normal)
         }
         if notification_num > 0 {
-            self.notificationBtn.addBadge(number: notification_num, withOffset: CGPoint(x: 10, y: 10), andColor: .red, andFilled: true)
+           self.navigationItem.rightBarButtonItem?.addBadge(number: notification_num, withOffset: CGPoint(x: -5, y: -5), andColor: .red, andFilled: true)
         } else{
-            self.notificationBtn.removeBadge()
+            self.navigationItem.rightBarButtonItem?.removeBadge()
         }
         
         if CheckUserLocation() == IN_KIRIROM {
-            
             print(LinphoneManager.CheckLinphoneConnectionStatus(),  "==STATUS===")
-            
             if LinphoneManager.CheckLinphoneCallState() == LINPHONE_CALL_IDLE {
                 print("Being idle+++++")
-                
                 //invalidate set up call in progress interval
                 IncomingCallController.InvalidateSetUpCallInProgressInterval()
                 
                 //invalidate wait for stream running interval
                 IncomingCallController.InvalidateWaitForStreamRunningInterval()
-                
-                
                 LinphoneManager.interuptedCallFlag = false
                 IncomingCallController.IncomingCallFlag = false
                 IncomingCallController.CallToAction = false
@@ -299,9 +314,7 @@ UIViewController {
     }
     
     @IBAction func MenuClick(_ sender: Any) {
-     
         Slidemenu()
-        
     }
     
     
@@ -394,7 +407,7 @@ UIViewController {
         
         do {
             notifications = try manageObjectContext.fetch(notificationRequest)
-            for i in notifications{
+            for i in notifications {
                 notification_num = Int(i.notification_num)
             }
             
