@@ -57,6 +57,7 @@ class DashboardController: UIViewController {
         self.navigationItem.rightBarButtonItem = barButton
         if iflogOut {
             iflogOut = false
+            LinphoneManager.shutdown()
         }
         linphoneInit  = "login"
         CheckWhenUserChangePassword ()       // login for registerForRemoteNotifications
@@ -297,6 +298,9 @@ class DashboardController: UIViewController {
 
             //Push localNotification to show user about linphone connection status
             if LinphoneManager.CheckLinphoneConnectionStatus() {
+                if iflogOut {
+                    return
+                }
                 if DashboardController.LinphoneConnectionStatusFlag == false {
                     linphoneConnectionStatusFlag = true
                     

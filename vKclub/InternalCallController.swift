@@ -10,16 +10,15 @@ import Foundation
 import UIKit
 import CoreData
 
-
 class InternalCallController: UIViewController{
     @IBOutlet weak var numberTextField: UITextField!
     static let extensionBtn = UIButton(type: .system)
     var incomingCallInstance: IncomingCallController? = IncomingCallController()
     var dialPhoneNumber: String = ""
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         //make extension button with connection status
         MakeExtensionButton(color: DashboardController.LinphoneConnectionStatusFlag == true ? UIColor.green : UIColor.red)
         
@@ -33,7 +32,7 @@ class InternalCallController: UIViewController{
         super.viewWillDisappear(animated)
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
     }
-      func ChangeExtensionActiveStatus(color: UIColor) {
+    func ChangeExtensionActiveStatus(color: UIColor) {
         InternalCallController.extensionBtn.tintColor = color
     }
     
@@ -70,25 +69,42 @@ class InternalCallController: UIViewController{
     }
     
     @IBAction func CallBtnClicked(_ sender: Any) {
-        if dialPhoneNumber.characters.count != 0 {
-            if LinphoneManager.CheckLinphoneConnectionStatus() {
-                IncomingCallController.dialPhoneNumber = dialPhoneNumber
-                
-                //prevent calling to their own number
-                if userExtensionID == IncomingCallController.dialPhoneNumber {
-                    PresentAlertController(title: "Something went wrong", message: "You are about to call to your own ID. Please choose another ID and try again.", actionTitle: "Got it")
-                    return
+        if InternetConnection.AudioPermissiom(){
+            if dialPhoneNumber.characters.count != 0 {
+                if LinphoneManager.CheckLinphoneConnectionStatus() {
+                    IncomingCallController.dialPhoneNumber = dialPhoneNumber
+                    
+                    //prevent calling to their own number
+                    if userExtensionID == IncomingCallController.dialPhoneNumber {
+                        PresentAlertController(title: "Something went wrong", message: "You are about to call to your own ID. Please choose another ID and try again.", actionTitle: "Got it")
+                        return
+                    }
+                    
+                    incomingCallInstance?.callToFlag = true
+                    LinphoneManager.makeCall(phoneNumber: dialPhoneNumber)
+                    
+                    
+                } else {
+                    //LinphoneCallError occurred
+                    PresentAlertController(title: "Something went wrong", message: "You are not connected to our server. Please ensure that you are connected to our network and try again later.", actionTitle: "Okay")
                 }
-                
-                incomingCallInstance?.callToFlag = true
-                LinphoneManager.makeCall(phoneNumber: dialPhoneNumber)
-                
-                
-            } else {
-                //LinphoneCallError occurred
-                PresentAlertController(title: "Something went wrong", message: "You are not connected to our server. Please ensure that you are connected to our network and try again later.", actionTitle: "Okay")
             }
+            
+        } else {
+            let LocationPermissionAlert = UIAlertController(title: "Audio Permission Denied.", message: "Turn on Audio Service to process the internal phone call", preferredStyle: UIAlertControllerStyle.alert)
+            
+            LocationPermissionAlert.addAction(UIAlertAction(title: "Okay", style: .default, handler: { (action: UIAlertAction!) in
+                UIApplication.shared.open(URL(string:UIApplicationOpenSettingsURLString)!, options: [:], completionHandler:nil)
+            }))
+            LocationPermissionAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            self.present( LocationPermissionAlert, animated: true, completion: nil)
+            
         }
+        
+        
+        
+        
     }
-
+    
 }
+

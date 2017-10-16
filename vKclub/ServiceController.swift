@@ -11,7 +11,7 @@ import UIKit
 
 class ServiceController: UIViewController {
     var incomingCallInstance = IncomingCallController()
-//    var dashboardInstance = DashboardController()
+    //    var dashboardInstance = DashboardController()
     @IBOutlet weak var inKiriromContent: UIView!
     @IBOutlet weak var bottomLine: UIView!
     
@@ -28,17 +28,18 @@ class ServiceController: UIViewController {
     }
     
     @IBAction func GotoBookpage(_ sender: Any) {
-         self.performSegue(withIdentifier: "SgGotoBookpage", sender: self)
+        self.performSegue(withIdentifier: "SgGotoBookpage", sender: self)
     }
     
     @IBAction func CallToDepartmentAction(_ sender: Any) {
+        
         if LinphoneManager.CheckLinphoneConnectionStatus() == false {
-             PresentAlertController(title: "Something went wrong", message: "You are not connected to our server. Please ensure that you are connected to our network and try again later.", actionTitle: "Okay")
+            PresentAlertController(title: "Something went wrong", message: "You are not connected to our server. Please ensure that you are connected to our network and try again later.", actionTitle: "Okay")
             return
             
         }
-        
-        switch (sender as! UIButton).tag {
+        if InternetConnection.AudioPermissiom(){
+            switch (sender as! UIButton).tag {
             case 1:
                 //reception
                 if CHCK_USER_LOCATION == IN_KIRIROM {
@@ -69,7 +70,21 @@ class ServiceController: UIViewController {
                 //operation
                 CallToAction(phoneNumber: "240")
                 break
+            }
+            
+            
+            
+        } else {
+            let LocationPermissionAlert = UIAlertController(title: "Audio Permission Denied.", message: "Turn on Audio Service to process the internal phone call", preferredStyle: UIAlertControllerStyle.alert)
+            
+            LocationPermissionAlert.addAction(UIAlertAction(title: "Okay", style: .default, handler: { (action: UIAlertAction!) in
+                UIApplication.shared.open(URL(string:UIApplicationOpenSettingsURLString)!, options: [:], completionHandler:nil)
+            }))
+            LocationPermissionAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            self.present( LocationPermissionAlert, animated: true, completion: nil)
+            
         }
+        
         
         
     }
@@ -80,7 +95,7 @@ class ServiceController: UIViewController {
         LinphoneManager.makeCall(phoneNumber: phoneNumber)
     }
     
- }
+}
 
 class BookingViewController: UIViewController ,UIWebViewDelegate{
     var propertyData: [String: AnyObject]!
@@ -121,7 +136,7 @@ class BookingViewController: UIViewController ,UIWebViewDelegate{
         super.viewWillDisappear(animated)
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
     }
-
+    
     
     func webViewDidFinishLoad(_ webView: UIWebView) {
         UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: false)
@@ -140,4 +155,5 @@ class BookingViewController: UIViewController ,UIWebViewDelegate{
         dismiss(animated: true, completion: nil)
     }
     
- }
+}
+
