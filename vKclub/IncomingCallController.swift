@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import AVFoundation
 import CoreData
+import MediaPlayer
 import CallKit
 
 class IncomingCallController: UIViewController {
@@ -25,13 +26,13 @@ class IncomingCallController: UIViewController {
     @IBOutlet weak var endCallBtn: UIButton!
     
     var callDuration = ""
+    var defaultPlayer = MPMusicPlayerController.systemMusicPlayer()
     static var callLogTime = ""
     var callLogData = [SipCallData]()
     var callDataRequest: NSFetchRequest<SipCallData> = SipCallData.fetchRequest()
     let userCoreDataInstance = UserProfileCoreData()
     var callKitManager: CallKitCallInit?
     let callController = CXCallController()
-    
     static var dialPhoneNumber: String = ""
     
     static var waitForStreamRunningInterval: Timer?
@@ -40,26 +41,25 @@ class IncomingCallController: UIViewController {
     static var IncomingCallFlag = false
     var incomingCallFlags = false {
         didSet {
+            
             //listen for incoming call event
             IncomingCallController.IncomingCallFlag = incomingCallFlags
             if incomingCallFlags == true {
                 print(IncomingCallController.IncomingCallFlag, "----1variable")
-                
                 IncomingCallController.CallToAction = false
                 PresentIncomingVC()
-                
                 //stop AVAudioPlayer background task while about to call
                 BackgroundTask.backgroundTaskInstance.stopBackgroundTask()
-                
                 let appState = UIApplication.shared.applicationState
                 if appState == .background {
+                    
                     DispatchQueue.main.asyncAfter(wallDeadline: DispatchWallTime.now() + 1.5) {
                         //Display CallKit for iOS 10
                         if #available(iOS 10, *) {
                             AppDelegate.shared.displayIncomingCall(uuid: UUID(), handle: LinphoneManager.getContactName()) { _ in
                                 UIApplication.shared.endBackgroundTask(backgroundTaskIdentifier)
                             }
-                        //Display local notification alert for non-callkit supported device
+                            //Display local notification alert for non-callkit supported device
                         } else {
                             // ios 9
                             let notification = UILocalNotification()
@@ -84,11 +84,8 @@ class IncomingCallController: UIViewController {
             if callToFlag == true {
                 print("-----", IncomingCallController.IncomingCallFlag ,"+++++")
                 if IncomingCallController.IncomingCallFlag == false {
-                    
                     PresentIncomingVC()
-                    
                     print("-------CALLTO_BEING_FREE_NOT_WITH_SOMEONE_ELSE--------")
-                    
                     //stop AVAudioPlayer background task while about to call
                     BackgroundTask.backgroundTaskInstance.stopBackgroundTask()
                 } else {
@@ -102,7 +99,7 @@ class IncomingCallController: UIViewController {
     var callStreamRunning = false {
         didSet {
             //stop backgroundTask since making call interrupt and end our audio backgroundTask
-//            player.stop()
+            //            player.stop()
             IncomingCallController.CallStreamRunning = callStreamRunning
             
             print("callStreamRunning ====YAYY====", IncomingCallController.CallStreamRunning)
@@ -114,7 +111,6 @@ class IncomingCallController: UIViewController {
         didSet {
             IncomingCallController.AcceptCallFlag = acceptCallFlag
             print("AcceptedCallStream ====YAYY====")
-            
             if IncomingCallController.AcceptCallFlag {
                 AcceptCallAction()
             }
@@ -155,38 +151,30 @@ class IncomingCallController: UIViewController {
                 
                 //invalidate set up call in progress interval
                 IncomingCallController.InvalidateSetUpCallInProgressInterval()
-                
                 //Linephone call will destory the audio session when the call ends, so wait for 5seconds to restart the AVAudioPlayer background task
                 Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(WaitToStartBackgroundTask), userInfo: nil, repeats: false)
             }
         }
     }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         callKitManager = CallKitCallInit(uuid: UUID(), handle: "")
-        
         backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask(expirationHandler: nil)
         callDataRequest = SipCallData.fetchRequest()
-        do {
-            callLogData = try manageObjectContext.fetch(callDataRequest)
-        } catch {
-            print("CAN\'T FETCH CALLLOGDATA \(error.localizedDescription) ===")
-        }
-
         //Set all image buttons
         SetImageBtn(button: speakerBtn, imageName: "speaker-icon", imgEdgeInsets: 25)
         SetImageBtn(button: muteBtn, imageName: "mute-icon", imgEdgeInsets: 25)
         SetImageBtn(button: rejectCallBtn, imageName: "reject-phone-icon", imgEdgeInsets: 5)
         SetImageBtn(button: answerCallBtn, imageName: "call-answer", imgEdgeInsets: 13)
         SetImageBtn(button: endCallBtn, imageName: "reject-phone-icon", imgEdgeInsets: 5)
-        
+        //stop the outGoingCallSound while in call progress
+        if MPMusicPlayerController.systemMusicPlayer().playbackState == .playing {
+            defaultPlayer.pause()
+        }
         //Interval waiting for callstream running, invalidate while call is in progress
         if IncomingCallController.waitForStreamRunningInterval == nil {
             IncomingCallController.waitForStreamRunningInterval = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(IncomingCallController.WaitForStreamRunning), userInfo: nil, repeats: true)
         }
-        
         if IncomingCallController.CallToAction {
             //User makes call to other person
             PrepareCallToActionUI()
@@ -198,6 +186,22 @@ class IncomingCallController: UIViewController {
             
         }
         
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.isNavigationBarHidden = false
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+    
+    //*** This is required to fix navigation bar forever disappear on fast backswipe bug.
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
     func WaitToStartBackgroundTask() {
@@ -223,13 +227,11 @@ class IncomingCallController: UIViewController {
     
     func WaitForStreamRunning() {
         print(LinphoneManager.linphoneCallStatus, "===OKAY===")
-        
         //play outGoingCallSound for callToAction
         if LinphoneManager.CheckLinphoneCallState() == LINPHONE_CALL_OUTGOING_RINGING {
             outGoingCallPlayer.prepareToPlay()
             outGoingCallPlayer.play()
         }
-        
         if IncomingCallController.AcceptCallFlag == true {
             AcceptCallAction()
         }
@@ -302,10 +304,9 @@ class IncomingCallController: UIViewController {
         print("STH")
         incomingCallFlags = false
         releaseCallFlag = true
-        
         //invalidate wait for stream running interval
         IncomingCallController.InvalidateWaitForStreamRunningInterval()
-
+        
     }
     
     func ResetAllFlagVariable() {
@@ -315,7 +316,7 @@ class IncomingCallController: UIViewController {
         incomingCallFlags = false
         IncomingCallController.IncomingCallFlag = false
         IncomingCallController.CallToAction = false
-//        callStreamRunning = false
+        //        callStreamRunning = false
         
         //invalidate set up call in progress interval
         IncomingCallController.InvalidateSetUpCallInProgressInterval()
@@ -330,29 +331,23 @@ class IncomingCallController: UIViewController {
     
     func AcceptCallAction() {
         LinphoneManager.receiveCall()
-//        incomingCallFlags = false
+        //        incomingCallFlags = false
     }
     
     func EndCallAction() {
         LinphoneManager.endCall()
-//        incomingCallFlags = false
+        //        incomingCallFlags = false
         releaseCallFlag = true
         
         //Report to end the last call for CallKit
         callKitManager?.end(uuid: lastCallUUID)
         
         //reset all flag
-//        ResetAllFlagVariable()
+        //        ResetAllFlagVariable()
     }
     
     func PrepareInCallProgressUI() {
-//        callStreamRunning = false
-        
-        //stop the outGoingCallSound while in call progress
-        if outGoingCallPlayer.isPlaying {
-            outGoingCallPlayer.stop()
-        }
-        
+        //        callStreamRunning = false
         answerCallBtn.isHidden = true
         rejectCallBtn.isHidden = true
         endCallBtn.isHidden = false
@@ -420,7 +415,6 @@ class IncomingCallController: UIViewController {
         } catch let error as NSError {
             print("audioSession error: \(error.localizedDescription)")
         }
-        
         speakerBtn.tag = 0
         speakerBtn.tintColor = UIColor.white
         speakerBtn.backgroundColor = UIColor.clear
@@ -451,15 +445,12 @@ class IncomingCallController: UIViewController {
         //remove interval when A accept the call and B end the call
         if LinphoneManager.CheckLinphoneCallState() != LINPHONE_CALLSTREAM_RUNNING {
             print(callDuration, "--- STH")
-            
             //Set call duration when call is dropped
             SetCallDurationToCoreData()
-            
             //invalidate set up call in progress interval
             IncomingCallController.InvalidateSetUpCallInProgressInterval()
-            
         }
-
+        
         print(LinphoneManager.CheckLinphoneCallState(), "===OKAY===")
     }
     
@@ -478,22 +469,43 @@ class IncomingCallController: UIViewController {
             IncomingCallController.setUpCallInProgressInterval = nil
         }
     }
-
+    
     func PresentIncomingVC() {
         userCoreDataInstance.StoreCallDataLog(_callerID: IncomingCallController.CallToAction == true ? IncomingCallController.dialPhoneNumber : LinphoneManager.getCallerNb(), _callerName: IncomingCallController.CallToAction == true ? "" : LinphoneManager.getContactName(), _callDuration: callDuration, _callIndicatorIcon: IncomingCallController.CallToAction == true ? "outgoing-call-icon" : "incoming-call-icon")
-        
         print("--- SAVED", IncomingCallController.dialPhoneNumber)
-
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let newViewController = storyBoard.instantiateViewController(withIdentifier: "IncomingCallSB") as! IncomingCallController
-        
         UIApplication.topViewController()?.present(newViewController, animated: true, completion: nil)
     }
     
     func SetImageBtn(button: UIButton, imageName: String, imgEdgeInsets: CGFloat) {
-        button.setImage(UIImage(named: imageName), for: .normal)
-        button.contentMode = .center
-        button.imageView?.contentMode = .scaleAspectFit
-        button.imageEdgeInsets = UIEdgeInsetsMake(imgEdgeInsets, imgEdgeInsets, imgEdgeInsets, imgEdgeInsets)
+        if #available(iOS 11, *) {
+            button.setImage(UIImage(named: imageName), for: .normal)
+            button.contentMode = .center
+            button.imageView?.contentMode = .scaleAspectFit
+            switch imageName{
+            case "speaker-icon":
+                button.imageEdgeInsets =  UIEdgeInsets(top: imgEdgeInsets, left: imgEdgeInsets, bottom: imgEdgeInsets, right: -40 )
+                break
+            case "mute-icon":
+                button.imageEdgeInsets =  UIEdgeInsets(top: imgEdgeInsets, left: imgEdgeInsets, bottom: imgEdgeInsets, right: -15 )
+                break
+            default:
+                button.imageEdgeInsets =  UIEdgeInsets(top: imgEdgeInsets, left: imgEdgeInsets, bottom: imgEdgeInsets, right: imgEdgeInsets)
+                break
+            }
+            button.setTitle("", for: .normal)
+            
+        } else{
+            button.setImage(UIImage(named: imageName), for: .normal)
+            button.contentMode = .center
+            button.imageView?.contentMode = .scaleAspectFit
+            button.imageEdgeInsets = UIEdgeInsetsMake(imgEdgeInsets, imgEdgeInsets, imgEdgeInsets, imgEdgeInsets)
+            
+            
+        }
+        
     }
 }
+
+
