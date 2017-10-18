@@ -20,7 +20,7 @@ class InternalCallController: UIViewController{
         super.viewDidLoad()
         
         //make extension button with connection status
-        MakeExtensionButton(color: DashboardController.LinphoneConnectionStatusFlag == true ? UIColor.green : UIColor.red)
+        MakeExtensionButton(color: LinphoneConnectionStatusFlag == true ? UIColor.red : UIColor.green)
         
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -73,7 +73,6 @@ class InternalCallController: UIViewController{
             if dialPhoneNumber.characters.count != 0 {
                 if LinphoneManager.CheckLinphoneConnectionStatus() {
                     IncomingCallController.dialPhoneNumber = dialPhoneNumber
-                    
                     //prevent calling to their own number
                     if userExtensionID == IncomingCallController.dialPhoneNumber {
                         PresentAlertController(title: "Something went wrong", message: "You are about to call to your own ID. Please choose another ID and try again.", actionTitle: "Got it")

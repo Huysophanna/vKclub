@@ -26,19 +26,32 @@ let registrationStateChanged: LinphoneCoreRegistrationStateChangedCb  = {
     switch state {
         
         case LinphoneRegistrationNone: /**<Initial state for registrations */
-            NSLog("LinphoneRegistrationNone")
-        
+            if LinphoneConnectionStatusFlag == false {
+                UIComponentHelper.scheduleNotification(_title: "PhoneCall Registered", _body: "You are not connected. Please connect to our wifi network to recieve and make call.", _inSeconds:0.1)
+                connection = false
+                LinphoneConnectionStatusFlag = true
+            }
         case LinphoneRegistrationProgress:
             NSLog("LinphoneRegistrationProgress")
-        
         case LinphoneRegistrationOk:
-            NSLog("LinphoneRegistrationOk")
+            if LinphoneConnectionStatusFlag {
+                if iflogOut {
+                    return
+                }
+                NSLog("LinphoneRegistrationOk")
+                getExtensionSucc = "Extension"
+                connection = true
+                clearConntection = false
+                UIComponentHelper.scheduleNotification(_title: "PhoneCall Registered", _body: "You are connected. Available to recieve and make call.", _inSeconds:0.1)
+                LinphoneConnectionStatusFlag = false
+            }
+        
         case LinphoneRegistrationCleared:
             NSLog("LinphoneRegistrationCleared")
-        
+            LinphoneConnectionStatusFlag = true
+            clearConntection = true
         case LinphoneRegistrationFailed:
             NSLog("LinphoneRegistrationFailed")
-        
         default:
             print(state,"state++++")
             NSLog("Unkown registration state")
@@ -249,7 +262,10 @@ class LinphoneManager {
         
         if IncomingCallController.IncomingCallFlag == false {
             let calleeAccount = phoneNumber
-            linphone_core_invite(theLinphone.lc, calleeAccount)
+            if theLinphone.lc != nil {
+              linphone_core_invite(theLinphone.lc, calleeAccount)
+            }
+            
         } else {
             print("-------MAKECALL_BEING_BUSY_WITH_SOMEONE_ELSE--------")
         }
@@ -274,9 +290,8 @@ class LinphoneManager {
     
     static func CheckLinphoneConnectionStatus() -> Bool {
         // 1 means registered
-        if linphone_proxy_config_is_registered(proxyConfig) == 1 {
+        if  connection {
              getExtensionSucc = "Extension"
-
             return true
         } else {
             return false
@@ -345,23 +360,21 @@ class LinphoneManager {
     }
     
     func LinphoneInit() {
-     switch linphoneInit {
-        case "logout":
-            break
-        case "login":
-            GetAccountExtension()
-            break
-        case "firstLaunch":
-            proxyConfig = setIdentify(_account: "0")
-            break
-        default:
-            getExtensionSucc = "Extension"
-            UpdataExtensionLastRegister(extensions:linphoneInit , tokenid: tokenExt_id)
-            proxyConfig = setIdentify(_account: linphoneInit)
-            break
-        }
-     LinphoneManager.register(proxyConfig!)
-     setTimer()
+//     switch linphoneInit {
+//        case "logout":
+//            break
+//        case "login":
+//            GetAccountExtension()
+//            break
+//        case "firstLaunch":
+//            proxyConfig = setIdentify(_account: "0")
+//            break
+//        default:
+//
+//        }
+        proxyConfig = self.setIdentify(_account: linphoneInit)
+        LinphoneManager.register(proxyConfig!)
+        setTimer()
     }
     
     func GetDataFromServer()  {
@@ -394,7 +407,7 @@ class LinphoneManager {
                                 tokenExt_id  = token as! String
                                 newextension_id.setValue(extentionids, forKey: "extension_id")
                                 newextension_id.setValue(token , forKey: "token")
-                                databaseRef.child("users").child((currentuser?.uid)!).child("Extension").setValue(extentionid)
+                            databaseRef.child("users").child((currentuser?.uid)!).child("Extension").setValue(extentionid)
                                 databaseRef.child("users").child((currentuser?.uid)!).child("Token").setValue(token)
                                 databaseRef.child("users").child((currentuser?.uid)!).child("Username").setValue(currentuser?.displayName)
                             }
@@ -500,7 +513,6 @@ class LinphoneManager {
         let parameters = ["ext":extensions , "reserved_token":tokenid ,"action": "register"]
         do {
             request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted) // pass dictionary to nsdata object and set it as request body
-            
         } catch let error {
             print(error.localizedDescription)
         }
@@ -525,7 +537,6 @@ class LinphoneManager {
         let parameters = ["ext":extensions , "reserved_token":tokenid ,"action": "register"]
         do {
             request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted) // pass dictionary to nsdata object and set it as request body
-            
         } catch let error {
             print(error.localizedDescription)
         }
@@ -599,22 +610,18 @@ class LinphoneManager {
             return nil
         }
         
-        userAuthInfo = linphone_auth_info_new(linphone_address_get_username(from), nil, password, nil, nil, nil); /*create authentication structure from identity*/
-        //if user auth info is already added, will not add again
-        if !LinphoneManager.userAuthInfoAddedFlag  {
-            linphone_core_add_auth_info(theLinphone.lc, userAuthInfo); /*add authentication info to LinphoneCore*/
-            UserDefaults.standard.set(true, forKey: "userAuthInfoAddedFlag")
-        }
+        let info=linphone_auth_info_new(linphone_address_get_username(from), nil, password, nil, nil, nil); /*create authentication structure from identity*/
+        linphone_core_add_auth_info(theLinphone.lc!, info); /*add authentication info to LinphoneCore*/
         
         // configure proxy entries
         linphone_proxy_config_set_identity(proxy_cfg, identity); /*set identity with user name and domain*/
         let server_addr = String(cString: linphone_address_get_domain(from)); /*extract domain address from identity*/
         linphone_address_destroy(from); /*release resource*/
         linphone_proxy_config_set_server_addr(proxy_cfg, server_addr); /* we assume domain = proxy server address*/
-        linphone_proxy_config_enable_register(proxy_cfg, 0); /* activate registration for this proxy config*/
-        linphone_core_add_proxy_config(theLinphone.lc, proxy_cfg); /*add proxy config to linphone core*/
-        linphone_core_set_default_proxy_config(theLinphone.lc, proxy_cfg); /*set to default proxy*/
-        LinphoneManager.enableRegistration()
+        //        linphone_proxy_config_enable_register(proxy_cfg, 0); /* activate registration for this proxy config*/
+        linphone_proxy_config_set_expires(proxy_cfg, 60)
+        linphone_core_add_proxy_config(theLinphone.lc!, proxy_cfg); /*add proxy config to linphone core*/
+        linphone_core_set_default_proxy_config(theLinphone.lc!, proxy_cfg); /*set to default proxy*/
         return proxy_cfg!
     }
     
@@ -624,32 +631,53 @@ class LinphoneManager {
     
 
     static func shutdown(){
-        NSLog("Shutdown ---")
-        if let timer = LinphoneManager.iterateTimer {
-            timer.invalidate()
-        }
-        //set shutdown flag
-        LinphoneManager.shutDownFlag = true
-        let proxy_cfg = linphone_core_get_default_proxy_config(theLinphone.lc); /* get default proxy config*/
+//        NSLog("Shutdown ---")
+//        if let timer = LinphoneManager.iterateTimer {
+//            timer.invalidate()
+//        }
+//        //set shutdown flag
+//        LinphoneManager.shutDownFlag = true
+//        let proxy_cfg = linphone_core_get_default_proxy_config(theLinphone.lc); /* get default proxy config*/
+//        if linphone_proxy_config_get_state(proxy_cfg) !=  LinphoneRegistrationFailed {
+//            linphone_proxy_config_edit(proxy_cfg); /*start editing proxy configuration*/
+//            linphone_proxy_config_enable_publish(proxy_cfg, 1);
+//            linphone_proxy_config_set_publish_expires(proxy_cfg, 0);
+//            //linphone_core_set_network_reachable(proxy_cfg, 0)
+//            linphone_proxy_config_enable_register(proxy_cfg, 0); /*de-activate registration for this proxy config*/
+//            linphone_proxy_config_done(proxy_cfg); /*initiate REGISTER with expire = 0*/
+//            print(linphone_proxy_config_get_state(proxy_cfg),"+++proxy_cfg")
+//            print(LinphoneRegistrationCleared,"+++Cleared")
+//            while(linphone_proxy_config_get_state(proxy_cfg) !=  LinphoneRegistrationCleared) {
+//                linphone_core_iterate(theLinphone.lc); /*to make sure we receive call backs before shutting down*/
+//                ms_usleep(50000);
+//            }
+//
+//            //        linphone_proxy_config_destroy(proxyConfig)
+//            LinphoneManager.removeUserAuthInfo()
+//            //        linphone_core_destroy(theLinphone.lc);
+//            linphone_core_remove_proxy_config(theLinphone.lc, proxyConfig)
+//        }
+//        NSLog("Linphone unregister()..")
+//        if  TiemeVoip != nil {
+//            TiemeVoip?.invalidate()
+//           TiemeVoip = nil
+//        }
+        let proxy_cfg = linphone_core_get_default_proxy_config(theLinphone.lc!); /* get default proxy config*/
+        
         if linphone_proxy_config_get_state(proxy_cfg) !=  LinphoneRegistrationFailed {
             linphone_proxy_config_edit(proxy_cfg); /*start editing proxy configuration*/
-            linphone_proxy_config_enable_publish(proxy_cfg, 1);
-            linphone_proxy_config_set_publish_expires(proxy_cfg, 0);
-            //linphone_core_set_network_reachable(proxy_cfg, 0)
             linphone_proxy_config_enable_register(proxy_cfg, 0); /*de-activate registration for this proxy config*/
             linphone_proxy_config_done(proxy_cfg); /*initiate REGISTER with expire = 0*/
-            print(linphone_proxy_config_get_state(proxy_cfg),"+++proxy_cfg")
-            print(LinphoneRegistrationCleared,"+++Cleared")
-            while(linphone_proxy_config_get_state(proxy_cfg) !=  LinphoneRegistrationCleared) {
-                linphone_core_iterate(theLinphone.lc); /*to make sure we receive call backs before shutting down*/
+            
+            while(linphone_proxy_config_get_state(proxy_cfg) !=  LinphoneRegistrationCleared){
+                linphone_core_iterate(theLinphone.lc!); /*to make sure we receive call backs before shutting down*/
                 ms_usleep(50000);
             }
-            
-            //        linphone_proxy_config_destroy(proxyConfig)
-            LinphoneManager.removeUserAuthInfo()
-            //        linphone_core_destroy(theLinphone.lc);
-            linphone_core_remove_proxy_config(theLinphone.lc, proxyConfig)
         }
+        
+        
+        linphone_core_remove_listener(theLinphone.lc!, &theLinphone.lct!)
+//        linphone_core_destroy(theLinphone.lc!);
     }
     
     static func enableRegistration(){
@@ -672,16 +700,18 @@ class LinphoneManager {
     @objc func iterate(){
         if LinphoneManager.shutDownFlag == false {
             if let lc = theLinphone.lc {
-//                print(LinphoneManager.shutDownFlag ,"+++")
-                  linphone_core_iterate(lc); /* first iterate initiates registration */
-                
+                //print(LinphoneManager.shutDownFlag,lc ,"+++")
+                linphone_core_iterate(lc); /* first iterate initiates registration */
             }
         }
     }
     
     fileprivate func setTimer(){
-        LinphoneManager.iterateTimer = Timer.scheduledTimer(
-            timeInterval: 0.1, target: self, selector: #selector(iterate), userInfo: nil, repeats: true)
+        if TiemeVoip == nil {
+            TiemeVoip = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(iterate), userInfo: nil, repeats: true)
+        }
+        
+       
     }
     
     

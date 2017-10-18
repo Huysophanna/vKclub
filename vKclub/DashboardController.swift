@@ -30,14 +30,13 @@ class DashboardController: UIViewController {
     var clickMenu  : Bool  = false
     var notifications = [Notifications]()
     let internalCallControllerInstance = InternalCallController()
-    static var LinphoneConnectionStatusFlag: Bool = true
     var linphoneConnectionStatusFlag: Bool = true {
         didSet {
-            DashboardController.LinphoneConnectionStatusFlag = linphoneConnectionStatusFlag
+     //            DashboardController.LinphoneConnectionStatusFlag = linphoneConnectionStatusFlag
             PrepareLocalNotificationForConnectionStatus(isConnected: linphoneConnectionStatusFlag)
             
             //change extension connection status in Internal Phone Call view
-            internalCallControllerInstance.ChangeExtensionActiveStatus(color: DashboardController.LinphoneConnectionStatusFlag == true ? UIColor.green : UIColor.red)
+//            internalCallControllerInstance.ChangeExtensionActiveStatus(color: DashboardController.LinphoneConnectionStatusFlag == true ? UIColor.green : UIColor.red)
         }
     }
     
@@ -282,38 +281,39 @@ class DashboardController: UIViewController {
             self.navigationItem.rightBarButtonItem?.removeBadge()
         }
         
-        if CheckUserLocation() == IN_KIRIROM {
-            print(LinphoneManager.CheckLinphoneConnectionStatus(),  "==STATUS===")
-            if LinphoneManager.CheckLinphoneCallState() == LINPHONE_CALL_IDLE {
-                print("Being idle+++++")
-                //invalidate set up call in progress interval
-                IncomingCallController.InvalidateSetUpCallInProgressInterval()
-                
-                //invalidate wait for stream running interval
-                IncomingCallController.InvalidateWaitForStreamRunningInterval()
-                LinphoneManager.interuptedCallFlag = false
-                IncomingCallController.IncomingCallFlag = false
-                IncomingCallController.CallToAction = false
-            }
-
-            //Push localNotification to show user about linphone connection status
-            if LinphoneManager.CheckLinphoneConnectionStatus() {
-                if iflogOut {
-                    return
-                }
-                if DashboardController.LinphoneConnectionStatusFlag == false {
-                    linphoneConnectionStatusFlag = true
-                    
-                }
-            } else {
-                if DashboardController.LinphoneConnectionStatusFlag {
-                    linphoneConnectionStatusFlag = false
-                }
-            }
-            
-            LinphoneManager.register(proxyConfig!)
-            print("registering --++")
-        }
+        
+//        if CheckUserLocation() == IN_KIRIROM {
+//            print(LinphoneManager.CheckLinphoneConnectionStatus(),  "==STATUS===")
+//            if LinphoneManager.CheckLinphoneCallState() == LINPHONE_CALL_IDLE {
+//                print("Being idle+++++")
+//                //invalidate set up call in progress interval
+//                IncomingCallController.InvalidateSetUpCallInProgressInterval()
+//
+//                //invalidate wait for stream running interval
+//                IncomingCallController.InvalidateWaitForStreamRunningInterval()
+//                LinphoneManager.interuptedCallFlag = false
+//                IncomingCallController.IncomingCallFlag = false
+//                IncomingCallController.CallToAction = false
+//            }
+//
+//            //Push localNotification to show user about linphone connection status
+//            if LinphoneManager.CheckLinphoneConnectionStatus() {
+//                if iflogOut {
+//                    return
+//                }
+//                if DashboardController.LinphoneConnectionStatusFlag == false {
+//                    linphoneConnectionStatusFlag = true
+//
+//                }
+//            } else {
+//                if DashboardController.LinphoneConnectionStatusFlag {
+//                    linphoneConnectionStatusFlag = false
+//                }
+//            }
+//
+//            LinphoneManager.register(proxyConfig!)
+//            print("registering --++")
+//        }
         
     }
     

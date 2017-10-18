@@ -56,7 +56,6 @@ public class InternetConnection {
         
         UserDefaults.standard.set(false, forKey: "loginBefore")
         UIApplication.shared.unregisterForRemoteNotifications()
-        linphoneInit = "logout"
         notification_num = 0
         personService.deleteAllData(entity: "SipCallData")
         personService.deleteAllData(entity: "UserProfile")
@@ -78,17 +77,14 @@ public class InternetConnection {
             TimeModCheck.invalidate()
             if LinphoneManager.CheckLinphoneConnectionStatus() {
                 LinphoneManager.shutdown()
-                
+                linphoneInit = "logout"
             } else {
                 // user to check if user logout when no connection to PBX server.
                 //in case connection is false, then set these flags to false
                 UserDefaults.standard.set(false, forKey: "userAuthInfoAddedFlag")
                 LinphoneManager.shutDownFlag = false
                 if checkwhenappclose == "Logout" {
-                    if let timer = LinphoneManager.iterateTimer {
-                        timer.invalidate()
-                    }
-                    
+                    iflogOut = true
                 }
             }
         }

@@ -33,15 +33,19 @@ var checkwhenappclose  = ""
 var checkCallKit = ""
 var orientationLock = UIInterfaceOrientationMask.all
 var iflogOut : Bool = false
+var connection : Bool = false
+var clearConntection : Bool = false
+var LinphoneConnectionStatusFlag: Bool = true
 var backgroundTask: UIBackgroundTaskIdentifier = UIBackgroundTaskInvalid
 var linphoneInit = "" {
     didSet {
         userExtensionID = linphoneInit
-        if linphoneInit == "logout"{
-            //call when user logout and unregister internal phone call
-            
+        if linphoneInit == "login"{
+             linphoneManager?.GetAccountExtension()
+        } else if linphoneInit == "logout"{
+           
         } else {
-            linphoneManager?.LinphoneInit()
+             linphoneManager?.LinphoneInit()
         }
         
     }
@@ -49,6 +53,7 @@ var linphoneInit = "" {
 var getExtensionSucc : String = ""
 var tokenExt_id = ""
 var TimeModCheck = Timer()
+var TiemeVoip : Timer?
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
     let callKitManager = CallKitCallInit(uuid: UUID(), handle: "")
@@ -229,7 +234,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             case "logout":
                 print("shutdow voip")
             case "firstLaunch":
-                linphoneInit = "firstLaunch"
                 break
             case "login":
                 linphoneInit = "login"

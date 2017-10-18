@@ -273,7 +273,7 @@
 		C5CC299F1F19D0EA00072F8A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C5F0782E1F793A160037FBAA /* NavButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavButton.swift; sourceTree = "<group>"; };
 		C5F5A81D1F279DD300190CDF /* AboutUs.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = AboutUs.json; path = Assets.xcassets/AboutUs.json; sourceTree = "<group>"; };
-		C5F5A81F1F279DF900190CDF /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = "/Users/machintos-hd/KIT/Second Year/Internship/Chain/vKclub-first_phase/vKclub/Base.lproj/Main.storyboard"; sourceTree = "<absolute>"; };
+		C5F5A81F1F279DF900190CDF /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = "../../Second Year/Internship/Chain/vKclub-first_phase/vKclub/Base.lproj/Main.storyboard"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
