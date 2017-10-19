@@ -35,21 +35,20 @@ let registrationStateChanged: LinphoneCoreRegistrationStateChangedCb  = {
             NSLog("LinphoneRegistrationProgress")
         case LinphoneRegistrationOk:
             if LinphoneConnectionStatusFlag {
-                if iflogOut {
+                if iflogOut || linphoneInit == "logout"{
                     return
                 }
                 NSLog("LinphoneRegistrationOk")
                 getExtensionSucc = "Extension"
                 connection = true
-                clearConntection = false
                 UIComponentHelper.scheduleNotification(_title: "PhoneCall Registered", _body: "You are connected. Available to recieve and make call.", _inSeconds:0.1)
                 LinphoneConnectionStatusFlag = false
             }
         
         case LinphoneRegistrationCleared:
+            linphoneInit = "logout"
             NSLog("LinphoneRegistrationCleared")
             LinphoneConnectionStatusFlag = true
-            clearConntection = true
         case LinphoneRegistrationFailed:
             NSLog("LinphoneRegistrationFailed")
         default:
@@ -552,6 +551,7 @@ class LinphoneManager {
                             switch code_check {
                             case 200 :
                                 linphoneInit = extensions
+                                 connection = true
                                 tokenExt_id  = tokenid
                                 break
                             case 400 :

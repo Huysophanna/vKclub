@@ -34,7 +34,6 @@ var checkCallKit = ""
 var orientationLock = UIInterfaceOrientationMask.all
 var iflogOut : Bool = false
 var connection : Bool = false
-var clearConntection : Bool = false
 var LinphoneConnectionStatusFlag: Bool = true
 var backgroundTask: UIBackgroundTaskIdentifier = UIBackgroundTaskInvalid
 var linphoneInit = "" {
@@ -229,21 +228,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
         //        endBackgroundTask()
-        if  checkCallKit.isEmpty {
-            switch linphoneInit  {
-            case "logout":
-                print("shutdow voip")
-            case "firstLaunch":
-                break
-            case "login":
-                linphoneInit = "login"
-                break
-            default:
-                linphoneInit = "login"
-                break
-            }
-            
-        }
+//        if  checkCallKit.isEmpty {
+//            switch linphoneInit  {
+//            case "logout":
+//                print("shutdow voip")
+//            case "firstLaunch":
+//                break
+//            case "login":
+//                linphoneInit = "login"
+//                break
+//            default:
+//                linphoneInit = "login"
+//                break
+//            }
+//
+//        }
         
     }
     
