@@ -30,20 +30,21 @@ class DashboardController: UIViewController {
     var clickMenu  : Bool  = false
     var notifications = [Notifications]()
     let internalCallControllerInstance = InternalCallController()
-    var linphoneConnectionStatusFlag: Bool = true {
-        didSet {
-     //            DashboardController.LinphoneConnectionStatusFlag = linphoneConnectionStatusFlag
-            PrepareLocalNotificationForConnectionStatus(isConnected: linphoneConnectionStatusFlag)
-            
-            //change extension connection status in Internal Phone Call view
-//            internalCallControllerInstance.ChangeExtensionActiveStatus(color: DashboardController.LinphoneConnectionStatusFlag == true ? UIColor.green : UIColor.red)
-        }
-    }
+//    var linphoneConnectionStatusFlag: Bool = true {
+//        didSet {
+//     //            DashboardController.LinphoneConnectionStatusFlag = linphoneConnectionStatusFlag
+////            PrepareLocalNotificationForConnectionStatus(isConnected: linphoneConnectionStatusFlag)
+//
+//            //change extension connection status in Internal Phone Call view
+////            internalCallControllerInstance.ChangeExtensionActiveStatus(color: DashboardController.LinphoneConnectionStatusFlag == true ? UIColor.green : UIColor.red)
+//        }
+//    }
     
     
     let setting = UserDefaults.standard.integer(forKey: "setting")
     override func viewDidLoad() {
         super.viewDidLoad()
+        linphoneInit  = "login"
         notificationBtn.tag = 6
         notificationBtn.setImage(UIImage(named: "Notification"), for: UIControlState.normal)
         notificationBtn.addTarget(self, action: #selector(self.BtnTag), for: .touchUpInside)
@@ -56,9 +57,10 @@ class DashboardController: UIViewController {
         self.navigationItem.rightBarButtonItem = barButton
         if iflogOut {
             iflogOut = false
-            LinphoneManager.shutdown()
+            checkwhenappclose = "Login"
+            InternetConnection.ShutdownPBXServer()
         }
-        linphoneInit  = "login"
+       
         CheckWhenUserChangePassword ()       // login for registerForRemoteNotifications
         UserDefaults.standard.set(true, forKey: "loginBefore")
         if setting == 0 || setting == 1 {
@@ -192,7 +194,8 @@ class DashboardController: UIViewController {
                 UIComponentHelper.LocationPermission(INAPP_UNIDENTIFIEDSetting: true)
                 break
             default:
-                print("not thing")
+                PresentAlertController(title: "Off-Kirirom Mode", message: "Emergency SOS & Free internal   phone call features are not accessible for Off-Kirirom users.", actionTitle: "Okay")
+
                 break
                 
             }

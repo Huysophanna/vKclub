@@ -39,38 +39,60 @@ class ServiceController: UIViewController {
             
         }
         if InternetConnection.AudioPermissiom(){
-            switch (sender as! UIButton).tag {
-            case 1:
-                //reception
-                if CHCK_USER_LOCATION == IN_KIRIROM {
-                    CallToAction(phoneNumber: "235")
+            switch getExtensionSucc {
+            case "Extension":
+                if linphoneInit == "login"{
+                    PresentAlertController(title: "Please wait", message: "We are trying to generate and activate   your caller ID. Please try again in seconds.", actionTitle: "Okay")
                 } else {
-                    //call using carrier phone number
-                    guard let number = URL(string: "tel://" + "0962222735" ) else { return }
-                    UIApplication.shared.open(number, options: [:], completionHandler: nil)
+                    switch (sender as! UIButton).tag {
+                    case 1:
+                        //reception
+                        if CHCK_USER_LOCATION == IN_KIRIROM {
+                            CallToAction(phoneNumber: "235")
+                        } else {
+                            //call using carrier phone number
+                            guard let number = URL(string: "tel://" + "0962222735" ) else { return }
+                            UIApplication.shared.open(number, options: [:], completionHandler: nil)
+                        }
+                        break
+                    case 2:
+                        //housekeeping
+                        CallToAction(phoneNumber: "236")
+                        break
+                    case 3:
+                        //massage
+                        CallToAction(phoneNumber: "237")
+                        break
+                    case 4:
+                        //pineviewkitchen
+                        CallToAction(phoneNumber: "238")
+                        break
+                    case 5:
+                        //activity
+                        CallToAction(phoneNumber: "239")
+                        break
+                    default:
+                        //operation
+                        CallToAction(phoneNumber: "240")
+                        break
+                    }
                 }
                 break
-            case 2:
-                //housekeeping
-                CallToAction(phoneNumber: "236")
+                
+            case "400":
+                PresentAlertController(title: "Something went wrong", message: "Sorry, our internal phone call services are currently not available right now. Please try again next time.", actionTitle: "Okay")
+                
                 break
-            case 3:
-                //massage
-                CallToAction(phoneNumber: "237")
+            case "getExtensionSucc":
+                PresentAlertController(title: "Something went wrong", message: "You are not connected to our server. Please ensure that you are connected to our network and try again later.", actionTitle: "Okay")
+                
                 break
-            case 4:
-                //pineviewkitchen
-                CallToAction(phoneNumber: "238")
-                break
-            case 5:
-                //activity
-                CallToAction(phoneNumber: "239")
-                break
+                
             default:
-                //operation
-                CallToAction(phoneNumber: "240")
+                PresentAlertController(title: "Please wait", message: "We are trying to generate and activate   your caller ID. Please try again in seconds.", actionTitle: "Okay")
                 break
             }
+            
             
             
             

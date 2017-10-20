@@ -22,6 +22,7 @@ let userName = Auth.auth().currentUser
 var notification_num = 0
 let launchedBefore = UserDefaults.standard.bool(forKey: "launchedBefore")
 let loginBefore = UserDefaults.standard.bool(forKey: "loginBefore")
+var changeExtention : Bool = false
 var linphoneManager: LinphoneManager? = LinphoneManager()
 var userExtensionID = ""
 var CHCK_USER_LOCATION = ""
@@ -40,9 +41,10 @@ var linphoneInit = "" {
     didSet {
         userExtensionID = linphoneInit
         if linphoneInit == "login"{
-             linphoneManager?.GetAccountExtension()
+//            linphoneManager?.LinphoneInit()
+            linphoneManager?.GetAccountExtension()
         } else if linphoneInit == "logout"{
-           
+            
         } else {
              linphoneManager?.LinphoneInit()
         }
@@ -74,7 +76,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        linphoneInit  = "firstLaunch"
+//        if firstOpenBefore {
+//         linphoneInit  = "firstLaunch"
+//        }
+       
         // Remove border in navigationBar
         UINavigationBar.appearance().shadowImage = UIImage()
         UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)

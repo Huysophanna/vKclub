@@ -51,15 +51,18 @@ public class InternetConnection {
         self.countTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.CountSecond), userInfo: nil, repeats: true)
     
     }
-    
+    static func DeleteExtension() {
+        personService.deleteAllData(entity: "Extension")
+    }
     static func Logouts(){
-        
+        getExtensionSucc = "Logout"
         UserDefaults.standard.set(false, forKey: "loginBefore")
         UIApplication.shared.unregisterForRemoteNotifications()
         notification_num = 0
         personService.deleteAllData(entity: "SipCallData")
         personService.deleteAllData(entity: "UserProfile")
         personService.deleteAllData(entity: "Notifications")
+        personService.deleteAllData(entity: "Extension")
         try! Auth.auth().signOut()
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         appDelegate.window = UIWindow(frame: UIScreen.main.bounds)
@@ -69,15 +72,15 @@ public class InternetConnection {
         appDelegate.window?.makeKeyAndVisible()
     }
     static func ShutdownPBXServer(){
-        if checkwhenappclose == "Logout" {
-            personService.deleteAllData(entity: "Extension")
-        }
         let when = DispatchTime.now() + 4 // change 2 to desired number of seconds
         DispatchQueue.main.asyncAfter(deadline: when) {
             TimeModCheck.invalidate()
             if LinphoneManager.CheckLinphoneConnectionStatus() {
                 LinphoneManager.shutdown()
-                linphoneInit = "logout"
+                if checkwhenappclose == "Logout" {
+                    linphoneInit = "logout"
+                }
+                
             } else {
                 // user to check if user logout when no connection to PBX server.
                 //in case connection is false, then set these flags to false
@@ -85,6 +88,7 @@ public class InternetConnection {
                 LinphoneManager.shutDownFlag = false
                 if checkwhenappclose == "Logout" {
                     iflogOut = true
+                    linphoneInit = "logout"
                 }
             }
         }

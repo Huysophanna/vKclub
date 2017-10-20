@@ -34,19 +34,19 @@ let registrationStateChanged: LinphoneCoreRegistrationStateChangedCb  = {
         case LinphoneRegistrationProgress:
             NSLog("LinphoneRegistrationProgress")
         case LinphoneRegistrationOk:
+            connection = true
             if LinphoneConnectionStatusFlag {
                 if iflogOut || linphoneInit == "logout"{
                     return
                 }
                 NSLog("LinphoneRegistrationOk")
                 getExtensionSucc = "Extension"
-                connection = true
+                
                 UIComponentHelper.scheduleNotification(_title: "PhoneCall Registered", _body: "You are connected. Available to recieve and make call.", _inSeconds:0.1)
                 LinphoneConnectionStatusFlag = false
             }
         
         case LinphoneRegistrationCleared:
-            linphoneInit = "logout"
             NSLog("LinphoneRegistrationCleared")
             LinphoneConnectionStatusFlag = true
         case LinphoneRegistrationFailed:
@@ -290,7 +290,6 @@ class LinphoneManager {
     static func CheckLinphoneConnectionStatus() -> Bool {
         // 1 means registered
         if  connection {
-             getExtensionSucc = "Extension"
             return true
         } else {
             return false
@@ -371,9 +370,22 @@ class LinphoneManager {
 //        default:
 //
 //        }
-        proxyConfig = self.setIdentify(_account: linphoneInit)
-        LinphoneManager.register(proxyConfig!)
-        setTimer()
+        if changeExtention || checkwhenappclose == "Login" {
+            let when = DispatchTime.now() + 10 // change 2 to desired number of seconds
+            DispatchQueue.main.asyncAfter(deadline: when) {
+                proxyConfig = self.setIdentify(_account: linphoneInit)
+                LinphoneManager.register(proxyConfig!)
+                self.setTimer()
+            }
+        } else {
+            let when = DispatchTime.now() + 2// change 2 to desired number of seconds
+            DispatchQueue.main.asyncAfter(deadline: when) {
+                proxyConfig = self.setIdentify(_account: linphoneInit)
+                LinphoneManager.register(proxyConfig!)
+                self.setTimer()
+            }
+        }
+       
     }
     
     func GetDataFromServer()  {
@@ -466,6 +478,7 @@ class LinphoneManager {
                         
                         if extid.isEmpty || token.isEmpty {
                             self.GetDataFromServer()
+                            return
                         }
                         else {
                             let newextension_id = NSEntityDescription.insertNewObject(forEntityName: "Extension", into: manageObjectContext)
@@ -551,19 +564,24 @@ class LinphoneManager {
                             switch code_check {
                             case 200 :
                                 linphoneInit = extensions
-                                 connection = true
                                 tokenExt_id  = tokenid
                                 break
-                            case 400 :
-                                // out of scope make variable global
-                                self.GetDataFromServer()
-                                getExtensionSucc = "400"
-                            case 404 :
-                                getExtensionSucc = "getExtensionSucc"
+                            case 300 :
+                                // code 300 mean  validate fail bc user api key had release
+//                                changeExtention  = true
+                                InternetConnection.DeleteExtension()
+                                InternetConnection.ShutdownPBXServer()
                                 self.GetDataFromServer()
                                 break
-                            default :
+                            case 302 :
+                                // code 300 mean  validate fail bc user api key had use
+//                                changeExtention  = true
+                                InternetConnection.DeleteExtension()
+                                InternetConnection.ShutdownPBXServer()
                                 self.GetDataFromServer()
+                                
+                                break
+                            default :
                                 getExtensionSucc = String(code_check)
                                 break
                                 
@@ -610,8 +628,8 @@ class LinphoneManager {
             return nil
         }
         
-        let info=linphone_auth_info_new(linphone_address_get_username(from), nil, password, nil, nil, nil); /*create authentication structure from identity*/
-        linphone_core_add_auth_info(theLinphone.lc!, info); /*add authentication info to LinphoneCore*/
+        userAuthInfo = linphone_auth_info_new(linphone_address_get_username(from), nil, password, nil, nil, nil); /*create authentication structure from identity*/
+        linphone_core_add_auth_info(theLinphone.lc!,userAuthInfo); /*add authentication info to LinphoneCore*/
         
         // configure proxy entries
         linphone_proxy_config_set_identity(proxy_cfg, identity); /*set identity with user name and domain*/
@@ -622,6 +640,7 @@ class LinphoneManager {
         linphone_proxy_config_set_expires(proxy_cfg, 60)
         linphone_core_add_proxy_config(theLinphone.lc!, proxy_cfg); /*add proxy config to linphone core*/
         linphone_core_set_default_proxy_config(theLinphone.lc!, proxy_cfg); /*set to default proxy*/
+        LinphoneManager.enableRegistration()
         return proxy_cfg!
     }
     
@@ -631,52 +650,56 @@ class LinphoneManager {
     
 
     static func shutdown(){
-//        NSLog("Shutdown ---")
-//        if let timer = LinphoneManager.iterateTimer {
-//            timer.invalidate()
-//        }
-//        //set shutdown flag
-//        LinphoneManager.shutDownFlag = true
-//        let proxy_cfg = linphone_core_get_default_proxy_config(theLinphone.lc); /* get default proxy config*/
-//        if linphone_proxy_config_get_state(proxy_cfg) !=  LinphoneRegistrationFailed {
-//            linphone_proxy_config_edit(proxy_cfg); /*start editing proxy configuration*/
-//            linphone_proxy_config_enable_publish(proxy_cfg, 1);
-//            linphone_proxy_config_set_publish_expires(proxy_cfg, 0);
-//            //linphone_core_set_network_reachable(proxy_cfg, 0)
-//            linphone_proxy_config_enable_register(proxy_cfg, 0); /*de-activate registration for this proxy config*/
-//            linphone_proxy_config_done(proxy_cfg); /*initiate REGISTER with expire = 0*/
-//            print(linphone_proxy_config_get_state(proxy_cfg),"+++proxy_cfg")
-//            print(LinphoneRegistrationCleared,"+++Cleared")
-//            while(linphone_proxy_config_get_state(proxy_cfg) !=  LinphoneRegistrationCleared) {
-//                linphone_core_iterate(theLinphone.lc); /*to make sure we receive call backs before shutting down*/
-//                ms_usleep(50000);
-//            }
-//
-//            //        linphone_proxy_config_destroy(proxyConfig)
-//            LinphoneManager.removeUserAuthInfo()
-//            //        linphone_core_destroy(theLinphone.lc);
+
+        NSLog("Linphone unregister()..")
+        if  TiemeVoip != nil {
+            TiemeVoip?.invalidate()
+            TiemeVoip = nil
+        }
+      
+        LinphoneManager.shutDownFlag = true
+        let proxy_cfg = linphone_core_get_default_proxy_config(theLinphone.lc); /* get default proxy config*/
+        if linphone_proxy_config_get_state(proxy_cfg) !=  LinphoneRegistrationFailed {
+            linphone_proxy_config_edit(proxy_cfg); /*start editing proxy configuration*/
+            linphone_proxy_config_enable_publish(proxy_cfg, 1);
+            linphone_proxy_config_set_publish_expires(proxy_cfg, 0);
+            //linphone_core_set_network_reachable(proxy_cfg, 0)
+            linphone_proxy_config_enable_register(proxy_cfg, 0); /*de-activate registration for this proxy config*/
+            linphone_proxy_config_done(proxy_cfg); /*initiate REGISTER with expire = 0*/
+            print(linphone_proxy_config_get_state(proxy_cfg),"+++proxy_cfg")
+            print(LinphoneRegistrationCleared,"+++Cleared")
+            while(linphone_proxy_config_get_state(proxy_cfg) !=  LinphoneRegistrationCleared) {
+                linphone_core_iterate(theLinphone.lc); /*to make sure we receive call backs before shutting down*/
+                ms_usleep(50000);
+            }
+
+//            linphone_proxy_config_destroy(proxyConfig)
+////            LinphoneManager.removeUserAuthInfo()
+//            linphone_core_destroy(theLinphone.lc);
 //            linphone_core_remove_proxy_config(theLinphone.lc, proxyConfig)
-//        }
+        }
 //        NSLog("Linphone unregister()..")
 //        if  TiemeVoip != nil {
 //            TiemeVoip?.invalidate()
 //           TiemeVoip = nil
 //        }
-        let proxy_cfg = linphone_core_get_default_proxy_config(theLinphone.lc!); /* get default proxy config*/
-        
-        if linphone_proxy_config_get_state(proxy_cfg) !=  LinphoneRegistrationFailed {
-            linphone_proxy_config_edit(proxy_cfg); /*start editing proxy configuration*/
-            linphone_proxy_config_enable_register(proxy_cfg, 0); /*de-activate registration for this proxy config*/
-            linphone_proxy_config_done(proxy_cfg); /*initiate REGISTER with expire = 0*/
-            
-            while(linphone_proxy_config_get_state(proxy_cfg) !=  LinphoneRegistrationCleared){
-                linphone_core_iterate(theLinphone.lc!); /*to make sure we receive call backs before shutting down*/
-                ms_usleep(50000);
-            }
-        }
-        
-        
-        linphone_core_remove_listener(theLinphone.lc!, &theLinphone.lct!)
+//        let proxy_cfg = linphone_core_get_default_proxy_config(theLinphone.lc!); /* get default proxy config*/
+//
+//        if linphone_proxy_config_get_state(proxy_cfg) !=  LinphoneRegistrationFailed {
+//            linphone_proxy_config_edit(proxy_cfg); /*start editing proxy configuration*/
+//            linphone_proxy_config_enable_register(proxy_cfg, 0); /*de-activate registration for this proxy config*/
+//            linphone_proxy_config_done(proxy_cfg); /*initiate REGISTER with expire = 0*/
+//
+//            while(linphone_proxy_config_get_state(proxy_cfg) !=  LinphoneRegistrationCleared){
+//                    linphone_core_iterate(theLinphone.lc!); /*to make sure we receive call backs before shutting down*/
+//                    ms_usleep(50000);
+//            }
+//
+//
+//        }
+//
+//
+//        linphone_core_remove_listener(theLinphone.lc!, &theLinphone.lct!)
 //        linphone_core_destroy(theLinphone.lc!);
     }
     
@@ -703,6 +726,7 @@ class LinphoneManager {
                 //print(LinphoneManager.shutDownFlag,lc ,"+++")
                 linphone_core_iterate(lc); /* first iterate initiates registration */
             }
+            
         }
     }
     
