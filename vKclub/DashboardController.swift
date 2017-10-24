@@ -285,7 +285,7 @@ class DashboardController: UIViewController {
         }
         
         
-//        if CheckUserLocation() == IN_KIRIROM {
+        if CheckUserLocation() == IN_KIRIROM {
 //            print(LinphoneManager.CheckLinphoneConnectionStatus(),  "==STATUS===")
 //            if LinphoneManager.CheckLinphoneCallState() == LINPHONE_CALL_IDLE {
 //                print("Being idle+++++")
@@ -313,11 +313,15 @@ class DashboardController: UIViewController {
 //                    linphoneConnectionStatusFlag = false
 //                }
 //            }
+            let when = DispatchTime.now() + 40// change 2 to desired number of seconds
+            DispatchQueue.main.asyncAfter(deadline: when) {
+                LinphoneManager.register(proxyConfig!)
+            }
 //
-//            LinphoneManager.register(proxyConfig!)
+            
 //            print("registering --++")
-//        }
-        
+        }
+    
     }
     
     @IBAction func MenuClick(_ sender: Any) {

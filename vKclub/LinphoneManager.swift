@@ -371,7 +371,7 @@ class LinphoneManager {
 //
 //        }
         if changeExtention || checkwhenappclose == "Login" {
-            let when = DispatchTime.now() + 10 // change 2 to desired number of seconds
+            let when = DispatchTime.now() + 5 // change 2 to desired number of seconds
             DispatchQueue.main.asyncAfter(deadline: when) {
                 proxyConfig = self.setIdentify(_account: linphoneInit)
                 LinphoneManager.register(proxyConfig!)
@@ -568,15 +568,16 @@ class LinphoneManager {
                                 break
                             case 300 :
                                 // code 300 mean  validate fail bc user api key had release
-//                                changeExtention  = true
+                                changeExtention  = true
                                 InternetConnection.DeleteExtension()
                                 InternetConnection.ShutdownPBXServer()
                                 self.GetDataFromServer()
                                 break
                             case 302 :
                                 // code 300 mean  validate fail bc user api key had use
-//                                changeExtention  = true
+                                changeExtention  = true
                                 InternetConnection.DeleteExtension()
+                                
                                 InternetConnection.ShutdownPBXServer()
                                 self.GetDataFromServer()
                                 
@@ -673,8 +674,12 @@ class LinphoneManager {
                 ms_usleep(50000);
             }
 
-//            linphone_proxy_config_destroy(proxyConfig)
-////            LinphoneManager.removeUserAuthInfo()
+            if  changeExtention  {
+                linphone_proxy_config_destroy(proxyConfig)
+                
+            }
+            linphone_proxy_config_destroy(proxyConfig)
+              LinphoneManager.removeUserAuthInfo()
 //            linphone_core_destroy(theLinphone.lc);
 //            linphone_core_remove_proxy_config(theLinphone.lc, proxyConfig)
         }
