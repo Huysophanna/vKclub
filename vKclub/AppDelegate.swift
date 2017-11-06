@@ -12,11 +12,10 @@ import Firebase
 import FBSDKCoreKit
 import UserNotifications
 import FirebaseMessaging
-import AVFoundation
-
 let appDelegate = UIApplication.shared.delegate as! AppDelegate
 let manageObjectContext  = appDelegate.persistentContainer.viewContext
 var databaseRef = Database.database().reference()
+let incomingCallInstance = IncomingCallController()
 let firebasedatabaseref =  Database.database().reference()
 let userName = Auth.auth().currentUser
 var notification_num = 0
@@ -76,17 +75,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-//        if firstOpenBefore {
-//         linphoneInit  = "firstLaunch"
-//        }
-       
         // Remove border in navigationBar
         UINavigationBar.appearance().shadowImage = UIImage()
         UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
         UINavigationBar.appearance().isTranslucent = false
+        UINavigationBar.appearance().barStyle = .blackOpaque
+        UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
         // Change navigation title color as default
         UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName:UIColor.white]
-        UINavigationBar.appearance()
         
         // request permission for local notification
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound], completionHandler: {(granted, error) in

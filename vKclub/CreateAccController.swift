@@ -35,6 +35,9 @@ class CreateAccController: ViewController ,UITextFieldDelegate{
         passwordTextField.delegate = self
         confirmTextField.delegate = self
     }
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
     @IBAction func SignUpClicked(_ sender: Any) {
         let length_password : Int = (passwordTextField.text?.characters.count)!
         let length_username : Int = (nameTextField.text?.characters.count)!
@@ -116,13 +119,12 @@ class CreateAccController: ViewController ,UITextFieldDelegate{
                             
                         }
                     }
-                   
-                    user?.sendEmailVerification(completion: { (error) in
-                        if error != nil{
-                            self.PresentAlertController(title: "Something went wrong", message: (error?.localizedDescription)!, actionTitle: "Okay")
+                    Auth.auth().currentUser?.sendEmailVerification { (error) in
+                        if error != nil {
+                             self.PresentAlertController(title: "Something went wrong", message: (error?.localizedDescription)!, actionTitle: "Okay")
                         }
-                     })
-                     
+                    }
+                    
                     self.PresentAlertController(title: "Success", message: "Please verify your account with the link we have sent to your email address.", actionTitle: "Okay")
                   
                     UIApplication.shared.keyWindow?.rootViewController = self.storyboard!.instantiateViewController(withIdentifier: "loginController")
@@ -146,6 +148,7 @@ class CreateAccController: ViewController ,UITextFieldDelegate{
             }
         }
     }
+    
     
     @IBAction func BackBtn(_ sender: Any) {
         if (nameTextField.text?.isEmpty == false) || (emailTextField.text?.isEmpty == false) || (passwordTextField.text?.isEmpty == false) || (confirmTextField.text?.isEmpty == false) {

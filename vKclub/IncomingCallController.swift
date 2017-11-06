@@ -41,37 +41,19 @@ class IncomingCallController: UIViewController {
     static var IncomingCallFlag = false
     var incomingCallFlags = false {
         didSet {
-            
             //listen for incoming call event
             IncomingCallController.IncomingCallFlag = incomingCallFlags
             if incomingCallFlags == true {
-                print(IncomingCallController.IncomingCallFlag, "----1variable")
-                IncomingCallController.CallToAction = false
-                PresentIncomingVC()
-                //stop AVAudioPlayer background task while about to call
-                BackgroundTask.backgroundTaskInstance.stopBackgroundTask()
-                let appState = UIApplication.shared.applicationState
-                if appState == .background {
-                    
-                    DispatchQueue.main.asyncAfter(wallDeadline: DispatchWallTime.now() + 1.5) {
-                        //Display CallKit for iOS 10
-                        if #available(iOS 10, *) {
-                            AppDelegate.shared.displayIncomingCall(uuid: UUID(), handle: LinphoneManager.getContactName()) { _ in
-                                UIApplication.shared.endBackgroundTask(backgroundTaskIdentifier)
-                            }
-                            //Display local notification alert for non-callkit supported device
-                        } else {
-                            // ios 9
-                            let notification = UILocalNotification()
-                            notification.fireDate = NSDate(timeIntervalSinceNow: 0) as Date
-                            notification.alertBody = "Incoming Call"
-                            notification.alertAction = LinphoneManager.getContactName() + " is calling"
-                            notification.soundName = UILocalNotificationDefaultSoundName
-                            UIApplication.shared.scheduleLocalNotification(notification)
+                    print(IncomingCallController.IncomingCallFlag, "----1variable")
+                    //stop AVAudioPlayer background task while about to call
+                    BackgroundTask.backgroundTaskInstance.stopBackgroundTask()
+                    //Display CallKit for iOS 10
+                    if #available(iOS 10, *) {
+                        AppDelegate.shared.displayIncomingCall(uuid: UUID(), handle: LinphoneManager.getContactName()) { _ in
+                            UIApplication.shared.endBackgroundTask(backgroundTaskIdentifier)
                         }
-                    }
                 }
-                
+               
             }
         }
     }
@@ -138,7 +120,6 @@ class IncomingCallController: UIViewController {
                 callController.request(callTransaction, completion: {(data) in })
                 
                 print("RELEASE, SET CALL DURATION---")
-                
                 //set flag back to false when call released
                 incomingCallFlags = false
                 acceptCallFlag = false
@@ -148,7 +129,6 @@ class IncomingCallController: UIViewController {
                 
                 //invalidate wait for stream running interval
                 IncomingCallController.InvalidateWaitForStreamRunningInterval()
-                
                 //invalidate set up call in progress interval
                 IncomingCallController.InvalidateSetUpCallInProgressInterval()
                 //Linephone call will destory the audio session when the call ends, so wait for 5seconds to restart the AVAudioPlayer background task
@@ -168,9 +148,9 @@ class IncomingCallController: UIViewController {
         SetImageBtn(button: answerCallBtn, imageName: "call-answer", imgEdgeInsets: 13)
         SetImageBtn(button: endCallBtn, imageName: "reject-phone-icon", imgEdgeInsets: 5)
         //stop the outGoingCallSound while in call progress
-        if MPMusicPlayerController.systemMusicPlayer().playbackState == .playing {
-            defaultPlayer.pause()
-        }
+//        if MPMusicPlayerController.systemMusicPlayer().playbackState == .playing {
+//            defaultPlayer.pause()
+//        }
         //Interval waiting for callstream running, invalidate while call is in progress
         if IncomingCallController.waitForStreamRunningInterval == nil {
             IncomingCallController.waitForStreamRunningInterval = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(IncomingCallController.WaitForStreamRunning), userInfo: nil, repeats: true)
@@ -187,22 +167,22 @@ class IncomingCallController: UIViewController {
         }
         
     }
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.navigationController?.isNavigationBarHidden = false
-        self.navigationController?.setNavigationBarHidden(false, animated: animated)
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        self.navigationController?.setNavigationBarHidden(false, animated: animated)
-    }
-    
-    //*** This is required to fix navigation bar forever disappear on fast backswipe bug.
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        self.navigationController?.setNavigationBarHidden(false, animated: false)
-    }
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+//        self.navigationController?.isNavigationBarHidden = false
+//        self.navigationController?.setNavigationBarHidden(false, animated: animated)
+//    }
+//
+//    override func viewWillDisappear(_ animated: Bool) {
+//        super.viewWillDisappear(animated)
+//        self.navigationController?.setNavigationBarHidden(false, animated: animated)
+//    }
+//
+//    //*** This is required to fix navigation bar forever disappear on fast backswipe bug.
+//    override func viewDidLayoutSubviews() {
+//        super.viewDidLayoutSubviews()
+//        self.navigationController?.setNavigationBarHidden(false, animated: false)
+//    }
     
     func WaitToStartBackgroundTask() {
         BackgroundTask.backgroundTaskInstance.startBackgroundTask()
@@ -316,7 +296,7 @@ class IncomingCallController: UIViewController {
         incomingCallFlags = false
         IncomingCallController.IncomingCallFlag = false
         IncomingCallController.CallToAction = false
-        //        callStreamRunning = false
+        callStreamRunning = false
         
         //invalidate set up call in progress interval
         IncomingCallController.InvalidateSetUpCallInProgressInterval()
@@ -331,19 +311,19 @@ class IncomingCallController: UIViewController {
     
     func AcceptCallAction() {
         LinphoneManager.receiveCall()
-        //        incomingCallFlags = false
+        incomingCallFlags = false
     }
     
     func EndCallAction() {
         LinphoneManager.endCall()
-        //        incomingCallFlags = false
+        incomingCallFlags = false
         releaseCallFlag = true
         
         //Report to end the last call for CallKit
         callKitManager?.end(uuid: lastCallUUID)
         
         //reset all flag
-        //        ResetAllFlagVariable()
+         ResetAllFlagVariable()
     }
     
     func PrepareInCallProgressUI() {

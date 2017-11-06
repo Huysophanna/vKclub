@@ -93,9 +93,6 @@ class ServiceController: UIViewController {
                 break
             }
             
-            
-            
-            
         } else {
             let LocationPermissionAlert = UIAlertController(title: "Audio Permission Denied.", message: "Turn on Audio Service to process the internal phone call", preferredStyle: UIAlertControllerStyle.alert)
             

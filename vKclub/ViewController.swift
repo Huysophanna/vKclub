@@ -9,6 +9,7 @@
 import UIKit
 import paper_onboarding
 
+
 class ViewController: UIViewController, PaperOnboardingDataSource, PaperOnboardingDelegate {
     
     
@@ -22,7 +23,7 @@ class ViewController: UIViewController, PaperOnboardingDataSource, PaperOnboardi
         onboardingView.dataSource = self
         onboardingView.delegate = self
         skipBtn.isHidden = true
-
+        
     }
     
     
@@ -31,21 +32,43 @@ class ViewController: UIViewController, PaperOnboardingDataSource, PaperOnboardi
     }
     
     func onboardingItemAtIndex(_ index: Int) -> OnboardingItemInfo {
-        let greenBackgroundColor = UIColor(hexString: "#008040", alpha: 1)
-       
+        var titleFont : UIFont
+        var descirptionFont : UIFont
+        var modelName: String {
+            var systemInfo = utsname()
+            uname(&systemInfo)
+            let machineMirror = Mirror(reflecting: systemInfo.machine)
+            let identifier = machineMirror.children.reduce("") { identifier, element in
+                guard let value = element.value as? Int8, value != 0 else { return identifier }
+                return identifier + String(UnicodeScalar(UInt8(value)))
+            }
+            switch identifier {
+            case "iPhone5,1", "iPhone5,2":                  return "iPhone 5"
+            case "iPhone5,3", "iPhone5,4":                  return "iPhone 5c"
+            case "iPhone6,1", "iPhone6,2":                  return "iPhone 5s"
+            default:                                        return identifier
+            }
+        }
         
-        let titleFont = UIFont(name: "AvenirNext-Bold", size: 24)!
-        let descirptionFont = UIFont(name: "AvenirNext-Regular", size: 18)!
+        let greenBackgroundColor = UIColor(hexString: "#008040", alpha: 1)
+        if modelName == "iPhone 5" || modelName == "iPhone 5c" || modelName == "iPhone 5s" {
+            descirptionFont = UIFont(name: "AvenirNext-Regular", size: 15)!
+            titleFont = UIFont(name: "AvenirNext-Bold", size: 20)!
+        } else {
+            descirptionFont = UIFont(name: "AvenirNext-Regular", size: 18)!
+            titleFont = UIFont(name: "AvenirNext-Bold", size: 24)!
+        }
+        
         
         return [ ("welcome-intro", "Welcome to vKclub", "Maximize your vKirirom Pine Resort \nexperience.Explore, Discover and Meet new people with vKclub", "", greenBackgroundColor, UIColor.white, UIColor.white, titleFont, descirptionFont),
-                
+                 
                  ("map-intro", "Map", "Digitalized Map designed to\n help users to get in touch with\n our vKirirom Pine Resort\n Facilities and Services", "", greenBackgroundColor, UIColor.white, UIColor.white, titleFont, descirptionFont),
-                
+                 
                  ("voip-intro", "Internal Phone Call", "Free Call and No Restrictions", "", greenBackgroundColor , UIColor.white, UIColor.white, titleFont, descirptionFont),
-                
-                 ("sos-intro", "Emergency SOS", "Emergency SOS button guarantees \nusers safety.Help during emergency or \n  in dangerous situation", "", greenBackgroundColor , UIColor.white, UIColor.white, titleFont, descirptionFont),
-                 ("mode-intro", "On-site / Off-site Mode", "Experience all functions of the app in \non-site mode and also in off-site mode, \nexcept SOS and Internal Phone Call", "", greenBackgroundColor, UIColor.white, UIColor.white, titleFont, descirptionFont),
-                 ("ready-intro", "You are all set Enjoy vKclub", "", "", greenBackgroundColor , UIColor.white, UIColor.white, titleFont, descirptionFont)][index]
+                 
+                 ("sos-intro", "Emergency SOS", "Emergency SOS button guarantees \nusers safety. Help during emergency \nor in dangerous situation", "", greenBackgroundColor , UIColor.white, UIColor.white, titleFont, descirptionFont),
+                 ("mode-intro", "On-site / Off-site Mode", "Experience all functions of the app in on-site mode and also in off-site \nmode, except SOS and Internal Phone Call", "", greenBackgroundColor, UIColor.white, UIColor.white, titleFont, descirptionFont),
+                 ("ready-intro", "You are all set to Enjoy vKclub", "", "", greenBackgroundColor , UIColor.white, UIColor.white, titleFont, descirptionFont)][index]
         
     }
     
@@ -53,7 +76,7 @@ class ViewController: UIViewController, PaperOnboardingDataSource, PaperOnboardi
     func onboardingConfigurationItem(_ item: OnboardingContentViewItem, index: Int) {
         
         item.imageView?.frame =  CGRect(x: 0, y: 0, width: 50, height: 50)
-     
+        
     }
     func onboardingWillTransitonToIndex(_ index: Int) {
         if index == 0 {
@@ -62,51 +85,43 @@ class ViewController: UIViewController, PaperOnboardingDataSource, PaperOnboardi
         }
         if index == 1 {
             skipBtn.isHidden = false
-            if self.getStartedButton.alpha == 1 {
-                UIView.animate(withDuration: 0.2, animations: {
-                    self.getStartedButton.alpha = 0
-                })
-            }
+            self.getStartedButton.isHidden = true
+            self.getStartedButton.alpha = 0
+            
             
         }
         if index == 2 {
             skipBtn.isHidden = false
-            if self.getStartedButton.alpha == 1 {
-                UIView.animate(withDuration: 0.2, animations: {
-                    self.getStartedButton.alpha = 0
-                })
-            }
+            
+            self.getStartedButton.isHidden = true
+            self.getStartedButton.alpha = 0
+            
             
         }
         if index == 3 {
             skipBtn.isHidden = false
-            if self.getStartedButton.alpha == 1 {
-                UIView.animate(withDuration: 0.2, animations: {
-                    self.getStartedButton.alpha = 0
-                })
-            }
+            self.getStartedButton.isHidden = true
+            self.getStartedButton.alpha = 0
+            
             
         }
         if index == 4 {
             skipBtn.isHidden = false
-            if self.getStartedButton.alpha == 1 {
-                
-                UIView.animate(withDuration: 0.2, animations: {
-                    self.getStartedButton.alpha = 0
-                })
-            }
+            self.getStartedButton.alpha = 0
+            self.getStartedButton.isHidden = true
+            
             
         }
-
-    
+        
+        
     }
     
     func onboardingDidTransitonToIndex(_ index: Int) {
         if index == 5 {
             skipBtn.isHidden = true
-            UIView.animate(withDuration: 0.4, animations: {
-                self.getStartedButton.alpha = 1
-            })
+            self.getStartedButton.alpha = 1
+            self.getStartedButton.isHidden = false
+            
         }
     }
     
@@ -127,11 +142,12 @@ class ViewController: UIViewController, PaperOnboardingDataSource, PaperOnboardi
         UserDefaults.standard.set(true, forKey: "launchedBefore")
     }
     
-           override func didReceiveMemoryWarning() {
+    override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
     
 }
+
 

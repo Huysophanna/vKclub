@@ -45,15 +45,10 @@ class CallKitCallInit {
     func start(completion: ((_ success: Bool) -> Void)?) {
         completion?(true)
         
-        DispatchQueue.main.asyncAfter(wallDeadline: DispatchWallTime.now() + 3) {
             CallKitCallInit.state = .connecting
             self.connectedState = .pending
-            
-            DispatchQueue.main.asyncAfter(wallDeadline: DispatchWallTime.now() + 1.5) {
-                CallKitCallInit.state = .active
-                self.connectedState = .complete
-            }
-        }
+            CallKitCallInit.state = .active
+            self.connectedState = .complete
     }
     
     func answer() {
@@ -63,6 +58,7 @@ class CallKitCallInit {
         
         //accept the call
         incomingCallInstance.acceptCallFlag = true
+        incomingCallInstance.PresentIncomingVC()
     }
     
     func end(uuid: UUID) {

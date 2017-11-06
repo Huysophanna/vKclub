@@ -58,7 +58,10 @@ class DashboardController: UIViewController {
         if iflogOut {
             iflogOut = false
             checkwhenappclose = "Login"
-            InternetConnection.ShutdownPBXServer()
+            if !changeExtention {
+                InternetConnection.ShutdownPBXServer()
+            }
+            
         }
        
         CheckWhenUserChangePassword ()       // login for registerForRemoteNotifications
@@ -106,7 +109,6 @@ class DashboardController: UIViewController {
         super.didReceiveMemoryWarning()
         
     }
-    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -157,6 +159,8 @@ class DashboardController: UIViewController {
                 if btntag == 4 {
                     CheckWhenUserChangePassword ()
                     switch getExtensionSucc {
+                        case "outside":
+                            PresentAlertController(title: "Off-Kirirom Mode", message: "Emergency SOS & Free internal   phone call features are not accessible for Off-Kirirom users.", actionTitle: "Okay")
                         case "Extension":
                             if linphoneInit == "login"{
                                  PresentAlertController(title: "Please wait", message: "We are trying to generate and activate   your caller ID. Please try again in seconds.", actionTitle: "Okay")
@@ -272,7 +276,7 @@ class DashboardController: UIViewController {
         break
         case INAPP_UNIDENTIFIED:
             KiriromScope.setTitle("Unidentified Mode", for: .normal)
-            KiriromScope.setTitleColor(UIColor.yellow, for: .normal)
+            KiriromScope.setTitleColor(UIColor.orange, for: .normal)
         break
         default:
             KiriromScope.setTitle("Unidentified Mode", for: .normal)
@@ -313,10 +317,10 @@ class DashboardController: UIViewController {
 //                    linphoneConnectionStatusFlag = false
 //                }
 //            }
-            let when = DispatchTime.now() + 40// change 2 to desired number of seconds
-            DispatchQueue.main.asyncAfter(deadline: when) {
-                LinphoneManager.register(proxyConfig!)
-            }
+//            let when = DispatchTime.now() + 15// change 2 to desired number of seconds
+//            DispatchQueue.main.asyncAfter(deadline: when) {
+//                LinphoneManager.register(proxyConfig!)
+//            }
 //
             
 //            print("registering --++")
