@@ -27,11 +27,19 @@ extension UIViewController {
     func dismissKeyboard() {
         view.endEditing(true)
     }
+    func getTopViewController() -> UIViewController
+    {
+        var topViewController = UIApplication.shared.delegate!.window!!.rootViewController!
+        while (topViewController.presentedViewController != nil) {
+            topViewController = topViewController.presentedViewController!
+        }
+        return topViewController
+    }
  }
 
 extension UIApplication {
     class func topViewController(base: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
-        
+
         if let nav = base as? UINavigationController {
             return topViewController(base: nav.visibleViewController)
         }

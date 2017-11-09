@@ -55,6 +55,7 @@ public class InternetConnection {
         personService.deleteAllData(entity: "Extension")
     }
     static func Logouts(){
+        usetoLogin = false
         getExtensionSucc = "Logout"
         UserDefaults.standard.set(false, forKey: "loginBefore")
         UIApplication.shared.unregisterForRemoteNotifications()

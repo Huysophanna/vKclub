@@ -55,7 +55,7 @@ extension ProviderDelegate: CXProviderDelegate {
         call.end(uuid: action.callUUID)
         // 4.
         if #available(iOS 11, *) {
-            print ("vKclub")
+           print("Our vKclube")
         } else {
             action.fulfill()
         }
@@ -66,6 +66,10 @@ extension ProviderDelegate: CXProviderDelegate {
     // 5.
     func provider(_ provider: CXProvider, didActivate audioSession: AVAudioSession) {
         print("Starting audio ==STARTING-AUDIO==")
+    }
+    
+    func provider(_ provider: CXProvider, didDeactivate audioSession: AVAudioSession) {
+        print("Received \(#function)")
     }
     
     func configureAudioSession() {

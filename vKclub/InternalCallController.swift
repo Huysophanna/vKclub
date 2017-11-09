@@ -18,6 +18,8 @@ class InternalCallController: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        usetoLogin = true
+        getTopViewController().dismiss(animated: false, completion: nil)
         
         //make extension button with connection status
         MakeExtensionButton(color: LinphoneConnectionStatusFlag == true ? UIColor.red : UIColor.green)

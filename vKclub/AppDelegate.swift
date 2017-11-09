@@ -12,6 +12,7 @@ import Firebase
 import FBSDKCoreKit
 import UserNotifications
 import FirebaseMessaging
+import CallKit
 let appDelegate = UIApplication.shared.delegate as! AppDelegate
 let manageObjectContext  = appDelegate.persistentContainer.viewContext
 var databaseRef = Database.database().reference()
@@ -36,6 +37,7 @@ var iflogOut : Bool = false
 var connection : Bool = false
 var LinphoneConnectionStatusFlag: Bool = true
 var backgroundTask: UIBackgroundTaskIdentifier = UIBackgroundTaskInvalid
+var usetoLogin : Bool = false
 var linphoneInit = "" {
     didSet {
         userExtensionID = linphoneInit
@@ -50,6 +52,8 @@ var linphoneInit = "" {
         
     }
 }
+var endCallIncressing = 0
+var getsimCall : Bool  = false
 var getExtensionSucc : String = ""
 var tokenExt_id = ""
 var TimeModCheck = Timer()
@@ -140,13 +144,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let body : String = d["body"] as! String
         let title : String = d["title"] as! String
         print("Title:\(title) + body:\(body)")
-        personService.CreatnotificationCoredata(_notification_num: notification_num, _notification_body: body, _notification_title: title)
-        // custom code to handle push while app is in the foreground
-        if let username = userName?.displayName {
-            self.showAlertAppDelegate(title: "Hello "+username, message: title + ": " + body, buttonTitle:"Okay", window:self.window!)
-        } else {
-            self.showAlertAppDelegate(title: "Hello There ", message: title + ": " + body, buttonTitle:"Okay", window:self.window!)
-        }
+//        personService.CreatnotificationCoredata(_notification_num: notification_num, _notification_body: body, _notification_title: title)
+//        // custom code to handle push while app is in the foreground
+//        if let username = userName?.displayName {
+//            self.showAlertAppDelegate(title: "Hello "+username, message: title + ": " + body, buttonTitle:"Okay", window:self.window!)
+//        } else {
+//            self.showAlertAppDelegate(title: "Hello There ", message: title + ": " + body, buttonTitle:"Okay", window:self.window!)
+//        }
         
     }
     
@@ -165,12 +169,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let body : String = d["body"] as! String
         let title : String = d["title"] as! String
         print("Title:\(title) + body:\(body)")
-        personService.CreatnotificationCoredata(_notification_num: notification_num, _notification_body: body, _notification_title: title)
-        if let username = userName?.displayName {
-            self.showAlertAppDelegate(title: "Hello "+username, message: title + ": " + body, buttonTitle:"Okay", window:self.window!)
-        } else {
-            self.showAlertAppDelegate(title: "Hello There", message: title + ": " + body, buttonTitle:"Okay", window:self.window!)
-        }
+//        personService.CreatnotificationCoredata(_notification_num: notification_num, _notification_body: body, _notification_title: title)
+//        if let username = userName?.displayName {
+//            self.showAlertAppDelegate(title: "Hello "+username, message: title + ": " + body, buttonTitle:"Okay", window:self.window!)
+//        } else {
+//            self.showAlertAppDelegate(title: "Hello There", message: title + ": " + body, buttonTitle:"Okay", window:self.window!)
+//        }
         
         
         completionHandler()
@@ -214,9 +218,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     
     func applicationWillResignActive(_ application: UIApplication) {
+        if loginBefore || usetoLogin  {
+            if !getsimCall {
+                incomingCallInstance.EndCallAction()
+                
+            } else {
+                getsimCall = false
+            }
+        }
+       
+        
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
     }
+   
     
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.

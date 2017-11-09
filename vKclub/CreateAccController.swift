@@ -50,24 +50,24 @@ class CreateAccController: ViewController ,UITextFieldDelegate{
             PresentAlertController(title: "Warning", message: "Your password doesn't match with confirm password", actionTitle: "Got it")
              return
         } else if length_password < 6 {
-            PresentAlertController(title: "Warning", message: "Pleaes enter your password more then 6 characters", actionTitle: "Got it")
+            PresentAlertController(title: "Warning", message: "Pleaes enter your password more than 6 characters", actionTitle: "Got it")
             return
         } else if length_username < 5 {
             
-            PresentAlertController(title: "Warning", message: "Pleaes enter your username more then 6 characters", actionTitle: "Got it")
+            PresentAlertController(title: "Warning", message: "Pleaes enter your username more than 6 characters", actionTitle: "Got it")
             return
         } else if length_username > 20 {
-            PresentAlertController(title: "Warning", message: "Pleaes enter your username less then 20 characters", actionTitle: "Got it")
+            PresentAlertController(title: "Warning", message: "Pleaes enter your username less than 20 characters", actionTitle: "Got it")
             return
             
         } else if length_password > 20 {
-            PresentAlertController(title: "Warning", message: "Pleaes enter your password less then 20 characters", actionTitle: "Got it")
+            PresentAlertController(title: "Warning", message: "Pleaes enter your password less than 20 characters", actionTitle: "Got it")
             return
         } else if specialcharaters == false {
              PresentAlertController(title: "Warning", message: "Your username should not contant with special charaters or number", actionTitle: "Got it")
             return
         } else if conutwhitespece >= 3 {
-            PresentAlertController(title: "Warning", message: "Your username should not contant more then 3 white spece", actionTitle: "Got it")
+            PresentAlertController(title: "Warning", message: "Your username should not contant more than 3 white spece", actionTitle: "Got it")
             return
         }
         else {

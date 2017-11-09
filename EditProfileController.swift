@@ -81,18 +81,18 @@ class EditProfileController: UIViewController,UITextFieldDelegate {
         }
         
         if length_password < 6 {
-            PresentAlertController(title: "Warning", message: "Pleaes enter your password more then 6 characters", actionTitle: "Got it")
+            PresentAlertController(title: "Warning", message: "Pleaes enter your password more than 6 characters", actionTitle: "Got it")
             
             return
         } else if length_password > 20 {
-            PresentAlertController(title: "Warning", message: "Pleaes enter your password less then 20 characters", actionTitle: "Got it")
+            PresentAlertController(title: "Warning", message: "Pleaes enter your password less than 20 characters", actionTitle: "Got it")
             return
         } else if lenth_username < 5 {
-            PresentAlertController(title: "Warning", message: "Pleaes enter your name more then 5 characters", actionTitle: "Got it")
+            PresentAlertController(title: "Warning", message: "Pleaes enter your name more than 5 characters", actionTitle: "Got it")
             return
             
         } else if lenth_username > 20 {
-            PresentAlertController(title: "Warning", message: "Pleaes enter your name less then 20 characters", actionTitle: "Got it")
+            PresentAlertController(title: "Warning", message: "Pleaes enter your name less than 20 characters", actionTitle: "Got it")
             return
             
         } else if specialcharaters == false {
@@ -100,7 +100,7 @@ class EditProfileController: UIViewController,UITextFieldDelegate {
             return
         } else if conutwhitespece >= 3 {
             
-            PresentAlertController(title: "Warning", message: "Your username should not contant more then 3 white spece", actionTitle: "Got it")
+            PresentAlertController(title: "Warning", message: "Your username should not contant more than 3 white spece", actionTitle: "Got it")
             return
         } else {
             UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: true)
@@ -330,7 +330,7 @@ class ChangePasswordController :UIViewController,UITextFieldDelegate {
             let length_current : Int = (current_password.text!.characters.count)
             if length_password < 6 || length_current < 6 {
                  UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: false)
-                PresentAlertController(title: "Warning", message: "Pleaes enter your password more then 6 characters", actionTitle: "Got it")
+                PresentAlertController(title: "Warning", message: "Pleaes enter your password more than 6 characters", actionTitle: "Got it")
                 return
   
             }

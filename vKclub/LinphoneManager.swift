@@ -400,6 +400,7 @@ class LinphoneManager {
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
             if error != nil {
                 getExtensionSucc = "getExtensionSucc"
+                self.GetAccountExtension()
                 
             } else {
                 if let data = data{
@@ -555,6 +556,7 @@ class LinphoneManager {
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             if error != nil {
                getExtensionSucc = "getExtensionSucc"
+               self.GetAccountExtension()
              } else {
                 if let data = data {
                     do {

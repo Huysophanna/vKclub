@@ -105,9 +105,12 @@ class LoginController: UIViewController,UITextFieldDelegate {
                                      self.create(username: (user?.displayName)!,email: (user?.email)!,facebook: true, imagData: imageProfiles! as NSData)
                                 } 
                             }
+                        let DashController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MainDashboard") as! SWRevealViewController
+                        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                                appDelegate.window?.rootViewController = DashController
+                         //self.performSegue(withIdentifier: "SegueToDashboard", sender: self)
                         }
-                            UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
-                            self.performSegue(withIdentifier: "SegueToDashboard", sender: self)
+                        
 //                           LinphoneManager.enableRegistration()
                         
                         
@@ -173,8 +176,10 @@ class LoginController: UIViewController,UITextFieldDelegate {
                             }
  
                         }
-                       UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
-                       self.performSegue(withIdentifier: "SegueToDashboard", sender: self)
+                        let DashController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MainDashboard") as! SWRevealViewController
+                        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                        appDelegate.window?.rootViewController = DashController
+//                       self.performSegue(withIdentifier: "SegueToDashboard", sender: self)
 //                      LinphoneManager.enableRegistration()
                         
                     } else {

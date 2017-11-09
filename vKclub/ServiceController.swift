@@ -16,7 +16,7 @@ class ServiceController: UIViewController {
     @IBOutlet weak var bottomLine: UIView!
     
     override func viewDidLoad() {
-        
+        usetoLogin = true
         //put proper content based on app mode
         if CHCK_USER_LOCATION == IN_KIRIROM {
             inKiriromContent.isHidden = false

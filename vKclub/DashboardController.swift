@@ -71,7 +71,7 @@ class DashboardController: UIViewController {
         }else{
              UIApplication.shared.unregisterForRemoteNotifications()
         }
-       
+        
         //init background task for incoming call
         backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask(expirationHandler: nil)
         loadData()
@@ -105,11 +105,6 @@ class DashboardController: UIViewController {
     }
     
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.isNavigationBarHidden = false
@@ -126,6 +121,7 @@ class DashboardController: UIViewController {
         super.viewDidLayoutSubviews()
         self.navigationController?.setNavigationBarHidden(false, animated: false)
     }
+
 
    
 
@@ -188,7 +184,7 @@ class DashboardController: UIViewController {
                 }
                 break
             case OFF_KIRIROM:
-                PresentAlertController(title: "Off-Kirirom Mode", message: "Emergency SOS & Free internal   phone call features are not accessible for Off-Kirirom users.", actionTitle: "Okay")
+                PresentAlertController(title: "Off-Kirirom Mode", message: "Emergency SOS & Free internal phone call features are not accessible for Off-Kirirom users.", actionTitle: "Okay")
                 break
             case UNIDENTIFIED:
                 UIComponentHelper.LocationPermission(INAPP_UNIDENTIFIEDSetting: false)
