@@ -5,7 +5,6 @@
 //  Created by HuySophanna on 24/7/17.
 //  Copyright © 2017 WiAdvance. All rights reserved.
 //
-
 import Foundation
 import CallKit
 
@@ -45,12 +44,11 @@ class CallKitCallInit {
     func start(completion: ((_ success: Bool) -> Void)?) {
         completion?(true)
         
-            CallKitCallInit.state = .connecting
-            self.connectedState = .pending
-            CallKitCallInit.state = .active
-            self.connectedState = .complete
+        CallKitCallInit.state = .connecting
+        self.connectedState = .pending
+        CallKitCallInit.state = .active
+        self.connectedState = .complete
     }
-    
     func answer() {
         print("CALL ACCEPTED ======")
         checkCallKit = "checkCallkit"
@@ -60,6 +58,7 @@ class CallKitCallInit {
         incomingCallInstance.acceptCallFlag = true
         incomingCallInstance.PresentIncomingVC()
     }
+    
     
     func end(uuid: UUID) {
         print("CALL DECLINED/ENDED ======")
@@ -78,7 +77,6 @@ class CallKitCallInit {
             LinphoneManager.declineCall(_declinedReason: LinphoneReasonBusy)
             incomingCallInstance.incomingCallFlags = false
             incomingCallInstance.releaseCallFlag = true
-            
             //invalidate wait for stream running interval
             IncomingCallController.InvalidateWaitForStreamRunningInterval()
             

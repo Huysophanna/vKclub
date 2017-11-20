@@ -143,7 +143,6 @@ class NotificationViewController: UITableViewController {
         text.isHidden   = false
         loadData()
         self.tableView.reloadData()
-        
     }
 
 }

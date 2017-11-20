@@ -9,7 +9,7 @@ class SettingController: UIViewController,UNUserNotificationCenterDelegate,UIApp
    
     override func viewDidLoad() {
         super.viewDidLoad()
-          Check()
+        Check()
         let cancelBtn: UIButton = UIButton (type: UIButtonType.custom)
         cancelBtn.setImage(UIImage(named: "Cancel"), for: UIControlState.normal)
         cancelBtn.addTarget(self, action: #selector(SettingController.cancelBtn), for: .touchUpInside)
@@ -20,18 +20,13 @@ class SettingController: UIViewController,UNUserNotificationCenterDelegate,UIApp
         let height = barButton.customView?.heightAnchor.constraint(equalToConstant: 20)
         height?.isActive = true
         self.navigationItem.leftBarButtonItem = barButton
-       
-        
-        
-       
-        
     }
     func cancelBtn(_ sender: Any) {
         dismiss(animated: true, completion: nil)   
     }
     
     @IBAction func HelpBtn(_ sender: Any) {
-        self.PresentAlertController(title: "Help", message: "Notification: Turn OFF/ON all incoming alert notification including Digital News Content as well as Chat Messaging.", actionTitle: "Okay")
+        self.PresentAlertController(title: "Help", message: "Notification: Turn OFF/ON all incoming alert notification including Digital News Content.", actionTitle: "Okay")
         
     }
     

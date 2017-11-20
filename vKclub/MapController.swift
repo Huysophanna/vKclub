@@ -110,7 +110,6 @@ class MapController: UIViewController,GMSMapViewDelegate,CLLocationManagerDelega
     }
     
     func Map() {
-        
         //map view
         GMSServices.provideAPIKey("AIzaSyA0QlNOrMY6JU7wqgBXBamQq1v9wbR11Z0")
         let camera = GMSCameraPosition.camera(withLatitude: 11.3167, longitude: 104.0651, zoom : 15)

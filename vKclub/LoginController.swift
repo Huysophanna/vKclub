@@ -21,6 +21,7 @@ class LoginController: UIViewController,UITextFieldDelegate {
     let User = UserProfile(context: manageObjectContext)
     override func viewDidLoad() {
         super.viewDidLoad()
+        usetoLogin = false
         hideKeyboardWhenTappedAround()
         UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
         MakeLeftViewIconToTextField(textField: emailTextField, icon: "user_left_icon")
@@ -133,13 +134,21 @@ class LoginController: UIViewController,UITextFieldDelegate {
         UIComponentHelper.PresentActivityIndicator(view: self.view, option: true)
         InternetConnection.second = 0
         InternetConnection.countTimer.invalidate()
-        
-        
-        if emailTextField.text == "" || pwTextField.text == "" {
+        if emailTextField.text == "" && pwTextField.text == "" {
             UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
-            
             PresentAlertController(title: "Warning", message: "Please properly insert your data", actionTitle: "Got it")
+            return
             
+        }
+        if ( emailTextField.text?.isEmpty)! {
+            UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
+            PresentAlertController(title: "Warning", message: "Please properly insert your email", actionTitle: "Got it")
+            return
+        }
+        if (pwTextField.text?.isEmpty)! {
+            UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
+            PresentAlertController(title: "Warning", message: "Please properly insert your password", actionTitle: "Go it")
+            return
         } else {
             
             //handle firebase sign in

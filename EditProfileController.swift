@@ -68,6 +68,20 @@ class EditProfileController: UIViewController,UITextFieldDelegate {
             lenth_username  = (currentuser!.displayName!.characters.count)
             
         }
+        if ((Username.text?.isEmpty)! && (Email.text?.isEmpty)!){
+            self.PresentAlertController(title: "Warning", message: "Please properly insert your data", actionTitle: "Ok")
+            return
+        }
+        if ( Username.text?.isEmpty)! {
+            PresentAlertController(title: "Warning", message: "Please properly insert your username", actionTitle: "Got it")
+            return
+        }
+        if (Email.text?.isEmpty)! {
+            PresentAlertController(title: "Warning", message: "Please properly insert your email", actionTitle: "Got it")
+        }
+        if (currentpass.text?.isEmpty)! {
+            PresentAlertController(title: "Warning", message: "Please properly insert your password", actionTitle: "Got it")
+        }
 
         if InternetConnection.isConnectedToNetwork() {
             print("have internet")
@@ -75,32 +89,28 @@ class EditProfileController: UIViewController,UITextFieldDelegate {
             self.PresentAlertController(title: "Warning", message: "Cannot update your Profile right now. Please Check your internet connection ", actionTitle: "Got it")
             return
         }
-        if ((Username.text?.isEmpty)! && (Email.text?.isEmpty)!){
-            self.PresentAlertController(title: "Warning", message: "Please properly insert your data", actionTitle: "Ok")
-            return
-        }
         
         if length_password < 6 {
-            PresentAlertController(title: "Warning", message: "Pleaes enter your password more than 6 characters", actionTitle: "Got it")
+            PresentAlertController(title: "Warning", message: "Please enter your password more than 6 characters", actionTitle: "Got it")
             
             return
         } else if length_password > 20 {
-            PresentAlertController(title: "Warning", message: "Pleaes enter your password less than 20 characters", actionTitle: "Got it")
+            PresentAlertController(title: "Warning", message: "Please enter your password less than 20 characters", actionTitle: "Got it")
             return
         } else if lenth_username < 5 {
-            PresentAlertController(title: "Warning", message: "Pleaes enter your name more than 5 characters", actionTitle: "Got it")
+            PresentAlertController(title: "Warning", message: "Please enter your name more than 5 characters", actionTitle: "Got it")
             return
             
-        } else if lenth_username > 20 {
-            PresentAlertController(title: "Warning", message: "Pleaes enter your name less than 20 characters", actionTitle: "Got it")
+        } else if lenth_username > 30 {
+            PresentAlertController(title: "Warning", message: "Please enter your name less than 30 characters", actionTitle: "Got it")
             return
             
         } else if specialcharaters == false {
-            PresentAlertController(title: "Warning", message: "Your username should not contant with special charaters or number", actionTitle: "Got it")
+            PresentAlertController(title: "Warning", message: "Your username should not contain any special charaters or numbers", actionTitle: "Got it")
             return
         } else if conutwhitespece >= 3 {
             
-            PresentAlertController(title: "Warning", message: "Your username should not contant more than 3 white spece", actionTitle: "Got it")
+            PresentAlertController(title: "Warning", message: "Your username should not contain more than 3 white spaces", actionTitle: "Got it")
             return
         } else {
             UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: true)
@@ -174,7 +184,7 @@ class EditProfileController: UIViewController,UITextFieldDelegate {
                                 self.reNew()
                             } else {
                                 UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: false)
-                                let notificationPermissionAlert = UIAlertController(title: "Warning", message: "After you change your email. You need to verified", preferredStyle: UIAlertControllerStyle.alert)
+                                let notificationPermissionAlert = UIAlertController(title: "Warning", message: "After you changed your email. You need to verify your email.", preferredStyle: UIAlertControllerStyle.alert)
                                 
                                 notificationPermissionAlert.addAction(UIAlertAction(title: "Okay", style: .default, handler: { (action: UIAlertAction!) in
                                     UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: true)
@@ -316,12 +326,21 @@ class ChangePasswordController :UIViewController,UITextFieldDelegate {
     }
     
     @IBAction func ChangePasswordBtn(_ sender: Any) {
-        
-        if (current_password.text?.isEmpty)! || (new_password.text?.isEmpty)! || (comfire_password.text?.isEmpty)!{
+        if (current_password.text?.isEmpty)! && (new_password.text?.isEmpty)! && (comfire_password.text?.isEmpty)!{
             self.PresentAlertController(title: "Warning", message: "Please properly insert your data", actionTitle: "Ok")
             return
             
-        } else if new_password.text != comfire_password.text {
+        }
+        if ( current_password.text?.isEmpty)! {
+            PresentAlertController(title: "Warning", message: "Please properly insert your current password", actionTitle: "Got it")
+            return
+        }
+        if ( new_password.text?.isEmpty)! {
+            PresentAlertController(title: "Warning", message: "Please properly insert your new password", actionTitle: "Got it")
+            return
+        }
+        
+        if new_password.text != comfire_password.text {
             PresentAlertController(title: "Warning", message: "Your password doesn't match with confirm password", actionTitle: "Okay")
             return
         } else {
@@ -330,7 +349,7 @@ class ChangePasswordController :UIViewController,UITextFieldDelegate {
             let length_current : Int = (current_password.text!.characters.count)
             if length_password < 6 || length_current < 6 {
                  UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: false)
-                PresentAlertController(title: "Warning", message: "Pleaes enter your password more than 6 characters", actionTitle: "Got it")
+                PresentAlertController(title: "Warning", message: "Please enter your password more than 6 characters", actionTitle: "Got it")
                 return
   
             }

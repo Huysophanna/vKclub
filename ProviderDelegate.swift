@@ -54,11 +54,12 @@ extension ProviderDelegate: CXProviderDelegate {
         // 3.
         call.end(uuid: action.callUUID)
         // 4.
-        if #available(iOS 11, *) {
-           print("Our vKclube")
-        } else {
-            action.fulfill()
-        }
+//        if #available(iOS 11, *) {
+//           print("Our vKclube")
+//        } else {
+//            action.fulfill()
+//        }
+        action.fulfill()
         // 5.
         callKitManager.remove(call: call)
     }

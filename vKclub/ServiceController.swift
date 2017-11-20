@@ -11,12 +11,13 @@ import UIKit
 
 class ServiceController: UIViewController {
     var incomingCallInstance = IncomingCallController()
+   
     //    var dashboardInstance = DashboardController()
     @IBOutlet weak var inKiriromContent: UIView!
     @IBOutlet weak var bottomLine: UIView!
-    
     override func viewDidLoad() {
-        usetoLogin = true
+        InternetConnection.getServiceExtensions()
+        InternetConnection.AskAudioPermission()
         //put proper content based on app mode
         if CHCK_USER_LOCATION == IN_KIRIROM {
             inKiriromContent.isHidden = false
@@ -35,10 +36,14 @@ class ServiceController: UIViewController {
         
         if LinphoneManager.CheckLinphoneConnectionStatus() == false {
             PresentAlertController(title: "Something went wrong", message: "You are not connected to our server. Please ensure that you are connected to our network and try again later.", actionTitle: "Okay")
+            
             return
             
         }
-        if InternetConnection.AudioPermissiom(){
+        if InternetConnection.CheckAudioPermission(){
+            if service_extensions.isEmpty {
+                return
+            }
             switch getExtensionSucc {
             case "Extension":
                 if linphoneInit == "login"{
@@ -48,8 +53,14 @@ class ServiceController: UIViewController {
                     case 1:
                         //reception
                         if CHCK_USER_LOCATION == IN_KIRIROM {
-                            CallToAction(phoneNumber: "235")
+                            print  (service_extensions[0],"service+++")
+                            CallToAction(phoneNumber: service_extensions[0])
                         } else {
+                            if (UIDevice.current.userInterfaceIdiom == UIUserInterfaceIdiom.pad) {
+                                self.PresentAlertController(title: "Warning", message: "Your device doesn't support with this feature ", actionTitle: "Got it")
+                                
+                                return
+                            }
                             //call using carrier phone number
                             guard let number = URL(string: "tel://" + "0962222735" ) else { return }
                             UIApplication.shared.open(number, options: [:], completionHandler: nil)
@@ -57,23 +68,23 @@ class ServiceController: UIViewController {
                         break
                     case 2:
                         //housekeeping
-                        CallToAction(phoneNumber: "236")
+                        CallToAction(phoneNumber: service_extensions[1])
                         break
                     case 3:
                         //massage
-                        CallToAction(phoneNumber: "237")
+                        CallToAction(phoneNumber: service_extensions[2])
                         break
                     case 4:
                         //pineviewkitchen
-                        CallToAction(phoneNumber: "238")
+                        CallToAction(phoneNumber: service_extensions[3])
                         break
                     case 5:
                         //activity
-                        CallToAction(phoneNumber: "239")
+                        CallToAction(phoneNumber: service_extensions[4])
                         break
                     default:
                         //operation
-                        CallToAction(phoneNumber: "240")
+                        CallToAction(phoneNumber: service_extensions[5])
                         break
                     }
                 }

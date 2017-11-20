@@ -62,7 +62,7 @@ public class InternetConnection {
         notification_num = 0
         personService.deleteAllData(entity: "SipCallData")
         personService.deleteAllData(entity: "UserProfile")
-        personService.deleteAllData(entity: "Notifications")
+//        personService.deleteAllData(entity: "Notifications")
         personService.deleteAllData(entity: "Extension")
         try! Auth.auth().signOut()
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -71,6 +71,43 @@ public class InternetConnection {
         let yourVC = mainStoryboard.instantiateViewController(withIdentifier: "loginController") as!  LoginController
         appDelegate.window?.rootViewController = yourVC
         appDelegate.window?.makeKeyAndVisible()
+    }
+    static func getServiceExtensions() {
+        let currentuser = Auth.auth().currentUser
+        var request = URLRequest(url: URL(string:"http://192.168.7.251:8000/api/v.1/get_service_extensions" )!)
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("wfvUd0d4Bw7RfeCqwEe4F0GWTL3dpzai7f7euYBuI", forHTTPHeaderField: "VKAPP-API-TOKEN")
+        request.addValue((currentuser?.uid)!, forHTTPHeaderField: "VKAPP-USERID")
+        request.addValue((currentuser?.displayName)!, forHTTPHeaderField: "VKAPP-USERNAME")
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            if error != nil {
+                
+                
+            } else {
+                do {
+                    if let data = data,
+                        let json = try JSONSerialization.jsonObject(with: data) as? [String: Any],
+                        let blogs = json["service_extensions"] as? [[String: Any]] {
+                        for blog in blogs {
+                            if let service_name = blog["service_name"] as? String {
+                                service_names.append(service_name)
+                            }
+                            if let service_extionsion = blog["service_extension"] as? String{
+                                service_extensions.append(service_extionsion)
+                                
+                            }
+                        }
+                    }
+                } catch {
+                    print("Error deserializing JSON: \(error)")
+                }
+            }
+            
+        }
+        task.resume()
+        
+        
     }
     static func ShutdownPBXServer(){
         let when = DispatchTime.now() + 4 // change 2 to desired number of seconds
@@ -97,7 +134,28 @@ public class InternetConnection {
         
         
     }
-    static  func AudioPermissiom() -> Bool {
+    static func AskAudioPermission() {
+        let session = AVAudioSession.sharedInstance()
+        
+        if (session.responds(to: #selector(AVAudioSession.requestRecordPermission(_:)))) {
+            AVAudioSession.sharedInstance().requestRecordPermission({(granted: Bool)-> Void in
+                if granted {
+                    
+                    do {
+                        try session.setCategory(AVAudioSessionCategoryPlayAndRecord)
+                        try session.setActive(true)
+                    }
+                    catch {
+                        print("Couldn't set Audio session category")
+                    }
+                } else{
+                    print("not granted")
+                }
+            })
+        }
+
+    }
+    static  func CheckAudioPermission() -> Bool {
     var audioPermission : Bool
     switch AVAudioSession.sharedInstance().recordPermission() {
          case AVAudioSessionRecordPermission.granted:
@@ -105,7 +163,6 @@ public class InternetConnection {
             break
          default:
             audioPermission  = false
-     
             break
     }
       return  audioPermission

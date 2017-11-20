@@ -43,10 +43,27 @@ class CreateAccController: ViewController ,UITextFieldDelegate{
         let length_username : Int = (nameTextField.text?.characters.count)!
         let specialcharaters = UIComponentHelper.AvoidSpecialCharaters(specialcharaters: nameTextField.text!)
         let conutwhitespece : Int = UIComponentHelper.Countwhitespece(_whitespece:nameTextField.text!)
-        if (nameTextField.text?.isEmpty)! || (emailTextField.text?.isEmpty)! || (passwordTextField.text?.isEmpty)! || (confirmTextField.text?.isEmpty)! {
+        if (nameTextField.text?.isEmpty)! && (emailTextField.text?.isEmpty)! && (passwordTextField.text?.isEmpty)! && (confirmTextField.text?.isEmpty)! {
             PresentAlertController(title: "Warning", message: "Please properly insert your data", actionTitle: "Got it")
             return
-        }  else if confirmTextField.text !=  passwordTextField.text {
+        }
+        if (nameTextField.text?.isEmpty)! {
+            PresentAlertController(title: "Warning", message: "Please properly insert your username", actionTitle: "Got it")
+            return
+        }
+        if (emailTextField.text?.isEmpty)! {
+            PresentAlertController(title: "Warning", message: "Please properly insert your email", actionTitle: "Got it")
+            return
+        }
+        if (passwordTextField.text?.isEmpty)! {
+            PresentAlertController(title: "Warning", message: "Please properly insert your password", actionTitle: "Got it")
+            return
+        }
+        if (confirmTextField.text?.isEmpty)! {
+            PresentAlertController(title: "Warning", message: "Please properly insert your confirm password", actionTitle: "Got it")
+            return
+        }
+        if confirmTextField.text !=  passwordTextField.text {
             PresentAlertController(title: "Warning", message: "Your password doesn't match with confirm password", actionTitle: "Got it")
              return
         } else if length_password < 6 {
@@ -56,18 +73,18 @@ class CreateAccController: ViewController ,UITextFieldDelegate{
             
             PresentAlertController(title: "Warning", message: "Pleaes enter your username more than 6 characters", actionTitle: "Got it")
             return
-        } else if length_username > 20 {
-            PresentAlertController(title: "Warning", message: "Pleaes enter your username less than 20 characters", actionTitle: "Got it")
+        } else if length_username > 30 {
+            PresentAlertController(title: "Warning", message: "Pleaes enter your username less than 30 characters", actionTitle: "Got it")
             return
             
         } else if length_password > 20 {
             PresentAlertController(title: "Warning", message: "Pleaes enter your password less than 20 characters", actionTitle: "Got it")
             return
         } else if specialcharaters == false {
-             PresentAlertController(title: "Warning", message: "Your username should not contant with special charaters or number", actionTitle: "Got it")
+             PresentAlertController(title: "Warning", message: "Your username should not contain any special charaters or numbers", actionTitle: "Got it")
             return
         } else if conutwhitespece >= 3 {
-            PresentAlertController(title: "Warning", message: "Your username should not contant more than 3 white spece", actionTitle: "Got it")
+            PresentAlertController(title: "Warning", message: "Your username should not contain more than 3 white spaces", actionTitle: "Got it")
             return
         }
         else {
@@ -120,6 +137,8 @@ class CreateAccController: ViewController ,UITextFieldDelegate{
                         }
                     }
                     Auth.auth().currentUser?.sendEmailVerification { (error) in
+                        
+                        print(Auth.auth().currentUser?.email,"email++")
                         if error != nil {
                              self.PresentAlertController(title: "Something went wrong", message: (error?.localizedDescription)!, actionTitle: "Okay")
                         }

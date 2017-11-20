@@ -19,14 +19,10 @@ class ViewController: UIViewController, PaperOnboardingDataSource, PaperOnboardi
     @IBOutlet weak var getStartedButton: UIButton!
     
     override func viewDidLoad() {
-        
         onboardingView.dataSource = self
         onboardingView.delegate = self
         skipBtn.isHidden = true
-        
     }
-    
-    
     func onboardingItemsCount() -> Int {
         return 6
     }

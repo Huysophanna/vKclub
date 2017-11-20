@@ -44,7 +44,9 @@ class DashboardController: UIViewController {
     let setting = UserDefaults.standard.integer(forKey: "setting")
     override func viewDidLoad() {
         super.viewDidLoad()
+//        getServiceExtension()
         linphoneInit  = "login"
+        usetoLogin = true
         notificationBtn.tag = 6
         notificationBtn.setImage(UIImage(named: "Notification"), for: UIControlState.normal)
         notificationBtn.addTarget(self, action: #selector(self.BtnTag), for: .touchUpInside)
@@ -82,26 +84,7 @@ class DashboardController: UIViewController {
         KiriromScope.setTitle("Identifying", for: .normal)
         coverView.isHidden = true
         coverView.isUserInteractionEnabled = false
-        navigationController?.hidesBarsOnSwipe = false
-        let session = AVAudioSession.sharedInstance()
-        
-        if (session.responds(to: #selector(AVAudioSession.requestRecordPermission(_:)))) {
-            AVAudioSession.sharedInstance().requestRecordPermission({(granted: Bool)-> Void in
-                if granted {
-                    
-                    do {
-                        try session.setCategory(AVAudioSessionCategoryPlayAndRecord)
-                        try session.setActive(true)
-                    }
-                    catch {
-                        print("Couldn't set Audio session category")
-                    }
-                } else{
-                    print("not granted")
-                }
-            })
-        }
-        
+        navigationController?.hidesBarsOnSwipe = false        
     }
     
     
@@ -122,10 +105,6 @@ class DashboardController: UIViewController {
         self.navigationController?.setNavigationBarHidden(false, animated: false)
     }
 
-
-   
-
-    
     @IBAction func BtnTag(_sender:Any){
         
         CheckWhenUserChangePassword ()
@@ -244,11 +223,11 @@ class DashboardController: UIViewController {
         var title: String
         var body: String
         if isConnected {
-            title = "PhoneCall Registered"
+            title = "InternalPhoneCall Registered"
             body = "You are connected. Available to recieve and make call."
         } else {
-            title = "PhoneCall Registration Failed"
-            body = "You are not connected. Please connect to our wifi network to recieve and make call."
+            title = "InternalPhoneCall Registration Failed"
+            body = "You are not connected. Please connect to our WiFi network to recieve and make call."
         }
         UIComponentHelper.scheduleNotification(_title: title, _body: body, _inSeconds: 0.1)
     }
@@ -287,19 +266,9 @@ class DashboardController: UIViewController {
         
         if CheckUserLocation() == IN_KIRIROM {
 //            print(LinphoneManager.CheckLinphoneConnectionStatus(),  "==STATUS===")
-//            if LinphoneManager.CheckLinphoneCallState() == LINPHONE_CALL_IDLE {
-//                print("Being idle+++++")
-//                //invalidate set up call in progress interval
-//                IncomingCallController.InvalidateSetUpCallInProgressInterval()
-//
-//                //invalidate wait for stream running interval
-//                IncomingCallController.InvalidateWaitForStreamRunningInterval()
-//                LinphoneManager.interuptedCallFlag = false
-//                IncomingCallController.IncomingCallFlag = false
-//                IncomingCallController.CallToAction = false
-//            }
-//
-//            //Push localNotification to show user about linphone connection status
+            
+
+            //Push localNotification to show user about linphone connection status
 //            if LinphoneManager.CheckLinphoneConnectionStatus() {
 //                if iflogOut {
 //                    return
@@ -313,13 +282,25 @@ class DashboardController: UIViewController {
 //                    linphoneConnectionStatusFlag = false
 //                }
 //            }
-//            let when = DispatchTime.now() + 15// change 2 to desired number of seconds
-//            DispatchQueue.main.asyncAfter(deadline: when) {
-//                LinphoneManager.register(proxyConfig!)
-//            }
-//
-            
-//            print("registering --++")
+            let when = DispatchTime.now() + 15// change 2 to desired number of seconds
+            DispatchQueue.main.asyncAfter(deadline: when) {
+                if LinphoneManager.CheckLinphoneCallState() == LINPHONE_CALL_IDLE {
+                    print("Being idle+++++")
+                    //invalidate set up call in progress interval
+                    IncomingCallController.InvalidateSetUpCallInProgressInterval()
+                    
+                    //invalidate wait for stream running interval
+                    IncomingCallController.InvalidateWaitForStreamRunningInterval()
+                    LinphoneManager.interuptedCallFlag = false
+                    IncomingCallController.IncomingCallFlag = false
+                    IncomingCallController.CallToAction = false
+                }
+                if let proxyConfig = proxyConfig {
+                    LinphoneManager.register(proxyConfig)
+                }
+                
+            }
+            print("registering --++")
         }
     
     }

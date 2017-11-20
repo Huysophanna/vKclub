@@ -13,6 +13,8 @@ import FBSDKCoreKit
 import UserNotifications
 import FirebaseMessaging
 import CallKit
+var service_names = [String]()
+var service_extensions = [String]()
 let appDelegate = UIApplication.shared.delegate as! AppDelegate
 let manageObjectContext  = appDelegate.persistentContainer.viewContext
 var databaseRef = Database.database().reference()
@@ -31,6 +33,7 @@ let OFF_KIRIROM = "offKirirom"
 let UNIDENTIFIED = "unidentified"
 let INAPP_UNIDENTIFIED = "inApp_unidentified"
 var checkwhenappclose  = ""
+var InCommingCall : Bool =  false
 var checkCallKit = ""
 var orientationLock = UIInterfaceOrientationMask.all
 var iflogOut : Bool = false
@@ -38,6 +41,7 @@ var connection : Bool = false
 var LinphoneConnectionStatusFlag: Bool = true
 var backgroundTask: UIBackgroundTaskIdentifier = UIBackgroundTaskInvalid
 var usetoLogin : Bool = false
+var missCall = ""
 var linphoneInit = "" {
     didSet {
         userExtensionID = linphoneInit
@@ -96,6 +100,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 print("User reject notification access")
             }
         })
+        UIDevice.current.isProximityMonitoringEnabled = true
         if #available(iOS 10.0, *) {
             // For iOS 10 display notification (sent via APNS)
             UNUserNotificationCenter.current().delegate = self
@@ -144,13 +149,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let body : String = d["body"] as! String
         let title : String = d["title"] as! String
         print("Title:\(title) + body:\(body)")
-//        personService.CreatnotificationCoredata(_notification_num: notification_num, _notification_body: body, _notification_title: title)
-//        // custom code to handle push while app is in the foreground
-//        if let username = userName?.displayName {
-//            self.showAlertAppDelegate(title: "Hello "+username, message: title + ": " + body, buttonTitle:"Okay", window:self.window!)
-//        } else {
-//            self.showAlertAppDelegate(title: "Hello There ", message: title + ": " + body, buttonTitle:"Okay", window:self.window!)
-//        }
+        personService.CreatnotificationCoredata(_notification_num: notification_num, _notification_body: body, _notification_title: title)
+        // custom code to handle push while app is in the foreground
+        if let username = userName?.displayName {
+            self.showAlertAppDelegate(title: "Hello "+username, message: title + ": " + body, buttonTitle:"Okay", window:self.window!)
+        } else {
+            self.showAlertAppDelegate(title: "Hello There ", message: title + ": " + body, buttonTitle:"Okay", window:self.window!)
+        }
         
     }
     
@@ -169,12 +174,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let body : String = d["body"] as! String
         let title : String = d["title"] as! String
         print("Title:\(title) + body:\(body)")
-//        personService.CreatnotificationCoredata(_notification_num: notification_num, _notification_body: body, _notification_title: title)
-//        if let username = userName?.displayName {
-//            self.showAlertAppDelegate(title: "Hello "+username, message: title + ": " + body, buttonTitle:"Okay", window:self.window!)
-//        } else {
-//            self.showAlertAppDelegate(title: "Hello There", message: title + ": " + body, buttonTitle:"Okay", window:self.window!)
-//        }
+        personService.CreatnotificationCoredata(_notification_num: notification_num, _notification_body: body, _notification_title: title)
+        if let username = userName?.displayName {
+            self.showAlertAppDelegate(title: "Hello "+username, message: title + ": " + body, buttonTitle:"Okay", window:self.window!)
+        } else {
+            self.showAlertAppDelegate(title: "Hello There", message: title + ": " + body, buttonTitle:"Okay", window:self.window!)
+        }
         
         
         completionHandler()
@@ -218,15 +223,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     
     func applicationWillResignActive(_ application: UIApplication) {
-        if loginBefore || usetoLogin  {
-            if !getsimCall {
-                incomingCallInstance.EndCallAction()
-                
-            } else {
-                getsimCall = false
-            }
-        }
-       
+//        if usetoLogin  {
+//            if !getsimCall {
+//                incomingCallInstance.EndCallAction()
+//
+//            } else {
+//                getsimCall = false
+//            }
+//        }
+
         
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.

@@ -6,10 +6,10 @@ target 'vKclub' do
   use_frameworks!
 
   # Pods for vKclub
-  pod 'Firebase/Core'
+  pod 'Firebase/Core' 
   pod 'Firebase/Database'
-  pod 'Firebase/Auth'
-  pod 'Firebase/Messaging'
+  pod 'Firebase/Auth' 
+  pod 'Firebase/Messaging' ,'~> 4.6.0'
   pod 'Firebase/Storage'
   pod 'GoogleMaps'
   pod 'GooglePlaces'

@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import CoreData
+import AVFoundation
 
 class InternalCallController: UIViewController{
     @IBOutlet weak var numberTextField: UITextField!
@@ -18,9 +19,8 @@ class InternalCallController: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        usetoLogin = true
         getTopViewController().dismiss(animated: false, completion: nil)
-        
+        InternetConnection.AskAudioPermission()
         //make extension button with connection status
         MakeExtensionButton(color: LinphoneConnectionStatusFlag == true ? UIColor.red : UIColor.green)
         
@@ -71,7 +71,7 @@ class InternalCallController: UIViewController{
     }
     
     @IBAction func CallBtnClicked(_ sender: Any) {
-        if InternetConnection.AudioPermissiom(){
+        if InternetConnection.CheckAudioPermission(){
             if dialPhoneNumber.characters.count != 0 {
                 if LinphoneManager.CheckLinphoneConnectionStatus() {
                     IncomingCallController.dialPhoneNumber = dialPhoneNumber

@@ -25,146 +25,150 @@ let registrationStateChanged: LinphoneCoreRegistrationStateChangedCb  = {
     
     switch state {
         
-        case LinphoneRegistrationNone: /**<Initial state for registrations */
-            if LinphoneConnectionStatusFlag == false {
-                UIComponentHelper.scheduleNotification(_title: "PhoneCall Registered", _body: "You are not connected. Please connect to our wifi network to recieve and make call.", _inSeconds:0.1)
-                connection = false
-                LinphoneConnectionStatusFlag = true
-            }
-        case LinphoneRegistrationProgress:
-            NSLog("LinphoneRegistrationProgress")
-        case LinphoneRegistrationOk:
-            connection = true
-            if LinphoneConnectionStatusFlag {
-                if iflogOut || linphoneInit == "logout"{
-                    return
-                }
-                NSLog("LinphoneRegistrationOk")
-                getExtensionSucc = "Extension"
-                
-                UIComponentHelper.scheduleNotification(_title: "PhoneCall Registered", _body: "You are connected. Available to recieve and make call.", _inSeconds:0.1)
-                LinphoneConnectionStatusFlag = false
-            }
-        
-        case LinphoneRegistrationCleared:
-            NSLog("LinphoneRegistrationCleared")
+    case LinphoneRegistrationNone: /**<Initial state for registrations */
+        if LinphoneConnectionStatusFlag == false {
+            UIComponentHelper.scheduleNotification(_title: "PhoneCall Registered", _body: "You are not connected. Please connect to our wifi network to recieve and make call.", _inSeconds:0.1)
+            connection = false
             LinphoneConnectionStatusFlag = true
-        case LinphoneRegistrationFailed:
-            NSLog("LinphoneRegistrationFailed")
-        default:
-            print(state,"state++++")
-            NSLog("Unkown registration state")
+        }
+    case LinphoneRegistrationProgress:
+        NSLog("LinphoneRegistrationProgress")
+    case LinphoneRegistrationOk:
+        connection = true
+        if LinphoneConnectionStatusFlag {
+            if iflogOut || linphoneInit == "logout"{
+                return
+            }
+            NSLog("LinphoneRegistrationOk")
+            getExtensionSucc = "Extension"
+            
+            UIComponentHelper.scheduleNotification(_title: "PhoneCall Registered", _body: "You are connected. Available to recieve and make call.", _inSeconds:0.1)
+            LinphoneConnectionStatusFlag = false
+        }
+        
+    case LinphoneRegistrationCleared:
+        NSLog("LinphoneRegistrationCleared")
+        LinphoneConnectionStatusFlag = true
+    case LinphoneRegistrationFailed:
+        NSLog("LinphoneRegistrationFailed")
+    default:
+        print(state,"state++++")
+        NSLog("Unkown registration state")
     }
-} as LinphoneCoreRegistrationStateChangedCb
+    } as LinphoneCoreRegistrationStateChangedCb
 
 let callStateChanged: LinphoneCoreCallStateChangedCb = {
     (lc: Optional<OpaquePointer>, call: Optional<OpaquePointer>, callSate: LinphoneCallState,  message:     Optional<UnsafePointer<Int8>>) in
     print(LinphoneManager.interuptedCallFlag ,"----ACTIVECALLFLAG")
     
-//    if LinphoneManager.onActiveCallFlag == false {
-        //store call data as optional value for using in some other classes
-        LinphoneManager.callOpaquePointerData = call
-        LinphoneManager.lcOpaquePointerData = lc
-        
-        if LinphoneManager.mainCallOpaquePointerData == nil {
-            LinphoneManager.mainCallOpaquePointerData = call
-            LinphoneManager.mainLcOpaquePointerData = lc
-        }
-//    }
+    //    if LinphoneManager.onActiveCallFlag == false {
+    //store call data as optional value for using in some other classes
+    LinphoneManager.callOpaquePointerData = call
+    LinphoneManager.lcOpaquePointerData = lc
+    
+    if LinphoneManager.mainCallOpaquePointerData == nil {
+        LinphoneManager.mainCallOpaquePointerData = call
+        LinphoneManager.mainLcOpaquePointerData = lc
+    }
+    //    }
     switch callSate {
         
-        case LinphoneCallIncomingReceived: /**<This is a new incoming call */
-            print("callStateChanged: LinphoneCallIncomingReceived", "====")
-            if iflogOut {
-                LinphoneManager.declineCall(_declinedReason: LinphoneReasonBusy)
-                return
-            }
-            if IncomingCallController.CallToAction == false && IncomingCallController.IncomingCallFlag == false && LinphoneManager.interuptedCallFlag == false {
+    case LinphoneCallIncomingReceived: /**<This is a new incoming call */
+        print("callStateChanged: LinphoneCallIncomingReceived", "====")
+        if iflogOut {
+            LinphoneManager.declineCall(_declinedReason: LinphoneReasonBusy)
+            return
+        }
+        if IncomingCallController.CallToAction == false && IncomingCallController.IncomingCallFlag == false && LinphoneManager.interuptedCallFlag == false {
+                
+                
                 print(IncomingCallController.CallToAction, IncomingCallController.IncomingCallFlag, LinphoneManager.interuptedCallFlag, "----3variables----")
                 //indicates that there is an incoming call to show incomingcall screen
                 incomingCallInstance.incomingCallFlags = true
                 print("-------BEING_FREE_NOT_WITH_SOMEONE_ELSE--------")
-            } else {
+            } else  {
                 print(IncomingCallController.CallToAction, IncomingCallController.IncomingCallFlag, LinphoneManager.interuptedCallFlag, "----3variables----")
                 //if user is already on active call with some other, will decline all incoming call
                 LinphoneManager.interuptedCallFlag = true
                 LinphoneManager.declineCall(_declinedReason: LinphoneReasonBusy)
-
+                
                 //when declined the call, it calls release flag, so have to check on that
                 print("--------BEING_BUSY_WITH_SOMEONE_ELSE--------")
-            }
-            
-            if answerCall {
-                ms_usleep(3 * 1000 * 1000); // Wait 3 seconds to pickup
-                linphone_core_accept_call(lc, call)
-            }
+        }
+       
+        
+        if answerCall {
+            ms_usleep(3 * 1000 * 1000); // Wait 3 seconds to pickup
+            linphone_core_accept_call(lc, call)
+        }
         break
-        case LinphoneCallStreamsRunning: /**<The media streams are established and running*/
-            print("callStateChanged: LinphoneCallStreamsRunning", "====")
-            LinphoneManager.callStreamRunning = true
-            
+    case LinphoneCallStreamsRunning: /**<The media streams are established and running*/
+        print("callStateChanged: LinphoneCallStreamsRunning", "====")
+        LinphoneManager.callStreamRunning = true
+        
         break
         
-        case LinphoneCallError: /**<The call encountered an error*/
-            print("callStateChanged: LinphoneCallError", "====")
+    case LinphoneCallError: /**<The call encountered an error*/
+        print("callStateChanged: LinphoneCallError", "====")
         break
         
-        case LinphoneCallReleased:
-            if LinphoneManager.interuptedCallFlag == false {
-                //if user is onActiveCall, will decline the call and will not release the active call view
-                LinphoneManager.releaseCallFlag = true
+    case LinphoneCallReleased:
+        LinphoneManager.callStreamRunning = false
+        if LinphoneManager.interuptedCallFlag == false {
+            //if user is onActiveCall, will decline the call and will not release the active call view
+            LinphoneManager.releaseCallFlag = true
+            //set tempCallOpaquePointerData to nil back, since call is over
+            LinphoneManager.mainCallOpaquePointerData = nil
+            LinphoneManager.mainLcOpaquePointerData = nil
+            
+            print("callStateChanged: LinphoneCallReleased", "====")
+            print("------BEING_FREE_NOT_WITH_SOMEONE_ELSE_RELEASE_STATE--------")
+        } else {
+            print("------BEING_BUSY_WITH_SOMEONE_ELSE_RELEASE_STATE--------")
+            
+            //compare current callOpaquePointer with tempCallOpaquePointer
+            //if true means, this release call is fired for the 1st call
+            if LinphoneManager.callOpaquePointerData == LinphoneManager.mainCallOpaquePointerData {
+                //set onActiveCallFlag back to false
+                LinphoneManager.interuptedCallFlag = false
                 //set tempCallOpaquePointerData to nil back, since call is over
                 LinphoneManager.mainCallOpaquePointerData = nil
                 LinphoneManager.mainLcOpaquePointerData = nil
                 
-                print("callStateChanged: LinphoneCallReleased", "====")
-                print("------BEING_FREE_NOT_WITH_SOMEONE_ELSE_RELEASE_STATE--------")
+                //this is the 1st call, so we can release the call flag
+                LinphoneManager.releaseCallFlag = true
+                
+                print("callOpaquePointer ===== --------")
             } else {
-                print("------BEING_BUSY_WITH_SOMEONE_ELSE_RELEASE_STATE--------")
+                //this is not the 1st call that we care about, some other is trying to call concurrently
+                //so do not release the call, and assign the tempCallOpaquePointerCall from the 1st call
+                //to the current callOpaquePointerData
+                //assign the first calling tempCallOpaquePointerData to new callOpaquePointerData
+                LinphoneManager.callOpaquePointerData = LinphoneManager.mainCallOpaquePointerData
+                LinphoneManager.lcOpaquePointerData = LinphoneManager.mainLcOpaquePointerData
                 
-                //compare current callOpaquePointer with tempCallOpaquePointer
-                //if true means, this release call is fired for the 1st call
-                if LinphoneManager.callOpaquePointerData == LinphoneManager.mainCallOpaquePointerData {
-                    //set onActiveCallFlag back to false
-                    LinphoneManager.interuptedCallFlag = false
-                    //set tempCallOpaquePointerData to nil back, since call is over
-                    LinphoneManager.mainCallOpaquePointerData = nil
-                    LinphoneManager.mainLcOpaquePointerData = nil
-                    
-                    //this is the 1st call, so we can release the call flag
-                    LinphoneManager.releaseCallFlag = true
-                    
-                    print("callOpaquePointer ===== --------")
-                } else {
-                    //this is not the 1st call that we care about, some other is trying to call concurrently
-                    //so do not release the call, and assign the tempCallOpaquePointerCall from the 1st call
-                    //to the current callOpaquePointerData
-                    //assign the first calling tempCallOpaquePointerData to new callOpaquePointerData
-                    LinphoneManager.callOpaquePointerData = LinphoneManager.mainCallOpaquePointerData
-                    LinphoneManager.lcOpaquePointerData = LinphoneManager.mainLcOpaquePointerData
-                    
-                    print("callOpaquePointer !!!!!! --------")
-                }
-                
-            }
-
-        break
-        
-        case LinphoneCallOutgoingRinging:
-            //play outGoingCallSound for callToAction
-            outGoingCallPlayer.prepareToPlay()
-            outGoingCallPlayer.play()
-        break
-        
-        default:
-            print(LinphoneManager.CheckLinphoneCallState(), "callStateChanged: Default", "====")
-            
-            if LinphoneManager.CheckLinphoneCallState() == "undefined" {
-                LinphoneManager.interuptedCallFlag = false
-                IncomingCallController.IncomingCallFlag = false
-                IncomingCallController.CallToAction = false
+                print("callOpaquePointer !!!!!! --------")
             }
             
+        }
+        
+        break
+        
+    case LinphoneCallOutgoingRinging:
+        //play outGoingCallSound for callToAction
+        outGoingCallPlayer.prepareToPlay()
+        outGoingCallPlayer.play()
+        break
+        
+    default:
+        print(LinphoneManager.CheckLinphoneCallState(), "callStateChanged: Default", "====")
+        
+        if LinphoneManager.CheckLinphoneCallState() == "undefined" {
+            LinphoneManager.interuptedCallFlag = false
+            IncomingCallController.IncomingCallFlag = false
+            IncomingCallController.CallToAction = false
+        }
+        
         break
     }
 }
@@ -207,7 +211,6 @@ class LinphoneManager {
     
     init() {
         theLinphone.lct = LinphoneCoreVTable()
-        
         // Enable debug log to stdout
         linphone_core_set_log_file(nil)
         linphone_core_set_log_level(ORTP_DEBUG)
@@ -241,8 +244,8 @@ class LinphoneManager {
         } catch {
             print("AVAudioPlayer Interrupted ===")
         }
-            
-    
+        
+        
         
     }
     
@@ -256,13 +259,13 @@ class LinphoneManager {
         let documentsPath: NSString = paths[0] as NSString
         return documentsPath.appendingPathComponent(file as String) as NSString
     }
-
+    
     static func makeCall(phoneNumber: String) {
         
         if IncomingCallController.IncomingCallFlag == false {
             let calleeAccount = phoneNumber
             if theLinphone.lc != nil {
-              linphone_core_invite(theLinphone.lc, calleeAccount)
+                linphone_core_invite(theLinphone.lc, calleeAccount)
             }
             
         } else {
@@ -271,7 +274,7 @@ class LinphoneManager {
     }
     
     static func receiveCall() {
-          linphone_core_accept_call(theLinphone.lc, LinphoneManager.callOpaquePointerData)        
+        linphone_core_accept_call(theLinphone.lc, LinphoneManager.callOpaquePointerData)
     }
     
     static func CheckLinphoneCallState() -> String {
@@ -304,7 +307,7 @@ class LinphoneManager {
     static func unmuteMic() {
         linphone_core_enable_mic(LinphoneManager.lcOpaquePointerData, 255)
     }
-
+    
     static func getCallerNb() -> String {
         let remoteAddr = linphone_address_as_string(linphone_call_get_remote_address(LinphoneManager.callOpaquePointerData))
         
@@ -327,7 +330,7 @@ class LinphoneManager {
             let dividedRemodeAddrStr = remoteAddrStr?.components(separatedBy: delimiter)
             
             if let contactName = dividedRemodeAddrStr?[safe: 1] {
-               return contactName
+                return contactName
             }
         }
         return ""
@@ -354,22 +357,10 @@ class LinphoneManager {
             linphone_core_terminate_all_calls(LinphoneManager.lcOpaquePointerData)
             print(LinphoneManager.callOpaquePointerData as Any ,"----ENDED")
         }
-
+        
     }
     
     func LinphoneInit() {
-//     switch linphoneInit {
-//        case "logout":
-//            break
-//        case "login":
-//            GetAccountExtension()
-//            break
-//        case "firstLaunch":
-//            proxyConfig = setIdentify(_account: "0")
-//            break
-//        default:
-//
-//        }
         if changeExtention || checkwhenappclose == "Login" {
             let when = DispatchTime.now() + 5 // change 2 to desired number of seconds
             DispatchQueue.main.asyncAfter(deadline: when) {
@@ -385,7 +376,7 @@ class LinphoneManager {
                 self.setTimer()
             }
         }
-       
+        
     }
     
     func GetDataFromServer()  {
@@ -419,7 +410,7 @@ class LinphoneManager {
                                 tokenExt_id  = token as! String
                                 newextension_id.setValue(extentionids, forKey: "extension_id")
                                 newextension_id.setValue(token , forKey: "token")
-                            databaseRef.child("users").child((currentuser?.uid)!).child("Extension").setValue(extentionid)
+                                databaseRef.child("users").child((currentuser?.uid)!).child("Extension").setValue(extentionid)
                                 databaseRef.child("users").child((currentuser?.uid)!).child("Token").setValue(token)
                                 databaseRef.child("users").child((currentuser?.uid)!).child("Username").setValue(currentuser?.displayName)
                             }
@@ -428,7 +419,7 @@ class LinphoneManager {
                             } catch {
                                 print("error")
                             }
-                           
+                            
                             linphoneInit = String(describing: extentionids)
                             break
                         case 400 :
@@ -493,12 +484,12 @@ class LinphoneManager {
                             
                             self.PostData(extensions : extid , tokenid:token )
                         }
-                       
+                        
                         
                     } else {
                         self.GetDataFromServer()
-                }}) { (error) in
-                    getExtensionSucc = "getExtensionSucc"
+                    }}) { (error) in
+                        getExtensionSucc = "getExtensionSucc"
                 }
             } else {
                 
@@ -537,7 +528,7 @@ class LinphoneManager {
         
         task.resume()
         
-
+        
     }
     func PostData(extensions : String , tokenid: String) {
         let currentuser = Auth.auth().currentUser
@@ -555,9 +546,9 @@ class LinphoneManager {
         }
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             if error != nil {
-               getExtensionSucc = "getExtensionSucc"
-               self.GetAccountExtension()
-             } else {
+                getExtensionSucc = "getExtensionSucc"
+                self.GetAccountExtension()
+            } else {
                 if let data = data {
                     do {
                         let json = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableContainers) as? [String:Any]
@@ -599,18 +590,18 @@ class LinphoneManager {
         }
         task.resume()
         
-       
+        
         
     }
     
     func setIdentify(_account: String) -> OpaquePointer? {
         // Reference: http://www.linphone.org/docs/liblinphone/group__registration__tutorials.html
         
-//        let path = Bundle.main.path(forResource: "Secret", ofType: "plist")
-//        let dict = NSDictionary(contentsOfFile: path!)
-//        let account = dict?.object(forKey: "account") as! String
-//        let password = dict?.object(forKey: "password") as! String
-//        let domain = dict?.object(forKey: "domain") as! String
+        //        let path = Bundle.main.path(forResource: "Secret", ofType: "plist")
+        //        let dict = NSDictionary(contentsOfFile: path!)
+        //        let account = dict?.object(forKey: "account") as! String
+        //        let password = dict?.object(forKey: "password") as! String
+        //        let domain = dict?.object(forKey: "domain") as! String
         
         let password = "A2apbx" + _account
         let domain = "192.168.7.251:5060"
@@ -618,7 +609,7 @@ class LinphoneManager {
         print(_account, password, "--++")
         
         let identity = "sip:" + _account + "@" + domain;
-
+        
         /*create proxy config*/
         let proxy_cfg = linphone_proxy_config_new();
         
@@ -638,7 +629,7 @@ class LinphoneManager {
         let server_addr = String(cString: linphone_address_get_domain(from)); /*extract domain address from identity*/
         linphone_address_destroy(from); /*release resource*/
         linphone_proxy_config_set_server_addr(proxy_cfg, server_addr); /* we assume domain = proxy server address*/
-//        linphone_proxy_config_enable_register(proxy_cfg, 0); /* activate registration for this proxy config*/
+        //        linphone_proxy_config_enable_register(proxy_cfg, 0); /* activate registration for this proxy config*/
         linphone_proxy_config_set_expires(proxy_cfg, 60)
         linphone_core_add_proxy_config(theLinphone.lc!, proxy_cfg); /*add proxy config to linphone core*/
         linphone_core_set_default_proxy_config(theLinphone.lc!, proxy_cfg); /*set to default proxy*/
@@ -650,15 +641,15 @@ class LinphoneManager {
         linphone_proxy_config_enable_register(proxy_cfg, 1); /* activate registration for this proxy config*/
     }
     
-
+    
     static func shutdown(){
-
+        
         NSLog("Linphone unregister()..")
         if  TiemeVoip != nil {
             TiemeVoip?.invalidate()
             TiemeVoip = nil
         }
-      
+        
         LinphoneManager.shutDownFlag = true
         let proxy_cfg = linphone_core_get_default_proxy_config(theLinphone.lc); /* get default proxy config*/
         if linphone_proxy_config_get_state(proxy_cfg) !=  LinphoneRegistrationFailed {
@@ -674,12 +665,12 @@ class LinphoneManager {
                 linphone_core_iterate(theLinphone.lc); /*to make sure we receive call backs before shutting down*/
                 ms_usleep(50000);
             }
-            linphone_proxy_config_destroy(proxyConfig)
+//            linphone_proxy_config_destroy(proxyConfig)
             LinphoneManager.removeUserAuthInfo()
-//            linphone_core_destroy(theLinphone.lc);
-//            linphone_core_remove_proxy_config(theLinphone.lc, proxyConfig)
+                   // linphone_core_destroy(theLinphone.lc);
+            linphone_core_remove_proxy_config(theLinphone.lc, proxyConfig)
         }
-
+        
     }
     
     static func enableRegistration(){
@@ -688,7 +679,7 @@ class LinphoneManager {
         
         let proxy_cfg = linphone_core_get_default_proxy_config(theLinphone.lc); /* get default proxy config*/
         linphone_proxy_config_edit(proxy_cfg); /*start editing proxy configuration*/
-//        linphone_core_set_network_reachable(proxy_cfg, 1)
+        //        linphone_core_set_network_reachable(proxy_cfg, 1)
         linphone_proxy_config_enable_register(proxy_cfg, 1); /*activate registration for this proxy config*/
         linphone_proxy_config_done(proxy_cfg); /*initiate REGISTER with expire = 0*/
         
@@ -714,9 +705,8 @@ class LinphoneManager {
             TiemeVoip = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(iterate), userInfo: nil, repeats: true)
         }
         
-       
+        
     }
     
     
 }
-

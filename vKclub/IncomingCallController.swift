@@ -1,3 +1,4 @@
+
 //
 //  IncomingCallController.swift
 //  vKclub
@@ -5,7 +6,6 @@
 //  Created by HuySophanna on 5/7/17.
 //  Copyright © 2017 WiAdvance. All rights reserved.
 //
-
 import Foundation
 import UIKit
 import AVFoundation
@@ -44,17 +44,17 @@ class IncomingCallController: UIViewController {
             //listen for incoming call event
             IncomingCallController.IncomingCallFlag = incomingCallFlags
             if incomingCallFlags == true {
-                    getsimCall = true
-                    print(IncomingCallController.IncomingCallFlag, "----1variable")
-                    //stop AVAudioPlayer background task while about to call
-                    BackgroundTask.backgroundTaskInstance.stopBackgroundTask()
-                    //Display CallKit for iOS 10
-                    if #available(iOS 10, *) {
-                        AppDelegate.shared.displayIncomingCall(uuid: UUID(), handle: LinphoneManager.getContactName()) { _ in
-                            UIApplication.shared.endBackgroundTask(backgroundTaskIdentifier)
-                        }
+                getsimCall = true
+                print(IncomingCallController.IncomingCallFlag, "----1variable")
+                //stop AVAudioPlayer background task while about to call
+                BackgroundTask.backgroundTaskInstance.stopBackgroundTask()
+                //Display CallKit for iOS 10
+                if #available(iOS 10, *) {
+                    AppDelegate.shared.displayIncomingCall(uuid: UUID(), handle: LinphoneManager.getContactName()) { _ in
+                        UIApplication.shared.endBackgroundTask(backgroundTaskIdentifier)
+                    }
                 }
-               
+                
             }
         }
     }
@@ -147,9 +147,9 @@ class IncomingCallController: UIViewController {
         SetImageBtn(button: answerCallBtn, imageName: "call-answer", imgEdgeInsets: 13)
         SetImageBtn(button: endCallBtn, imageName: "reject-phone-icon", imgEdgeInsets: 5)
         //stop the outGoingCallSound while in call progress
-//        if MPMusicPlayerController.systemMusicPlayer().playbackState == .playing {
-//            defaultPlayer.pause()
-//        }
+        //        if MPMusicPlayerController.systemMusicPlayer().playbackState == .playing {
+        //            defaultPlayer.pause()
+        //        }
         //Interval waiting for callstream running, invalidate while call is in progress
         if IncomingCallController.waitForStreamRunningInterval == nil {
             IncomingCallController.waitForStreamRunningInterval = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(IncomingCallController.WaitForStreamRunning), userInfo: nil, repeats: true)
@@ -171,12 +171,12 @@ class IncomingCallController: UIViewController {
         self.navigationController?.isNavigationBarHidden = false
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
     }
-
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
     }
-
+    
     //*** This is required to fix navigation bar forever disappear on fast backswipe bug.
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -485,5 +485,7 @@ class IncomingCallController: UIViewController {
         
     }
 }
+
+
 
 
