@@ -25,7 +25,7 @@
                 },
                 {
                 "Title" : "Camping",
-                "Intro" : "Experience a fun and safe camping under the moon light and the twinkling stars in our camping ground or book one of our luxury tents with an en suite bathroom.",
+                "Intro" : "Experience a fun and safe camping under the moon light and the twinkling stars in our camping ground or book one of our luxury tents with and en-suite bathroom.",
                 
                 "Photo" : "camping",
                 "url"   : "http://vkirirom.com/en/details.php#Camping"
@@ -41,7 +41,7 @@
                 },
                 {
                 "Title" : "Luxury Tent",
-                "Intro" : "Luxury Tent-Stay in style and comfort in a high quality tent with the comfort of a hotel room. The tents come with a king size bed and en suite bathroom.",
+                "Intro" : "Luxury Tent-Stay in style and comfort in a high quality tent with the comfort of a hotel room. The tents come with a king size bed and en-suite bathroom.",
                 
                 "Photo" : "luxurytent",
                 "url"   : "http://vkirirom.com/en/details.php#Luxurytent"
@@ -61,20 +61,34 @@
     "property" : [
                        
                   {
-                    "Title" : "BoreyA -Orchid Hills-",
-                    "Intro" : "Our resort provides this special house for a big family and it is suitable for a holiday party.",
+                    "Title" : "TypeA2 (in Orchid Hills)",
+                    "Intro" : "This is a luxury holiday home which has private bed room so that you can enjoy your time with your beautiful family. There are 3 bed rooms, one of those is maisonnette, dining, living, kitchen, toilet, bath tub inside the villa. You also can enjoy BBQ outside at your 600sqm spacious garden.",
                     "Photo" : "boreyA",
                     "url"   :  "http://property.vkirirom.com/type_a.php"
                   
                        },
-                       {
-                    "Title" : "BoreyR -Jasmine Hills-",
-                    "Intro" : "Studio designed holiday homes for everyone. With a spacious built up area of 36 sqaure meters, these units are perfect for couples or small families wanting a private retreat away from the city",
+                  {
+                    "Title" : "TypeR/R2 (in Jasmine Hills)",
+                    "Intro" : "This is the studio type holiday home which is recommended for couple or small family to enjoy simple nature life. You can set up a bed in living and we have dining, kitchen, toilet and shower, 180sqm private garden. We are willing to accept lease back program as students dormitory, then you will get some ROI with smallest amount of investment.",
                     "Photo" : "property-boreyR",
                     "url"   : "http://property.vkirirom.com/type_r.php"
-
+                    },
+                  {
+                  "Title" : "TypeV (in Orchid Hills)",
+                  "Intro" : "The modern design holiday home which has dining, living, kitchen. It is designed as special space for you to relax. You can choose both grand floor with your own garden and 1st floor with nice view.",
+                  "Photo" : "typev",
+                  "url"   : "http://property.vkirirom.com/"
                   
-                    }
+                  
+                  },
+                  {
+                  "Title" : "TypeT2 (in Orchid Hills)",
+                  "Intro" : "The design is highly sophisticated to make natural community among the residents and it is a kind of share house which has 13 private rooms and 6 bath room. There is a spacious co-working space in the middle of building and simple kitchen as well",
+                  "Photo" : "type",
+                  "url"   : "http://property.vkirirom.com/"
+                  
+                  
+                  }
                  
                  ],
     "activity" : [
@@ -101,7 +115,7 @@
                   },
                   {
                   "Title" : "Conference Room",
-                  "Intro" : "For seminar, meeting, conference etc. Share your ideas in the        mountain.",
+                  "Intro" : "For seminar, meeting, conference etc. Share your ideas in the mountain.",
                   "Photo" : "conferenceroom",
                   "url"   : "http://vkirirom.com"
 

@@ -312,17 +312,19 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     }
     
     //send SMS
-    func SMS(){
+    func SMS() {
         let currentLocaltion_lat = String(Checklocation.lat)
         let currentLocation_long = String(Checklocation.long)
+        print(currentLocaltion_lat)
         if (MFMessageComposeViewController.canSendText()) {
-            let phone  = "+18557414949"
+            let phone = "+18557414949"
             let message = "Please help! I'm currently facing an emergency problem. Here is my Location: http://maps.google.com/?q="+currentLocaltion_lat+","+currentLocation_long+""
+            
             let controller = MFMessageComposeViewController()
             controller.body = message
             controller.recipients = [phone]
-            controller.messageComposeDelegate = self
-            self.present(controller, animated: false, completion: nil)
+            controller.messageComposeDelegate = self as MFMessageComposeViewControllerDelegate
+            self.present(controller, animated: true, completion: nil)
         }
     }
     

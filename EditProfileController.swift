@@ -72,15 +72,9 @@ class EditProfileController: UIViewController,UITextFieldDelegate {
             self.PresentAlertController(title: "Warning", message: "Please properly insert your data", actionTitle: "Ok")
             return
         }
-        if ( Username.text?.isEmpty)! {
-            PresentAlertController(title: "Warning", message: "Please properly insert your username", actionTitle: "Got it")
-            return
-        }
-        if (Email.text?.isEmpty)! {
-            PresentAlertController(title: "Warning", message: "Please properly insert your email", actionTitle: "Got it")
-        }
         if (currentpass.text?.isEmpty)! {
             PresentAlertController(title: "Warning", message: "Please properly insert your password", actionTitle: "Got it")
+            return
         }
 
         if InternetConnection.isConnectedToNetwork() {
@@ -184,7 +178,7 @@ class EditProfileController: UIViewController,UITextFieldDelegate {
                                 self.reNew()
                             } else {
                                 UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: false)
-                                let notificationPermissionAlert = UIAlertController(title: "Warning", message: "After you changed your email. You need to verify your email.", preferredStyle: UIAlertControllerStyle.alert)
+                                let notificationPermissionAlert = UIAlertController(title: "Warning", message: "After you changed your email. You need to verify your new email.", preferredStyle: UIAlertControllerStyle.alert)
                                 
                                 notificationPermissionAlert.addAction(UIAlertAction(title: "Okay", style: .default, handler: { (action: UIAlertAction!) in
                                     UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: true)
@@ -219,7 +213,7 @@ class EditProfileController: UIViewController,UITextFieldDelegate {
                                                 self.PresentAlertController(title: "Something went wrong", message: (error?.localizedDescription)!, actionTitle: "Okay")}
                                             
                                         })
-                                        self.PresentAlertController(title: "Warning", message: "Your new Email  \n"+(self.currentuser?.email)!+"  need to verified.\n Please verify your email address with a link that we have already sent you to proceed login in", actionTitle: "Okay")
+                                        self.PresentAlertController(title: "Warning", message:"Please verify your new email address with a link that we have already sent you to proceed login in", actionTitle: "Okay")
                                         UIApplication.shared.keyWindow?.rootViewController = self.storyboard!.instantiateViewController(withIdentifier: "loginController")
                                     })
                                 }))
@@ -331,12 +325,13 @@ class ChangePasswordController :UIViewController,UITextFieldDelegate {
             return
             
         }
-        if ( current_password.text?.isEmpty)! {
-            PresentAlertController(title: "Warning", message: "Please properly insert your current password", actionTitle: "Got it")
-            return
-        }
+       
         if ( new_password.text?.isEmpty)! {
             PresentAlertController(title: "Warning", message: "Please properly insert your new password", actionTitle: "Got it")
+            return
+        }
+        if ( comfire_password.text?.isEmpty)! {
+            PresentAlertController(title: "Warning", message: "Please properly insert your comfire password", actionTitle: "Got it")
             return
         }
         

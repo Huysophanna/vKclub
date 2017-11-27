@@ -116,13 +116,10 @@ class MapController: UIViewController,GMSMapViewDelegate,CLLocationManagerDelega
         mapView = GMSMapView.map(withFrame:  .zero, camera: camera)
         mapView?.setMinZoom(10, maxZoom: 17)
         mapView?.settings.compassButton = true;
-        
         mapView?.settings.myLocationButton = true;
         mapView?.isMyLocationEnabled = true
         view = mapView
-        
         //Map overlay
-      
         let southWest = CLLocationCoordinate2D(latitude: 11.3432, longitude:104.0323 )
         let northEast = CLLocationCoordinate2D(latitude: 11.3040, longitude: 104.0846)
         let overlayBounds = GMSCoordinateBounds(coordinate: southWest, coordinate: northEast)
@@ -137,7 +134,6 @@ class MapController: UIViewController,GMSMapViewDelegate,CLLocationManagerDelega
         if currentDestination == nil {
             currentDestination = markerLocation.first
         }
-        
         for currentDestination in markerLocation{
             
             let marker = GMSMarker(position: currentDestination.location)
@@ -145,8 +141,6 @@ class MapController: UIViewController,GMSMapViewDelegate,CLLocationManagerDelega
             marker.snippet = currentDestination.dec
             marker.icon = UIImage(named: "marker")
             marker.map = mapView
-            
-            
         }          
     } 
 }

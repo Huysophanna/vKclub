@@ -8,7 +8,6 @@
 
 import UIKit
 import Foundation
-
 class AboutUsTableCell: UITableViewCell{
     @IBOutlet weak var imageitem: UIImageView!
     @IBOutlet weak var titleItem: UILabel!
@@ -216,6 +215,8 @@ class  PropertyController: UITableViewController {
         let title =  property["Title"] as! String
         let intro = property["Intro"] as! String
         let image = UIImage(named:photoURL)
+        print (photoURL,"url+")
+       
         let newimag = UIComponentHelper.resizeImage(image: image!, targetSize: CGSize(width: 400, height: 400))
         cell.imageitem.image = newimag
         cell.titleItem.text = title
@@ -260,6 +261,11 @@ class AccommodationWebViewController: UIViewController,UIWebViewDelegate{
         let requestObj = URLRequest(url: url! as URL)
         webView.loadRequest(requestObj)
         UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: true)
+        let when = DispatchTime.now() + 10 // change 2 to desired number of seconds
+        DispatchQueue.main.asyncAfter(deadline: when) {
+            UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: false)
+        }
+        
         
     }
     
@@ -307,6 +313,10 @@ class AtivityWebViewController: UIViewController,UIWebViewDelegate{
         let requestObj = URLRequest(url: url! as URL)
         webView.loadRequest(requestObj)
         UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: true)
+        let when = DispatchTime.now() + 10 // change 2 to desired number of seconds
+        DispatchQueue.main.asyncAfter(deadline: when) {
+            UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: false)
+        }
         
 
     }
@@ -354,6 +364,10 @@ class PropertyWebViewController: UIViewController ,UIWebViewDelegate{
         webView.contentMode = .scaleAspectFit
         webView.loadRequest(requestObj)
         UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: true)
+        let when = DispatchTime.now() + 10 // change 2 to desired number of seconds
+        DispatchQueue.main.asyncAfter(deadline: when) {
+           UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: false)
+        }
 
         
     }

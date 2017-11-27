@@ -54,6 +54,48 @@ public class InternetConnection {
     static func DeleteExtension() {
         personService.deleteAllData(entity: "Extension")
     }
+    static func makeCall() {
+            switch CHCK_USER_LOCATION {
+            case IN_KIRIROM:
+                UIApplication.topViewController()?.PresentAlertController(title: "Something went wrong", message: "Sorry, our internal phone call services are currently not available right now. Please try again next time.", actionTitle: "Okay")
+                
+            case OFF_KIRIROM:
+                if (UIDevice.current.userInterfaceIdiom == UIUserInterfaceIdiom.pad) {
+                    UIApplication.topViewController()?.PresentAlertController(title: "Warning", message: "Your device doesn't support with this feature ", actionTitle: "Got it")
+                    return
+                }
+                //call using carrier phone number
+                //                           let number = URL(string: "tel://" + "0962222735")
+                let url: NSURL = URL(string: "TEL://0962222735")! as NSURL
+                //                            UIApplication.shared.open(number!, options: [:], completionHandler: nil)
+                UIApplication.shared.open(url as URL, options: [:], completionHandler: nil)
+                break
+            case UNIDENTIFIED:
+                UIComponentHelper.LocationPermission(INAPP_UNIDENTIFIEDSetting: false)
+                
+                break
+            case INAPP_UNIDENTIFIED:
+                UIComponentHelper.LocationPermission(INAPP_UNIDENTIFIEDSetting: true)
+                break
+            default:
+                if (UIDevice.current.userInterfaceIdiom == UIUserInterfaceIdiom.pad) {
+                    UIApplication.topViewController()?.PresentAlertController(title: "Warning", message: "Your device doesn't support with this feature ", actionTitle: "Got it")
+                    return
+                }
+                //call using carrier phone number
+                //                           let number = URL(string: "tel://" + "0962222735")
+                let url: NSURL = URL(string: "TEL://0962222735")! as NSURL
+                //                            UIApplication.shared.open(number!, options: [:], completionHandler: nil)
+                UIApplication.shared.open(url as URL, options: [:], completionHandler: nil)
+                break
+                
+            }
+
+            
+        
+    
+    }
+        
     static func Logouts(){
         usetoLogin = false
         getExtensionSucc = "Logout"
@@ -73,17 +115,12 @@ public class InternetConnection {
         appDelegate.window?.makeKeyAndVisible()
     }
     static func getServiceExtensions() {
-        let currentuser = Auth.auth().currentUser
         var request = URLRequest(url: URL(string:"http://192.168.7.251:8000/api/v.1/get_service_extensions" )!)
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("wfvUd0d4Bw7RfeCqwEe4F0GWTL3dpzai7f7euYBuI", forHTTPHeaderField: "VKAPP-API-TOKEN")
-        request.addValue((currentuser?.uid)!, forHTTPHeaderField: "VKAPP-USERID")
-        request.addValue((currentuser?.displayName)!, forHTTPHeaderField: "VKAPP-USERNAME")
-        
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
             if error != nil {
-                
-                
+               getServiceExtensions()
             } else {
                 do {
                     if let data = data,

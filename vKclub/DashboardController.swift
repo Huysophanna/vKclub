@@ -44,7 +44,15 @@ class DashboardController: UIViewController {
     let setting = UserDefaults.standard.integer(forKey: "setting")
     override func viewDidLoad() {
         super.viewDidLoad()
-//        getServiceExtension()
+        
+        Auth.auth().addStateDidChangeListener { auth, user in
+            if user != nil {
+                print("Done")
+            } else {
+                InternetConnection.Logouts()
+            }
+        }
+        //getServiceExtension()
         linphoneInit  = "login"
         usetoLogin = true
         notificationBtn.tag = 6
@@ -65,6 +73,7 @@ class DashboardController: UIViewController {
             }
             
         }
+        
        
         CheckWhenUserChangePassword ()       // login for registerForRemoteNotifications
         UserDefaults.standard.set(true, forKey: "loginBefore")
@@ -78,7 +87,7 @@ class DashboardController: UIViewController {
         backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask(expirationHandler: nil)
         loadData()
         UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
-        TimeModCheck  = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.isKirirom), userInfo: nil, repeats: true)
+        TimeModCheck  = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.isKirirom), userInfo: nil, repeats: true)
         //recall backgroundTask since making call interrupt and end our audio backgroundTask
         BackgroundTask.backgroundTaskInstance.startBackgroundTask()
         KiriromScope.setTitle("Identifying", for: .normal)

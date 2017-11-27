@@ -2,9 +2,6 @@ import UIKit
 import UserNotifications
 
 class SettingController: UIViewController,UNUserNotificationCenterDelegate,UIApplicationDelegate {
-    
-    
-    
     @IBOutlet weak var NotificationSetting: UISwitch!
    
     override func viewDidLoad() {
@@ -59,9 +56,7 @@ class SettingController: UIViewController,UNUserNotificationCenterDelegate,UIApp
         center.getNotificationSettings { (settings) in
             if(settings.authorizationStatus == .authorized)
             {
-              
-                
-                if sender.isOn{
+                if sender.isOn {
                     self.NotificationSetting.isOn = true
                     UIApplication.shared.registerForRemoteNotifications()
                     self.Check()

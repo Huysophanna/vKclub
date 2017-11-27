@@ -109,7 +109,9 @@ class IncomingCallController: UIViewController {
     }
     
     var releaseCallFlag = false {
+        
         didSet {
+             UIDevice.current.isProximityMonitoringEnabled = false
             //listen for release call event and dismiss the incoming call view
             if releaseCallFlag == true {
                 IncomingCallController.CallStreamRunning = false
@@ -137,6 +139,7 @@ class IncomingCallController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        UIDevice.current.isProximityMonitoringEnabled = true
         callKitManager = CallKitCallInit(uuid: UUID(), handle: "")
         backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask(expirationHandler: nil)
         callDataRequest = SipCallData.fetchRequest()
@@ -259,6 +262,7 @@ class IncomingCallController: UIViewController {
     }
     
     @IBAction func EndCallBtnClicked(_ sender: Any) {
+        UIDevice.current.isProximityMonitoringEnabled = false
         if LinphoneManager.CheckLinphoneCallState() != LINPHONE_CALLSTREAM_RUNNING {
             //decline call
             LinphoneManager.endCall()

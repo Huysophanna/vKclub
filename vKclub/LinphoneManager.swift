@@ -27,7 +27,7 @@ let registrationStateChanged: LinphoneCoreRegistrationStateChangedCb  = {
         
     case LinphoneRegistrationNone: /**<Initial state for registrations */
         if LinphoneConnectionStatusFlag == false {
-            UIComponentHelper.scheduleNotification(_title: "PhoneCall Registered", _body: "You are not connected. Please connect to our wifi network to recieve and make call.", _inSeconds:0.1)
+            UIComponentHelper.scheduleNotification(_title: "PhoneCall Registered", _body: "You are not connected. Please connect to our wfi network to recieve and make call.", _inSeconds:0.1)
             connection = false
             LinphoneConnectionStatusFlag = true
         }
@@ -536,8 +536,14 @@ class LinphoneManager {
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("wfvUd0d4Bw7RfeCqwEe4F0GWTL3dpzai7f7euYBuI", forHTTPHeaderField: "VKAPP-API-TOKEN")
-        request.addValue((currentuser?.uid)!, forHTTPHeaderField: "VKAPP-USERID")
-        request.addValue((currentuser?.displayName)!, forHTTPHeaderField: "VKAPP-USERNAME")
+        if let uid = currentuser?.uid {
+             request.addValue(uid , forHTTPHeaderField: "VKAPP-USERID")
+        }
+        if let username = currentuser?.displayName {
+          request.addValue(username, forHTTPHeaderField: "VKAPP-USERNAME")
+        }
+       
+        
         let parameters = ["ext":extensions , "reserved_token":tokenid ,"action": "register"]
         do {
             request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted) // pass dictionary to nsdata object and set it as request body

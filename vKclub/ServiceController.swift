@@ -34,18 +34,20 @@ class ServiceController: UIViewController {
     
     @IBAction func CallToDepartmentAction(_ sender: Any) {
         
-        if LinphoneManager.CheckLinphoneConnectionStatus() == false {
-            PresentAlertController(title: "Something went wrong", message: "You are not connected to our server. Please ensure that you are connected to our network and try again later.", actionTitle: "Okay")
-            
-            return
-            
-        }
         if InternetConnection.CheckAudioPermission(){
             if service_extensions.isEmpty {
+                
+                InternetConnection.makeCall()
                 return
             }
             switch getExtensionSucc {
             case "Extension":
+                if LinphoneManager.CheckLinphoneConnectionStatus() == false {
+                    PresentAlertController(title: "Something went wrong", message: "You are not connected to our server. Please ensure that you are connected to our network and try again later.", actionTitle: "Okay")
+                    
+                    return
+                    
+                }
                 if linphoneInit == "login"{
                     PresentAlertController(title: "Please wait", message: "We are trying to generate and activate   your caller ID. Please try again in seconds.", actionTitle: "Okay")
                 } else {
@@ -62,8 +64,10 @@ class ServiceController: UIViewController {
                                 return
                             }
                             //call using carrier phone number
-                            guard let number = URL(string: "tel://" + "0962222735" ) else { return }
-                            UIApplication.shared.open(number, options: [:], completionHandler: nil)
+//                           let number = URL(string: "tel://" + "0962222735")
+                           let url: NSURL = URL(string: "TEL://0962222735")! as NSURL
+//                            UIApplication.shared.open(number!, options: [:], completionHandler: nil)
+                            UIApplication.shared.open(url as URL, options: [:], completionHandler: nil)
                         }
                         break
                     case 2:
@@ -91,16 +95,15 @@ class ServiceController: UIViewController {
                 break
                 
             case "400":
-                PresentAlertController(title: "Something went wrong", message: "Sorry, our internal phone call services are currently not available right now. Please try again next time.", actionTitle: "Okay")
-                
+                InternetConnection.makeCall()
                 break
             case "getExtensionSucc":
-                PresentAlertController(title: "Something went wrong", message: "You are not connected to our server. Please ensure that you are connected to our network and try again later.", actionTitle: "Okay")
-                
+                InternetConnection.makeCall()
+               
                 break
                 
             default:
-                PresentAlertController(title: "Please wait", message: "We are trying to generate and activate   your caller ID. Please try again in seconds.", actionTitle: "Okay")
+                InternetConnection.makeCall()
                 break
             }
             

@@ -102,11 +102,13 @@ class CreateAccController: ViewController ,UITextFieldDelegate{
             Auth.auth().createUser(withEmail: emailTextField.text!, password: passwordTextField.text!) { (user, error) in
                 //successfully created, done loading activity indicator
                 UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
+                
                 if InternetConnection.second == 10 {
                     
                     InternetConnection.countTimer.invalidate()
                     InternetConnection.second = 0
                     UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
+                    
                     return
                 }
                 InternetConnection.countTimer.invalidate()
@@ -138,13 +140,12 @@ class CreateAccController: ViewController ,UITextFieldDelegate{
                     }
                     Auth.auth().currentUser?.sendEmailVerification { (error) in
                         
-                        print(Auth.auth().currentUser?.email,"email++")
                         if error != nil {
                              self.PresentAlertController(title: "Something went wrong", message: (error?.localizedDescription)!, actionTitle: "Okay")
                         }
                     }
                     
-                    self.PresentAlertController(title: "Success", message: "Please verify your account with the link we have sent to your email address.", actionTitle: "Okay")
+                    self.PresentAlertController(title: "Email verification", message: "Please verify your account with the link we have sent to your email address.", actionTitle: "Okay")
                   
                     UIApplication.shared.keyWindow?.rootViewController = self.storyboard!.instantiateViewController(withIdentifier: "loginController")
 
