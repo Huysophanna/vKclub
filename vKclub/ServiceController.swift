@@ -36,40 +36,59 @@ class ServiceController: UIViewController {
         
         if InternetConnection.CheckAudioPermission(){
             if service_extensions.isEmpty {
-                
                 InternetConnection.makeCall()
                 return
             }
             switch getExtensionSucc {
             case "Extension":
-                if LinphoneManager.CheckLinphoneConnectionStatus() == false {
-                    PresentAlertController(title: "Something went wrong", message: "You are not connected to our server. Please ensure that you are connected to our network and try again later.", actionTitle: "Okay")
-                    
-                    return
-                    
-                }
+               
                 if linphoneInit == "login"{
                     PresentAlertController(title: "Please wait", message: "We are trying to generate and activate   your caller ID. Please try again in seconds.", actionTitle: "Okay")
                 } else {
                     switch (sender as! UIButton).tag {
                     case 1:
-                        //reception
-                        if CHCK_USER_LOCATION == IN_KIRIROM {
-                            print  (service_extensions[0],"service+++")
-                            CallToAction(phoneNumber: service_extensions[0])
-                        } else {
-                            if (UIDevice.current.userInterfaceIdiom == UIUserInterfaceIdiom.pad) {
-                                self.PresentAlertController(title: "Warning", message: "Your device doesn't support with this feature ", actionTitle: "Got it")
+                        switch CHCK_USER_LOCATION {
+                        case IN_KIRIROM:
+                            if LinphoneManager.CheckLinphoneConnectionStatus() == false {
+                                PresentAlertController(title: "Something went wrong", message: "You are not connected to our server. Please ensure that you are connected to our network and try again later.", actionTitle: "Okay")
+                                return
                                 
+                            }
+                           CallToAction(phoneNumber: service_extensions[0])
+                           break
+                            
+                        case OFF_KIRIROM:
+                            if (UIDevice.current.userInterfaceIdiom == UIUserInterfaceIdiom.pad) {
+                                UIApplication.topViewController()?.PresentAlertController(title: "Warning", message: "Your device doesn't support with this feature ", actionTitle: "Got it")
                                 return
                             }
                             //call using carrier phone number
-//                           let number = URL(string: "tel://" + "0962222735")
-                           let url: NSURL = URL(string: "TEL://0962222735")! as NSURL
-//                            UIApplication.shared.open(number!, options: [:], completionHandler: nil)
+                            //                           let number = URL(string: "tel://" + "0962222735")
+                            let url: NSURL = URL(string: "TEL://0962222735")! as NSURL
+                            //                            UIApplication.shared.open(number!, options: [:], completionHandler: nil)
                             UIApplication.shared.open(url as URL, options: [:], completionHandler: nil)
+                            break
+                        case UNIDENTIFIED:
+                            UIComponentHelper.LocationPermission(INAPP_UNIDENTIFIEDSetting: false)
+                            
+                            break
+                        case INAPP_UNIDENTIFIED:
+                            UIComponentHelper.LocationPermission(INAPP_UNIDENTIFIEDSetting: true)
+                            break
+                        default:
+                            if (UIDevice.current.userInterfaceIdiom == UIUserInterfaceIdiom.pad) {
+                                UIApplication.topViewController()?.PresentAlertController(title: "Warning", message: "Your device doesn't support with this feature ", actionTitle: "Got it")
+                                return
+                            }
+                            //call using carrier phone number
+                            //                           let number = URL(string: "tel://" + "0962222735")
+                            let url: NSURL = URL(string: "TEL://0962222735")! as NSURL
+                            //                            UIApplication.shared.open(number!, options: [:], completionHandler: nil)
+                            UIApplication.shared.open(url as URL, options: [:], completionHandler: nil)
+                            
+                            break
+                            
                         }
-                        break
                     case 2:
                         //housekeeping
                         CallToAction(phoneNumber: service_extensions[1])

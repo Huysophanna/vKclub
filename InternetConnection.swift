@@ -87,6 +87,7 @@ public class InternetConnection {
                 let url: NSURL = URL(string: "TEL://0962222735")! as NSURL
                 //                            UIApplication.shared.open(number!, options: [:], completionHandler: nil)
                 UIApplication.shared.open(url as URL, options: [:], completionHandler: nil)
+
                 break
                 
             }
