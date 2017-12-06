@@ -29,7 +29,7 @@ public class InternetConnection {
         /* Only Working for WIFI
          let isReachable = flags == .reachable
          let needsConnection = flags == .connectionRequired
-         return isReachable && !needsConnection
+         return isReachable && ! linphoneInit
          */
         // Working for Cellular and WIFI
         let isReachable = (flags.rawValue & UInt32(kSCNetworkFlagsReachable)) != 0

@@ -87,8 +87,8 @@ class DashboardController: UIViewController {
         backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask(expirationHandler: nil)
         loadData()
         UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
-        TimeModCheck  = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.isKirirom), userInfo: nil, repeats: true)
-        //recall backgroundTask since making call interrupt and end our audio backgroundTask
+        TimeModCheck  = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(self.isKirirom), userInfo: nil, repeats: true)
+//        //recall backgroundTask since making call interrupt and end our audio backgroundTask
         BackgroundTask.backgroundTaskInstance.startBackgroundTask()
         KiriromScope.setTitle("Identifying", for: .normal)
         coverView.isHidden = true
@@ -103,16 +103,6 @@ class DashboardController: UIViewController {
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        self.navigationController?.setNavigationBarHidden(false, animated: animated)
-    }
-    
-    //*** This is required to fix navigation bar forever disappear on fast backswipe bug.
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        self.navigationController?.setNavigationBarHidden(false, animated: false)
-    }
 
     @IBAction func BtnTag(_sender:Any){
         
@@ -129,7 +119,7 @@ class DashboardController: UIViewController {
              performSegue(withIdentifier: "PushAboutUs", sender: nil)
             break
         case 3:
-             PresentAlertController(title: "Coming Soon!", message: "Introducing vKirirom Membership Card with vPoints, will be available soon.", actionTitle: "Okay")
+             PresentAlertController(title: "Coming Soon!", message: "Introducing vKirirom Membership Card with vKPoints, will be available soon.", actionTitle: "Okay")
             break
         case 6:
             //linphone_core_set_network_reachable(LinphoneManager.lcOpaquePointerData, 1)
@@ -146,8 +136,8 @@ class DashboardController: UIViewController {
                         case "outside":
                             PresentAlertController(title: "Off-Kirirom Mode", message: "Emergency SOS & Free internal   phone call features are not accessible for Off-Kirirom users.", actionTitle: "Okay")
                         case "Extension":
-                            if linphoneInit == "login"{
-                                 PresentAlertController(title: "Please wait", message: "We are trying to generate and activate   your caller ID. Please try again in seconds.", actionTitle: "Okay")
+                            if LinphoneManager.CheckLinphoneConnectionStatus() == false {
+                                 PresentAlertController(title: "Something went wrong", message: "You are not connected to our server. Please ensure that you are connected to our network and try again later.", actionTitle: "Okay")
                             } else {
                                performSegue(withIdentifier: "PushInternalCall", sender: self)
                             }
@@ -163,7 +153,7 @@ class DashboardController: UIViewController {
                             break
                         
                         default:
-                            PresentAlertController(title: "Please wait", message: "We are trying to generate and activate   your caller ID. Please try again in seconds.", actionTitle: "Okay")
+                            PresentAlertController(title: "Something went wrong", message: "You are not connected to our server. Please ensure that you are connected to our network and try again later.", actionTitle: "Okay")
                             break
                     }
                 
@@ -291,7 +281,7 @@ class DashboardController: UIViewController {
 //                    linphoneConnectionStatusFlag = false
 //                }
 //            }
-            let when = DispatchTime.now() + 15// change 2 to desired number of seconds
+            let when = DispatchTime.now() + 5// change 2 to desired number of seconds
             DispatchQueue.main.asyncAfter(deadline: when) {
                 if LinphoneManager.CheckLinphoneCallState() == LINPHONE_CALL_IDLE {
                     print("Being idle+++++")
@@ -304,9 +294,9 @@ class DashboardController: UIViewController {
                     IncomingCallController.IncomingCallFlag = false
                     IncomingCallController.CallToAction = false
                 }
-                if let proxyConfig = proxyConfig {
-                    LinphoneManager.register(proxyConfig)
-                }
+//                if let proxyConfig = proxyConfig {
+//                    LinphoneManager.register(proxyConfig)
+//                }
                 
             }
             print("registering --++")

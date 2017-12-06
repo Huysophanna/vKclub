@@ -43,7 +43,7 @@ class LoginController: UIViewController,UITextFieldDelegate {
         fbLoginManager.logIn(withReadPermissions: ["public_profile", "email"], from: self) { (result, error) in
             if error != nil {
                 UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
-                self.PresentAlertController(title: "Error", message: (error?.localizedDescription)!, actionTitle: "Okay")
+                self.PresentAlertController(title: "Error", message: "Invail login ,Please try again later", actionTitle: "Okay")
                 print("eroor", error!)
             } else if (result?.isCancelled)! {
                 UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
@@ -136,18 +136,18 @@ class LoginController: UIViewController,UITextFieldDelegate {
         InternetConnection.countTimer.invalidate()
         if emailTextField.text == "" && pwTextField.text == "" {
             UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
-            PresentAlertController(title: "Warning", message: "Please properly insert your data", actionTitle: "Got it")
+            PresentAlertController(title: "Warning", message: "Please properly enter your email", actionTitle: "Got it")
             return
             
         }
         if ( emailTextField.text?.isEmpty)! {
             UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
-            PresentAlertController(title: "Warning", message: "Please properly insert your email", actionTitle: "Got it")
+            PresentAlertController(title: "Warning", message: "Please properly enter your email", actionTitle: "Got it")
             return
         }
         if (pwTextField.text?.isEmpty)! {
             UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
-            PresentAlertController(title: "Warning", message: "Please properly insert your password", actionTitle: "Go it")
+            PresentAlertController(title: "Warning", message: "Please properly enter your password", actionTitle: "Go it")
             return
         } else {
             

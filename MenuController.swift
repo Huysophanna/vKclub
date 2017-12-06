@@ -23,7 +23,6 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         imagePicker.delegate = self
         self.imagePicker.allowsEditing = true
         UserDefaults.standard.set(true, forKey: "loginBefore")
-        
         if let provider = currentUser?.providerData {
             for i in provider {
                 let providerfb = i.providerID

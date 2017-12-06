@@ -63,7 +63,7 @@ class ViewController: UIViewController, PaperOnboardingDataSource, PaperOnboardi
                  ("voip-intro", "Internal Phone Call", "Free Call and No Restrictions", "", greenBackgroundColor , UIColor.white, UIColor.white, titleFont, descirptionFont),
                  
                  ("sos-intro", "Emergency SOS", "Emergency SOS button guarantees \nusers safety. Help during emergency \nor in dangerous situation", "", greenBackgroundColor , UIColor.white, UIColor.white, titleFont, descirptionFont),
-                 ("mode-intro", "On-site / Off-site Mode", "Experience all functions of the app in on-site mode and also in off-site \nmode, except SOS and Internal Phone Call", "", greenBackgroundColor, UIColor.white, UIColor.white, titleFont, descirptionFont),
+                 ("mode-intro", "IN-Kirirom / OFF-Kirirom Mode", "Experience all functions of the app in IN-Kirirom mode and also in off-Kirirom \nmode, except SOS and Internal Phone Call", "", greenBackgroundColor, UIColor.white, UIColor.white, titleFont, descirptionFont),
                  ("ready-intro", "You are all set to Enjoy vKclub", "", "", greenBackgroundColor , UIColor.white, UIColor.white, titleFont, descirptionFont)][index]
         
     }

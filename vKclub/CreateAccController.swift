@@ -44,23 +44,23 @@ class CreateAccController: ViewController ,UITextFieldDelegate{
         let specialcharaters = UIComponentHelper.AvoidSpecialCharaters(specialcharaters: nameTextField.text!)
         let conutwhitespece : Int = UIComponentHelper.Countwhitespece(_whitespece:nameTextField.text!)
         if (nameTextField.text?.isEmpty)! && (emailTextField.text?.isEmpty)! && (passwordTextField.text?.isEmpty)! && (confirmTextField.text?.isEmpty)! {
-            PresentAlertController(title: "Warning", message: "Please properly insert your data", actionTitle: "Got it")
+            PresentAlertController(title: "Warning", message: "Please enter your username", actionTitle: "Got it")
             return
         }
         if (nameTextField.text?.isEmpty)! {
-            PresentAlertController(title: "Warning", message: "Please properly insert your username", actionTitle: "Got it")
+            PresentAlertController(title: "Warning", message: "Please properly enter your username", actionTitle: "Got it")
             return
         }
         if (emailTextField.text?.isEmpty)! {
-            PresentAlertController(title: "Warning", message: "Please properly insert your email", actionTitle: "Got it")
+            PresentAlertController(title: "Warning", message: "Please properly enter your email", actionTitle: "Got it")
             return
         }
         if (passwordTextField.text?.isEmpty)! {
-            PresentAlertController(title: "Warning", message: "Please properly insert your password", actionTitle: "Got it")
+            PresentAlertController(title: "Warning", message: "Please properly enter your password", actionTitle: "Got it")
             return
         }
         if (confirmTextField.text?.isEmpty)! {
-            PresentAlertController(title: "Warning", message: "Please properly insert your confirm password", actionTitle: "Got it")
+            PresentAlertController(title: "Warning", message: "Please properly enter your confirm password", actionTitle: "Got it")
             return
         }
         if confirmTextField.text !=  passwordTextField.text {

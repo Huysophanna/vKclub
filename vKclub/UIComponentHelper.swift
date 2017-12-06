@@ -38,6 +38,15 @@ extension UIViewController {
  }
 
 extension UIApplication {
+    typealias BackgroundTaskCompletion = () -> Void
+    func executeBackgroundTask(f: (BackgroundTaskCompletion) -> Void) {
+        let identifier = beginBackgroundTask {
+            // nothing to do here
+        }
+        f() { [unowned self] in
+            self.endBackgroundTask(identifier)
+        }
+    }
     class func topViewController(base: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
 
         if let nav = base as? UINavigationController {

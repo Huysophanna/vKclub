@@ -14,6 +14,7 @@ var outGoingCallPlayer = AVAudioPlayer()
 var proxyConfig: OpaquePointer? = nil
 var userAuthInfo: OpaquePointer? = nil
 
+
 struct theLinphone {
     static var lc: OpaquePointer?
     static var lct: LinphoneCoreVTable?
@@ -26,6 +27,9 @@ let registrationStateChanged: LinphoneCoreRegistrationStateChangedCb  = {
     switch state {
         
     case LinphoneRegistrationNone: /**<Initial state for registrations */
+        if linphoneInit == "0" {
+            return
+        }
         if LinphoneConnectionStatusFlag == false {
             UIComponentHelper.scheduleNotification(_title: "PhoneCall Registered", _body: "You are not connected. Please connect to our wfi network to recieve and make call.", _inSeconds:0.1)
             connection = false
@@ -34,7 +38,9 @@ let registrationStateChanged: LinphoneCoreRegistrationStateChangedCb  = {
     case LinphoneRegistrationProgress:
         NSLog("LinphoneRegistrationProgress")
     case LinphoneRegistrationOk:
-        connection = true
+        if  LinphoneManager.CheckLinphoneConnectionStatus() == false {
+             return
+        }
         if LinphoneConnectionStatusFlag {
             if iflogOut || linphoneInit == "logout"{
                 return
@@ -42,7 +48,7 @@ let registrationStateChanged: LinphoneCoreRegistrationStateChangedCb  = {
             NSLog("LinphoneRegistrationOk")
             getExtensionSucc = "Extension"
             
-            UIComponentHelper.scheduleNotification(_title: "PhoneCall Registered", _body: "You are connected. Available to recieve and make call.", _inSeconds:0.1)
+            UIComponentHelper.scheduleNotification(_title: "PhoneCall Registered", _body: "You are connected. Available to recieve and make call.", _inSeconds:1)
             LinphoneConnectionStatusFlag = false
         }
         
@@ -292,7 +298,7 @@ class LinphoneManager {
     
     static func CheckLinphoneConnectionStatus() -> Bool {
         // 1 means registered
-        if  connection {
+        if  linphone_proxy_config_is_registered(proxyConfig) == 1 {
             return true
         } else {
             return false
@@ -626,7 +632,6 @@ class LinphoneManager {
             NSLog("\(identity) not a valid sip uri, must be like sip:toto@sip.linphone.org");
             return nil
         }
-        
         userAuthInfo = linphone_auth_info_new(linphone_address_get_username(from), nil, password, nil, nil, nil); /*create authentication structure from identity*/
         linphone_core_add_auth_info(theLinphone.lc!,userAuthInfo); /*add authentication info to LinphoneCore*/
         
@@ -708,7 +713,7 @@ class LinphoneManager {
     
     fileprivate func setTimer(){
         if TiemeVoip == nil {
-            TiemeVoip = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(iterate), userInfo: nil, repeats: true)
+            TiemeVoip = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(iterate), userInfo: nil, repeats: true)
         }
         
         

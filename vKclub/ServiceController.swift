@@ -41,18 +41,13 @@ class ServiceController: UIViewController {
             }
             switch getExtensionSucc {
             case "Extension":
-               
-                if linphoneInit == "login"{
-                    PresentAlertController(title: "Please wait", message: "We are trying to generate and activate   your caller ID. Please try again in seconds.", actionTitle: "Okay")
-                } else {
-                    switch (sender as! UIButton).tag {
+                 switch (sender as! UIButton).tag {
                     case 1:
                         switch CHCK_USER_LOCATION {
                         case IN_KIRIROM:
-                            if LinphoneManager.CheckLinphoneConnectionStatus() == false {
+                            if  LinphoneManager.CheckLinphoneConnectionStatus() == false {
                                 PresentAlertController(title: "Something went wrong", message: "You are not connected to our server. Please ensure that you are connected to our network and try again later.", actionTitle: "Okay")
                                 return
-                                
                             }
                            CallToAction(phoneNumber: service_extensions[0])
                            break
@@ -110,7 +105,6 @@ class ServiceController: UIViewController {
                         CallToAction(phoneNumber: service_extensions[5])
                         break
                     }
-                }
                 break
                 
             case "400":

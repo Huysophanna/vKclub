@@ -54,12 +54,12 @@ extension ProviderDelegate: CXProviderDelegate {
         // 3.
         call.end(uuid: action.callUUID)
         // 4.
-//        if #available(iOS 11, *) {
-//           print("Our vKclube")
-//        } else {
-//            action.fulfill()
-//        }
-        action.fulfill()
+        if #available(iOS 11, *) {
+           print("Our vKclube")
+        } else {
+            action.fulfill()
+        }
+        
         // 5.
         callKitManager.remove(call: call)
     }
@@ -69,19 +69,23 @@ extension ProviderDelegate: CXProviderDelegate {
         print("Starting audio ==STARTING-AUDIO==")
     }
     
+    
     func provider(_ provider: CXProvider, didDeactivate audioSession: AVAudioSession) {
         print("Received \(#function)")
     }
     
     func configureAudioSession() {
-        print("Configuring audio session")
         let session = AVAudioSession.sharedInstance()
         do {
-            try session.setCategory(AVAudioSessionCategoryPlayAndRecord)
-            try session.setMode(AVAudioSessionModeVoiceChat)
-        } catch (let error) {
-            print("Error while configuring audio session: \(error)")
+            try? session.setCategory(AVAudioSessionCategoryPlayAndRecord)
+            try? session.setMode(AVAudioSessionModeVoiceChat)
+            try? session.setPreferredSampleRate(44100.0)
+            try? session.setPreferredIOBufferDuration(0.005)
+            try? session.setActive(true)
+        } catch {
+            print(error.localizedDescription,"test+++")
         }
+       
     }
 }
 
@@ -107,12 +111,12 @@ class ProviderDelegate: NSObject {
         providerConfiguration.supportsVideo = false
         providerConfiguration.maximumCallsPerCallGroup = 1
         providerConfiguration.supportedHandleTypes = [.phoneNumber]
-        
         return providerConfiguration
     }
     
     func reportIncomingCall(uuid: UUID, handle: String, hasVideo: Bool = false, completion: ((NSError?) -> Void)?) {
         // 1.
+        configureAudioSession()
         let update = CXCallUpdate()
         update.remoteHandle = CXHandle(type: .phoneNumber, value: handle)
         update.hasVideo = hasVideo
@@ -121,6 +125,7 @@ class ProviderDelegate: NSObject {
         provider.reportNewIncomingCall(with: uuid, update: update) { error in
             if error == nil {
                 // 3.
+                self.configureAudioSession()
                 let call = CallKitCallInit(uuid: uuid, handle: handle)
                 self.callKitManager.add(call: call)
                 
@@ -135,4 +140,5 @@ class ProviderDelegate: NSObject {
     
     
 }
+
 

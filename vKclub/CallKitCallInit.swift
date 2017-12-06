@@ -31,6 +31,11 @@ class CallKitCallInit {
             CallKitCallInit.stateChanged?()
         }
     }
+    static var held: CallState = .held {
+        didSet {
+            CallKitCallInit.stateChanged?()
+        }
+    }
     
     var connectedState: ConnectedState = .pending {
         didSet {

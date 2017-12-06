@@ -69,11 +69,11 @@ class EditProfileController: UIViewController,UITextFieldDelegate {
             
         }
         if ((Username.text?.isEmpty)! && (Email.text?.isEmpty)!){
-            self.PresentAlertController(title: "Warning", message: "Please properly insert your data", actionTitle: "Ok")
+            self.PresentAlertController(title: "Warning", message: "Please properly enter your username", actionTitle: "Ok")
             return
         }
         if (currentpass.text?.isEmpty)! {
-            PresentAlertController(title: "Warning", message: "Please properly insert your password", actionTitle: "Got it")
+            PresentAlertController(title: "Warning", message: "Please properly enter your password", actionTitle: "Got it")
             return
         }
 
@@ -111,7 +111,7 @@ class EditProfileController: UIViewController,UITextFieldDelegate {
 
             if (currentpass.text?.isEmpty)!{
                 UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: false)
-                self.PresentAlertController(title: "Warning", message: "Please properly insert your data", actionTitle: "Ok")
+                self.PresentAlertController(title: "Warning", message: "Please properly enter your current password", actionTitle: "Ok")
                 return
             } else {
                 let credential = EmailAuthProvider.credential(withEmail:(currentuser?.email)!, password: currentpass.text!)
@@ -178,7 +178,7 @@ class EditProfileController: UIViewController,UITextFieldDelegate {
                                 self.reNew()
                             } else {
                                 UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: false)
-                                let notificationPermissionAlert = UIAlertController(title: "Warning", message: "After you changed your email. You need to verify your new email.", preferredStyle: UIAlertControllerStyle.alert)
+                                let notificationPermissionAlert = UIAlertController(title: "Warning", message: "After you changed your email, you need to verify your new email.", preferredStyle: UIAlertControllerStyle.alert)
                                 
                                 notificationPermissionAlert.addAction(UIAlertAction(title: "Okay", style: .default, handler: { (action: UIAlertAction!) in
                                     UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: true)

@@ -102,6 +102,7 @@ class NotificationViewController: UITableViewController {
         cell.notitfication_body.text = notificationItem.notification_body
         cell.viewNotifictionBtn.tag = indexPath.row
         cell.viewNotifictionBtn.addTarget(self, action: #selector(HandleViewNotification), for: .touchUpInside)
+        cell.selectionStyle = UITableViewCellSelectionStyle.none
         return cell
     }
     func HandleDeleteNotificationTableCell(_cellIndex: IndexPath, _reverseIndex: IndexPath) {
