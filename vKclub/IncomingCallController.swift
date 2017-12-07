@@ -1,4 +1,3 @@
-
 //
 //  IncomingCallController.swift
 //  vKclub
@@ -24,7 +23,6 @@ class IncomingCallController: UIViewController {
     @IBOutlet weak var rejectCallBtn: UIButton!
     @IBOutlet weak var answerCallBtn: UIButton!
     @IBOutlet weak var endCallBtn: UIButton!
-    let when = DispatchTime.now() + 1
     
     var callDuration = ""
     var defaultPlayer = MPMusicPlayerController.systemMusicPlayer()
@@ -48,9 +46,7 @@ class IncomingCallController: UIViewController {
                 getsimCall = true
                 print(IncomingCallController.IncomingCallFlag, "----1variable")
                 //stop AVAudioPlayer background task while about to call
-                DispatchQueue.main.asyncAfter(deadline: when) {
-                    BackgroundTask.backgroundTaskInstance.stopBackgroundTask()
-                }
+                BackgroundTask.backgroundTaskInstance.stopBackgroundTask()
                 //Display CallKit for iOS 10
                 if #available(iOS 10, *) {
                     AppDelegate.shared.displayIncomingCall(uuid: UUID(), handle: LinphoneManager.getContactName()) { _ in
@@ -73,11 +69,7 @@ class IncomingCallController: UIViewController {
                     PresentIncomingVC()
                     print("-------CALLTO_BEING_FREE_NOT_WITH_SOMEONE_ELSE--------")
                     //stop AVAudioPlayer background task while about to call
-                    // change 2 to desired number of seconds
-                    DispatchQueue.main.asyncAfter(deadline: when) {
-                        BackgroundTask.backgroundTaskInstance.stopBackgroundTask()
-                    }
-                   
+                    BackgroundTask.backgroundTaskInstance.stopBackgroundTask()
                 } else {
                     print("--------CALLTO_BEING_BUSY_WITH_SOMEONE_ELSE--------")
                 }
@@ -118,7 +110,7 @@ class IncomingCallController: UIViewController {
     var releaseCallFlag = false {
         
         didSet {
-             UIDevice.current.isProximityMonitoringEnabled = false
+            UIDevice.current.isProximityMonitoringEnabled = false
             //listen for release call event and dismiss the incoming call view
             if releaseCallFlag == true {
                 IncomingCallController.CallStreamRunning = false
@@ -126,6 +118,7 @@ class IncomingCallController: UIViewController {
                 let endCallAction = CXEndCallAction(call: lastCallUUID)
                 let callTransaction = CXTransaction(action: endCallAction)
                 callController.request(callTransaction, completion: {(data) in })
+                
                 print("RELEASE, SET CALL DURATION---")
                 //set flag back to false when call released
                 incomingCallFlags = false
@@ -133,6 +126,7 @@ class IncomingCallController: UIViewController {
                 callToFlag = false
                 endCallFlag = false
                 callStreamRunning = false
+                
                 //invalidate wait for stream running interval
                 IncomingCallController.InvalidateWaitForStreamRunningInterval()
                 //invalidate set up call in progress interval
@@ -155,9 +149,9 @@ class IncomingCallController: UIViewController {
         SetImageBtn(button: answerCallBtn, imageName: "call-answer", imgEdgeInsets: 13)
         SetImageBtn(button: endCallBtn, imageName: "reject-phone-icon", imgEdgeInsets: 5)
         //stop the outGoingCallSound while in call progress
-        if MPMusicPlayerController.systemMusicPlayer().playbackState == .playing {
-            defaultPlayer.pause()
-        }
+        //        if MPMusicPlayerController.systemMusicPlayer().playbackState == .playing {
+        //            defaultPlayer.pause()
+        //        }
         //Interval waiting for callstream running, invalidate while call is in progress
         if IncomingCallController.waitForStreamRunningInterval == nil {
             IncomingCallController.waitForStreamRunningInterval = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(IncomingCallController.WaitForStreamRunning), userInfo: nil, repeats: true)
@@ -244,6 +238,7 @@ class IncomingCallController: UIViewController {
             
             //invalidate wait for stream running interval
             IncomingCallController.InvalidateWaitForStreamRunningInterval()
+            
             ResetAllFlagVariable()
             
             PresentAlertController(title: "Something went wrong", message: "You are not connected to our server. Please ensure that you are connected to our network and try again later.", actionTitle: "Okay")
@@ -349,7 +344,6 @@ class IncomingCallController: UIViewController {
             IncomingCallController.setUpCallInProgressInterval = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(IncomingCallController.SetUpCallInProgress), userInfo: nil, repeats: true)
         }
         
-        
         print("PrepareInCallProgressUI ========")
     }
     
@@ -435,34 +429,6 @@ class IncomingCallController: UIViewController {
             SetCallDurationToCoreData()
             //invalidate set up call in progress interval
             IncomingCallController.InvalidateSetUpCallInProgressInterval()
-        } else {
-
-            let banwidth = linphone_call_get_audio_stats(LinphoneManager.mainCallOpaquePointerData)
-            let downloadedBandwidth = linphone_call_stats_get_download_bandwidth(banwidth)
-            var check : Bool = false
-            print (downloadedBandwidth,"+++")
-           
-            switch downloadedBandwidth {
-            case 0:
-             if check == true {
-                check = false
-             }
-           
-            break
-                
-            default :
-                if downloadedBandwidth < 15 {
-                    if check == false {
-                        UIComponentHelper.scheduleNotification(_title: "Internal PhoneCall", _body: "Network unstable", _inSeconds:1)
-                        check = true
-                    }
-                   
-                } else {
-                    check = true
-                }
-            }
-            
-            
         }
         
         print(LinphoneManager.CheckLinphoneCallState(), "===OKAY===")
@@ -521,7 +487,4 @@ class IncomingCallController: UIViewController {
         
     }
 }
-
-
-
 

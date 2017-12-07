@@ -87,7 +87,7 @@ class DashboardController: UIViewController {
         backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask(expirationHandler: nil)
         loadData()
         UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
-        TimeModCheck  = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(self.isKirirom), userInfo: nil, repeats: true)
+        TimeModCheck  = Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(self.isKirirom), userInfo: nil, repeats: true)
 //        //recall backgroundTask since making call interrupt and end our audio backgroundTask
         BackgroundTask.backgroundTaskInstance.startBackgroundTask()
         KiriromScope.setTitle("Identifying", for: .normal)
@@ -280,9 +280,8 @@ class DashboardController: UIViewController {
 //                if DashboardController.LinphoneConnectionStatusFlag {
 //                    linphoneConnectionStatusFlag = false
 //                }
-//            }
-            let when = DispatchTime.now() + 5// change 2 to desired number of seconds
-            DispatchQueue.main.asyncAfter(deadline: when) {
+//            }// change 2 to desired number of seconds
+        
                 if LinphoneManager.CheckLinphoneCallState() == LINPHONE_CALL_IDLE {
                     print("Being idle+++++")
                     //invalidate set up call in progress interval
@@ -298,7 +297,7 @@ class DashboardController: UIViewController {
 //                    LinphoneManager.register(proxyConfig)
 //                }
                 
-            }
+
             print("registering --++")
         }
     

@@ -27,6 +27,22 @@ class ServiceController: UIViewController {
             bottomLine.isHidden = true
         }
     }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.isNavigationBarHidden = false
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+    
+    //*** This is required to fix navigation bar forever disappear on fast backswipe bug.
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
+    }
     
     @IBAction func GotoBookpage(_ sender: Any) {
         self.performSegue(withIdentifier: "SgGotoBookpage", sender: self)

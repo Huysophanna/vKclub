@@ -14,7 +14,6 @@ var outGoingCallPlayer = AVAudioPlayer()
 var proxyConfig: OpaquePointer? = nil
 var userAuthInfo: OpaquePointer? = nil
 
-
 struct theLinphone {
     static var lc: OpaquePointer?
     static var lct: LinphoneCoreVTable?
@@ -27,9 +26,6 @@ let registrationStateChanged: LinphoneCoreRegistrationStateChangedCb  = {
     switch state {
         
     case LinphoneRegistrationNone: /**<Initial state for registrations */
-        if linphoneInit == "0" {
-            return
-        }
         if LinphoneConnectionStatusFlag == false {
             UIComponentHelper.scheduleNotification(_title: "PhoneCall Registered", _body: "You are not connected. Please connect to our wfi network to recieve and make call.", _inSeconds:0.1)
             connection = false
@@ -38,9 +34,7 @@ let registrationStateChanged: LinphoneCoreRegistrationStateChangedCb  = {
     case LinphoneRegistrationProgress:
         NSLog("LinphoneRegistrationProgress")
     case LinphoneRegistrationOk:
-        if  LinphoneManager.CheckLinphoneConnectionStatus() == false {
-             return
-        }
+        connection = true
         if LinphoneConnectionStatusFlag {
             if iflogOut || linphoneInit == "logout"{
                 return
@@ -48,7 +42,7 @@ let registrationStateChanged: LinphoneCoreRegistrationStateChangedCb  = {
             NSLog("LinphoneRegistrationOk")
             getExtensionSucc = "Extension"
             
-            UIComponentHelper.scheduleNotification(_title: "PhoneCall Registered", _body: "You are connected. Available to recieve and make call.", _inSeconds:1)
+            UIComponentHelper.scheduleNotification(_title: "PhoneCall Registered", _body: "You are connected. Available to recieve and make call.", _inSeconds:0.1)
             LinphoneConnectionStatusFlag = false
         }
         
@@ -86,22 +80,21 @@ let callStateChanged: LinphoneCoreCallStateChangedCb = {
             return
         }
         if IncomingCallController.CallToAction == false && IncomingCallController.IncomingCallFlag == false && LinphoneManager.interuptedCallFlag == false {
-                
-                
-                print(IncomingCallController.CallToAction, IncomingCallController.IncomingCallFlag, LinphoneManager.interuptedCallFlag, "----3variables----")
-                //indicates that there is an incoming call to show incomingcall screen
-                incomingCallInstance.incomingCallFlags = true
-                print("-------BEING_FREE_NOT_WITH_SOMEONE_ELSE--------")
-            } else  {
-                print(IncomingCallController.CallToAction, IncomingCallController.IncomingCallFlag, LinphoneManager.interuptedCallFlag, "----3variables----")
-                //if user is already on active call with some other, will decline all incoming call
-                LinphoneManager.interuptedCallFlag = true
-                LinphoneManager.declineCall(_declinedReason: LinphoneReasonBusy)
-                
-                //when declined the call, it calls release flag, so have to check on that
-                print("--------BEING_BUSY_WITH_SOMEONE_ELSE--------")
+            print(IncomingCallController.CallToAction, IncomingCallController.IncomingCallFlag, LinphoneManager.interuptedCallFlag, "----3variables----")
+            //indicates that there is an incoming call to show incomingcall screen
+            incomingCallInstance.incomingCallFlags = true
+            LinphoneManager.interuptedCallFlag = true
+            print("-------BEING_FREE_NOT_WITH_SOMEONE_ELSE--------")
+        } else  {
+            print(IncomingCallController.CallToAction, IncomingCallController.IncomingCallFlag, LinphoneManager.interuptedCallFlag, "----3variables----")
+            //if user is already on active call with some other, will decline all incoming call
+            LinphoneManager.interuptedCallFlag = true
+            LinphoneManager.declineCall(_declinedReason: LinphoneReasonBusy)
+            
+            //when declined the call, it calls release flag, so have to check on that
+            print("--------BEING_BUSY_WITH_SOMEONE_ELSE--------")
         }
-       
+        
         
         if answerCall {
             ms_usleep(3 * 1000 * 1000); // Wait 3 seconds to pickup
@@ -298,7 +291,7 @@ class LinphoneManager {
     
     static func CheckLinphoneConnectionStatus() -> Bool {
         // 1 means registered
-        if  linphone_proxy_config_is_registered(proxyConfig) == 1 {
+        if  connection {
             return true
         } else {
             return false
@@ -543,12 +536,12 @@ class LinphoneManager {
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("wfvUd0d4Bw7RfeCqwEe4F0GWTL3dpzai7f7euYBuI", forHTTPHeaderField: "VKAPP-API-TOKEN")
         if let uid = currentuser?.uid {
-             request.addValue(uid , forHTTPHeaderField: "VKAPP-USERID")
+            request.addValue(uid , forHTTPHeaderField: "VKAPP-USERID")
         }
         if let username = currentuser?.displayName {
-          request.addValue(username, forHTTPHeaderField: "VKAPP-USERNAME")
+            request.addValue(username, forHTTPHeaderField: "VKAPP-USERNAME")
         }
-       
+        
         
         let parameters = ["ext":extensions , "reserved_token":tokenid ,"action": "register"]
         do {
@@ -632,6 +625,7 @@ class LinphoneManager {
             NSLog("\(identity) not a valid sip uri, must be like sip:toto@sip.linphone.org");
             return nil
         }
+        
         userAuthInfo = linphone_auth_info_new(linphone_address_get_username(from), nil, password, nil, nil, nil); /*create authentication structure from identity*/
         linphone_core_add_auth_info(theLinphone.lc!,userAuthInfo); /*add authentication info to LinphoneCore*/
         
@@ -676,9 +670,9 @@ class LinphoneManager {
                 linphone_core_iterate(theLinphone.lc); /*to make sure we receive call backs before shutting down*/
                 ms_usleep(50000);
             }
-//            linphone_proxy_config_destroy(proxyConfig)
+            //            linphone_proxy_config_destroy(proxyConfig)
             LinphoneManager.removeUserAuthInfo()
-                   // linphone_core_destroy(theLinphone.lc);
+            // linphone_core_destroy(theLinphone.lc);
             linphone_core_remove_proxy_config(theLinphone.lc, proxyConfig)
         }
         
@@ -713,7 +707,7 @@ class LinphoneManager {
     
     fileprivate func setTimer(){
         if TiemeVoip == nil {
-            TiemeVoip = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(iterate), userInfo: nil, repeats: true)
+            TiemeVoip = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(iterate), userInfo: nil, repeats: true)
         }
         
         
