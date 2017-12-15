@@ -43,6 +43,7 @@ var LinphoneConnectionStatusFlag: Bool = true
 var backgroundTask: UIBackgroundTaskIdentifier = UIBackgroundTaskInvalid
 var usetoLogin : Bool = false
 var missCall = ""
+var chagne : Bool = false
 var linphoneInit = "" {
     didSet {
         userExtensionID = linphoneInit
@@ -119,8 +120,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
             application.registerUserNotificationSettings(settings)
         }
+        
         // Override point for customization after application launch.
         FirebaseApp.configure()
+        
         // FB init
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         // autoLogin
@@ -277,8 +280,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
         self.saveContext()
-        InternetConnection.ShutdownPBXServer()
-        
     }
     
     // MARK: - Core Data stack

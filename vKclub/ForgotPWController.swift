@@ -50,7 +50,7 @@ class ForgotPWController: UIViewController,UITextFieldDelegate {
                             
                             Auth.auth().sendPasswordReset(withEmail: self.emailTextField.text!) { (error) in
                                 UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
-                                if InternetConnection.second == 10 {
+                                if InternetConnection.second == 15 {
                                     InternetConnection.countTimer.invalidate()
                                     InternetConnection.second = 0
                                     UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)

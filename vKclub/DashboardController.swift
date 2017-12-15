@@ -292,10 +292,11 @@ class DashboardController: UIViewController {
                     LinphoneManager.interuptedCallFlag = false
                     IncomingCallController.IncomingCallFlag = false
                     IncomingCallController.CallToAction = false
+                    chagne = false
+                } 
+                if let proxyConfig = proxyConfig {
+                    LinphoneManager.register(proxyConfig)
                 }
-//                if let proxyConfig = proxyConfig {
-//                    LinphoneManager.register(proxyConfig)
-//                }
                 
 
             print("registering --++")

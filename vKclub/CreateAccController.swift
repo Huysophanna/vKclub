@@ -48,19 +48,19 @@ class CreateAccController: ViewController ,UITextFieldDelegate{
             return
         }
         if (nameTextField.text?.isEmpty)! {
-            PresentAlertController(title: "Warning", message: "Please properly enter your username", actionTitle: "Got it")
+            PresentAlertController(title: "Warning", message: "Please enter your username", actionTitle: "Got it")
             return
         }
         if (emailTextField.text?.isEmpty)! {
-            PresentAlertController(title: "Warning", message: "Please properly enter your email", actionTitle: "Got it")
+            PresentAlertController(title: "Warning", message: "Please enter your email", actionTitle: "Got it")
             return
         }
         if (passwordTextField.text?.isEmpty)! {
-            PresentAlertController(title: "Warning", message: "Please properly enter your password", actionTitle: "Got it")
+            PresentAlertController(title: "Warning", message: "Please enter your password", actionTitle: "Got it")
             return
         }
         if (confirmTextField.text?.isEmpty)! {
-            PresentAlertController(title: "Warning", message: "Please properly enter your confirm password", actionTitle: "Got it")
+            PresentAlertController(title: "Warning", message: "Please enter your confirm password", actionTitle: "Got it")
             return
         }
         if confirmTextField.text !=  passwordTextField.text {
@@ -103,7 +103,7 @@ class CreateAccController: ViewController ,UITextFieldDelegate{
                 //successfully created, done loading activity indicator
                 UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
                 
-                if InternetConnection.second == 10 {
+                if InternetConnection.second == 15 {
                     
                     InternetConnection.countTimer.invalidate()
                     InternetConnection.second = 0

@@ -69,11 +69,11 @@ class EditProfileController: UIViewController,UITextFieldDelegate {
             
         }
         if ((Username.text?.isEmpty)! && (Email.text?.isEmpty)!){
-            self.PresentAlertController(title: "Warning", message: "Please properly enter your username", actionTitle: "Ok")
+            self.PresentAlertController(title: "Warning", message: "Please enter your username", actionTitle: "Ok")
             return
         }
         if (currentpass.text?.isEmpty)! {
-            PresentAlertController(title: "Warning", message: "Please properly enter your password", actionTitle: "Got it")
+            PresentAlertController(title: "Warning", message: "Please enter your password", actionTitle: "Got it")
             return
         }
 
@@ -111,7 +111,7 @@ class EditProfileController: UIViewController,UITextFieldDelegate {
 
             if (currentpass.text?.isEmpty)!{
                 UIComponentHelper.PresentActivityIndicatorWebView(view: self.view, option: false)
-                self.PresentAlertController(title: "Warning", message: "Please properly enter your current password", actionTitle: "Ok")
+                self.PresentAlertController(title: "Warning", message: "Please enter your current password", actionTitle: "Ok")
                 return
             } else {
                 let credential = EmailAuthProvider.credential(withEmail:(currentuser?.email)!, password: currentpass.text!)

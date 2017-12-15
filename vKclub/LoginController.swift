@@ -59,7 +59,7 @@ class LoginController: UIViewController,UITextFieldDelegate {
 
                 let credential = FacebookAuthProvider.credential(withAccessToken: accessToken.tokenString)
                 Auth.auth().signIn(with: credential, completion: { (user, error) in
-                    if InternetConnection.second == 10 {
+                    if InternetConnection.second == 15 {
                         InternetConnection.countTimer.invalidate()
                         InternetConnection.second = 0
                         UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
@@ -136,25 +136,25 @@ class LoginController: UIViewController,UITextFieldDelegate {
         InternetConnection.countTimer.invalidate()
         if emailTextField.text == "" && pwTextField.text == "" {
             UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
-            PresentAlertController(title: "Warning", message: "Please properly enter your email", actionTitle: "Got it")
+            PresentAlertController(title: "Warning", message: "Please enter your email", actionTitle: "Got it")
             return
             
         }
         if ( emailTextField.text?.isEmpty)! {
             UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
-            PresentAlertController(title: "Warning", message: "Please properly enter your email", actionTitle: "Got it")
+            PresentAlertController(title: "Warning", message: "Please enter your email", actionTitle: "Got it")
             return
         }
         if (pwTextField.text?.isEmpty)! {
             UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
-            PresentAlertController(title: "Warning", message: "Please properly enter your password", actionTitle: "Go it")
+            PresentAlertController(title: "Warning", message: "Please enter your password", actionTitle: "Go it")
             return
         } else {
             
             //handle firebase sign in
             InternetConnection.CountTimer()
             Auth.auth().signIn(withEmail: emailTextField.text!, password: pwTextField.text!) { (user, error) in
-                if InternetConnection.second == 10 {
+                if InternetConnection.second == 15 {
                     InternetConnection.countTimer.invalidate()
                     InternetConnection.second = 0
                     UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)

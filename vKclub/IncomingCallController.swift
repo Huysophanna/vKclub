@@ -1,10 +1,3 @@
-//
-//  IncomingCallController.swift
-//  vKclub
-//
-//  Created by HuySophanna on 5/7/17.
-//  Copyright © 2017 WiAdvance. All rights reserved.
-//
 import Foundation
 import UIKit
 import AVFoundation
@@ -108,9 +101,7 @@ class IncomingCallController: UIViewController {
     }
     
     var releaseCallFlag = false {
-        
         didSet {
-            UIDevice.current.isProximityMonitoringEnabled = false
             //listen for release call event and dismiss the incoming call view
             if releaseCallFlag == true {
                 IncomingCallController.CallStreamRunning = false
@@ -138,7 +129,6 @@ class IncomingCallController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        UIDevice.current.isProximityMonitoringEnabled = true
         callKitManager = CallKitCallInit(uuid: UUID(), handle: "")
         backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask(expirationHandler: nil)
         callDataRequest = SipCallData.fetchRequest()
@@ -261,7 +251,6 @@ class IncomingCallController: UIViewController {
     }
     
     @IBAction func EndCallBtnClicked(_ sender: Any) {
-        UIDevice.current.isProximityMonitoringEnabled = false
         if LinphoneManager.CheckLinphoneCallState() != LINPHONE_CALLSTREAM_RUNNING {
             //decline call
             LinphoneManager.endCall()
@@ -342,7 +331,33 @@ class IncomingCallController: UIViewController {
         //set interval to update call duration label
         if IncomingCallController.setUpCallInProgressInterval == nil {
             IncomingCallController.setUpCallInProgressInterval = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(IncomingCallController.SetUpCallInProgress), userInfo: nil, repeats: true)
+        } else {
+            let banwidth = linphone_call_get_audio_stats(LinphoneManager.mainCallOpaquePointerData)
+            let downloadedBandwidth = linphone_call_stats_get_download_bandwidth(banwidth)
+            var check : Bool = false
+            switch downloadedBandwidth {
+            case 0:
+                if check == true {
+                    check = false
+                }
+                
+                break
+                
+            default :
+                if downloadedBandwidth < 15 {
+                    if check == false {
+                        UIComponentHelper.scheduleNotification(_title: "Internal PhoneCall", _body: "Network unstable", _inSeconds:1)
+                        check = true
+                    }
+                    
+                } else {
+                    check = true
+                }
+            }
+            
+            
         }
+        
         
         print("PrepareInCallProgressUI ========")
     }
@@ -487,4 +502,3 @@ class IncomingCallController: UIViewController {
         
     }
 }
-
