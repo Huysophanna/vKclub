@@ -106,7 +106,6 @@ class MapController: UIViewController,GMSMapViewDelegate,CLLocationManagerDelega
     override func viewDidLoad() {
         super.viewDidLoad()
         Map()
-        
     }
     
     func Map() {
@@ -127,15 +126,12 @@ class MapController: UIViewController,GMSMapViewDelegate,CLLocationManagerDelega
         let overlay = GMSGroundOverlay(bounds: overlayBounds, icon: icon)
         overlay.bearing = 0
         overlay.map = mapView
-        
-        
         // Marker for each location
         
         if currentDestination == nil {
             currentDestination = markerLocation.first
         }
         for currentDestination in markerLocation{
-            
             let marker = GMSMarker(position: currentDestination.location)
             marker.title = currentDestination.title
             marker.snippet = currentDestination.dec

@@ -14,6 +14,12 @@ import UserNotifications
 import FirebaseMessaging
 import PushKit
 import CallKit
+import PushKit
+import CoreTelephony
+import AVFoundation
+import CoreLocation
+let callCenter = CTCallCenter()
+var isCallBackgroud: Bool = false
 var service_names = [String]()
 var service_extensions = [String]()
 let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -40,32 +46,41 @@ var orientationLock = UIInterfaceOrientationMask.all
 var iflogOut : Bool = false
 var connection : Bool = false
 var LinphoneConnectionStatusFlag: Bool = true
-var backgroundTask: UIBackgroundTaskIdentifier = UIBackgroundTaskInvalid
+//var backgroundTask: UIBackgroundTaskIdentifier = UIBackgroundTaskInvalid
 var usetoLogin : Bool = false
-var missCall = ""
+var ifLogin : Bool = false
 var chagne : Bool = false
+var deviceId_Inused : Bool = false
+var uids = ""
 var linphoneInit = "" {
     didSet {
         userExtensionID = linphoneInit
         if linphoneInit == "login"{
-//            linphoneManager?.LinphoneInit()
+            //            linphoneManager?.LinphoneInit()
             linphoneManager?.GetAccountExtension()
         } else if linphoneInit == "logout"{
             
         } else {
-             linphoneManager?.LinphoneInit()
+            linphoneManager?.LinphoneInit()
         }
         
     }
 }
+let locationManagers = CLLocationManager()
 var endCallIncressing = 0
 var getsimCall : Bool  = false
 var getExtensionSucc : String = ""
 var tokenExt_id = ""
 var TimeModCheck = Timer()
 var TiemeVoip : Timer?
+var decviceCheck : Bool = false
+
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate , URLSessionDelegate{
+    //    func pushRegistry(_ registry: PKPushRegistry, didUpdate pushCredentials: PKPushCredentials, forType type: PKPushType) {
+    //
+    //    }
+    
     let callKitManager = CallKitCallInit(uuid: UUID(), handle: "")
     lazy var providerDelegate: ProviderDelegate = ProviderDelegate(callKitManager: self.callKitManager)
     func displayIncomingCall(uuid: UUID, handle: String, completion: ((NSError?) -> Void)?) {
@@ -82,7 +97,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     var window: UIWindow?
     let personService = UserProfileCoreData()
     let gcmMessageIDKey = "gcm.message_id"
-    
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Remove border in navigationBar
@@ -101,7 +115,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 print("User reject notification access")
             }
         })
-       
+        
         if #available(iOS 10.0, *) {
             // For iOS 10 display notification (sent via APNS)
             UNUserNotificationCenter.current().delegate = self
@@ -120,9 +134,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
             application.registerUserNotificationSettings(settings)
         }
+//        callCenter.callEventHandler = { (call) -> () in
+//
+//            print(call.callState)
+//
+//            if call.callState == CTCallStateIncoming {
+//
+//                isCallBackgroud = true
+//            }
+//        }
+        
         
         // Override point for customization after application launch.
         FirebaseApp.configure()
+        //        self.voipRegistration()
         
         // FB init
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
@@ -134,9 +159,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             //Init linphone sip
             self.Dashboard()
         }
-        
+        //let notificationDeviceToekn = InstanceID.instanceID().token()!
         return true
     }
+    //    func voipRegistration() {
+    //        let mainQueue = DispatchQueue.main
+    //        // Create a push registry object
+    //        let voipRegistry: PKPushRegistry = PKPushRegistry(queue: mainQueue)
+    //        // Set the registry's delegate to self
+    //        voipRegistry.delegate = self
+    //        // Set the push type to VoIP
+    //        voipRegistry.desiredPushTypes = [PKPushType.voIP]
+    //    }
+    //    func pushRegistry(registry: PKPushRegistry!, didUpdatePushCredentials credentials: PKPushCredentials!, forType type: String!) {
+    //        // Register VoIP push token (a property of PKPushCredentials) with server
+    //    }
     
     @available(iOS 10.0, *)
     func userNotificationCenter(_ center: UNUserNotificationCenter,  willPresent notification: UNNotification, withCompletionHandler   completionHandler: @escaping (_ options:   UNNotificationPresentationOptions) -> Void) {
@@ -161,7 +198,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
         
     }
-
+    
     @available(iOS 10.0, *)
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         
@@ -226,60 +263,89 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     
     func applicationWillResignActive(_ application: UIApplication) {
-//        if usetoLogin  {
-//            if !getsimCall {
-//                incomingCallInstance.EndCallAction()
-//
-//            } else {
-//                getsimCall = false
-//            }
-//        }
-
+        self.configureAudioSession()
+        if isCallBackgroud {
+            if usetoLogin  {
+                if !getsimCall {
+                    IncomingCallController.EndCallFlag = true
+                    IncomingCallController.InvalidateWaitForStreamRunningInterval()
+                    
+                } else {
+                    getsimCall = false
+                }
+            }
+            isCallBackgroud = false
+            return
+        }
+        
+        
         
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
     }
-   
+    func configureAudioSession() {
+        let session = AVAudioSession.sharedInstance()
+        do {
+            try? session.setActive(true)
+            try? session.setPreferredSampleRate(44100.0)
+            try? session.setPreferredIOBufferDuration(0.005)
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback, with: AVAudioSessionCategoryOptions.mixWithOthers)
+            try? session.setCategory(AVAudioSessionCategoryPlayAndRecord)
+            try? session.setMode(AVAudioSessionModeVoiceChat)
+        } catch {
+            print(error.localizedDescription,"test+++")
+        }
+    }
+    
     
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+//        TimeModCheck.invalidate()
+//        BackgroundTask.backgroundTaskInstance.startBackgroundTask()
        
     }
+    //    func setKeepAliveTimeout(_ timeout: TimeInterval,
+    //                             handler keepAliveHandler: (() -> Void)? = nil) -> Bool {
+    //        return true
+    //    }
+    
     
     
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
         //        endBackgroundTask()
-//        if  checkCallKit.isEmpty {
-//            switch linphoneInit  {
-//            case "logout":
-//                print("shutdow voip")
-//            case "firstLaunch":
-//                break
-//            case "login":
-//                linphoneInit = "login"
-//                break
-//            default:
-//                linphoneInit = "login"
-//                break
-//            }
-//
-//        }
-        
+        //        if  checkCallKit.isEmpty {
+        //            switch linphoneInit  {
+        //            case "logout":
+        //                print("shutdow voip")
+        //            case "firstLaunch":
+        //                break
+        //            case "login":
+        //                linphoneInit = "login"
+        //                break
+        //            default:
+        //                linphoneInit = "login"
+        //                break
+        //            }
+        //
+        //        }
+//        BackgroundTask.backgroundTaskInstance.stopBackgroundTask()
     }
     
     func applicationDidBecomeActive(_ application: UIApplication) {
         FBSDKAppEvents.activateApp()
-       
+        
         // RestaFrt any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     }
- 
+    
     
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
         self.saveContext()
+        LinphoneManager.endCall()
+        
     }
     
     // MARK: - Core Data stack

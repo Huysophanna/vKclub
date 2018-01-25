@@ -26,6 +26,8 @@ class ServiceController: UIViewController {
             inKiriromContent.isHidden = true
             bottomLine.isHidden = true
         }
+        self.view.isMultipleTouchEnabled = false
+        self.view.isExclusiveTouch = false
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -73,42 +75,11 @@ class ServiceController: UIViewController {
                                 UIApplication.topViewController()?.PresentAlertController(title: "Warning", message: "Your device doesn't support with this feature ", actionTitle: "Got it")
                                 return
                             }
-                            let alertController = UIAlertController(title: nil, message: "Contact us", preferredStyle: .actionSheet)
-                            
-                            let defaultAction = UIAlertAction(title: "English Speaker: (+855) 78 777 284", style: .default, handler: { (alert: UIAlertAction!) -> Void in
-                                if (UIDevice.current.userInterfaceIdiom == UIUserInterfaceIdiom.pad) {
-                                    self.PresentAlertController(title: "Something went wrong", message: "Your device doesn't support with this feature ", actionTitle: "Got it")
-                                    
-                                    return
-                                }
-                                guard let number = URL(string: "tel://" + "078777284" ) else { return }
-                                UIApplication.shared.open(number, options: [:], completionHandler: nil)
-                                
-                            })
-                            
-                            let deleteAction = UIAlertAction(title: "Khmer Speaker: (+855) 96 2222 735", style: .default, handler: { (alert: UIAlertAction!) -> Void in
-                                if (UIDevice.current.userInterfaceIdiom == UIUserInterfaceIdiom.pad) {
-                                    self.PresentAlertController(title: "Something went wrong", message: "Your device doesn't support with this feature ", actionTitle: "Got it")
-                                    
-                                    return
-                                }
-                                guard let number = URL(string: "tel://" + "0962222735" ) else { return }
-                                UIApplication.shared.open(number, options: [:], completionHandler: nil)
-                                
-                            })
-                            
-                            
-                            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-                            if let popoverController = alertController.popoverPresentationController {
-                                popoverController.sourceView = self.view
-                                popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
-                                popoverController.permittedArrowDirections = []
-                            }
-                            alertController.addAction(defaultAction)
-                            alertController.addAction(deleteAction)
-                            alertController.addAction(cancelAction)
-                            self.present(alertController, animated: true, completion: nil)
-                           
+                            //call using carrier phone number
+                            //                           let number = URL(string: "tel://" + "0962222735")
+                            let url: NSURL = URL(string: "TEL://0962222735")! as NSURL
+                            //                            UIApplication.shared.open(number!, options: [:], completionHandler: nil)
+                            UIApplication.shared.open(url as URL, options: [:], completionHandler: nil)
                             break
                         case UNIDENTIFIED:
                             UIComponentHelper.LocationPermission(INAPP_UNIDENTIFIEDSetting: false)

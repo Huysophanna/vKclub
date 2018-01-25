@@ -27,7 +27,7 @@ let registrationStateChanged: LinphoneCoreRegistrationStateChangedCb  = {
         
     case LinphoneRegistrationNone: /**<Initial state for registrations */
         if LinphoneConnectionStatusFlag == false {
-            UIComponentHelper.scheduleNotification(_title: "PhoneCall Registered", _body: "You are not connected. Please connect to our wifi network to recieve and make call.", _inSeconds:0.1)
+            UIComponentHelper.scheduleNotification(_title: "PhoneCall Registered", _body: "You are not connected. Please connect to our wfi network to recieve and make call.", _inSeconds:0.1)
             connection = false
             LinphoneConnectionStatusFlag = true
         }
@@ -36,7 +36,7 @@ let registrationStateChanged: LinphoneCoreRegistrationStateChangedCb  = {
     case LinphoneRegistrationOk:
         connection = true
         if LinphoneConnectionStatusFlag {
-            if iflogOut || linphoneInit == "logout" {
+            if iflogOut || linphoneInit == "logout"{
                 return
             }
             NSLog("LinphoneRegistrationOk")
@@ -75,17 +75,16 @@ let callStateChanged: LinphoneCoreCallStateChangedCb = {
         
     case LinphoneCallIncomingReceived: /**<This is a new incoming call */
         print("callStateChanged: LinphoneCallIncomingReceived", "====")
+        linphone_core_reset_missed_calls_count(lc)
         if iflogOut {
             LinphoneManager.declineCall(_declinedReason: LinphoneReasonBusy)
             return
         }
-        if IncomingCallController.CallToAction == false && IncomingCallController.IncomingCallFlag == false && LinphoneManager.interuptedCallFlag == false && chagne == false {
-            
-            
+        if IncomingCallController.CallToAction == false && IncomingCallController.IncomingCallFlag == false && LinphoneManager.interuptedCallFlag == false {
             print(IncomingCallController.CallToAction, IncomingCallController.IncomingCallFlag, LinphoneManager.interuptedCallFlag, "----3variables----")
             //indicates that there is an incoming call to show incomingcall screen
             incomingCallInstance.incomingCallFlags = true
-             chagne = true
+            LinphoneManager.interuptedCallFlag = true
             print("-------BEING_FREE_NOT_WITH_SOMEONE_ELSE--------")
         } else  {
             print(IncomingCallController.CallToAction, IncomingCallController.IncomingCallFlag, LinphoneManager.interuptedCallFlag, "----3variables----")
@@ -96,6 +95,7 @@ let callStateChanged: LinphoneCoreCallStateChangedCb = {
             //when declined the call, it calls release flag, so have to check on that
             print("--------BEING_BUSY_WITH_SOMEONE_ELSE--------")
         }
+        
         
         if answerCall {
             ms_usleep(3 * 1000 * 1000); // Wait 3 seconds to pickup
@@ -113,6 +113,8 @@ let callStateChanged: LinphoneCoreCallStateChangedCb = {
         break
         
     case LinphoneCallReleased:
+        print(linphone_core_get_missed_calls_count(lc),"+++miss")
+        
         LinphoneManager.callStreamRunning = false
         if LinphoneManager.interuptedCallFlag == false {
             //if user is onActiveCall, will decline the call and will not release the active call view
@@ -230,13 +232,13 @@ class LinphoneManager {
         theLinphone.lc = linphone_core_new_with_config(&theLinphone.lct!, lpConfig, nil)
         
         // Set ring asset
-        let ringbackPath = URL(fileURLWithPath: Bundle.main.bundlePath).appendingPathComponent("/ringback.wav").absoluteString
-        linphone_core_set_ringback(theLinphone.lc, ringbackPath)
+//        let ringbackPath = URL(fileURLWithPath: Bundle.main.bundlePath).appendingPathComponent("/ringback.wav").absoluteString
+//        linphone_core_set_ringback(theLinphone.lc, ringbackPath)
+
+//        let localRing = URL(fileURLWithPath: Bundle.main.bundlePath).appendingPathComponent("/toy-mono.wav").absoluteString
+//        linphone_core_set_ring(theLinphone.lc, localRing)
         
-        let localRing = URL(fileURLWithPath: Bundle.main.bundlePath).appendingPathComponent("/toy-mono.wav").absoluteString
-        linphone_core_set_ring(theLinphone.lc, localRing)
-        
-        // Set outGoingCall ring asset
+         //Set outGoingCall ring asset
         do {
             let callToSoundBundle = Bundle.main.path(forResource: "OutGoingCallSound", ofType: "wav")
             let alertSound = URL(fileURLWithPath: callToSoundBundle!)
@@ -359,6 +361,8 @@ class LinphoneManager {
         }
         
     }
+    
+    // Register to VOIP server
     
     func LinphoneInit() {
         if changeExtention || checkwhenappclose == "Login" {
@@ -536,8 +540,14 @@ class LinphoneManager {
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("wfvUd0d4Bw7RfeCqwEe4F0GWTL3dpzai7f7euYBuI", forHTTPHeaderField: "VKAPP-API-TOKEN")
-        request.addValue((currentuser?.uid)!, forHTTPHeaderField: "VKAPP-USERID")
-        request.addValue((currentuser?.displayName)!, forHTTPHeaderField: "VKAPP-USERNAME")
+        if let uid = currentuser?.uid {
+            request.addValue(uid , forHTTPHeaderField: "VKAPP-USERID")
+        }
+        if let username = currentuser?.displayName {
+            request.addValue(username, forHTTPHeaderField: "VKAPP-USERNAME")
+        }
+        
+        
         let parameters = ["ext":extensions , "reserved_token":tokenid ,"action": "register"]
         do {
             request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted) // pass dictionary to nsdata object and set it as request body
@@ -589,6 +599,9 @@ class LinphoneManager {
             
         }
         task.resume()
+        
+        
+        
     }
     
     func setIdentify(_account: String) -> OpaquePointer? {
@@ -599,6 +612,7 @@ class LinphoneManager {
         //        let account = dict?.object(forKey: "account") as! String
         //        let password = dict?.object(forKey: "password") as! String
         //        let domain = dict?.object(forKey: "domain") as! String
+        
         let password = "A2apbx" + _account
         let domain = "192.168.7.251:5060"
         
@@ -616,8 +630,10 @@ class LinphoneManager {
             NSLog("\(identity) not a valid sip uri, must be like sip:toto@sip.linphone.org");
             return nil
         }
+        
         userAuthInfo = linphone_auth_info_new(linphone_address_get_username(from), nil, password, nil, nil, nil); /*create authentication structure from identity*/
         linphone_core_add_auth_info(theLinphone.lc!,userAuthInfo); /*add authentication info to LinphoneCore*/
+        
         // configure proxy entries
         linphone_proxy_config_set_identity(proxy_cfg, identity); /*set identity with user name and domain*/
         let server_addr = String(cString: linphone_address_get_domain(from)); /*extract domain address from identity*/
@@ -696,7 +712,7 @@ class LinphoneManager {
     
     fileprivate func setTimer(){
         if TiemeVoip == nil {
-            TiemeVoip = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(iterate), userInfo: nil, repeats: true)
+            TiemeVoip = Timer.scheduledTimer(timeInterval: 0.02, target: self, selector: #selector(iterate), userInfo: nil, repeats: true)
         }
         
         

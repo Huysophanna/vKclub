@@ -82,9 +82,7 @@ extension ProviderDelegate: CXProviderDelegate {
             try? session.setPreferredSampleRate(44100.0)
             try? session.setPreferredIOBufferDuration(0.005)
             try? session.setActive(true)
-        } catch {
-            print(error.localizedDescription,"test+++")
-        }
+        } 
        
     }
 }

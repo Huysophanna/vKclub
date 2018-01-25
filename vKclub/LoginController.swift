@@ -19,23 +19,75 @@ class LoginController: UIViewController,UITextFieldDelegate {
     @IBOutlet weak var signInBtn: UIButton!
     @IBOutlet weak var signInFBBtn: UIButton!
     let User = UserProfile(context: manageObjectContext)
+}
+
+//  APP LIFE CYCLE
+extension LoginController {
     override func viewDidLoad() {
-        super.viewDidLoad()
         usetoLogin = false
         hideKeyboardWhenTappedAround()
         UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
-        MakeLeftViewIconToTextField(textField: emailTextField, icon: "user_left_icon")
-        MakeLeftViewIconToTextField(textField: pwTextField, icon: "pw_icon")
+        BtnUI()
+        TextField()
+        signInFBBtn.addTarget(self, action: #selector(FBSignIn), for: .touchUpInside)
+    }
+}
+
+// APP UI
+extension LoginController {
+   func vlidationDeviceInuseAlert(){
+        self.PresentAlertController(title: "Warning", message: "You can not use one account with two devices.You had chooiced the new device", actionTitle: "Okay")
+    }
+    func BtnUI() {
         UIComponentHelper.MakeBtnWhiteBorder(button: signInBtn, color: UIColor.white)
         MakeFBBorderBtn(button: signInFBBtn)
-        //Btn Call Function FBSignIn
-        signInFBBtn.addTarget(self, action: #selector(FBSignIn), for: .touchUpInside)
-        self.emailTextField.delegate = self
-        self.pwTextField.delegate = self
         
     }
     
+    func TextField() {
+        MakeLeftViewIconToTextField(textField: emailTextField, icon: "user_left_icon")
+        MakeLeftViewIconToTextField(textField: pwTextField, icon: "pw_icon")
+        self.emailTextField.delegate = self
+        self.pwTextField.delegate = self
+    }
+    
+    func MakeFBBorderBtn(button: UIButton) {
+        button.backgroundColor = UIColor(red:0.23, green:0.35, blue:0.60, alpha:1.0)
+        button.layer.borderWidth = 1
+        button.layer.borderColor = UIColor(red:0.23, green:0.35, blue:0.60, alpha:1.0).cgColor
+        button.layer.cornerRadius = 5
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        switch textField {
+        case self.emailTextField:
+            pwTextField.becomeFirstResponder()
+        default:
+            pwTextField.resignFirstResponder()
+            self.SignInClicked(self)
+        }
+        return true
+    }
+    
+    func MakeLeftViewIconToTextField(textField: UITextField, icon: String) {
+        let imageView = UIImageView();
+        let image = UIImage(named: icon);
+        imageView.image = image;
+        imageView.frame = CGRect(x: Int(textField.frame.height / 3), y: Int(textField.frame.height / 3), width: Int(textField.frame.height / 2.5), height: Int(textField.frame.height / 2.5))
+        textField.addSubview(imageView)
+        let leftView = UIView.init(frame: CGRect(x: 10, y: 10, width: textField.frame.height, height: 25))
+        textField.leftView = leftView;
+        textField.leftViewMode = UITextFieldViewMode.always
+        
+    }
+}
+
+// APP Button Action
+
+extension LoginController {
+    
     func FBSignIn(){
+        
         InternetConnection.second = 0
         InternetConnection.countTimer.invalidate()
         UIComponentHelper.PresentActivityIndicator(view: self.view, option: true)
@@ -53,10 +105,8 @@ class LoginController: UIViewController,UITextFieldDelegate {
                     UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
                     print("Failed to get access token")
                     return
-            }
+                }
                 InternetConnection.CountTimer()
-                print(InternetConnection.second,"++")
-
                 let credential = FacebookAuthProvider.credential(withAccessToken: accessToken.tokenString)
                 Auth.auth().signIn(with: credential, completion: { (user, error) in
                     if InternetConnection.second == 15 {
@@ -66,9 +116,9 @@ class LoginController: UIViewController,UITextFieldDelegate {
                         return
                     }
                     if error == nil {
-                            InternetConnection.countTimer.invalidate()
-                            InternetConnection.second = 0
-                            if let currentUser = Auth.auth().currentUser {
+                        InternetConnection.countTimer.invalidate()
+                        InternetConnection.second = 0
+                        if let currentUser = Auth.auth().currentUser {
                             var getFBimageUrl  : URL = currentUser.photoURL!
                             let str = currentUser.photoURL?.absoluteString
                             let index = str?.index((str?.startIndex)!, offsetBy: 30)
@@ -86,13 +136,13 @@ class LoginController: UIViewController,UITextFieldDelegate {
                                 
                             }
                             self.getDataFromUrl(url: getFBimageUrl){
-                            (data, response, error)  in
+                                (data, response, error)  in
                                 guard let data = data, error == nil
                                     else {
                                         return
                                 }
                                 let image = data as NSData?
-                                    
+                                
                                 
                                 guard let imageFB = UIImage(data: image! as Data) else {
                                     return
@@ -103,16 +153,18 @@ class LoginController: UIViewController,UITextFieldDelegate {
                                     UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
                                     self.create(username: (currentUser.displayName)!,email: "someone@gamil.com",facebook: true, imagData: imageProfiles! as NSData)
                                 } else {
-                                     self.create(username: (user?.displayName)!,email: (user?.email)!,facebook: true, imagData: imageProfiles! as NSData)
-                                } 
+                                    self.create(username: (user?.displayName)!,email: (user?.email)!,facebook: true, imagData: imageProfiles! as NSData)
+                                }
                             }
-                        let DashController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MainDashboard") as! SWRevealViewController
-                        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                                appDelegate.window?.rootViewController = DashController
-                         //self.performSegue(withIdentifier: "SegueToDashboard", sender: self)
+
+                            
+                            let DashController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MainDashboard") as! SWRevealViewController
+                            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                            appDelegate.window?.rootViewController = DashController
+                            //self.performSegue(withIdentifier: "SegueToDashboard", sender: self)
                         }
                         
-//                           LinphoneManager.enableRegistration()
+                        //                           LinphoneManager.enableRegistration()
                         
                         
                     } else {
@@ -131,6 +183,7 @@ class LoginController: UIViewController,UITextFieldDelegate {
         }
     }
     @IBAction func SignInClicked(_ sender: Any) {
+        
         UIComponentHelper.PresentActivityIndicator(view: self.view, option: true)
         InternetConnection.second = 0
         InternetConnection.countTimer.invalidate()
@@ -169,9 +222,9 @@ class LoginController: UIViewController,UITextFieldDelegate {
                             let img = UIImage(named: "profile-icon")
                             let newImage = UIComponentHelper.resizeImage(image: img!, targetSize: CGSize(width: 400, height: 400))
                             let imageProfiles = UIImagePNGRepresentation(newImage)
-
+                            
                             self.create(username: (user?.displayName)!,email : (user?.email)!,facebook: false, imagData: imageProfiles! as NSData  )
-  
+                            
                             
                         } else {
                             self.getDataFromUrl(url: (user?.photoURL!)!){
@@ -183,13 +236,13 @@ class LoginController: UIViewController,UITextFieldDelegate {
                                 let image = data as NSData?
                                 self.create(username: (user?.displayName)!,email : (user?.email)!,facebook: false, imagData: image!  )
                             }
- 
+                            
                         }
                         let DashController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MainDashboard") as! SWRevealViewController
                         let appDelegate = UIApplication.shared.delegate as! AppDelegate
                         appDelegate.window?.rootViewController = DashController
-//                       self.performSegue(withIdentifier: "SegueToDashboard", sender: self)
-//                      LinphoneManager.enableRegistration()
+                        //                       self.performSegue(withIdentifier: "SegueToDashboard", sender: self)
+                        //                      LinphoneManager.enableRegistration()
                         
                     } else {
                         UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
@@ -220,7 +273,7 @@ class LoginController: UIViewController,UITextFieldDelegate {
                                         self.PresentAlertController(title: "Something went wrong", message: "Please provide a valid password.", actionTitle: "Got it")
                                         return
                                     }
-                                
+                                    
                                 }
                             } else {
                                 self.PresentAlertController(title: "Error", message: (error?.localizedDescription)!, actionTitle: "Okay")
@@ -236,13 +289,12 @@ class LoginController: UIViewController,UITextFieldDelegate {
                         
                         
                     }
-                   
+                    
                     
                 }
             }
         }
     }
-    
     @IBAction func CreateAccount(_ sender: Any) {
         performSegue(withIdentifier: "SegueToCreateAcc", sender: self)
     }
@@ -250,29 +302,28 @@ class LoginController: UIViewController,UITextFieldDelegate {
     @IBAction func ForgotPWClicked(_ sender: Any) {
         performSegue(withIdentifier: "SegueToForgotPW", sender: self)
     }
-    func MakeFBBorderBtn(button: UIButton) {
-        button.backgroundColor = UIColor(red:0.23, green:0.35, blue:0.60, alpha:1.0)
-        button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor(red:0.23, green:0.35, blue:0.60, alpha:1.0).cgColor
-        button.layer.cornerRadius = 5
-    }
-    func MakeLeftViewIconToTextField(textField: UITextField, icon: String) {
-        let imageView = UIImageView();
-        let image = UIImage(named: icon);
-        imageView.image = image;
-        imageView.frame = CGRect(x: Int(textField.frame.height / 3), y: Int(textField.frame.height / 3), width: Int(textField.frame.height / 2.5), height: Int(textField.frame.height / 2.5))
-        textField.addSubview(imageView)
-        
-        let leftView = UIView.init(frame: CGRect(x: 10, y: 10, width: textField.frame.height, height: 25))
-        textField.leftView = leftView;
-        textField.leftViewMode = UITextFieldViewMode.always
-        
-    }
+    
+    
+    
+}
+// Login Help function
+extension LoginController {
+    
+//    func ValidationMutipleLogin() {
+//        if ValidationDeviceToken.deviceIdObject.deviceId {
+//            ifLogin = false
+//            personService.deleteAllData(entity: "Extension")
+//            UserDefaults.standard.set(false, forKey: "loginBefore")
+//            databaseRef.child("userDeviceId").child((Auth.auth().currentUser?.uid)!).child("status").setValue("false")
+//        }
+//    }
+    
     func getDataFromUrl(url: URL, completion: @escaping (_ data: Data?, _  response: URLResponse?, _ error: Error?) -> Void) {
         URLSession.shared.dataTask (with: url) { (data, response, error) in
             completion(data, response, error)
-        }.resume()
+            }.resume()
     }
+    
     func create(username:String, email:String, facebook: Bool, imagData: NSData){
         var people : [UserProfile] = [User]
         let firstPerson =  personService.getByIdUserProfile(_id: (people[0].objectID))!
@@ -284,14 +335,7 @@ class LoginController: UIViewController,UITextFieldDelegate {
             personService.updateUserProfile(_updatedPerson: firstPerson)
         }
     }
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        switch textField {
-        case self.emailTextField:
-            pwTextField.becomeFirstResponder()
-        default:
-            pwTextField.resignFirstResponder()
-            self.SignInClicked(self)
-        }
-        return true
-    }
 }
+
+
+

@@ -101,6 +101,7 @@
 		A9FACB131D0A7B3700E3C8A5 /* oldphone-mono.wav in Resources */ = {isa = PBXBuildFile; fileRef = A9FACB051D0A7B3700E3C8A5 /* oldphone-mono.wav */; };
 		A9FACB141D0A7B3700E3C8A5 /* soft_as_snow.mkv in Resources */ = {isa = PBXBuildFile; fileRef = A9FACB061D0A7B3700E3C8A5 /* soft_as_snow.mkv */; };
 		A9FACB151D0A7B3700E3C8A5 /* toy-mono.wav in Resources */ = {isa = PBXBuildFile; fileRef = A9FACB071D0A7B3700E3C8A5 /* toy-mono.wav */; };
+		C5088349200CB25C00F30B60 /* DeviceIdToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5088348200CB25C00F30B60 /* DeviceIdToken.swift */; };
 		C50BCE921F4EB85300455091 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C50BCE911F4EB85300455091 /* Info.plist */; };
 		C51157D21F0B7A56008BCEC5 /* UserProfileCoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51157D11F0B7A56008BCEC5 /* UserProfileCoreData.swift */; };
 		C515AF1D1F1FAAE40054A27D /* onboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C515AF1C1F1FAAE40054A27D /* onboardingView.swift */; };
@@ -109,6 +110,7 @@
 		C576988B1F1F3D9300556D38 /* InternetConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C576988A1F1F3D9300556D38 /* InternetConnection.swift */; };
 		C58C18571F30D4CB00CAA663 /* ICONBadgeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C58C18561F30D4CB00CAA663 /* ICONBadgeHelper.swift */; };
 		C590B7741F10BE14002C67E3 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		C59C2D652009AE2400E7AEC7 /* ValidationDeviceToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = C59C2D642009AE2400E7AEC7 /* ValidationDeviceToken.swift */; };
 		C59D94C81F0756B3009103FA /* CoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C59D94C61F0756B3009103FA /* CoreData.xcdatamodeld */; };
 		C5A7BAB31F166F2E00744979 /* SettingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A7BAB21F166F2E00744979 /* SettingController.swift */; };
 		C5A7BAB51F16712C00744979 /* EditProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A7BAB41F16712C00744979 /* EditProfileController.swift */; };
@@ -257,6 +259,7 @@
 		A9FACB061D0A7B3700E3C8A5 /* soft_as_snow.mkv */ = {isa = PBXFileReference; lastKnownFileType = file; path = soft_as_snow.mkv; sourceTree = "<group>"; };
 		A9FACB071D0A7B3700E3C8A5 /* toy-mono.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "toy-mono.wav"; sourceTree = "<group>"; };
 		BBDBA929F28239775CF624FD /* Pods-vKclub.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-vKclub.debug.xcconfig"; path = "Pods/Target Support Files/Pods-vKclub/Pods-vKclub.debug.xcconfig"; sourceTree = "<group>"; };
+		C5088348200CB25C00F30B60 /* DeviceIdToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceIdToken.swift; sourceTree = "<group>"; };
 		C50BCE911F4EB85300455091 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C51157D11F0B7A56008BCEC5 /* UserProfileCoreData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileCoreData.swift; sourceTree = "<group>"; };
 		C515AF1C1F1FAAE40054A27D /* onboardingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = onboardingView.swift; sourceTree = "<group>"; };
@@ -264,6 +267,7 @@
 		C52C21C11F03DBE100B546E1 /* MenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
 		C576988A1F1F3D9300556D38 /* InternetConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InternetConnection.swift; sourceTree = "<group>"; };
 		C58C18561F30D4CB00CAA663 /* ICONBadgeHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ICONBadgeHelper.swift; sourceTree = "<group>"; };
+		C59C2D642009AE2400E7AEC7 /* ValidationDeviceToken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidationDeviceToken.swift; sourceTree = "<group>"; };
 		C59D94C71F0756B3009103FA /* Coredata.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Coredata.xcdatamodel; sourceTree = "<group>"; };
 		C5A7BAB21F166F2E00744979 /* SettingController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingController.swift; sourceTree = "<group>"; };
 		C5A7BAB41F16712C00744979 /* EditProfileController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileController.swift; sourceTree = "<group>"; };
@@ -273,7 +277,7 @@
 		C5B836A91FC33CA1000D7667 /* AboutUs.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = AboutUs.json; path = Assets.xcassets/AboutUs.json; sourceTree = "<group>"; };
 		C5CC299F1F19D0EA00072F8A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C5F0782E1F793A160037FBAA /* NavButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavButton.swift; sourceTree = "<group>"; };
-		C5F5A81F1F279DF900190CDF /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = "../../Second Year/Internship/Chain/vKclub-first_phase/vKclub/Base.lproj/Main.storyboard"; sourceTree = "<group>"; };
+		C5F5A81F1F279DF900190CDF /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = ../../../KIT/vKclub/vKclub/Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -360,6 +364,7 @@
 		7F3C1DAA1F03AA7C00888BEA /* Library */ = {
 			isa = PBXGroup;
 			children = (
+				A9FAC4681D07D6FF00E3C8A5 /* Linphone-SDK */,
 				7F1E247E1F024D2F0090C7E7 /* SWRevealViewController.h */,
 				7F1E247F1F024D2F0090C7E7 /* SWRevealViewController.m */,
 			);
@@ -377,6 +382,7 @@
 				C576988A1F1F3D9300556D38 /* InternetConnection.swift */,
 				C58C18561F30D4CB00CAA663 /* ICONBadgeHelper.swift */,
 				C5F0782E1F793A160037FBAA /* NavButton.swift */,
+				C59C2D642009AE2400E7AEC7 /* ValidationDeviceToken.swift */,
 			);
 			name = HelperClass;
 			sourceTree = "<group>";
@@ -406,7 +412,6 @@
 			children = (
 				7FEE899A1F34721C0054281C /* OutGoingCallSound.wav */,
 				A924DECE1D07D4EA0030A438 /* README.md */,
-				A9FAC4681D07D6FF00E3C8A5 /* Linphone-SDK */,
 				A99663631D06F877003B5EEE /* vKclub */,
 				A99663621D06F877003B5EEE /* Products */,
 				A99663761D06F942003B5EEE /* vKclub-Bridging-Header.h */,
@@ -634,6 +639,7 @@
 			isa = PBXGroup;
 			children = (
 				C59D94C61F0756B3009103FA /* CoreData.xcdatamodeld */,
+				C5088348200CB25C00F30B60 /* DeviceIdToken.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -685,7 +691,7 @@
 					A99663601D06F877003B5EEE = {
 						CreatedOnToolsVersion = 7.3.1;
 						LastSwiftMigration = 0820;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -839,9 +845,11 @@
 				7F3C1DAC1F03AAD100888BEA /* ButtonBorder.swift in Sources */,
 				7FE373701F25EDDA00051971 /* CallKitCallInit.swift in Sources */,
 				7FBF65ED1F0C0A8F00307BF3 /* IncomingCallController.swift in Sources */,
+				C5088349200CB25C00F30B60 /* DeviceIdToken.swift in Sources */,
 				7F1E246B1F0247250090C7E7 /* MapController.swift in Sources */,
 				C58C18571F30D4CB00CAA663 /* ICONBadgeHelper.swift in Sources */,
 				7F1E24691F0247250090C7E7 /* ForgotPWController.swift in Sources */,
+				C59C2D652009AE2400E7AEC7 /* ValidationDeviceToken.swift in Sources */,
 				7F8A70051F2066EA00B83290 /* CardViewHelper.swift in Sources */,
 				7F1984661F0E478B0063660B /* RoundButton.swift in Sources */,
 				C52C21C21F03DBE100B546E1 /* MenuController.swift in Sources */,
@@ -890,8 +898,8 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Chihiro Kurose (87A3CVP9KW)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Chihiro Kurose (87A3CVP9KW)";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -910,7 +918,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = vKclub;
@@ -946,8 +954,8 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Chihiro Kurose (87A3CVP9KW)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Chihiro Kurose (87A3CVP9KW)";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -960,7 +968,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = vKclub;
 				SDKROOT = iphoneos;
@@ -979,9 +987,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = vKclub/vKclub.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Chihiro Kurose (87A3CVP9KW)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Chihiro Kurose (87A3CVP9KW)";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 87A3CVP9KW;
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -993,8 +1000,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = chain.vkirirom;
 				PRODUCT_NAME = vKclub;
-				PROVISIONING_PROFILE = "ee090d8b-e032-4193-bda4-c026ce22c5e9";
-				PROVISIONING_PROFILE_SPECIFIER = vKclub;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "vKclub-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
@@ -1012,9 +1018,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = vKclub/vKclub.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Chihiro Kurose (87A3CVP9KW)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Chihiro Kurose (87A3CVP9KW)";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 87A3CVP9KW;
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -1026,8 +1031,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = chain.vkirirom;
 				PRODUCT_NAME = vKclub;
-				PROVISIONING_PROFILE = "ee090d8b-e032-4193-bda4-c026ce22c5e9";
-				PROVISIONING_PROFILE_SPECIFIER = vKclub;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "vKclub-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

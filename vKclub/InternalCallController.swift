@@ -101,10 +101,6 @@ class InternalCallController: UIViewController{
             self.present( LocationPermissionAlert, animated: true, completion: nil)
             
         }
-        
-        
-        
-        
     }
     
 }

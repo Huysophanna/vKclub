@@ -98,8 +98,9 @@ public class InternetConnection {
     }
         
     static func Logouts(){
-        usetoLogin = false
+        deviceId_Inused = false
         getExtensionSucc = "Logout"
+        databaseRef.child("userDeviceId").child(uids).child("status").setValue("")
         UserDefaults.standard.set(false, forKey: "loginBefore")
         UIApplication.shared.unregisterForRemoteNotifications()
         notification_num = 0
@@ -205,7 +206,6 @@ public class InternetConnection {
     }
       return  audioPermission
     }
-
     
     
 

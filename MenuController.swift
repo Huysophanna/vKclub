@@ -84,7 +84,9 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         let logoutAlert = UIAlertController(title: "Logout", message: "Are you sure to logout?", preferredStyle: UIAlertControllerStyle.alert)
         
         logoutAlert.addAction(UIAlertAction(title: "Okay", style: .default, handler: { (action: UIAlertAction!) in
+            usetoLogin = false
             checkwhenappclose = "Logout"
+            databaseRef.child("userDeviceId").child(uids).child("device").setValue("")
             InternetConnection.Logouts()
             InternetConnection.ShutdownPBXServer()
             
@@ -110,7 +112,6 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         if fb_lgoin == [] {
             if currentUser?.email == nil {
                 EmailBtn.text = "someone@gmail.com"
-
             }
             if currentUser?.photoURL == nil {
             } else {
@@ -148,7 +149,6 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
                 let img = UIImage(data: i.imageData! as Data)
                 let newimag = UIComponentHelper.resizeImage(image: img!, targetSize: CGSize(width: 400, height: 400))
                 imageProfile.setImage(newimag, for: .normal)
-                
             }
             
         }

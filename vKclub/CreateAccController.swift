@@ -12,7 +12,6 @@ import FirebaseAuth
 
 
 class CreateAccController: ViewController ,UITextFieldDelegate{
-    
     @IBOutlet weak var signUpBtn: UIButton!
     @IBOutlet weak var backBtn: UIButton!
     @IBOutlet weak var nameTextField: UITextField!
@@ -21,9 +20,25 @@ class CreateAccController: ViewController ,UITextFieldDelegate{
     @IBOutlet weak var passwordTextField: UITextField!
     let storageRef = Storage.storage().reference()
     var nameTage = 0;
+}
 
+
+
+// APP LIFE Cycle
+extension CreateAccController {
     override func viewDidLoad() {
+        UITextFile()
         hideKeyboardWhenTappedAround()
+    }
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+}
+
+
+// APP UI
+extension CreateAccController  {
+    func UITextFile() {
         UIComponentHelper.MakeBtnWhiteBorder(button: signUpBtn, color: UIColor.white)
         UIComponentHelper.MakeBtnWhiteBorder(button: backBtn, color: UIColor.white)
         UIComponentHelper.MakeCustomPlaceholderTextField(textfield: nameTextField, name: "Name", color: UIColor.white)
@@ -35,9 +50,44 @@ class CreateAccController: ViewController ,UITextFieldDelegate{
         passwordTextField.delegate = self
         confirmTextField.delegate = self
     }
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
+    //handel Keyboard
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        switch textField {
+        case self.nameTextField:
+            emailTextField.becomeFirstResponder()
+        case self.emailTextField:
+            passwordTextField.becomeFirstResponder()
+        case self.passwordTextField:
+            confirmTextField.becomeFirstResponder()
+            
+        default:
+            confirmTextField.resignFirstResponder()
+            SignUpClicked(self)        }
+        return true
     }
+}
+
+
+// Action Button
+extension CreateAccController {
+    // When user had input data to the input text box but they click on back
+    @IBAction func BackBtn(_ sender: Any) {
+        if (nameTextField.text?.isEmpty == false) || (emailTextField.text?.isEmpty == false) || (passwordTextField.text?.isEmpty == false) || (confirmTextField.text?.isEmpty == false) {
+            let logoutAlert = UIAlertController(title: "Warning", message: "Are you sure you want to go back?", preferredStyle: UIAlertControllerStyle.alert)
+            
+            logoutAlert.addAction(UIAlertAction(title: "Okay", style: .default, handler: { (action: UIAlertAction!) in
+                self.dismiss(animated: true, completion: nil)
+            }))
+            logoutAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            self.present( logoutAlert, animated: true, completion: nil)
+            
+            
+        }else {
+            self.dismiss(animated: true, completion: nil)
+        }
+        
+    }
+    // sign function
     @IBAction func SignUpClicked(_ sender: Any) {
         let length_password : Int = (passwordTextField.text?.characters.count)!
         let length_username : Int = (nameTextField.text?.characters.count)!
@@ -65,7 +115,7 @@ class CreateAccController: ViewController ,UITextFieldDelegate{
         }
         if confirmTextField.text !=  passwordTextField.text {
             PresentAlertController(title: "Warning", message: "Your password doesn't match with confirm password", actionTitle: "Got it")
-             return
+            return
         } else if length_password < 6 {
             PresentAlertController(title: "Warning", message: "Pleaes enter your password more than 6 characters", actionTitle: "Got it")
             return
@@ -81,7 +131,7 @@ class CreateAccController: ViewController ,UITextFieldDelegate{
             PresentAlertController(title: "Warning", message: "Pleaes enter your password less than 20 characters", actionTitle: "Got it")
             return
         } else if specialcharaters == false {
-             PresentAlertController(title: "Warning", message: "Your username should not contain any special charaters or numbers", actionTitle: "Got it")
+            PresentAlertController(title: "Warning", message: "Your username should not contain any special charaters or numbers", actionTitle: "Got it")
             return
         } else if conutwhitespece >= 3 {
             PresentAlertController(title: "Warning", message: "Your username should not contain more than 3 white spaces", actionTitle: "Got it")
@@ -90,10 +140,10 @@ class CreateAccController: ViewController ,UITextFieldDelegate{
         else {
             let whitespeceatbeginning = UIComponentHelper.Whitespeceatbeginning(_whitespece: nameTextField.text!)
             if whitespeceatbeginning == true {
-                 PresentAlertController(title: "Warning", message: "Your username should not contant white spece at beginning ", actionTitle: "Got it")
+                PresentAlertController(title: "Warning", message: "Your username should not contant white spece at beginning ", actionTitle: "Got it")
                 return
             }
-
+            
             InternetConnection.second = 0
             InternetConnection.countTimer.invalidate()
             //show loading activity indicator
@@ -104,11 +154,9 @@ class CreateAccController: ViewController ,UITextFieldDelegate{
                 UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
                 
                 if InternetConnection.second == 15 {
-                    
                     InternetConnection.countTimer.invalidate()
                     InternetConnection.second = 0
                     UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
-                    
                     return
                 }
                 InternetConnection.countTimer.invalidate()
@@ -124,7 +172,7 @@ class CreateAccController: ViewController ,UITextFieldDelegate{
                         guard let metadata = metadata else {
                             return
                         }
-                    
+                        
                         let downloadURL = metadata.downloadURL()!.absoluteString
                         print(downloadURL)
                         let url = NSURL(string: downloadURL) as URL?
@@ -133,7 +181,7 @@ class CreateAccController: ViewController ,UITextFieldDelegate{
                         chageProfileuser?.displayName = self.nameTextField.text
                         chageProfileuser?.commitChanges { (error) in
                             if error != nil {
-                               self.PresentAlertController(title: "Something went wrong", message: (error?.localizedDescription)!, actionTitle: "Okay")
+                                self.PresentAlertController(title: "Something went wrong", message: (error?.localizedDescription)!, actionTitle: "Okay")
                             }
                             
                         }
@@ -141,23 +189,23 @@ class CreateAccController: ViewController ,UITextFieldDelegate{
                     Auth.auth().currentUser?.sendEmailVerification { (error) in
                         
                         if error != nil {
-                             self.PresentAlertController(title: "Something went wrong", message: (error?.localizedDescription)!, actionTitle: "Okay")
+                            self.PresentAlertController(title: "Something went wrong", message: (error?.localizedDescription)!, actionTitle: "Okay")
                         }
                     }
                     
                     self.PresentAlertController(title: "Email verification", message: "Please verify your account with the link we have sent to your email address.", actionTitle: "Okay")
-                  
+                    
                     UIApplication.shared.keyWindow?.rootViewController = self.storyboard!.instantiateViewController(withIdentifier: "loginController")
-
+                    
                     
                 } else {
                     let check :String  = (error?.localizedDescription)!
                     switch check {
                     case "The email address is badly formatted.":
-                         self.PresentAlertController(title: "Something went wrong", message: "Please provide a valid form of email address.", actionTitle: "Okay")
+                        self.PresentAlertController(title: "Something went wrong", message: "Please provide a valid form of email address.", actionTitle: "Okay")
                         break
                     case "The email address is already in use by another account":
-                         self.PresentAlertController(title: "Something went wrong", message: "The email address is already in use by another account", actionTitle: "Okay")
+                        self.PresentAlertController(title: "Something went wrong", message: "The email address is already in use by another account", actionTitle: "Okay")
                         break
                     default:
                         self.PresentAlertController(title: "Something went wrong", message: (error?.localizedDescription)!, actionTitle: "Okay")
@@ -169,36 +217,7 @@ class CreateAccController: ViewController ,UITextFieldDelegate{
         }
     }
     
-    
-    @IBAction func BackBtn(_ sender: Any) {
-        if (nameTextField.text?.isEmpty == false) || (emailTextField.text?.isEmpty == false) || (passwordTextField.text?.isEmpty == false) || (confirmTextField.text?.isEmpty == false) {
-            let logoutAlert = UIAlertController(title: "Warning", message: "Are you sure you want to go back?", preferredStyle: UIAlertControllerStyle.alert)
-            
-            logoutAlert.addAction(UIAlertAction(title: "Okay", style: .default, handler: { (action: UIAlertAction!) in
-                 self.dismiss(animated: true, completion: nil)
-            }))
-            logoutAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-            self.present( logoutAlert, animated: true, completion: nil)
-            
-            
-        }else {
-             self.dismiss(animated: true, completion: nil)
-        }
-       
-    }
-    //handel Keyboard 
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        switch textField {
-        case self.nameTextField:
-            emailTextField.becomeFirstResponder()
-        case self.emailTextField:
-            passwordTextField.becomeFirstResponder()
-        case self.passwordTextField:
-            confirmTextField.becomeFirstResponder()
-            
-        default:
-            confirmTextField.resignFirstResponder()
-            SignUpClicked(self)        }
-        return true
-    }
 }
+
+
+

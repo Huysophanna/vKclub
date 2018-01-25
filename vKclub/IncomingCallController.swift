@@ -1,3 +1,10 @@
+//
+//  IncomingCallController.swift
+//  vKclub
+//
+//  Created by HuySophanna on 5/7/17.
+//  Copyright © 2017 WiAdvance. All rights reserved.
+//
 import Foundation
 import UIKit
 import AVFoundation
@@ -39,7 +46,7 @@ class IncomingCallController: UIViewController {
                 getsimCall = true
                 print(IncomingCallController.IncomingCallFlag, "----1variable")
                 //stop AVAudioPlayer background task while about to call
-                BackgroundTask.backgroundTaskInstance.stopBackgroundTask()
+//                BackgroundTask.backgroundTaskInstance.stopBackgroundTask()
                 //Display CallKit for iOS 10
                 if #available(iOS 10, *) {
                     AppDelegate.shared.displayIncomingCall(uuid: UUID(), handle: LinphoneManager.getContactName()) { _ in
@@ -62,7 +69,7 @@ class IncomingCallController: UIViewController {
                     PresentIncomingVC()
                     print("-------CALLTO_BEING_FREE_NOT_WITH_SOMEONE_ELSE--------")
                     //stop AVAudioPlayer background task while about to call
-                    BackgroundTask.backgroundTaskInstance.stopBackgroundTask()
+//                    BackgroundTask.backgroundTaskInstance.stopBackgroundTask()
                 } else {
                     print("--------CALLTO_BEING_BUSY_WITH_SOMEONE_ELSE--------")
                 }
@@ -101,7 +108,9 @@ class IncomingCallController: UIViewController {
     }
     
     var releaseCallFlag = false {
+        
         didSet {
+            UIDevice.current.isProximityMonitoringEnabled = false
             //listen for release call event and dismiss the incoming call view
             if releaseCallFlag == true {
                 IncomingCallController.CallStreamRunning = false
@@ -123,12 +132,13 @@ class IncomingCallController: UIViewController {
                 //invalidate set up call in progress interval
                 IncomingCallController.InvalidateSetUpCallInProgressInterval()
                 //Linephone call will destory the audio session when the call ends, so wait for 5seconds to restart the AVAudioPlayer background task
-                Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(WaitToStartBackgroundTask), userInfo: nil, repeats: false)
+//                Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(WaitToStartBackgroundTask), userInfo: nil, repeats: false)
             }
         }
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        UIDevice.current.isProximityMonitoringEnabled = true
         callKitManager = CallKitCallInit(uuid: UUID(), handle: "")
         backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask(expirationHandler: nil)
         callDataRequest = SipCallData.fetchRequest()
@@ -175,9 +185,9 @@ class IncomingCallController: UIViewController {
         self.navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
-    func WaitToStartBackgroundTask() {
-        BackgroundTask.backgroundTaskInstance.startBackgroundTask()
-    }
+//    func WaitToStartBackgroundTask() {
+//        BackgroundTask.backgroundTaskInstance.startBackgroundTask()
+//    }
     
     func SetCallDurationToCoreData() {
         for _callData in callLogData {
@@ -251,6 +261,7 @@ class IncomingCallController: UIViewController {
     }
     
     @IBAction func EndCallBtnClicked(_ sender: Any) {
+        UIDevice.current.isProximityMonitoringEnabled = false
         if LinphoneManager.CheckLinphoneCallState() != LINPHONE_CALLSTREAM_RUNNING {
             //decline call
             LinphoneManager.endCall()
@@ -331,33 +342,7 @@ class IncomingCallController: UIViewController {
         //set interval to update call duration label
         if IncomingCallController.setUpCallInProgressInterval == nil {
             IncomingCallController.setUpCallInProgressInterval = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(IncomingCallController.SetUpCallInProgress), userInfo: nil, repeats: true)
-        } else {
-            let banwidth = linphone_call_get_audio_stats(LinphoneManager.mainCallOpaquePointerData)
-            let downloadedBandwidth = linphone_call_stats_get_download_bandwidth(banwidth)
-            var check : Bool = false
-            switch downloadedBandwidth {
-            case 0:
-                if check == true {
-                    check = false
-                }
-                
-                break
-                
-            default :
-                if downloadedBandwidth < 15 {
-                    if check == false {
-                        UIComponentHelper.scheduleNotification(_title: "Internal PhoneCall", _body: "Network unstable", _inSeconds:1)
-                        check = true
-                    }
-                    
-                } else {
-                    check = true
-                }
-            }
-            
-            
         }
-        
         
         print("PrepareInCallProgressUI ========")
     }
@@ -502,3 +487,4 @@ class IncomingCallController: UIViewController {
         
     }
 }
+

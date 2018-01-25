@@ -107,7 +107,6 @@ class CallKitCallInit {
     let uuid: UUID
     let outgoing: Bool
     let handle: String
-    
     init(uuid: UUID, outgoing: Bool = false, handle: String) {
         self.uuid = uuid
         self.outgoing = outgoing

@@ -124,14 +124,18 @@ class RecentCallController: UIViewController, UITableViewDelegate, UITableViewDa
             //Loading call log data
             let callLogDataItem = RecentCallController.callLogData[reverseIndexPath.row]
             if callLogDataItem.callerID != nil {
-                recentCallCell.callerID.textColor = UIColor.black
+                if linphone_core_get_missed_calls_count(LinphoneManager.lcOpaquePointerData) > 0 {
+                    print (linphone_core_get_missed_calls_count(LinphoneManager.lcOpaquePointerData),"+++misse")
+                     recentCallCell.callerID.textColor = UIColor.red
+                } else {
+                     recentCallCell.callerID.textColor = UIColor.black
+                }
+               
                 recentCallCell.callerID.text = callLogDataItem.callerName != "" ? callLogDataItem.callerName : callLogDataItem.callerID
                 recentCallCell.callIndicatorIcon.image = UIImage(named: callLogDataItem.callIndicatorIcon!)
                 recentCallCell.callIndicatorIcon.tintColor = UIColor(hexString: "#008040", alpha: 1)
                 
                 recentCallCell.timeStampLabel.text = callLogDataItem.callDuration == "" ? callLogDataItem.callerID : "\(callLogDataItem.callerID!) (\(callLogDataItem.callDuration!) mn)"
-                
-                
                 let _timeLogArray = callLogDataItem.callLogTime?.components(separatedBy: "-")
                 //if the call log data date is today
                 if todayYear == _timeLogArray?[0] && todayMonth == _timeLogArray?[1] && todayDate == _timeLogArray?[2] {
