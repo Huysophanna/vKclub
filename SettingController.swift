@@ -2,6 +2,7 @@ import UIKit
 import UserNotifications
 
 class SettingController: UIViewController,UNUserNotificationCenterDelegate,UIApplicationDelegate {
+    
     @IBOutlet weak var NotificationSetting: UISwitch!
    
     override func viewDidLoad() {

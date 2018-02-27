@@ -86,11 +86,11 @@ class CallKitCallInit {
             IncomingCallController.InvalidateWaitForStreamRunningInterval()
             
             
-            
-        } else if LinphoneManager.CheckLinphoneCallState() == LINPHONE_CALLSTREAM_RUNNING {
+            // 1 min problem
+        } //else if LinphoneManager.CheckLinphoneCallState() == LINPHONE_CALLSTREAM_RUNNING {
             //end in progress call
-            incomingCallInstance.endCallFlag = true
-        }
+//            incomingCallInstance.endCallFlag = true
+//        }
     }
     
     // 3.

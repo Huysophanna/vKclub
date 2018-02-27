@@ -75,7 +75,6 @@ let callStateChanged: LinphoneCoreCallStateChangedCb = {
         
     case LinphoneCallIncomingReceived: /**<This is a new incoming call */
         print("callStateChanged: LinphoneCallIncomingReceived", "====")
-        linphone_core_reset_missed_calls_count(lc)
         if iflogOut {
             LinphoneManager.declineCall(_declinedReason: LinphoneReasonBusy)
             return
@@ -91,7 +90,6 @@ let callStateChanged: LinphoneCoreCallStateChangedCb = {
             //if user is already on active call with some other, will decline all incoming call
             LinphoneManager.interuptedCallFlag = true
             LinphoneManager.declineCall(_declinedReason: LinphoneReasonBusy)
-            
             //when declined the call, it calls release flag, so have to check on that
             print("--------BEING_BUSY_WITH_SOMEONE_ELSE--------")
         }
@@ -113,8 +111,8 @@ let callStateChanged: LinphoneCoreCallStateChangedCb = {
         break
         
     case LinphoneCallReleased:
-        print(linphone_core_get_missed_calls_count(lc),"+++miss")
-        
+        print (CallState.connecting,"+++")
+
         LinphoneManager.callStreamRunning = false
         if LinphoneManager.interuptedCallFlag == false {
             //if user is onActiveCall, will decline the call and will not release the active call view
@@ -122,12 +120,12 @@ let callStateChanged: LinphoneCoreCallStateChangedCb = {
             //set tempCallOpaquePointerData to nil back, since call is over
             LinphoneManager.mainCallOpaquePointerData = nil
             LinphoneManager.mainLcOpaquePointerData = nil
-            
+
             print("callStateChanged: LinphoneCallReleased", "====")
             print("------BEING_FREE_NOT_WITH_SOMEONE_ELSE_RELEASE_STATE--------")
         } else {
             print("------BEING_BUSY_WITH_SOMEONE_ELSE_RELEASE_STATE--------")
-            
+
             //compare current callOpaquePointer with tempCallOpaquePointer
             //if true means, this release call is fired for the 1st call
             if LinphoneManager.callOpaquePointerData == LinphoneManager.mainCallOpaquePointerData {
@@ -151,7 +149,8 @@ let callStateChanged: LinphoneCoreCallStateChangedCb = {
                 
                 print("callOpaquePointer !!!!!! --------")
             }
-            
+
+
         }
         
         break
@@ -232,13 +231,13 @@ class LinphoneManager {
         theLinphone.lc = linphone_core_new_with_config(&theLinphone.lct!, lpConfig, nil)
         
         // Set ring asset
-//        let ringbackPath = URL(fileURLWithPath: Bundle.main.bundlePath).appendingPathComponent("/ringback.wav").absoluteString
-//        linphone_core_set_ringback(theLinphone.lc, ringbackPath)
-
-//        let localRing = URL(fileURLWithPath: Bundle.main.bundlePath).appendingPathComponent("/toy-mono.wav").absoluteString
-//        linphone_core_set_ring(theLinphone.lc, localRing)
+        let ringbackPath = URL(fileURLWithPath: Bundle.main.bundlePath).appendingPathComponent("/ringback.wav").absoluteString
+        linphone_core_set_ringback(theLinphone.lc, ringbackPath)
         
-         //Set outGoingCall ring asset
+        let localRing = URL(fileURLWithPath: Bundle.main.bundlePath).appendingPathComponent("/toy-mono.wav").absoluteString
+        linphone_core_set_ring(theLinphone.lc, localRing)
+        
+        // Set outGoingCall ring asset
         do {
             let callToSoundBundle = Bundle.main.path(forResource: "OutGoingCallSound", ofType: "wav")
             let alertSound = URL(fileURLWithPath: callToSoundBundle!)
@@ -361,8 +360,6 @@ class LinphoneManager {
         }
         
     }
-    
-    // Register to VOIP server
     
     func LinphoneInit() {
         if changeExtention || checkwhenappclose == "Login" {
@@ -585,6 +582,7 @@ class LinphoneManager {
                                 
                                 break
                             default :
+                                self.GetDataFromServer()
                                 getExtensionSucc = String(code_check)
                                 break
                                 

@@ -100,7 +100,7 @@ public class InternetConnection {
     static func Logouts(){
         deviceId_Inused = false
         getExtensionSucc = "Logout"
-        databaseRef.child("userDeviceId").child(uids).child("status").setValue("")
+       
         UserDefaults.standard.set(false, forKey: "loginBefore")
         UIApplication.shared.unregisterForRemoteNotifications()
         notification_num = 0
@@ -116,6 +116,7 @@ public class InternetConnection {
         appDelegate.window?.rootViewController = yourVC
         appDelegate.window?.makeKeyAndVisible()
     }
+    
     static func getServiceExtensions() {
         var request = URLRequest(url: URL(string:"http://192.168.7.251:8000/api/v.1/get_service_extensions" )!)
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -170,12 +171,10 @@ public class InternetConnection {
             }
         }
        
-        
-        
     }
+    
     static func AskAudioPermission() {
         let session = AVAudioSession.sharedInstance()
-        
         if (session.responds(to: #selector(AVAudioSession.requestRecordPermission(_:)))) {
             AVAudioSession.sharedInstance().requestRecordPermission({(granted: Bool)-> Void in
                 if granted {
@@ -194,6 +193,7 @@ public class InternetConnection {
         }
 
     }
+    
     static  func CheckAudioPermission() -> Bool {
     var audioPermission : Bool
     switch AVAudioSession.sharedInstance().recordPermission() {
@@ -207,6 +207,4 @@ public class InternetConnection {
       return  audioPermission
     }
     
-    
-
 }

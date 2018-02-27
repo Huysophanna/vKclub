@@ -18,7 +18,12 @@ import PushKit
 import CoreTelephony
 import AVFoundation
 import CoreLocation
-let callCenter = CTCallCenter()
+
+
+
+//let callCenter = CXCallObserver()
+
+// Global Variable Start
 var isCallBackgroud: Bool = false
 var service_names = [String]()
 var service_extensions = [String]()
@@ -26,7 +31,6 @@ let appDelegate = UIApplication.shared.delegate as! AppDelegate
 let manageObjectContext  = appDelegate.persistentContainer.viewContext
 var databaseRef = Database.database().reference()
 let incomingCallInstance = IncomingCallController()
-let firebasedatabaseref =  Database.database().reference()
 let userName = Auth.auth().currentUser
 var notification_num = 0
 let launchedBefore = UserDefaults.standard.bool(forKey: "launchedBefore")
@@ -40,7 +44,7 @@ let OFF_KIRIROM = "offKirirom"
 let UNIDENTIFIED = "unidentified"
 let INAPP_UNIDENTIFIED = "inApp_unidentified"
 var checkwhenappclose  = ""
-var InCommingCall : Bool =  false
+var iflogoutforfirebase : Bool =  false
 var checkCallKit = ""
 var orientationLock = UIInterfaceOrientationMask.all
 var iflogOut : Bool = false
@@ -75,8 +79,11 @@ var TimeModCheck = Timer()
 var TiemeVoip : Timer?
 var decviceCheck : Bool = false
 
+
+
+// Global Variable end
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate , URLSessionDelegate{
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate , URLSessionDelegate {
     //    func pushRegistry(_ registry: PKPushRegistry, didUpdate pushCredentials: PKPushCredentials, forType type: PKPushType) {
     //
     //    }
@@ -91,12 +98,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         return UIApplication.shared.delegate as! AppDelegate
     }
     
-    /// This method will be called whenever FCM receives a new, default FCM token for your
-    /// Firebase project's Sender ID.
-    /// You can send this token to your application server to send notifications to this device.
     var window: UIWindow?
     let personService = UserProfileCoreData()
     let gcmMessageIDKey = "gcm.message_id"
+    // replace DashboardController when call from out side controller 
+    var myViewController:DashboardController?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Remove border in navigationBar
@@ -146,8 +152,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         
         // Override point for customization after application launch.
+        
+        //Firebase Init
         FirebaseApp.configure()
-        //        self.voipRegistration()
         
         // FB init
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
@@ -159,21 +166,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             //Init linphone sip
             self.Dashboard()
         }
-        //let notificationDeviceToekn = InstanceID.instanceID().token()!
+//        let notificationDeviceToekn = InstanceID.instanceID().token()!
+//        print(notificationDeviceToekn,"++++test")
         return true
     }
-    //    func voipRegistration() {
-    //        let mainQueue = DispatchQueue.main
-    //        // Create a push registry object
-    //        let voipRegistry: PKPushRegistry = PKPushRegistry(queue: mainQueue)
-    //        // Set the registry's delegate to self
-    //        voipRegistry.delegate = self
-    //        // Set the push type to VoIP
-    //        voipRegistry.desiredPushTypes = [PKPushType.voIP]
-    //    }
-    //    func pushRegistry(registry: PKPushRegistry!, didUpdatePushCredentials credentials: PKPushCredentials!, forType type: String!) {
-    //        // Register VoIP push token (a property of PKPushCredentials) with server
-    //    }
+    
+    // Recived Notitfication
     
     @available(iOS 10.0, *)
     func userNotificationCenter(_ center: UNUserNotificationCenter,  willPresent notification: UNNotification, withCompletionHandler   completionHandler: @escaping (_ options:   UNNotificationPresentationOptions) -> Void) {
@@ -198,6 +196,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
         
     }
+    // handle the  Notitfication click
     
     @available(iOS 10.0, *)
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
@@ -233,6 +232,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         window.rootViewController?.present(alert, animated: false, completion: nil)
     }
     
+    //Link to Dashboard
+    
     func Dashboard(){
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         appDelegate.window = UIWindow(frame: UIScreen.main.bounds)
@@ -242,6 +243,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         appDelegate.window?.makeKeyAndVisible()
         
     }
+    //Link to Login
+    
     
     func LogoutController(){
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -299,11 +302,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     
     func applicationDidEnterBackground(_ application: UIApplication) {
-        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-//        TimeModCheck.invalidate()
+        TimeModCheck.invalidate()
+        if LinphoneManager.CheckLinphoneCallState() == LINPHONE_CALL_IDLE {
+            print("Being idle+++++")
+            //invalidate set up call in progress interval
+            IncomingCallController.InvalidateSetUpCallInProgressInterval()
+            //invalidate wait for stream running interval
+            IncomingCallController.InvalidateWaitForStreamRunningInterval()
+            LinphoneManager.interuptedCallFlag = false
+            IncomingCallController.IncomingCallFlag = false
+            IncomingCallController.CallToAction = false
+            chagne = false
+        } 
 //        BackgroundTask.backgroundTaskInstance.startBackgroundTask()
-       
+        
     }
     //    func setKeepAliveTimeout(_ timeout: TimeInterval,
     //                             handler keepAliveHandler: (() -> Void)? = nil) -> Bool {
@@ -313,36 +325,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     
     func applicationWillEnterForeground(_ application: UIApplication) {
-        // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
-        //        endBackgroundTask()
-        //        if  checkCallKit.isEmpty {
-        //            switch linphoneInit  {
-        //            case "logout":
-        //                print("shutdow voip")
-        //            case "firstLaunch":
-        //                break
-        //            case "login":
-        //                linphoneInit = "login"
-        //                break
-        //            default:
-        //                linphoneInit = "login"
-        //                break
-        //            }
-        //
-        //        }
-//        BackgroundTask.backgroundTaskInstance.stopBackgroundTask()
+        myViewController?.TimerInterval()
+      
     }
     
     func applicationDidBecomeActive(_ application: UIApplication) {
         FBSDKAppEvents.activateApp()
         
-        // RestaFrt any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    
     }
     
     
     func applicationWillTerminate(_ application: UIApplication) {
-        // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-        // Saves changes in the application's managed object context before the application terminates.
+        // Save the local storage when you kill the app
         self.saveContext()
         LinphoneManager.endCall()
         
@@ -351,26 +346,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     // MARK: - Core Data stack
     
     lazy var persistentContainer: NSPersistentContainer = {
-        /*
-         The persistent container for the application. This implementation
-         creates and returns a container, having loaded the store for the
-         application to it. This property is optional since there are legitimate
-         error conditions that could cause the creation of the store to fail.
-         */
+
         let container = NSPersistentContainer(name: "CoreData")
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                
-                /*
-                 Typical reasons for an error here include:
-                 * The parent directory does not exist, cannot be created, or disallows writing.
-                 * The persistent store is not accessible, due to permissions or data protection when the device is locked.
-                 * The device is out of space.
-                 * The store could not be migrated to the current model version.
-                 Check the error message to determine what the actual problem was.
-                 */
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
         })
@@ -378,21 +357,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }()
     
     // MARK: - Core Data Saving support
-    
     func saveContext () {
         let context = persistentContainer.viewContext
         if context.hasChanges {
             do {
                 try manageObjectContext.save()
             } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
                 let nserror = error as NSError
                 fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
             }
         }
     }
-    
 }
 
 

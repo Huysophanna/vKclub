@@ -12,7 +12,7 @@ target 'vKclub' do
   pod 'Firebase/Messaging' ,'~> 4.6.0'
   pod 'Firebase/Storage'
   pod 'GoogleMaps'
-  pod 'GooglePlaces'
+  # pod 'GooglePlaces'
   pod 'UIImage-ResizeMagick'
   pod 'Bolts'
   pod 'FBSDKCoreKit'

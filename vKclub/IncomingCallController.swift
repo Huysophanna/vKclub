@@ -46,7 +46,7 @@ class IncomingCallController: UIViewController {
                 getsimCall = true
                 print(IncomingCallController.IncomingCallFlag, "----1variable")
                 //stop AVAudioPlayer background task while about to call
-//                BackgroundTask.backgroundTaskInstance.stopBackgroundTask()
+                BackgroundTask.backgroundTaskInstance.stopBackgroundTask()
                 //Display CallKit for iOS 10
                 if #available(iOS 10, *) {
                     AppDelegate.shared.displayIncomingCall(uuid: UUID(), handle: LinphoneManager.getContactName()) { _ in
@@ -69,7 +69,7 @@ class IncomingCallController: UIViewController {
                     PresentIncomingVC()
                     print("-------CALLTO_BEING_FREE_NOT_WITH_SOMEONE_ELSE--------")
                     //stop AVAudioPlayer background task while about to call
-//                    BackgroundTask.backgroundTaskInstance.stopBackgroundTask()
+                    BackgroundTask.backgroundTaskInstance.stopBackgroundTask()
                 } else {
                     print("--------CALLTO_BEING_BUSY_WITH_SOMEONE_ELSE--------")
                 }
@@ -132,7 +132,7 @@ class IncomingCallController: UIViewController {
                 //invalidate set up call in progress interval
                 IncomingCallController.InvalidateSetUpCallInProgressInterval()
                 //Linephone call will destory the audio session when the call ends, so wait for 5seconds to restart the AVAudioPlayer background task
-//                Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(WaitToStartBackgroundTask), userInfo: nil, repeats: false)
+                Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(WaitToStartBackgroundTask), userInfo: nil, repeats: false)
             }
         }
     }
@@ -185,9 +185,9 @@ class IncomingCallController: UIViewController {
         self.navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
-//    func WaitToStartBackgroundTask() {
-//        BackgroundTask.backgroundTaskInstance.startBackgroundTask()
-//    }
+    func WaitToStartBackgroundTask() {
+        BackgroundTask.backgroundTaskInstance.startBackgroundTask()
+    }
     
     func SetCallDurationToCoreData() {
         for _callData in callLogData {
@@ -487,4 +487,3 @@ class IncomingCallController: UIViewController {
         
     }
 }
-

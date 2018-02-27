@@ -1,4 +1,4 @@
-import UIKit
+    import UIKit
 import CoreData
 import Firebase
 import Photos
@@ -17,6 +17,13 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     @IBOutlet weak var EmailBtn: UILabel!
     @IBOutlet weak var EditBtn: UIButton!
     @IBOutlet weak var userName: UILabel!
+    
+}
+
+// APP CYCLE
+
+
+extension MenuController {
     override func viewDidLoad() {
         super.viewDidLoad()
         super.viewDidLoad()
@@ -56,7 +63,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
             imageProfile.contentHorizontalAlignment = .fill
             imageProfile.contentVerticalAlignment = .fill
         }
-         
+        
         
     }
     override func didReceiveMemoryWarning() {
@@ -80,13 +87,46 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         self.navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
+    
+}
+
+
+
+// APP Button Action
+
+extension MenuController {
+    
     @IBAction func Logout(_ sender: Any) {
+        
+        if DashboardController().CheckUserLocation() == IN_KIRIROM {
+            if  !InternetConnection.isConnectedToNetwork() && !LinphoneManager.CheckLinphoneConnectionStatus() {
+                
+                self.PresentAlertController(title: "Something went wrong", message: "You can not logout Right now, Please make sure you connect to the internet ", actionTitle: "Got it")
+                
+                return
+            }
+            
+        } else {
+            
+            if  !InternetConnection.isConnectedToNetwork() {
+                
+                self.PresentAlertController(title: "Something went wrong", message: "You can not logout Right now, Please make sure you connect to the internet ", actionTitle: "Got it")
+                
+                return
+            }
+            
+        }
+        
+        
+            
+        
+    
         let logoutAlert = UIAlertController(title: "Logout", message: "Are you sure to logout?", preferredStyle: UIAlertControllerStyle.alert)
         
+        
         logoutAlert.addAction(UIAlertAction(title: "Okay", style: .default, handler: { (action: UIAlertAction!) in
-            usetoLogin = false
+            databaseRef.child("userDeviceId").child((Auth.auth().currentUser?.uid)!).child("device").setValue("")
             checkwhenappclose = "Logout"
-            databaseRef.child("userDeviceId").child(uids).child("device").setValue("")
             InternetConnection.Logouts()
             InternetConnection.ShutdownPBXServer()
             
@@ -94,72 +134,12 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         logoutAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         self.present( logoutAlert, animated: true, completion: nil)
     }
-    
-    
-    @IBAction func AccProviderBtn(_ sender: Any) {
-        if EditBtn.tag == 0 {
-            PresentAlertController(title: "FB Linked", message: "You are currently linked your profile with Facebook account.", actionTitle: "Okay")
-        } else {
-            performSegue(withIdentifier:"GotoEditProfile", sender: self)        }
-    }
-    
-    func FBProvider() {
-        userName.text =  currentUser?.displayName
-        EmailBtn.text = currentUser?.email
-        let facebookProvider = NSPredicate(format: "facebookProvider = 1")
-        let fb_lgoin = personService.getUserProfile(withPredicate: facebookProvider)
-        EditBtn.setTitle("FBLinked", for: .normal)
-        if fb_lgoin == [] {
-            if currentUser?.email == nil {
-                EmailBtn.text = "someone@gmail.com"
-            }
-            if currentUser?.photoURL == nil {
-            } else {
-                imageProfile.loadingIndicator(true)
-                
-                DispatchQueue.global(qos: .userInitiated).async {
-                    var  getFBimageUrl : URL = (self.currentUser?.photoURL)!
-                    let str = self.currentUser?.photoURL?.absoluteString
-                    let index = str?.index((str?.startIndex)!, offsetBy: 30)
-                    let url : String = (str?.substring(to: index!))!
-                    let fbphotourl:String = "https://scontent.xx.fbcdn.net/"
-                    if url == fbphotourl {
-                        let urlphoto: String = "https://graph.facebook.com/"
-                        let picturelink:String = "/picture?width=320&height=320"
-                        let FBImageUrl : String = urlphoto+FBSDKAccessToken.current().userID+picturelink
-                        getFBimageUrl = URL(string:FBImageUrl)!
-                    }
-                    let data = try? Data(contentsOf: (getFBimageUrl))
-                    
-                    // When from background thread, UI needs to be updated on main_queue
-                    DispatchQueue.main.async {
-                        if data != nil {
-                            self.imageProfile.loadingIndicator(false)
-                            let image = UIImage(data: data!)
-                            self.imageProfile.setImage(image, for: .normal)
-                        }
-    
-                    }
-                }
-            }
-        } else {
-            for i in fb_lgoin {
-                EmailBtn.text = i.email
-                // if user no internet still they can get imageProfile from coredata
-                let img = UIImage(data: i.imageData! as Data)
-                let newimag = UIComponentHelper.resizeImage(image: img!, targetSize: CGSize(width: 400, height: 400))
-                imageProfile.setImage(newimag, for: .normal)
-            }
-            
-        }
-    }
-    
     @IBAction func didTapTakePicture(_ sender: Any) {
         let alertController = UIAlertController(title: nil, message: "Upload Profile Picture", preferredStyle: .actionSheet)
         
         let defaultAction = UIAlertAction(title: "Take Photo", style: .default, handler: { (alert: UIAlertAction!) -> Void in
             self.TakePhoto()
-
+            
         })
         
         let deleteAction = UIAlertAction(title: "Select from Photo Library", style: .default, handler: { (alert: UIAlertAction!) -> Void in
@@ -181,165 +161,12 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         self.present(alertController, animated: true, completion: nil)
         
     }
-    
-    func EmailProvider(){
-        EditBtn.tag = 1
-        EmailBtn.text = currentUser?.email
-        let emailProvider = NSPredicate(format: "facebookProvider = 0")
-        let email_lgoin = personService.getUserProfile(withPredicate: emailProvider)
-        
-        if email_lgoin == [] {
-            if currentUser?.photoURL == nil{
-                imageProfile.loadingIndicator(true)
-                
-            }
-            imageProfile.loadingIndicator(true)
-                        userName.text =  currentUser?.displayName
-            DispatchQueue.global(qos: .userInitiated).async {
-                if self.currentUser?.photoURL != nil {
-                    guard let data = try? Data(contentsOf: (self.currentUser?.photoURL)!) else{
-                        return
-                    }
-                    // When from background thread, UI needs to be updated on main_queue
-                    DispatchQueue.main.async {
-                        self.imageProfile.loadingIndicator(false)
-                        let image = UIImage(data: data)
-                        self.imageProfile.setImage(image, for: .normal)
-                        
-                    }
-                }
-                
-            }
-            
+    @IBAction func AccProviderBtn(_ sender: Any) {
+        if EditBtn.tag == 0 {
+            PresentAlertController(title: "FB Linked", message: "You are currently linked your profile with Facebook account.", actionTitle: "Okay")
         } else {
-            
-            for i in email_lgoin {
-                userName.text = i.username
-                guard  let img = UIImage(data: i.imageData! as Data) else {
-                    return
-                }
-                let newimag = UIComponentHelper.resizeImage(image: img, targetSize: CGSize(width: 400, height: 400))
-                imageProfile.setImage(newimag, for: .normal)
-                // if user no internet still they can get imageProfile from coredata
-              
-            }
-            
-        }
-  }
-    
-    func TakePhoto(){
-        if InternetConnection.isConnectedToNetwork() {
-            print("have internet")
-        } else{
-            self.PresentAlertController(title: "Something went wrong", message: "Can not upload to server. Please Check your internet connection ", actionTitle: "Got it")
-            return
-        }
-        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera) == true {
-            if AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo) ==  AVAuthorizationStatus.authorized {
-                // Already Authorized
-            } else {
-                AVCaptureDevice.requestAccess(forMediaType: AVMediaTypeVideo, completionHandler: { (granted: Bool) -> Void in
-                    if granted == true {
-                        // User granted
-                    } else {
-                        let LocationPermissionAlert = UIAlertController(title: "Camera disabled for vKclub App", message: "Please enable your Camera by Clicking Okay", preferredStyle: UIAlertControllerStyle.alert)
-                        
-                        LocationPermissionAlert.addAction(UIAlertAction(title: "Okay", style: .default, handler: { (action: UIAlertAction!) in
-                           
-                            UIApplication.shared.open(URL(string:UIApplicationOpenSettingsURLString)!, options: [:], completionHandler:nil)                                
-                        }))
-                        LocationPermissionAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler:nil))
-                        self.present( LocationPermissionAlert, animated: true, completion: nil)
-                        
-                    }
-                })
-            }
-            self.imagePicker.sourceType = .camera
-            self.present(imagePicker, animated: true)
-        } else {
-            print("no work")
-            
-        }
-        
+            performSegue(withIdentifier:"GotoEditProfile", sender: self)        }
     }
-    
-    func SelectPhotoFromLibrary(){
-        if InternetConnection.isConnectedToNetwork() {
-            print("have internet")
-        } else {
-            self.PresentAlertController(title: "Something went wrong", message: "Can not upload to server. Please Check your internet connection ", actionTitle: "Got it")
-            return
-        }
-        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.photoLibrary) == true {
-            self.imagePicker.sourceType = .photoLibrary
-            self.present(imagePicker, animated: true)
-        } else {
-            print("NO")
-           
-        }
-    }
-    
-    @IBAction func EmergencySOS(_ sender: Any){
-        if (UIDevice.current.userInterfaceIdiom == UIUserInterfaceIdiom.pad) {
-            self.PresentAlertController(title: "Warning", message: "Your device doesn't support with this feature ", actionTitle: "Got it")
-            
-            return
-        }
-        let Check : String =  Checklocation.CheckUserLocation()
-        if Check == "inKirirom" {
-            self.inKirirom()
-            
-        } else if (Check == "offKirirom") {
-            PresentAlertController(title: "Off-Kirirom mode", message: "Emergency SOS & Free internal   phone call features are not accessible for Off-Kirirom users.", actionTitle: "Got it")
-        } else if( Check == "identifying"){
-            UIComponentHelper.LocationPermission(INAPP_UNIDENTIFIEDSetting: false)
-        } else {
-            UIComponentHelper.LocationPermission(INAPP_UNIDENTIFIEDSetting: true)
-        }
-        
-    }
-    
-    func inKirirom(){
-        let smsAlert = UIAlertController(title: "EmergencySOS", message: "We will generate a SMS along with your current location to our supports. We suggest you not to move far away from your current position, as we're trying our best to get there as soon as possible. \n (Standard SMS rates may apply)", preferredStyle: UIAlertControllerStyle.alert)
-        
-        smsAlert.addAction(UIAlertAction(title: "Okay", style: .default, handler: { (action: UIAlertAction!) in
-            self.SMS()
-        }))
-        
-        smsAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        present(smsAlert, animated: true, completion: nil)
-    }
-    
-    //send SMS
-    func SMS() {
-        let currentLocaltion_lat = String(Checklocation.lat)
-        let currentLocation_long = String(Checklocation.long)
-        print(currentLocaltion_lat)
-        if (MFMessageComposeViewController.canSendText()) {
-            let phone = "+18557414949"
-            let message = "Please help! I'm currently facing an emergency problem. Here is my Location: http://maps.google.com/?q="+currentLocaltion_lat+","+currentLocation_long+""
-            
-            let controller = MFMessageComposeViewController()
-            controller.body = message
-            controller.recipients = [phone]
-            controller.messageComposeDelegate = self as MFMessageComposeViewControllerDelegate
-            self.present(controller, animated: true, completion: nil)
-        }
-    }
-    
-    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
-        switch (result.rawValue) {
-        case MessageComposeResult.cancelled.rawValue:
-            controller.dismiss(animated: false, completion: nil)
-        case MessageComposeResult.failed.rawValue:
-            controller.dismiss(animated: false, completion: nil)
-        case MessageComposeResult.sent.rawValue:
-            controller.dismiss(animated: false, completion: nil)
-        default:
-            break;
-        }
-    }
-    
     
     @IBAction func settingBtn(_ sender: Any) {
         performSegue(withIdentifier:"GotoSetting", sender: self)
@@ -383,6 +210,46 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         alertController.addAction(cancelAction)
         self.present(alertController, animated: true, completion: nil)
     }
+ 
+    
+    
+}
+
+// APP HELPER FUNCTION
+
+extension MenuController {
+    
+    //send SMS
+    func SMS() {
+        let currentLocaltion_lat = String(Checklocation.lat)
+        let currentLocation_long = String(Checklocation.long)
+        print(currentLocaltion_lat)
+        if (MFMessageComposeViewController.canSendText()) {
+            let phone = "+18557414949"
+            let message = "Please help! I'm currently facing an emergency problem. Here is my Location: http://maps.google.com/?q="+currentLocaltion_lat+","+currentLocation_long+""
+            
+            let controller = MFMessageComposeViewController()
+            controller.body = message
+            controller.recipients = [phone]
+            controller.messageComposeDelegate = self as MFMessageComposeViewControllerDelegate
+            self.present(controller, animated: true, completion: nil)
+        }
+    }
+    
+    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
+        switch (result.rawValue) {
+        case MessageComposeResult.cancelled.rawValue:
+            controller.dismiss(animated: false, completion: nil)
+        case MessageComposeResult.failed.rawValue:
+            controller.dismiss(animated: false, completion: nil)
+        case MessageComposeResult.sent.rawValue:
+            controller.dismiss(animated: false, completion: nil)
+        default:
+            break;
+        }
+    }
+    
+    
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
@@ -404,7 +271,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
             }
             let imageData : NSData = NSData(data: imageProfiles)
             let imageSize :Int = imageData.length
-           
+            
             let riversRef = storageRef.child("userprofile-photo").child((currentUser?.uid)!)
             riversRef.putData(imageProfiles , metadata: nil) { (metadata, error) in
                 print(Double(imageSize),"+++image")
@@ -415,7 +282,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
                 
                 guard let metadata = metadata else {
                     self.PresentAlertController(title: "Error", message: "please check with your internet connection", actionTitle: "Okay")
-                        return
+                    return
                 }
                 // Metadata contains file metadata such as size, content-type, and download URL.
                 let downloadURL = metadata.downloadURL()!.absoluteString
@@ -429,7 +296,7 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
                         return
                     }
                     
-                
+                    
                 }
                 
                 //dismiss image button loading indicator when done
@@ -475,8 +342,186 @@ class MenuController: UIViewController,UIImagePickerControllerDelegate, UINaviga
             personService.updateUserProfile(_updatedPerson: i)
             
         }
-     
+        
     }
+    
+    func EmailProvider(){
+        EditBtn.tag = 1
+        EmailBtn.text = currentUser?.email
+        let emailProvider = NSPredicate(format: "facebookProvider = 0")
+        let email_lgoin = personService.getUserProfile(withPredicate: emailProvider)
+        
+        if email_lgoin == [] {
+            if currentUser?.photoURL == nil{
+                imageProfile.loadingIndicator(true)
+                
+            }
+            imageProfile.loadingIndicator(true)
+            userName.text =  currentUser?.displayName
+            DispatchQueue.global(qos: .userInitiated).async {
+                if self.currentUser?.photoURL != nil {
+                    guard let data = try? Data(contentsOf: (self.currentUser?.photoURL)!) else{
+                        return
+                    }
+                    // When from background thread, UI needs to be updated on main_queue
+                    DispatchQueue.main.async {
+                        self.imageProfile.loadingIndicator(false)
+                        let image = UIImage(data: data)
+                        self.imageProfile.setImage(image, for: .normal)
+                        
+                    }
+                }
+                
+            }
+            
+        } else {
+            
+            for i in email_lgoin {
+                userName.text = i.username
+                guard  let img = UIImage(data: i.imageData! as Data) else {
+                    return
+                }
+                let newimag = UIComponentHelper.resizeImage(image: img, targetSize: CGSize(width: 400, height: 400))
+                imageProfile.setImage(newimag, for: .normal)
+                // if user no internet still they can get imageProfile from coredata
+                
+            }
+            
+        }
+    }
+    
+    func TakePhoto(){
+        if InternetConnection.isConnectedToNetwork() {
+            print("have internet")
+        } else{
+            self.PresentAlertController(title: "Something went wrong", message: "Can not upload to server. Please Check your internet connection ", actionTitle: "Got it")
+            return
+        }
+        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera) == true {
+            if AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo) ==  AVAuthorizationStatus.authorized {
+                // Already Authorized
+            } else {
+                AVCaptureDevice.requestAccess(forMediaType: AVMediaTypeVideo, completionHandler: { (granted: Bool) -> Void in
+                    if granted == true {
+                        // User granted
+                    } else {
+                        let LocationPermissionAlert = UIAlertController(title: "Camera disabled for vKclub App", message: "Please enable your Camera by Clicking Okay", preferredStyle: UIAlertControllerStyle.alert)
+                        
+                        LocationPermissionAlert.addAction(UIAlertAction(title: "Okay", style: .default, handler: { (action: UIAlertAction!) in
+                            
+                            UIApplication.shared.open(URL(string:UIApplicationOpenSettingsURLString)!, options: [:], completionHandler:nil)
+                        }))
+                        LocationPermissionAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler:nil))
+                        self.present( LocationPermissionAlert, animated: true, completion: nil)
+                        
+                    }
+                })
+            }
+            self.imagePicker.sourceType = .camera
+            self.present(imagePicker, animated: true)
+        } else {
+            print("no work")
+            
+        }
+        
+    }
+    
+    func SelectPhotoFromLibrary(){
+        if InternetConnection.isConnectedToNetwork() {
+            print("have internet")
+        } else {
+            self.PresentAlertController(title: "Something went wrong", message: "Can not upload to server. Please Check your internet connection ", actionTitle: "Got it")
+            return
+        }
+        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.photoLibrary) == true {
+            self.imagePicker.sourceType = .photoLibrary
+            self.present(imagePicker, animated: true)
+        } else {
+            print("NO")
+            
+        }
+    }
+    
+    @IBAction func EmergencySOS(_ sender: Any){
+        if (UIDevice.current.userInterfaceIdiom == UIUserInterfaceIdiom.pad) {
+            self.PresentAlertController(title: "Warning", message: "Your device doesn't support with this feature ", actionTitle: "Got it")
+            
+            return
+        }
+        let Check : String =  Checklocation.CheckUserLocation()
+        if Check == "inKirirom" {
+            self.inKirirom()
+            
+        } else if (Check == "offKirirom") {
+            PresentAlertController(title: "Off-Kirirom mode", message: "Emergency SOS & Free internal   phone call features are not accessible for Off-Kirirom users.", actionTitle: "Got it")
+        } else if( Check == "identifying"){
+            UIComponentHelper.LocationPermission(INAPP_UNIDENTIFIEDSetting: false)
+        } else {
+            UIComponentHelper.LocationPermission(INAPP_UNIDENTIFIEDSetting: true)
+        }
+        
+    }
+    
+    func inKirirom(){
+        let smsAlert = UIAlertController(title: "EmergencySOS", message: "We will generate a SMS along with your current location to our supports. We suggest you not to move far away from your current position, as we're trying our best to get there as soon as possible. \n (Standard SMS rates may apply)", preferredStyle: UIAlertControllerStyle.alert)
+        
+        smsAlert.addAction(UIAlertAction(title: "Okay", style: .default, handler: { (action: UIAlertAction!) in
+            self.SMS()
+        }))
+        
+        smsAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        present(smsAlert, animated: true, completion: nil)
+    }
+    func FBProvider() {
+        userName.text =  currentUser?.displayName
+        EmailBtn.text = currentUser?.email
+        let facebookProvider = NSPredicate(format: "facebookProvider = 1")
+        let fb_lgoin = personService.getUserProfile(withPredicate: facebookProvider)
+        EditBtn.setTitle("FBLinked", for: .normal)
+        if fb_lgoin == [] {
+            if currentUser?.email == nil {
+                EmailBtn.text = "someone@gmail.com"
+            }
+            if currentUser?.photoURL == nil {
+            } else {
+                imageProfile.loadingIndicator(true)
+                DispatchQueue.global(qos: .userInitiated).async {
+                    var  getFBimageUrl : URL = (self.currentUser?.photoURL)!
+                    let str = self.currentUser?.photoURL?.absoluteString
+                    let index = str?.index((str?.startIndex)!, offsetBy: 30)
+                    let url : String = (str?.substring(to: index!))!
+                    let fbphotourl:String = "https://scontent.xx.fbcdn.net/"
+                    if url == fbphotourl {
+                        let urlphoto: String = "https://graph.facebook.com/"
+                        let picturelink:String = "/picture?width=320&height=320"
+                        let FBImageUrl : String = urlphoto+FBSDKAccessToken.current().userID+picturelink
+                        getFBimageUrl = URL(string:FBImageUrl)!
+                    }
+                    let data = try? Data(contentsOf: (getFBimageUrl))
+                    
+                    // When from background thread, UI needs to be updated on main_queue
+                    DispatchQueue.main.async {
+                        if data != nil {
+                            self.imageProfile.loadingIndicator(false)
+                            let image = UIImage(data: data!)
+                            self.imageProfile.setImage(image, for: .normal)
+                        }
+                        
+                    }
+                }
+            }
+        } else {
+            for i in fb_lgoin {
+                EmailBtn.text = i.email
+                // if user no internet still they can get imageProfile from coredata
+                let img = UIImage(data: i.imageData! as Data)
+                let newimag = UIComponentHelper.resizeImage(image: img!, targetSize: CGSize(width: 400, height: 400))
+                imageProfile.setImage(newimag, for: .normal)
+            }
+            
+        }
+    }
+    
     
 }
 

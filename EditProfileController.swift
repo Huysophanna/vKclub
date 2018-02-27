@@ -11,6 +11,9 @@ import Firebase
 import FirebaseInstanceID
 import FirebaseMessaging
 
+
+// Edit Controller
+
 class EditProfileController: UIViewController,UITextFieldDelegate {
     @IBOutlet weak var Username: UITextField!
     @IBOutlet weak var Email: UITextField!
@@ -414,6 +417,8 @@ class ChangePasswordController :UIViewController,UITextFieldDelegate {
         return true
     }
 
+    
+    
     
     func CheckBeforeLeave(){
         if (current_password.text?.isEmpty == false) || (new_password.text?.isEmpty == false) || (comfire_password.text?.isEmpty == false) {

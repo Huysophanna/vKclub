@@ -30,6 +30,7 @@ extension LoginController {
         BtnUI()
         TextField()
         signInFBBtn.addTarget(self, action: #selector(FBSignIn), for: .touchUpInside)
+        
     }
 }
 
@@ -87,7 +88,7 @@ extension LoginController {
 extension LoginController {
     
     func FBSignIn(){
-        
+        iflogoutforfirebase = false
         InternetConnection.second = 0
         InternetConnection.countTimer.invalidate()
         UIComponentHelper.PresentActivityIndicator(view: self.view, option: true)
@@ -156,11 +157,10 @@ extension LoginController {
                                     self.create(username: (user?.displayName)!,email: (user?.email)!,facebook: true, imagData: imageProfiles! as NSData)
                                 }
                             }
-
+                            self.validation(uid : (Auth.auth().currentUser?.uid)!)
                             
-                            let DashController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MainDashboard") as! SWRevealViewController
-                            let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                            appDelegate.window?.rootViewController = DashController
+
+                           
                             //self.performSegue(withIdentifier: "SegueToDashboard", sender: self)
                         }
                         
@@ -183,6 +183,7 @@ extension LoginController {
         }
     }
     @IBAction func SignInClicked(_ sender: Any) {
+        iflogoutforfirebase = false
         
         UIComponentHelper.PresentActivityIndicator(view: self.view, option: true)
         InternetConnection.second = 0
@@ -238,9 +239,8 @@ extension LoginController {
                             }
                             
                         }
-                        let DashController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MainDashboard") as! SWRevealViewController
-                        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                        appDelegate.window?.rootViewController = DashController
+                        self.validation(uid : (Auth.auth().currentUser?.uid)!)
+                        
                         //                       self.performSegue(withIdentifier: "SegueToDashboard", sender: self)
                         //                      LinphoneManager.enableRegistration()
                         
@@ -318,6 +318,7 @@ extension LoginController {
 //        }
 //    }
     
+    
     func getDataFromUrl(url: URL, completion: @escaping (_ data: Data?, _  response: URLResponse?, _ error: Error?) -> Void) {
         URLSession.shared.dataTask (with: url) { (data, response, error) in
             completion(data, response, error)
@@ -335,6 +336,48 @@ extension LoginController {
             personService.updateUserProfile(_updatedPerson: firstPerson)
         }
     }
+    func validation(uid : String) {
+        let deviceId  =  UIDevice.current.identifierForVendor!.uuidString
+        
+        databaseRef.child("userDeviceId").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
+            // Get user value
+            let value = snapshot.value as? NSDictionary
+            if value == nil  {
+                databaseRef.child("userDeviceId").child(uid).child("device").setValue(deviceId)
+                databaseRef.child("userDeviceId").child(uid).child("device").setValue(Auth.auth().currentUser?.email)
+                Screen.goToMainController()
+            } else {
+            
+                let device = value?["device"] as? String ?? ""
+                if device == deviceId {
+                    Screen.goToMainController()
+                } else {
+                    if device.isEmpty {
+                        databaseRef.child("userDeviceId").child(uid).child("device").setValue(deviceId)
+                        Screen.goToMainController()
+                    }else{
+                        UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
+                        self.vlidationDeviceInuse()
+                    }
+                }
+            }
+            
+            
+            // ...
+        }) { (error) in
+            UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
+            self.PresentAlertController(title: "Error", message: error.localizedDescription, actionTitle: "Okay")
+        }
+            
+        
+
+    }
+    func vlidationDeviceInuse() {
+        let LocationPermissionAlert = UIAlertController(title: "Warning", message: "You can not use one account with two devices.You had chooiced the new device", preferredStyle: UIAlertControllerStyle.alert)
+        LocationPermissionAlert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
+        UIApplication.topViewController()?.present( LocationPermissionAlert, animated: true, completion: nil)
+    }
+    
 }
 
 

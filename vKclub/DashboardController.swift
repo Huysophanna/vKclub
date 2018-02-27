@@ -13,11 +13,13 @@ import UserNotifications
 import  FirebaseAuth
 import AVFoundation
 var backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask(expirationHandler: nil)
-class DashboardController: UIViewController , CLLocationManagerDelegate{
+class DashboardController:UIViewController, CLLocationManagerDelegate{
     
     @IBOutlet weak var serviceImg: UIImageView!
     @IBOutlet weak var KiriromScope: UIButton!
     @IBOutlet weak var coverView: UIButton!
+    var incressFalse  : Int = 0
+    var incressTrue : Int = 0
     let KIRIROMLAT: Double = 11.316541;
     let KIRIROMLNG: Double = 104.065818;
     let R: Double = 6371; // Radius of the earth in km
@@ -28,25 +30,45 @@ class DashboardController: UIViewController , CLLocationManagerDelegate{
     var notifications = [Notifications]()
     let internalCallControllerInstance = InternalCallController()
     let setting = UserDefaults.standard.integer(forKey: "setting")
+    var IfinMode : Bool = false {
+        didSet {
+            if IfinMode && incressFalse  == 0 {
+               incressFalse+=1
+               linphoneInit  = "login"
+               
+            } else {
+                if !IfinMode && incressTrue  == 0 {
+                    incressTrue+=1
+                    if LinphoneManager.CheckLinphoneConnectionStatus() {
+                        LinphoneManager.shutdown()
+                    }
+                }
+               
+                
+            }
+        }
+    }
 }
 
 // APP LIFE CYCLE
 extension DashboardController {
     override func viewDidLoad() {
-        NotificationBtnUI()
         super.viewDidLoad()
+        NotificationBtnUI()
+        // replace DashboardController when call from out side controller 
+        let appDelegate:AppDelegate = UIApplication.shared.delegate! as! AppDelegate
+        appDelegate.myViewController = self
         locationManagers.startMonitoringSignificantLocationChanges()
         Auth.auth().addStateDidChangeListener { auth, user in
             if user == nil {
                 InternetConnection.Logouts()
             }
         }
+        if let uid = Auth.auth().currentUser?.uid {
+            uids = uid
+        }
         usetoLogin = true
         ifLogin = true
-        let checkDeviceId = ValidationDeviceToken()
-        if let currentuserid = Auth.auth().currentUser?.uid {
-           checkDeviceId.storeuserTokenDevice(uid: currentuserid)
-        }
         if iflogOut {
             iflogOut = false
             checkwhenappclose = "Login"
@@ -55,7 +77,6 @@ extension DashboardController {
             }
             
         }
-        linphoneInit  = "login"
         CheckWhenUserChangePassword ()       // login for registerForRemoteNotifications
         UserDefaults.standard.set(true, forKey: "loginBefore")
         if setting == 0 || setting == 1 {
@@ -63,13 +84,13 @@ extension DashboardController {
         }else{
             UIApplication.shared.unregisterForRemoteNotifications()
         }
-        
         //init background task for incoming call
         backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask(expirationHandler: nil)
         loadData()
         UIComponentHelper.PresentActivityIndicator(view: self.view, option: false)
         TimerInterval()
         //recall backgroundTask since making call interrupt and end our audio backgroundTask
+        BackgroundTask.backgroundTaskInstance.startBackgroundTask()
         
         if KiriromScope != nil {
             KiriromScope.setTitle("Identifying", for: .normal)
@@ -77,6 +98,7 @@ extension DashboardController {
             coverView.isUserInteractionEnabled = false
             navigationController?.hidesBarsOnSwipe = false
         }
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -220,7 +242,7 @@ extension DashboardController {
                         break
                         
                     default:
-                        PresentAlertController(title: "Something went wrong", message: "You are not connected to our server. Please ensure that you are connected to our network and try again later.", actionTitle: "Okay")
+                        PresentAlertController(title: "Something went wrong", message: "Sorry, our internal phone call services are currently not available right now. Please try again next time.", actionTitle: "Okay")
                         break
                     }
                     
@@ -346,20 +368,28 @@ extension DashboardController {
         CHCK_USER_LOCATION = CheckUserLocation()
         switch CHCK_USER_LOCATION {
         case IN_KIRIROM:
+            IfinMode = true
+            incressTrue = 0
             KiriromScope.setTitle("In-Kirirom Mode", for: .normal)
             let mainGreen = UIColor(hexString: "#008040", alpha: 1)
             KiriromScope.setTitleColor(mainGreen, for: .normal)
             break
         case OFF_KIRIROM:
+            IfinMode = false
+            incressFalse = 0
             KiriromScope.setTitle("Off-Kirirom Mode", for: .normal)
             let mainGreen = UIColor(hexString: "#008040", alpha: 1)
             KiriromScope.setTitleColor(mainGreen, for: .normal)
             break
         case INAPP_UNIDENTIFIED:
+            IfinMode = false
+            incressFalse = 0
             KiriromScope.setTitle("Unidentified Mode", for: .normal)
             KiriromScope.setTitleColor(UIColor.orange, for: .normal)
             break
         default:
+            IfinMode = false
+            incressFalse = 0
             KiriromScope.setTitle("Unidentified Mode", for: .normal)
             KiriromScope.setTitleColor(UIColor.red, for: .normal)
         }
@@ -375,7 +405,6 @@ extension DashboardController {
                 print("Being idle+++++")
                 //invalidate set up call in progress interval
                 IncomingCallController.InvalidateSetUpCallInProgressInterval()
-                
                 //invalidate wait for stream running interval
                 IncomingCallController.InvalidateWaitForStreamRunningInterval()
                 LinphoneManager.interuptedCallFlag = false
@@ -383,10 +412,10 @@ extension DashboardController {
                 IncomingCallController.CallToAction = false
                 chagne = false
             }
-            if let proxyConfig = proxyConfig {
-                LinphoneManager.register(proxyConfig)
-            }
-            print("registering --++")
+//            if let proxyConfig = proxyConfig {
+//                LinphoneManager.register(proxyConfig)
+//            }
+//            print("registering --++")
         }
         
     }
@@ -404,7 +433,7 @@ extension DashboardController {
         UIComponentHelper.scheduleNotification(_title: title, _body: body, _inSeconds: 0.1)
     }
     func TimerInterval() {
-        TimeModCheck  = Timer.scheduledTimer(timeInterval: 5 , target: self, selector: #selector(self.isKirirom), userInfo: nil, repeats: true)
+            TimeModCheck  = Timer.scheduledTimer(timeInterval: 2 , target: self, selector: #selector(self.isKirirom), userInfo: nil, repeats: true)
     }
     
 }

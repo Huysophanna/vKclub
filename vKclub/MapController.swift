@@ -1,6 +1,7 @@
 import UIKit
 import GoogleMaps
 
+
 class kiriromLocation: NSObject {
     
     let title: String
