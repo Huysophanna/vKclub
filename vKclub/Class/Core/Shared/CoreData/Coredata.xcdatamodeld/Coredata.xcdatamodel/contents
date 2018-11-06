@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14135" systemVersion="18A293u" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="SipCallData" representedClassName="SipCallData" syncable="YES" codeGenerationType="class">
+        <attribute name="callDuration" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="callerID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="callerName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="callLogTime" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="timeStamp" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="SipCallData" positionX="-63" positionY="-18" width="128" height="120"/>
+    </elements>
+</model>
